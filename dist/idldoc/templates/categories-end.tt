@@ -1,0 +1,17 @@
+      [% IF ntags gt 0 %]
+      </ul>
+      <script type="text/javascript">
+        // This must be placed immediately after the menu in order to
+        // format it properly.
+        initiate();
+      </script>
+      [% END %]
+
+      [% IF footer NE '' %]<div id="footer">[% INCLUDE footer %]</div>[% END %]
+
+      [% INCLUDE_TEMPLATE tagline_filename %]
+
+    </div>
+
+  </body>
+</html>

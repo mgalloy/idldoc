@@ -1,0 +1,23 @@
+    <h1>Readme for IDLdoc</h1>
+    
+    <h2>Requirements</h2> 
+
+    <p>IDLdoc 2.0 requires IDL 6.0 to run. To use the output with the
+      ASSISTANT keyword, the IDL 6.2 IDL Assistant help system is
+      needed. To produce documentation for SAV files, IDL 6.1 is
+      needed.</p>
+    
+    <h2>Installation</h2>
+    <p>Unzip idldoc.zip into a directory in the !PATH for IDL. This
+    will create an IDLdoc directory with subdirectories.</p>
+
+    <h2>Using IDLdoc</h2>
+    <ul>
+      <li>For new IDLdoc users, start out with <a
+	  href="idldoc-help.html">how to read IDLdoc output</a> then learn
+	how to <a href="idldoc-dev-help.html">to mark up your own
+	  code</a>. You might also be interested in <a
+	  href="idldoc-dev-help2.html">altering IDLdoc's output</a>.</li>
+      <li>For developer's with previous experience with IDLdoc, check
+	out <a href="whats-new.html">what's new</a> in IDLdoc</li>
+    </ul>

@@ -1,0 +1,5 @@
+
+<p>All the IDL code for the IDLdoc project.</p>
+
+@dir idldoc The core IDLdoc code. 
+@dir idldoc/xidldoc The xIDLdoc subproject provides a GUI interface for IDLdoc.

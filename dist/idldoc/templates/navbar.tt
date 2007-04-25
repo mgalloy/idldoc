@@ -1,0 +1,68 @@
+<div id="navbar_title">
+  <h1>[% title %]</h1>
+  <h2>[% subtitle %]</h2>
+</div>
+
+[% IF ~nonavbar %]
+<div id="main_navbar">
+
+  <table cellspacing="0">
+    <tr>
+      [% IF overview_href ne '' %] 
+      <td><a href="[% overview_href %]" title="Overview of library">Overview</a></td>
+      [% ELSE %]
+      <td [% IF overview_selected %]id="selected"[% END %]>Overview</td>
+      [% END %]
+      
+      [% IF dir_overview_href ne '' %] 
+      <td><a href="[% dir_overview_href %]" title="Overview of a directory">Directory</a></td>
+      [% ELSE %]
+      <td [% IF dir_overview_selected %]id="selected"[% END %]>Directory</td>
+      [% END %]
+
+      [% IF categories_href ne '' %] 
+      <td><a href="[% categories_href %]" title="Browse library by category">Categories</a></td>
+      [% ELSE %]
+      <td [% IF categories_selected %]id="selected"[% END %]>Categories</td>
+      [% END %]
+
+      [% IF index_href ne '' %] 
+      <td><a href="[% index_href %]" title="Index of files, routines, and parameters">Index</a></td>
+      [% ELSE %]
+      <td [% IF index_selected %]id="selected"[% END %]>Index</td>
+      [% END %]
+
+      [% IF search_href ne '' %] 
+      <td><a href="[% search_href %]" title="Search library">Search</a></td>
+      [% ELSE %]
+      <td [% IF search_selected %]id="selected"[% END %]>Search</td>
+      [% END %]
+
+      <td [% IF file_selected %]id="selected"[% END %]>File</td>
+
+      [% IF source_href ne '' %] 
+      <td><a href="[% source_href %]" title="Source code of a file">Source</a></td>
+      [% ELSE %]
+      <td [% IF source_selected %]id="selected"[% END %]>Source</td>
+      [% END %]
+
+      [% IF help_href ne '' %] 
+      <td><a href="[% help_href %]" title="Help on IDLdoc">Help</a></td>
+      [% ELSE %]
+      <td [% IF help_selected %]id="selected"[% END %]>Help</td>
+      [% END %]
+
+      <td [% IF etc_selected %]id="selected"[% END %]>Etc</td>   
+
+      <td id="flexible">[% IF user %]User[% ELSE %]Developer[% END %]&nbsp;documentation</td>
+    </tr>
+  </table>
+      
+</div>
+
+<div id="secondary_navbar">
+
+[% IF prev_file_href ne '' %]<a href="[% prev_file_href %]">&lt;&lt;prev file</a>[% ELSE %]&lt;&lt; prev file[% END %] | [% IF next_file_href ne '' %]<a href="[% next_file_href %]">next file &gt;&gt;</a>[% ELSE %]next file &gt;&gt;[% END %]&nbsp;&nbsp;&nbsp;&nbsp;[% IF view_single_page_href ne '' %]<a href="[% view_single_page_href%]" target="_TOP">view single page</a>[% ELSE %]view single page[% END %] | [% IF view_frames_href ne '' %]<a href="[% view_frames_href %]" target="_TOP">view frames</a>[% ELSE %]view frames[% END %]&nbsp;&nbsp;&nbsp;&nbsp;summary: [% IF summary_fields_href ne '' %]<a href="[% summary_fields_href %]">fields</a>[% ELSE %]fields[% END %] | [% IF summary_routine_href ne '' %]<a href="[% summary_routine_href %]">routine</a>[% ELSE %]routine[% END %]&nbsp;&nbsp;&nbsp;&nbsp;details: [% IF details_routine_href ne ''%]<a href="[% details_routine_href %]">routine</a>[% ELSE %]routine[% END %]
+
+</div>
+[% END %]

@@ -1,0 +1,9 @@
+<a href="[% fileurl %]">[% filename %]</a>
+<table>
+[% FOREACH r IN routines %]
+<tr>
+<td class="statroutine"><a href="[% r.url %]">[% r.name %]</a></td>
+<td class="stat [% IF r.cyclic lt 10 %]caution[% ELSE %]warning[% END %]">[% r.cyclic %]</td>
+</tr>
+[% END %]
+</table>

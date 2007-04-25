@@ -1,0 +1,9 @@
+
+      [% IF footer NE '' %]<div id="footer">[% INCLUDE footer %]</div>[% END %]
+
+      [% INCLUDE_TEMPLATE tagline_filename %]
+
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,9 @@
+<a href="[% fileurl %]">[% filename %]</a>
+<table>
+[% FOREACH r IN routines %]
+<tr>
+<td class="docroutine"><a href="[% r.url %]">[% r.name %]</a></td>
+<td class="docstat [% IF r.partial %]partialdoc[% ELSE %]notdoc[% END %]">[% IF r.partial %]partially documented[% ELSE %]not documented[% END %]</td>
+</tr>
+[% END %]
+</table>

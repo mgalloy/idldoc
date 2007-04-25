@@ -1,0 +1,580 @@
+
+/* CSS for all files which appear in the "main" viewing area: overview,
+   directory overviews, warnings, index, search, pro files, source
+   code, help, and etc files. */
+
+/* Link styles --------------------------------------------------------------- */
+
+a { text-decoration: none; }
+
+a:link, a:visited { 
+  color: #660000; 
+  border-bottom: 1px dotted #C0C0F0;   
+}
+
+a:hover, a:focus { 
+  color: #993333; 
+  background: #FFFFCC; 
+  border-bottom: 1px dotted #303099; 
+}
+
+
+/* Main styles --------------------------------------------------------------- */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 10pt;
+  font-family: Verdana, Helvetica, Arial, sans-serif;
+  background-color: #FFFFFF;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+
+#container { margin: 1em; }
+
+code.section { white-space: pre; }
+
+pre.snippet {
+  margin-left: 5%;
+  background: #F0F0F0;
+  border: 1px dashed #999999;
+  width: 43em;
+  padding: 0.5em 0.5em 0.5em 0.5em;
+  white-space: pre;
+}
+
+/* Navbar styles ------------------------------------------------------------- */
+
+#navbar_title {
+  color: #000033;
+  background-color: #F0F0FF;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 20px 30px;
+  border-bottom: 1px solid #000033;
+}
+
+#navbar_title * {
+  margin: 0;
+  padding: 0;
+}
+
+#navbar_title h1 {
+  letter-spacing: 0.1em;
+  font-variant: small-caps;
+  font-size: 250%;
+  text-indent: -1em;
+  padding-left: 1em; 
+}
+
+#navbar_title h2 {
+  font-size: 110%;
+  font-weight: normal;
+  color: #333399;
+}
+
+#main_navbar table {
+  width: 100%;
+  border-bottom: 1px solid #666699;
+}
+
+#main_navbar td {
+  background: #CCCCFF;
+  font-size: 80%;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  border-top: 3px solid #CCCCFF;
+  border-bottom: 3px solid #CCCCFF;
+  padding-left: 6px;
+  padding-right: 6px;
+  margin: 0;
+}
+
+#main_navbar td#selected {
+  background: #CCCCFF;
+  font-size: 80%;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  border-top: 3px solid #333399;
+  border-bottom: 3px solid #CCCCFF;
+  padding-left: 6px;
+  padding-right: 6px;
+  margin: 0;
+}
+
+#main_navbar td#flexible {
+  width: 100%;
+  text-align: right;
+  padding-right: 1em;
+  background: #CCCCFF;
+  font-size: 70%;
+  font-weight: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  border-top: 3px solid #CCCCFF;
+  border-bottom: 3px solid #CCCCFF;
+}
+
+#main_navbar a:link, #main_navbar a:visited { color: #660000; border: 0; }
+
+#main_navbar a:hover, #main_navbar a:focus {
+  color: #FFFF66;
+  background: #CCCCFF;
+  border-bottom: 1px none #606099; 
+  border: 0;
+}
+
+#secondary_navbar {
+  font-size: 80%;
+  font-weight: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 4px;
+  margin-left: 20px;
+  white-space: nowrap;
+}
+
+
+/* Tagline and footer styles ------------------------------------------------- */
+
+div#tagline {
+  margin-top: 6px;
+  border-top: 1px dotted lightsteelblue;
+  padding-top: 6px;
+  font-size: 66%;
+  font-style: italic;
+}
+
+div#footer {
+  margin-top: 6px;
+  border-top: 1px dotted lightsteelblue;
+  padding-top: 6px;
+  font-size: 66%;
+  font-style: italic;
+}
+
+/* Basic data presenation styles -------------------------------------------- */
+
+.index_letter { 
+  font-size: 300%;
+  font-weight: bold;
+  color: #000066; 
+  margin: 0.5em 0 0 -0.1em;
+}
+
+h1, h2, h3, h4 {
+  font-weight: normal;
+  color: #3333CC;
+}
+
+h1 {
+  padding-top: 0.75em;
+  font-size: 160%;
+}
+
+h2 {
+  padding-top: 1em;
+  font-size: 120%;
+  }
+
+h3 {
+  padding-top: 0.75em;
+  margin-bottom: 0.25em;
+  font-size: 100%;
+}
+
+h4 {
+  padding: 0;
+  margin: 0.5em 0 0 0;
+  font-size: 80%;
+}
+
+table.basic {
+  empty-cells: show;
+  margin: 1.5em 1em 0 1em;
+  border: 1px dotted #CFCFFF;
+  font-size: 80%;
+}
+
+table.basic th {
+  background-color: #F0F0FF;
+  font-weight: bold;
+  text-align: left;
+  padding: 4px 1em 4px 4px;
+  border-bottom: 1px dotted #666699;
+}
+
+table.basic td {
+  vertical-align: top;
+  padding: 4px 1em 4px 4px;
+}
+
+dd {
+  margin-bottom: 0.25em;
+  font-size: 80%;
+}
+
+
+/* Warnings styles ----------------------------------------------------------- */
+
+
+#todo dl, #bugs dl { 
+  margin: 0 0 0 1.5em;
+  font-size: 80%;
+}
+
+#todo dd, #bugs dd { 
+  margin-left: 3em; 
+  font-size: 100%;
+}
+
+#undoc table, #obsolete table, #statistics table {
+  width: 80%;
+  margin-left: 2em;
+}
+
+#undoc td, #obsolete td, #statistics td { 
+  padding: 0 0 0 0;
+  font-size: 80%;
+  white-space: nowrap;
+}
+
+#undoc td.docroutine, #obsolete td.obsroutine, #statistics td.statroutine { width: 50%; }
+
+#undoc td.docstat, #statistics td.stat { 
+  width: 50%;
+  text-align: right;
+}
+
+#undoc td.partialdoc, #statistics td.caution { color: #CC6600; }
+
+#undoc td.notdoc, #statistics td.warning { color: #993333; }
+
+/* File + routine styles ----------------------------------------------------- */
+
+h1.directory { 
+  padding: 1em 0 0 0;
+  margin: 0;
+  font-size: 66%;
+}
+
+h1.directory a { border-bottom: 0; }
+
+h2.pro_file { 
+  padding: 0;
+  margin: 0;
+  font-size: 140%;
+}
+
+div#file_attr {
+  padding: 0 1em 0 1em;
+  margin: 1em;
+  background: #F6F6F6;
+  border: 1px dotted #999999;
+}
+
+div#file_attr dt {
+  font-size: 80%;
+  font-weight: bold;
+}
+
+div#file_attr dd {
+  font-size: 80%;
+}
+
+div#class_diagram { 
+  padding: 1em 0 1em 0; 
+  white-space: pre;
+  font-family: 'Courier New';
+}
+
+table#sav_attr { 
+  font-size: 90%; 
+  margin: 1em; 
+  padding: 1em 1em 1em 1em;
+  background: #F6F6F6;
+  border: 1px dotted #999999;
+}
+
+table#sav_attr th { text-align: left; }
+
+table#sav_attr td { vertical-align: top; padding-right: 2em; }
+
+table#sav_attr td.value { width: 20em; padding-right: 0em; font-style: italic; }
+
+p.sav_warning { margin-left: 4em; font-family: 80%; }
+
+table.variables { 
+  font-family: 'Courier New', monospace; 
+  font-size: 80%; 
+  text-indent: -2em; 
+  padding-left: 2em; 
+}
+
+table.variables td.image { width: 64px; }
+
+div#file_comments { 
+  margin: 2em;
+  font-size: 80%;
+}
+
+
+div.field_summary {
+  padding: 0 1em 0 1em;
+  margin: 1em;
+  background: #FFFFF0;
+  border: 1px dotted #C0C000;
+}
+
+div#routine_summary {  
+  padding: 0 1em 0 1em;
+  margin: 1em;
+  background: #F0F0FF;
+  border: 1px dotted #9999FF;
+}
+
+div.field_summary h2, div#routine_summary h2 { 
+  padding: 0.5em 0 0 0;
+  margin: 0;
+}
+
+div.field_summary table, div.field_summary p { 
+  margin: 1em 1em;
+}
+
+div.field_summary td.name { 
+  vertical-align: top;
+  padding-bottom: 0.25em;
+  color: #3333CC;
+}
+
+div.field_summary span.field_type {  
+  font-weight: normal;
+  font-size: 80%;
+  color: black;
+}
+
+div.field_summary td.comments { 
+  vertical-align: top;
+  padding-left: 2em;
+  font-size: 80%;
+}
+
+p.commaList { 
+  margin: 1em 1em 1em 1em;
+}
+
+span.warning { 
+  color: #CC6633;
+  font-weight: bold;
+  font-size: 66%;
+  text-transform: uppercase;
+}
+
+span.categories { 
+  color: #006633;
+  font-weight: bold;
+  font-size: 66%;
+  text-transform: uppercase;
+}
+
+span.undoc { 
+  color: #FF6633;
+  font-weight: bold;
+  font-size: 80%;
+  text-transform: uppercase;
+}
+
+span.attr { 
+  color: #006633;
+  font-weight: bold;
+  font-size: 80%;
+  text-transform: uppercase;
+}
+
+span.value { 
+  color: #006633;
+  font-weight: normal;
+  text-transform: none;
+}
+
+a.top { 
+  font-weight: bold;
+  font-size: 66%;
+  text-transform: uppercase;
+  float: right;
+}
+
+span.result { 
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-style: italic;
+  font-size: 80%;
+}
+
+div#routine_summary p, div.routine_details p.header { 
+  padding-top: 0.5em;
+  margin-left: 1.5em;
+  text-indent: -1.5em;
+  font-family: 'Courier New', monospace;
+}
+
+div.routine_details {  
+  padding: 0.5em 1em 0.5em 1em;
+  margin: 1em;
+  border: 1px dotted #CCCCCC;
+}
+
+div.routine_details h2 {  
+  padding-top: 0;
+  margin-top: 0;
+}
+
+div.routine_details div.value { 
+  margin: 0 1em 0 1em;
+  font-size: 80%;
+}
+
+div.routine_details div.comments { 
+  font-size: 80%;
+  margin: 0.75em 1em 1em 1em;
+}
+
+div.routine_details div.preformat { 
+  white-space: pre;
+}
+
+table.statistics { 
+  font-size: 80%;
+  margin-left: 1em;
+}
+
+table.statistics td { 
+  padding: 0 2em 0 0;
+}
+
+/* Overview styles ----------------------------------------------------------- */
+
+div.overview { 
+  width: 100%;
+  margin-top: 1em;
+  clear: both;
+}
+
+div.overview table {
+  empty-cells: show;
+  font-size: 90%;
+  margin: 1em 1em 1em 1em;
+  padding: 1em 0.5em 1em 0.5em;
+  background: #F6F6F6;
+  border: 1px dotted #999999;
+}
+
+div.overview td {
+  padding: 3px 1em 3px 1em;
+}
+
+div.overview td.dir {
+  width: 1%;
+  vertical-align: top;
+  text-align: right;
+  padding-right: 1em;
+}
+
+
+/* Navigation list styles for tree structures -------------------------------- */
+
+#tree {
+  text-align: left;
+  font-size: 90%;
+  margin: 0.75em 0 0.75em 0;
+  padding: 0;
+}
+
+#tree ul {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+#tree li {
+  margin: 0 0 0 15px;
+  padding: 0;
+  list-style-type: none;
+}
+
+#tree .symbols {
+  float: left;
+  width: 12px;
+  height: 1em;
+  padding-left: 4px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+}
+
+/* Search styles ------------------------------------------------------------- */
+
+input.writein { 
+  padding-left: 0.5em;
+  border: 1px solid #CCCCCC;
+  font-family: 'Courier New';
+  background: #FFFFF3;
+}
+
+#search form { 
+  margin-left: 2em;
+}
+
+#search table { 
+  margin: 1em 1em 0 2em;
+  padding: 1em 2em 1em 2em;
+  background: #F6F6F6;
+  border: 1px dotted #999999;
+}
+
+#search tr { 
+  text-align: center;
+}
+
+#search td { 
+  font-size: 80%; 
+  text-align: left;
+}
+
+#search td * { 
+  vertical-align: middle;
+}
+
+#search p { 
+  font-size: 66%;
+  margin: 0 3em 2em 3em;
+}
+
+/* Help styles --------------------------------------------------------------- */
+
+div.toc { 
+  padding: 0 1em 0 1em;
+  margin: 1em;
+  background: #F0F0FF;
+  border: 1px dotted #9999FF;  
+  width: 19em;
+}
+
+div.right { 
+  float: right;
+  width: 22em;
+}
+
+ol.toc { 
+  list-style-type: upper-roman;
+}
+
+ol.toc ol { 
+  padding-left: 3em;
+  margin-left: 0;
+  list-style-type: lower-alpha;
+}
+
+dl.variables dt { font-size: 80%; }
+dl.variables dd { margin-bottom: 0.5em; }

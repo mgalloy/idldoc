@@ -1,0 +1,7 @@
+      <h5 id="_[% letter %]" class="index_letter">[% letter %]</h5>
+      <dl>
+	[% FOREACH item IN items %]
+	<dt><a href="[% item.url %]">[% item.name %]</a></dt>
+	<dd>[% item.description %]</dd>
+	[% END %]
+      </dl>

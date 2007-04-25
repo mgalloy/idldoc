@@ -1,0 +1,11 @@
+    <h1>What's New in IDLdoc 2.0</h1>
+    
+    <ol>
+      <li>Integrated with the new IDL 6.2 IDL Assistant help system. Use the ASSISTANT keyword to generate an .adp file for use with the ONLINE_HELP routine with the BOOK keyword.</li>
+      <li>Templated output system allows for users to change the format of the output.</li>
+      <li>Produces documentation for SAV files.</li>
+      <li>Computes complexity statistics when the STATISTICS keyword is set</li>
+      <li>Categories and customer_id tags</li>
+      <li>Updated, more complete help</li>
+      <li>LOG_FILE keyword to send error messages to a log file instead of STDOUT</li>
+    </ol>

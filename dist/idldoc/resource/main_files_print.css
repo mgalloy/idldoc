@@ -1,0 +1,25 @@
+#navbar_title { 
+  background-color: #FFFFFF;  
+}
+
+#main_navbar td {
+  background: #FFFFFF;
+  border-top: 0.25em solid #FFFFFF;
+  border-bottom: 0.25em solid #FFFFFF;
+}
+
+#main_navbar td#selected {
+  background: #FFFFFF;
+  border-top: 0.25em solid #333399;
+  border-bottom: 0.25em solid #FFFFFF;
+}
+
+#main_navbar td#flexible {
+  background: #FFFFFF;
+  border-top: 0.25em solid #FFFFFF;
+  border-bottom: 0.25em solid #FFFFFF;
+}
+
+#secondary_navbar {
+  display: none;
+}

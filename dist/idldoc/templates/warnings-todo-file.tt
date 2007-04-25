@@ -1,0 +1,7 @@
+<h3><a href="[% fileurl %]">[% filename %]</a></h3>
+<dl>
+[% FOREACH item IN items %]
+<dt><a href="[% item.url %]">[% item.name %]</a></dt>
+<dd>[% item.comment %]</dd>
+[% END %]
+</dl>

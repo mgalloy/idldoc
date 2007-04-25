@@ -1,0 +1,8 @@
+<a href="[% fileurl %]">[% filename %]</a>
+<table>
+[% FOREACH r IN routines %]
+<tr>
+<td class="obsroutine"><a href="[% r.url %]">[% r.name %]</a></td>
+</tr>
+[% END %]
+</table>

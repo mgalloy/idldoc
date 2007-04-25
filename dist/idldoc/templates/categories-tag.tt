@@ -1,0 +1,7 @@
+        <li id="idldoc-[% tag_id %]">[% tag %] <span class="result">([% nroutines %] routine[% IF nroutines gt 1%]s[% ELSE %][% END %])</span>
+          <ul>
+            [% FOREACH r IN routines %]
+            <li><a href="[% r.url %]">[% r.name %]</a></li>
+            [% END %]
+          </ul>
+        </li>

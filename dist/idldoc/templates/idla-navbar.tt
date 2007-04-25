@@ -1,0 +1,46 @@
+
+<!-- Navbar template takes a structure with the following fields:
+       overview_href : 
+       overview_selected :
+       dir_overview_href :
+       dir_overview_selected :
+       categories_href : 
+       categories_selected : 
+       index_href :
+       index_selected :
+       search_href :
+       search_selected :
+       file_selected :
+       source_href :
+       source_selected :
+       help_href :
+       help_selected :
+       etc_selected :
+
+       prev_file_href :
+       next_file_href :
+
+       view_single_page_href :
+       view_frames_href :
+
+       summary_fields_href :
+       summary_routine_href :
+       details_routine_href :
+
+       title :
+       subtitle :
+       user :
+-->
+
+[% IF ~nonavbar %]
+<table border="0" cellpadding="0" cellspacing="0" width="98%" bgcolor="#F0F0FF" valign="bottom">
+  <tr> 
+    <td width="10%">
+<a href="[% prev_file_href %]"><img src="[% root %]prev.gif" border="0" alt="Previous"></a></td>
+    <td width="80%" align="center" valign="center">
+<font size=-1><i>[% title %]</i>: <a href="[% overview_href %]">Overview</a></font></td>
+    <td width="10%" align="right">
+<a href="[% next_file_href%]"><img src="[% root %]next.gif" border="0" alt="Next"></a></td>
+  </tr>
+</table>
+[% END %]

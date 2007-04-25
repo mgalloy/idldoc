@@ -1,0 +1,6 @@
+<a href="[% fileurl %]">[% filename %]</a>
+<dl>
+[% FOREACH bug IN bugs %]
+<dt><a href="[% bug.url %]">[% bug.name %]</a></dt>
+<dd>[% bug.comment %]</dd>
+</dl>
