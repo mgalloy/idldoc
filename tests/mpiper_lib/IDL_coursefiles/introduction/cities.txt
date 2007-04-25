@@ -1,0 +1,52 @@
+Adelaide        -34.55   138.34
+Anchorage        61.12  -149.48
+Athens           38.00    23.38
+Auckland        -36.53   174.45
+Baghdad          33.14    44.22
+Bangkok          13.50   100.29
+Berlin           52.31    13.24
+Bombay           18.88    72.50
+Boston           42.15   -71.07
+Boulder          40.02  -105.19
+Buenos Aires    -34.20   -58.30
+Cairo            30.00    31.17
+Calcutta         22.32    88.22
+Cape Town       -33.48    18.28
+Caracas          10.30   -66.58
+Casablanca       33.32    -7.41
+Chicago          41.49   -87.37
+Copenhagen       55.43    12.27
+Dallas           32.45   -96.48
+Djakarta         -6.17   106.45
+Dublin           53.20    -6.15
+Frankfurt        50.07     8.40
+Havana           23.08   -82.33
+Helsinki         60.10    24.53
+Hong Kong        21.45   115.00
+Honolulu         21.18  -157.50
+Lagos             6.27    -3.24
+Lahore           32.00    74.18
+Leningrad        59.57    30.20
+Lima            -12.06   -76.55
+London           51.30    -0.07
+Los Angeles      35.12  -118.02
+Madrid           40.26    -3.42
+Mexico City      19.28   -99.09
+Moscow           55.45    37.37
+New Delhi        24.42    77.18
+New York         40.40   -73.58
+Novosibirsk      55.09    82.58
+Paris            48.51     2.20
+Peking           39.55   116.23
+Rio de Janerio  -22.27   -43.20
+Rome             41.52    12.37
+San Francisco    37.45  -122.26
+Santiago        -33.26   -70.40
+Seoul            37.35   127.03
+Shanghai         31.14   121.27
+Singapore         1.22   103.45
+Sydney          -33.55   151.17
+T'aipei          25.02   121.38
+Tokyo            35.41   139.44
+Toronto          43.40   -79.23
+Vancouver        49.16  -123.06

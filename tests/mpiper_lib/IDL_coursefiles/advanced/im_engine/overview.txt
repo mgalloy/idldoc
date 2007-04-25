@@ -1,0 +1,73 @@
+<center>
+<h1>
+Advanced Topics in IDL
+</h1>
+<h2>
+Class Project: IM_ENGINE
+</h2>
+</center>
+
+<h3>
+Purpose
+</h3>
+IM_ENGINE is an application for displaying and processing images.
+
+<h3>
+Requirements
+</h3>
+
+<ol>
+<li> The application is built in IDL using object-oriented programming
+	 techniques
+<li> The application has a user interface (UI) to display an image
+<li> The UI has pull-down menus for display, file i/o and image
+	 processing options, as well as other functionality 
+<li> The programmer can choose to separate the data from the
+	 UI (data are persistent, but not the UI)
+<li> A dismissed UI can be restored 
+<li> The interface shall have scroll bars to display images that are
+	 larger than a set fraction of the screen size 
+<li> Image processing operations can be added to the UI after it is
+	 realized
+<li> The application can display single or multiband images
+<li> The application can display the histogram of the current image
+<li> The application employs Object Graphics
+<li> The application supports the recording and playback of macros
+	(sets of operations)
+<li> Recorded macros can be written to a file
+<li> The application can be exported to an IDL <tt>.sav</tt> file for
+	 use with the IDL Virtual Machine
+<li> The source code for the application shall be documented with IDLdoc
+<li> The application shall be unit tested
+</ol>
+
+<h3>
+Optional Features
+</h3>
+
+<ul>
+<li> Add <i>Open</i> and <i>Save</i> buttons to the <i>File</i>
+	menu in the UI
+<li> Display cursor location and pixel value in the status bar in the UI
+<li> Add parameter-checking code to ensure input can be displayed and
+	processed as an image
+<li> Construct a method to unregister image processing operations,
+	removing them from the UI 
+<li> Design new image processing operations, e.g.:
+	<ul>
+	  <li> median filtering
+	  <li> differentiation
+	  <li> sharpening
+	  <li> unsharp masking
+	  <li> edge detection
+	</ul>
+<li> Display the histogram of each band in multiband images
+<li> Position the histogram next the main display in the UI
+<li> Allow the current image to be zoomed up/down with menu items and
+	with keystrokes (+/-) in the draw area
+</ul>
+
+@dir stages This directory contains seven stages in the development of
+IM_ENGINE
+@dir complete This directory contains a version of IM_ENGINE that
+includes several optional features

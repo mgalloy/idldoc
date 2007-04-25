@@ -1,0 +1,74 @@
+<H1>IDL200 Data Files</H1>
+
+These are the training data files for the Intermediate IDL course.
+
+<P>
+<TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" CLASS="listing">
+<TR><TD COLSPAN=2 CLASS="title">Data files</TD></TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">car.smf</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">m105.jpg, m105.png</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">m27.jpg, m27.png</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">m31.jpg, m31.png</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">m51.jpg, m51.png</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">m64.jpg, m64.png</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">m66.jpg, m66.png</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">m82.jpg, m82.png</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">m98.jpg, m98.png</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">n2024.jpg</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">n253.jpg, 253.png</TD>
+<TD CLASS="listing">.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">pharoah.raw</TD>
+<TD CLASS="listing">Polygonal mesh data set of a pharoah's mask.  ASCII text file with 9 columns.</TD>
+</TR>
+
+<TR>
+<TD ALIGN="right" VALIGN="top" WIDTH="1%" class="listing">x29.txt</TD>
+<TD CLASS="listing">Polygonal mesh data set of a experimental fighter jet.</TD>
+</TR>
+
+</TABLE>

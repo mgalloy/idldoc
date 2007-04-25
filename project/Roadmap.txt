@@ -1,0 +1,6 @@
+1.0 - Make it work
+2.0 - Templated output
+2.1 - Custom tags, alternate templates, bug fixes
+2.2 - Bug fixes
+3.0 - Parse
+4.0 - Search

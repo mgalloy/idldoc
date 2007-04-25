@@ -1,0 +1,15 @@
+<b>
+Mark Piper<br>
+Instructor/Consultant<br>
+mpiper at rsinc dot com<br>
+303-413-3910<br>
+</b>
+<p>
+This is my personal IDL library. All of the routines are not yet
+IDLdoc'ed.
+
+@dir math Some handy and fun math routines.
+@dir signal_processing A catalog of one-dimensional signal processing
+     routines in IDL.
+@dir direct_graphics Routines that employ or augment Direct Graphics.
+@dir object_graphics Routines that employ or augment Object Graphics.

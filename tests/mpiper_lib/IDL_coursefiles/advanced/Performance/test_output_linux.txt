@@ -1,0 +1,124 @@
+Order of operations speed test
+
+ 1.0E+03 elements:  7.7E-05 seconds,  2.3E-05 seconds; factor =  3.3E+00
+ 1.0E+04 elements:  6.4E-04 seconds,  1.8E-04 seconds; factor =  3.5E+00
+ 1.0E+05 elements:  8.6E-03 seconds,  3.6E-03 seconds; factor =  2.4E+00
+ 1.0E+06 elements:  8.4E-02 seconds,  3.4E-02 seconds; factor =  2.5E+00
+ 1.0E+07 elements:  8.3E-01 seconds,  3.4E-01 seconds; factor =  2.4E+00
+     1000000    0.0843990    0.0336959
+BLAS_AXPY speed test
+
+ 1.0E+03 elements:  2.1E-04 seconds,  2.7E-02 seconds; factor =  7.9E-03
+ 1.0E+04 elements:  2.3E-03 seconds,  2.1E-04 seconds; factor =  1.1E+01
+ 1.0E+05 elements:  3.1E-02 seconds,  3.5E-03 seconds; factor =  8.8E+00
+ 1.0E+06 elements:  3.8E-01 seconds,  3.7E-02 seconds; factor =  1.0E+01
+ 1.0E+07 elements:  1.5E+01 seconds,  4.4E-01 seconds; factor =  3.4E+01
+     1000000     0.383644    0.0372090
+REPLICATE_INPLACE speed test
+
+ 1.0E+03 elements:  1.6E-04 seconds,  2.3E-05 seconds; factor =  6.8E+00
+ 1.0E+04 elements:  1.5E-03 seconds,  1.2E-04 seconds; factor =  1.2E+01
+ 1.0E+05 elements:  1.8E-02 seconds,  1.8E-03 seconds; factor =  1.0E+01
+ 1.0E+06 elements:  1.8E-01 seconds,  2.0E-02 seconds; factor =  9.0E+00
+ 1.0E+07 elements:  1.7E+00 seconds,  2.0E-01 seconds; factor =  8.9E+00
+     1000000     0.177399    0.0196320
+REFORM speed test
+
+ 1.0E+02 elements:  3.0E-05 seconds,  3.1E-05 seconds; factor =  9.7E-01
+ 1.0E+03 elements:  1.5E-04 seconds,  9.5E-05 seconds; factor =  1.6E+00
+ 1.0E+04 elements:  1.6E-03 seconds,  9.1E-04 seconds; factor =  1.8E+00
+ 1.0E+05 elements:  1.9E-02 seconds,  1.3E-02 seconds; factor =  1.5E+00
+ 1.0E+06 elements:  1.9E-01 seconds,  1.3E-01 seconds; factor =  1.5E+00
+ 1.0E+07 elements:  1.9E+00 seconds,  1.3E+00 seconds; factor =  1.5E+00
+     1000000     0.193172     0.126671
+Array order speed test
+
+ 1.0E+03 elements:  1.2E-01 seconds,  1.9E-02 seconds; factor =  6.4E+00
+ 2.0E+03 elements:  4.5E-01 seconds,  7.3E-02 seconds; factor =  6.2E+00
+ 3.0E+03 elements:  1.0E+00 seconds,  1.8E-01 seconds; factor =  5.6E+00
+ 4.0E+03 elements:  4.3E+00 seconds,  2.8E-01 seconds; factor =  1.5E+01
+ 5.0E+03 elements:  6.3E+00 seconds,  4.6E-01 seconds; factor =  1.4E+01
+ 6.0E+03 elements:  1.3E+01 seconds,  6.7E-01 seconds; factor =  1.9E+01
+        6000      12.6283     0.670861
+Initialize speed test
+
+ 1.0E+03 elements:  1.9E-04 seconds,  1.7E-05 seconds,  2.3E-05 seconds,  2.4E-05 seconds
+ 1.0E+04 elements:  1.6E-03 seconds,  1.1E-04 seconds,  1.1E-04 seconds,  1.2E-04 seconds
+ 1.0E+05 elements:  1.8E-02 seconds,  3.4E-03 seconds,  2.1E-03 seconds,  2.2E-03 seconds
+ 1.0E+06 elements:  1.9E-01 seconds,  4.7E-02 seconds,  3.1E-02 seconds,  3.1E-02 seconds
+ 1.0E+07 elements:  1.9E+00 seconds,  5.0E-01 seconds,  3.2E-01 seconds,  3.1E-01 seconds
+     1000000     0.188758    0.0467690    0.0305569    0.0305821
+Variable type speed test
+
+ 1.0E+02 elements:  1.2E-05 seconds,  5.0E-06 seconds; factor =  2.4E+00
+ 1.0E+03 elements:  2.3E-05 seconds,  1.2E-05 seconds; factor =  1.9E+00
+ 1.0E+04 elements:  3.0E-04 seconds,  8.2E-05 seconds; factor =  3.7E+00
+ 1.0E+05 elements:  7.9E-03 seconds,  3.2E-03 seconds; factor =  2.5E+00
+ 1.0E+06 elements:  7.4E-02 seconds,  5.8E-02 seconds; factor =  1.3E+00
+ 1.0E+07 elements:  7.4E-01 seconds,  3.5E-01 seconds; factor =  2.1E+00
+     1000000    0.0740759    0.0576609
+TEMPORARY speed test
+
+heap memory used:     549881, max:  400536903, gets:    80685, frees:    80044
+heap memory used:     549881, max:     553953, gets:    80686, frees:    80045
+heap memory used:     549881, max:     549881, gets:    80686, frees:    80045
+ 1.0E+03 elements:  2.8E-05 seconds,  1.3E-05 seconds; factor =  2.2E+00
+heap memory used:     585881, max:     589953, gets:    80701, frees:    80060
+heap memory used:     585881, max:     625953, gets:    80702, frees:    80061
+heap memory used:     585881, max:     585881, gets:    80702, frees:    80061
+ 1.0E+04 elements:  1.1E-04 seconds,  8.5E-05 seconds; factor =  1.3E+00
+heap memory used:     945881, max:     985953, gets:    80717, frees:    80076
+heap memory used:     945881, max:    1345953, gets:    80718, frees:    80077
+heap memory used:     945881, max:     945881, gets:    80718, frees:    80077
+ 1.0E+05 elements:  3.4E-03 seconds,  2.3E-03 seconds; factor =  1.5E+00
+heap memory used:    4545881, max:    4945953, gets:    80733, frees:    80092
+heap memory used:    4545881, max:    8545953, gets:    80734, frees:    80093
+heap memory used:    4545881, max:    4545881, gets:    80734, frees:    80093
+ 1.0E+06 elements:  3.4E-02 seconds,  2.5E-02 seconds; factor =  1.4E+00
+heap memory used:   40545881, max:   44545953, gets:    80749, frees:    80108
+heap memory used:   40545881, max:   80545953, gets:    80750, frees:    80109
+heap memory used:   40545881, max:   40545881, gets:    80750, frees:    80109
+ 1.0E+07 elements:  3.4E-01 seconds,  2.4E-01 seconds; factor =  1.4E+00
+     1000000    0.0341240    0.0245529
+NOZERO speed test
+
+ 1.0E+05 elements:  1.5E-03 seconds,  7.7E-05 seconds; factor =  1.9E+01
+ 3.2E+05 elements:  6.1E-03 seconds,  7.9E-05 seconds; factor =  7.7E+01
+ 1.0E+06 elements:  2.1E-02 seconds,  1.1E-04 seconds; factor =  1.8E+02
+ 3.2E+06 elements:  6.7E-02 seconds,  1.2E-04 seconds; factor =  5.5E+02
+ 1.0E+07 elements:  2.3E-01 seconds,  1.3E-04 seconds; factor =  1.8E+03
+ 3.2E+07 elements:  8.1E-01 seconds,  1.2E-04 seconds; factor =  6.6E+03
+ 1.0E+08 elements:  4.5E+01 seconds,  2.5E-01 seconds; factor =  1.8E+02
+     1000000    0.0206020  0.000112057
+Read test
+
+ 1.0E+02 elements:  2.8E-03 seconds,  1.6E-03 seconds,  6.3E-04 seconds,  2.3E-04 seconds,  4.9E-05 seconds,  2.6E-04 seconds 
+ 1.0E+03 elements:  2.7E-02 seconds,  1.4E-02 seconds,  6.0E-03 seconds,  5.3E-04 seconds,  5.7E-05 seconds,  5.4E-04 seconds 
+ 1.0E+04 elements:  4.5E-01 seconds,  1.7E-01 seconds,  6.2E-02 seconds,  3.6E-03 seconds,  2.8E-04 seconds,  2.7E-03 seconds 
+ 1.0E+05 elements:  1.3E+02 seconds,  1.5E+00 seconds,  6.6E-01 seconds,  3.6E-02 seconds,  5.0E-03 seconds,  4.3E-02 seconds 
+ 1.0E+06 elements:      NaN seconds,  1.6E+01 seconds,  6.6E+00 seconds,  3.7E-01 seconds,  5.6E-02 seconds,  3.0E-01 seconds 
+ 1.0E+07 elements:      NaN seconds,  1.7E+02 seconds,  7.1E+01 seconds,  6.9E+00 seconds,  5.6E+00 seconds,  2.8E+00 seconds 
+Saving speed test
+
+ 1.0E+02 elements:  3.8E-02 seconds,  9.2E-04 seconds,  3.9E-04 seconds; factor =  4.1E+01
+ 1.0E+03 elements:  4.9E-03 seconds,  7.6E-04 seconds,  9.2E-05 seconds; factor =  6.4E+00
+ 1.0E+04 elements:  5.1E-02 seconds,  4.5E-03 seconds,  4.6E-04 seconds; factor =  1.1E+01
+ 1.0E+05 elements:  5.0E-01 seconds,  4.0E-02 seconds,  4.2E-03 seconds; factor =  1.3E+01
+ 1.0E+06 elements:  5.6E+00 seconds,  4.1E-01 seconds,  4.0E-02 seconds; factor =  1.4E+01
+ 1.0E+07 elements:  5.9E+01 seconds,  4.2E+00 seconds,  4.6E-01 seconds; factor =  1.4E+01
+     1000000      5.58777     0.406841    0.0401881
+Sparse matrix size test
+
+0.0E+000% zero elements: 3.6E+007 bytes, 7.2E+007 bytes; factor = 5.0E-001
+1.0E-001% zero elements: 3.6E+007 bytes, 6.5E+007 bytes; factor = 5.5E-001
+2.0E-001% zero elements: 3.6E+007 bytes, 5.9E+007 bytes; factor = 6.1E-001
+3.0E-001% zero elements: 3.6E+007 bytes, 5.3E+007 bytes; factor = 6.7E-001
+4.0E-001% zero elements: 3.6E+007 bytes, 4.8E+007 bytes; factor = 7.4E-001
+5.0E-001% zero elements: 3.6E+007 bytes, 4.4E+007 bytes; factor = 8.2E-001
+6.0E-001% zero elements: 3.6E+007 bytes, 4.0E+007 bytes; factor = 9.1E-001
+7.0E-001% zero elements: 3.6E+007 bytes, 3.6E+007 bytes; factor = 1.0E+000
+8.0E-001% zero elements: 3.6E+007 bytes, 3.3E+007 bytes; factor = 1.1E+000
+9.0E-001% zero elements: 3.6E+007 bytes, 3.0E+007 bytes; factor = 1.2E+000
+1.0E+000% zero elements: 3.6E+007 bytes, 2.7E+007 bytes; factor = 1.3E+000
+
+

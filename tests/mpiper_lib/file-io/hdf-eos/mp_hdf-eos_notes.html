@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>HDF-EOS</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+      h1 {text-align:center; font-family:serif; font-size:150%} 
+      h2 {font-family:serif; font-size:125%; margin-top:2em}
+      h3 {font-family:serif; font-size:110%}
+      li,p {font-family:serif}
+      code.box {margin:0.5em 2em 0.5em 2em; border-style:dotted; 
+      border-width:thin; padding:0.0em 0.5em 0.0em 0.5em; 
+      display:block; white-space:pre}
+    </style>
+  </head>
+
+  <body>
+    <h1>HDF-EOS</h1>
+    <hr>
+
+    
+    <h2>Overview</h2>
+    <ul>
+      <li>HDF-EOS is an extension of NCSA's HDF.
+      <li>Designed to support NASA's Earth Observing System (EOS)
+	missions: Terra, Aqua and Aura.
+      <li>Intended for geolocated data from satellites, field
+	experiments, etc.
+    </ul>
+
+    <p>The NASA HDF-EOS website is kaputt, even though it's linked to
+    by almost every site that uses HDF-EOS. I <a
+    href="http://edhs1.gsfc.nasa.gov/waisdata/sdp/pdf/tp17050001.pdf">googled</a>
+    <code>[http://edhs1.gsfc.nasa.gov]</code> an
+    HDF-EOS User Guide which gave descriptions of the APIs for the
+    point, swath and grid interfaces, which IDL's documentation lacks.
+
+    <h2>IDL's HDF-EOS support</h2>
+
+    <ul>
+      <li>IDL supports HDF-EOS 2.8 (no HDF-EOS5).
+      <li>IDL's HDF-EOS library is built on the C language HDF-EOS library
+	created by NASA. The IDL library routines begin with <b>EOS_</b>.
+      <li>API is described in <em>Online Help > Contents > Reference
+	Guides > Scientific Data Formats > HDF-EOS</em>.
+      <li><em>HDF_BROWSER</em> can be used to preview the contents of an
+	HDF-EOS file and import its data into IDL.
+    </ul>
+
+
+    <h2>The HDF-EOS data model</h2>
+
+     <img alt="HDF-EOS swath file organization"
+	src="./HDF-EOS_swath_file_organization.png" align="right">
+
+    <p>HDF-EOS uses the following data structures:
+    <ul>
+      <li><em>point</em>: for geolocated point data; e.g., field
+	measurements for ground truth
+      <li><em>swath</em>: for satellite passes -- a time-ordered
+	sequence of scan lines along the satellite's track
+      <li><em>grid</em>: gridded data, georeferenced with a known
+	map projection; most applicable for high-level data, level 3
+	or 4.
+    </ul>
+
+    <p>These data structures can contain
+    <ul>
+      <li><em>attributes</em>: descriptors for the information in the
+	file: instrument name, units, date stamp
+      <li><em>dimensions</em>: descriptors defining the size of the
+	data: number of scan lines, number of pressure levels, etc.
+      <li><em>geofields</em>: geolocation information: time, latitude,
+	longitude, solar zenith angle, local solar time, etc.
+      <li><em>datafields</em>: temperature, [ozone], etc.
+    </ul>
+
+    <p>A diagram of the format of a swath file is given on the right.
+
+
+    <h2>IDL's HDF-EOS programming model</h2>
+
+    <p>A list of <b>EOS_</b> routines is given in the Online Help.
+
+    <h3>Reading an HDF-EOS file</h3>
+    <ol>
+
+      <li><b>Open the file</b> as point, swath or grid, returning a file
+	identifier (fid).
+
+      <li><b>Attach an object</b> of the appropriate type: point,
+	swath or grid. The name of the point, swath or grid is necessary
+	to identify the object. An identifier for the object is
+	returned (e.g., a swath id).
+
+      <li><b>Query the object</b> to determine what attributes, dimensions,
+	geofields and datafields are present. Get their names, sizes, etc.
+
+      <li><b>Read data</b>--attributes, dimensions, geofields or
+	datafields--from the file. Geo- and datafields can be subset
+	by time and/or space.
+
+      <li><b>Detach the object</b> using its identifier.
+
+      <li><b>Close the file</b> using its fid.
+    </ol>
+
+    <h3>Writing to an HDF-EOS file</h3>
+    <ol>
+      <li><b>Open the file</b> as point, swath or grid, returning a
+	file identifier (fid). The file can be opened read-write or
+	read-only.
+
+      <li>create object
+      <li>define structure
+      <li>detach object
+      <li>attach object
+      <li>write data
+      <li>detach object
+
+      <li><b>Close the file</b> using its fid.
+    </ol>
+
+
+    <h2>Example: Reading an L2 AIRS swath file</h2>
+
+    <p>I downloaded an AIRS (Atmospheric Infrared Sounder, on Aqua)
+      level 2 standard retrieval product from the NASA GSFC DAAC
+      <code>(http://disc.gsfc.nasa.gov/AIRS/index.shtml/)</code>. The
+      file contains one <em>granule</em>, about 6 min of data,
+      corresponding to 1/15 of an orbit, and exactly 45 cross-track scan
+      lines, each composed of 30 FOVs.
+      
+    <p>The file
+      <code>AIRS.2006.01.25.130.L2.RetStd.v4.0.9.0.G06026162549.hdf</code>
+      is located in <code>~/data/hdf-eos</code>.
+
+    <p><em>EOS_QUERY</em> says this is an HDF-EOS file containing one swath.
+      <code class="box">
+IDL> help, file
+FILE           STRING    = '/home/mpiper/data/hdf-eos/AIRS.2006.01.24.2'...
+IDL> ok = eos_query(file, info)
+IDL> print, ok
+           1
+IDL> help, info, /str
+** Structure <8532014>, 6 tags, length=48, data length=48, refs=1:
+   GRID_NAMES      STRING    ''
+   NUM_GRIDS       LONG                 0
+   NUM_POINTS      LONG                 0
+   NUM_SWATHS      LONG                 1
+   POINT_NAMES     STRING    ''
+   SWATH_NAMES     STRING    'L2_Standard_atmospheric&amp;surface_product'
+IDL> 
+    </code>
+    
+      But, be careful: <em>HDF_ISHDF</em> also says this is an HDF file.    
+      <code class="box">
+IDL> print, hdf_ishdf(file)
+           1
+      </code>
+      It is possible to extract information from an HDF-EOS file with
+      IDL's HDF routines, but it's more difficult.
+
+    <p>This example is continued in my example program,
+    <em>HDFEOS_READ_EX</em>. Call this program with
+      <code class="box">
+IDL> print, hdfeos_read_ex()
+           1
+      </code>
+      In the program, two datafields, <em>pressStd</em> (dim=[28] the
+      standard pressure levels for the satellite, ordered from the
+      ground up) and <em>TAirStd</em> (dim=[28,30,45] the retrieved
+      atmospheric temperature profile at the pressure levels) are
+      extracted from the file. A vertical temperature profile is
+      plotted for one location, using a logarithmic pressure axis.
+    
+    <h2>Example: Writing an HDF-EOS file</h2>
+
+    <hr>
+    <address><a href="mailto:mpiper@rsinc.com">Mark Piper</a></address>
+<!-- Created: Tue Feb  7 10:27:19 MST 2006 -->
+<!-- hhmts start -->
+Last modified: Wed Feb  8 15:48:44 MST 2006
+<!-- hhmts end -->
+  </body>
+</html>

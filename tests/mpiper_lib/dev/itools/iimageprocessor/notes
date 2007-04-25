@@ -1,0 +1,23 @@
+############################
+# iTools Programming Notes #
+############################
+
+In this example, we explore how to make an application using iTool
+compound widgets in conjunction with "traditional" IDL widgets.
+
+If your application requires a small number of interface elements not
+available in the standard interface, consider creating a user
+interface panel rather than an entire custom user interface.
+
+iTool compound widgets are not exactly like other IDL compound
+widgets. They do not generate widget events, and you cannot get or set
+their values using the WIDGET_CONTROL routine.
+
+Write the class definition first to subclass from the iTool system and
+state what components of the iTool UI to keep/discard. Next, write the
+UI definition programs. Finally, write the iTool wrapper program.
+
+iTool Object identifiers are used to identify an iTool with a
+lightweight, platform-neutral token, in this case, a string.
+
+

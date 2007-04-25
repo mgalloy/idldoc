@@ -1,0 +1,30 @@
++=available,*=permanent,-=not available|Field Name|Num Col|Column(s) Annotation
+-------------------------------------------------------------------------------
++|Ancillary Surface Emissivity|3|2.2 microns|2.3 microns|4.7 microns
++|Retrieval Bottom Pressure|1|RBPres hPa
++|Derived Effective Retrieval Bottom Temperature|1|DERBTemp K
++|Derived Effective Retrieval Bottom Emissivity|3|2.2 microns|2.3 microns|4.7 microns
++|Aggregate Bounds|1|ncoord
++|CH4 Total Column Bench 1|1|CH4 TC B1
++|CH4 Total Column Bench 2|1|CH4 TC B2
++|CO Total Column|1|CO TC
+-|Retrieval Error Covariance Matrix|0
++|CO Mixing Ratio|6|850 hPa|700 hPa|500 hPa|350 hPa|250 hPa|150 hPa
++|Retrieval Bottom CO Mixing Ratio|1|RBCO Mix
++|CO Mixing Ratio Percent Apriori|6|850 hPa|700 hPa|500 hPa|350 hPa|250 hPa|150 hPa
+*|Time|1|TAI Time
+*|Latitude|1|Latitude
+*|Longitude|1|Longitude
+*|Seconds in Day|1|Time of Day
+-|Pressure Grid|0
+-|Wavelengths|0
++|Solar Zenith Angle|1|SoZA
++|Satellite Zenith Angle|1|SaZA
++|Surface Indicator|1|SurfInd
++|DEM Altitude|1|DEM Alt
++|Num Pixels Aggregate|1|Num Pxl
++|Cloud Description|1|Cloud
++|CH4 Column Percent Apriori Bench 1|1|CH4 % B1
++|CH4 Column Percent Apriori Bench 2|1|CH4 % B2
++|Retrieval Bottom CO Mixing Ratio Percent Apriori|1|RBCO Mix %
+-|coremetadata.0|0

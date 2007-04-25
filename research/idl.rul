@@ -1,0 +1,299 @@
+;  $Id: idl.rul,v 1.32 2003/02/03 17:49:18 scottm Exp $
+;
+;  Grammar for IDL
+;
+;  Copyright (c) 1988-2003, Research Systems Inc.  All rights reserved.
+;  This software includes information which is proprietary to and a
+;  trade secret of Research Systems, Inc.  It is not to be disclosed
+;  to anyone outside of this organization. Reproduction by any means
+;  whatsoever is  prohibited without express written permission.
+;
+;
+; NOTE: LALR does not understand empty lines, and terminates processing on
+;	the first such line. Make sure every empty line starts with
+;	a comment character.
+;
+;
+;------------------------------------------------------------------------
+; There are 5 ambiguous states. In order:
+;
+; (1)	fact = ( expr ) ** Reduce **
+;	lval1 = ( expr ) ** Reduce **   (Eliminate this configuration #2)
+;	lval1 = ( expr ) <^> ( subslist )
+;       lval1 = ( expr ) <^> [ subslist ] 
+;
+; (2)
+;					(Eliminate this configuration #1)
+;	inline_ifst := inline_iffalse expr  ** Reduce **
+;	inline_iftrue := expr <^> ? 
+;
+; (3)	conelz := conarr ** Reduce **
+;	fact := conarr ** Reduce **	(Eliminate this configuration # 2)
+;
+; (4)	lval1 = ( expr ) ** Reduce **  (Eliminate this configuration # 1)
+;       lval1 := ( expr ) <^> ( subslist ) 
+;       lval1 := ( expr ) <^> [ subslist ] 
+;       fact := ( expr )  ** Reduce **
+;
+; (5)	ifst = iftrue stmt ** Reduce **  (Eliminate  this configuration #1)
+;	iffalse = iftrue stmt <^> ELSE
+;------------------------------------------------------------------------
+;
+;
+;
+;
+; [BASIC PROGRAM STRUCTURE --- a framework for executing statements]
+p = lines 'end'				&(SEM_T_STMT)
+lines = line $
+	^ lines line
+line = label line $
+	^ stmt eol			&rul_line(SEM_T_STMT) $
+	^ eol 				&(SEM_T_STMT)
+label = ident ':'			&rul_label(SEM_T_LABEL)
+;
+;
+;
+;
+; [STMT --- basic language constructs.]
+stmt = stmt_assign $
+	^ lval_incr $
+	^ ifst $
+	^ forst $
+	^ begrul p			&rul_stmt_begin(SEM_T_STMT) $
+	^ pdef $
+	^ pro_call $
+	^ whilest $
+	^ reptstmt $
+	^ goto ',' ident		&rul_stmt_goto(SEM_T_STMT) $
+	^ casest $
+	^ switchst
+;
+; This rule allows an assignment surrounded by a single set of parens
+; to be accepted. Multiple parens are allowed because of the way
+; lval and expr chain into each other, but without this rule, single
+; parens would be a syntax error, which is a wierd discontinuity from the
+; point of view of the user.
+stmt_assign = assign 			&rul_stmt_assign(SEM_T_STMT) $
+	^ '(' assign ')'		&rul_stmt_paren_assign(SEM_T_STMT) $
+	^ '(' assign ')' incr_op	&rul_stmt_paren_assign_postincr(SEM_T_STMT) $
+	^ incr_op '(' assign ')'	&rul_stmt_paren_assign_preincr(SEM_T_STMT)
+;
+assign = lval '=' expr			&rul_assign(SEM_T_LVAL)
+;
+; Autoincrement and autodecrement on a standalone lval. incr_op is either
+; ++ or --.
+lval_incr = lval incr_op		&rul_lval_postincr(SEM_T_STMT) $
+	^ incr_op lval			&rul_lval_preincr(SEM_T_STMT)
+;
+;
+; If statements are ambiguous.   Reduce:
+;	 if e then s else if e1 then s1 if e2 then s2
+; so that elses match e, not e1 or e2.  I.e. do not take else for
+; subsequent if stmts.
+;
+ifst = iftrue stmt			&rul_ifst_stmt(SEM_T_STMT) $
+	^ iffalse stmt			&rul_ifst_stmt(SEM_T_STMT)
+iftrue = if expr then			&rul_iftrue_stmt(SEM_T_IFWHILE)
+iffalse = iftrue stmt else		&rul_iffalse_stmt(SEM_T_IFWHILE)
+;
+; NOTE: for proper operation of BREAK and CONTINUE, the terminal 
+;       symbol FOR must appear first in the rule for forst. 
+forst = for forlim stmt			&rul_forst(SEM_T_STMT)
+forlim = forinit expr do		&rul_forlim_defincr(SEM_T_FORLIM) $
+	^ forinit expr ',' expr do	&rul_forlim_withincr(SEM_T_FORLIM)
+forinit = assign ','			&rul_forinit(SEM_T_FORINIT)
+;
+begrul = 'begin'			&rul_begrul(SEM_T_BEGRUL)
+;
+rtn_name = id				&rul_rtn_name_plain(SEM_T_RTNNAME) $
+	^ id '::' ident			&rul_rtn_name_method(SEM_T_RTNNAME)
+pdef = pro rtn_name			&rul_pdef_noplist(SEM_T_STMT) $
+	^ pro rtn_name ',' idlist	&rul_pdef_plist(SEM_T_STMT)
+; Id is identifier entered into the ID table, Ident is not entered by scanner.
+id = ident				&rul_id(SEM_T_ID)
+idlist = idlistel			&rul_idlist_head(SEM_T_IDLIST) $
+	^ idlist ',' idlistel		&rul_idlist_tail(SEM_T_IDLIST)
+idlistel = id				&rul_idlistel_id(SEM_T_IDLISTEL) $
+	^ id '=' id			&rul_idlistel_id_eq_id(SEM_T_IDLISTEL)
+;
+pro_call = pro_cname			&rul_pro_call_noplist(SEM_T_STMT) $
+	^ pro_cname ',' plist		&rul_pro_call_plist(SEM_T_STMT)
+pro_cname = lval '->' rtn_name		&rul_pro_cname_method(SEM_T_PROCNAME) $
+	^ id				&rul_pro_cname_plain(SEM_T_PROCNAME)
+plist = plist ',' plistel		&rul_plist_head(SEM_T_PLIST) $
+	^ plistel			&rul_plist_tail(SEM_T_PLIST)
+plistel = expr				&rul_plistel_plain(SEM_T_PLISTEL) $
+	^ keyword '=' expr		&rul_plistel_kw(SEM_T_PLISTEL) $
+	^ multop keyword		&rul_plistel_kweq1(SEM_T_PLISTEL)
+; The purpose of keyword is that it allows us a chance to copy the string
+; from the identifier before it gets overwritten by the next call to gettok().
+; In addition, it lets us map language terminals (like COMMON, EQ, PRO)
+; to keyword, so that things like "HELP,/COMMON" are not syntax errors.
+;
+; Note that addop and multop are not included here. Although some of these
+; tokens could qualify as identifiers (e.g. NOT, MOD), the grammer for
+; expressions causes (HELP,NOT=34) to be a syntax error before it gets
+; resolved as a keyword. I do not consider these cases important.
+keyword = ident				&rul_keyword_ident(SEM_T_KEYWORD) $
+	^ 'begin'			&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ boolop			&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ case				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ 'end'				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ do				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ else				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ for				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ goto				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ if				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ 'of'				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ pro				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ repeat			&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ relop				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ switch			&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ then				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ until				&rul_keyword_simpletok(SEM_T_KEYWORD) $
+	^ while				&rul_keyword_simpletok(SEM_T_KEYWORD)
+;
+; NOTE: for proper operation of BREAK and CONTINUE, the terminal 
+;       symbol WHILE must appear first in the rule for whilest.
+whilest = while whilexp do stmt		&rul_iffalse_while(SEM_T_STMT)
+whilexp = mark_while expr		&rul_whilexp(SEM_T_IFWHILE)
+; NOTE: for proper operation of BREAK and CONTINUE, the terminal 
+;       symbol REPEAT must appear first in the rule for reptstmt
+reptstmt = repeat mark_repeat stmt until mark_repeat expr    &rul_reptstmt(SEM_T_STMT)
+; mark is an empty rule that appears before the predicate expression
+; for WHILE and REPEAT constructs. The associated semantic action provides
+; the opportunity to capture the code position of the predicate.
+mark_while =				&rul_mark_while(SEM_T_MARK)
+mark_repeat =				&rul_mark_repeat(SEM_T_MARK)
+;
+; NOTE: for proper operation of BREAK and CONTINUE, the terminal 
+;       symbol CASE must appear first in the rule for casest.
+casest = case caseof caselist 'end'	&rul_casest(SEM_T_STMT)
+caseof = expr 'of'			&rul_caseof(SEM_T_CASEOF)
+caselist = casel			&(SEM_T_CASELIST) $
+	^ caselist casel		&rul_case_caselist_tail(SEM_T_CASELIST)
+casel = caseval line			&rul_case_casel_val(SEM_T_CASEL) $
+	^ eol				&rul_casel_eol(SEM_T_CASEL)
+caseval = expr ':'			&rul_caseval_expr(SEM_T_CASEVAL) $
+	^ else ':'			&rul_caseval_else(SEM_T_CASEVAL)
+;
+; The SWITCH pcode is very similar to that for CASE, and the grammer parallels
+; that of CASE. They even share some semantic action routines, but not all.
+;
+; NOTE: for proper operation of BREAK and CONTINUE, the terminal 
+;       symbol SWITCH must appear first in the rule for switchst.
+switchst = switch caseof switchlist 'end'	&rul_switchst(SEM_T_STMT)
+switchlist = switchl			&(SEM_T_CASELIST) $
+	^ switchlist switchl	      &rul_switch_caselist_tail(SEM_T_CASELIST)
+switchl = caseval line			&rul_switch_casel_val(SEM_T_CASEL) $
+	^ eol				&rul_casel_eol(SEM_T_CASEL)
+;
+;
+;
+;
+; [LVAL --- assignment targets]
+; An lval is a "left hand value", so called because they represent variable
+; locations into which values can be stored such as on the left hand side of
+; an assignment statement.
+lval = lval1 $
+	^ lval2 '.' ltags $
+	^ '*' lval			&rul_lval_deref(SEM_T_LVAL)
+lval1 = id				&rul_lval1_id(SEM_T_LVAL) $
+	^ id '(' subslist ')'		&rul_lval1_idsubscr_obs(SEM_T_LVAL) $
+	^ '(' expr ')'			&rul_lval1_expr(SEM_T_LVAL) $
+	^ '(' expr ')' '(' subslist ')' &rul_lval1_exprsubscr_obs(SEM_T_LVAL) $
+	^ id '[' subslist ']'		&rul_lval1_idsubscr(SEM_T_LVAL) $
+	^ '(' expr ')' '[' subslist ']'	&rul_lval1_exprsubscr(SEM_T_LVAL)
+;
+; lval2 is Necessary to generate the STRUCL instruction. This chain rule
+; ensures that rul_lval2() gets called before the ltags semantic action.
+lval2 = lval1				&rul_lval2(SEM_T_LVAL)
+ltags = lval1				&rul_ltags(SEM_T_LVAL) $
+	^ ltags '.' lval1		&rul_ltags(SEM_T_LVAL)
+;
+subslist = subsel 			&rul_subslist_head(SEM_T_SUBSLIST) $
+	^ subslist ',' subsel		&rul_subslist_tail(SEM_T_SUBSLIST)
+subsel = subsexpr 			&rul_subsel_simple(SEM_T_SUBSEL) $
+	^ subsexpr ':' subsexpr 	&rul_subsel_range(SEM_T_SUBSEL) $
+	^ subsexpr ':' subsexpr ':' subsexpr &rul_subsel_range_stride(SEM_T_SUBSEL)
+subsexpr = '*'				&rul_subsexpr_star(SEM_T_SUBSEXPR) $
+	^ expr 				&rul_subsexpr_expr(SEM_T_SUBSEXPR)
+;
+;
+;
+;
+; [EXPR - Values built from basic units (factors)]
+expr = expr_1 $
+	^ inline_ifst
+; These rules implement the inline if, using the same semantic rules as
+; if stmt.
+inline_ifst = inline_iffalse expr	&rul_ifst_expr(SEM_T_EXPR)
+inline_iffalse = inline_iftrue expr ':'	&rul_iffalse_expr(SEM_T_IFWHILE)
+inline_iftrue = expr '?'		&rul_iftrue_expr(SEM_T_IFWHILE)
+expr_1 = expr_2 $
+	^ scboolop_part1 expr_2		&rul_scboolop_part2(SEM_T_EXPR)
+scboolop_part1 = expr_1 scboolop	&rul_scboolop_part1(SEM_T_SCBOOLOP)
+expr_2 = expr_3 $
+	^ expr_2 boolop expr_3		&rul_binop(SEM_T_EXPR)
+expr_3 = expr_4 $
+	^ expr_3 relop expr_4		&rul_binop(SEM_T_EXPR)
+expr_4 = addop expr_5			&rul_uop(SEM_T_EXPR) $
+	^ expr_5 $
+	^ expr_4 addop expr_5		&rul_binop(SEM_T_EXPR)
+expr_5 = expr_6 $
+	^ expr_5 cmultop expr_6		&rul_binop(SEM_T_EXPR)
+expr_6 = fact $
+	^ expr_6 '^' fact		&rul_binop(SEM_T_EXPR)
+cmultop = multop $
+	^ '*'
+fact = lval				&rul_fact_lval(SEM_T_EXPR) $
+	^ incr_op lval			&rul_fact_lval_preincr(SEM_T_EXPR) $
+	^ lval incr_op			&rul_fact_lval_postincr(SEM_T_EXPR) $
+	^ const				&rul_fact_const(SEM_T_EXPR) $
+	^ '(' expr ')' 			&rul_fact_paren_expr(SEM_T_EXPR) $
+	^ expr_assign $
+	^ conarr  			&rul_fact_conarr(SEM_T_EXPR) $
+	^ struct  			&rul_fact_struct(SEM_T_EXPR) $
+	^ fcn_call			&rul_fact_fcn(SEM_T_EXPR)
+;
+expr_assign =  '(' assign ')'		&rul_expr_assign(SEM_T_EXPR) $
+	^ '(' assign ')' incr_op	&rul_expr_assign_postincr(SEM_T_EXPR) $
+	^ incr_op '(' assign ')'	&rul_expr_assign_preincr(SEM_T_EXPR)
+;
+conarr = conleft conlist ']'		&rul_conarr(SEM_T_CONARR)
+conleft = '['				&rul_conleft(SEM_T_CONLEFT)
+conlist = conlist ',' conelz		&rul_conlist_sublist(SEM_T_CONLIST) $
+	^ conelz			&(SEM_T_CONLIST)
+; This rule is ambiguous, always reduce to conelz, rather than fact.
+conelz = conarr				&(SEM_T_CONLIST) $
+	^ expr				&rul_conelz_expr(SEM_T_CONLIST)
+;
+struct = '{' id '}'			&rul_struct_name(SEM_T_STRUCT) $
+	^ '{' id ',' structlist '}'	&rul_struct_full(SEM_T_STRUCT) $
+	^ '{' structlist_anon '}'	&rul_struct_anon(SEM_T_STRUCT)
+; 		structlist is list of either "tag : expr" or "expr"
+structlist = structel 			&rul_idlist_head(SEM_T_IDLIST) $
+	^ structlist ',' structel	&rul_idlist_tail(SEM_T_IDLIST)
+; structlist_anon are those tag forms allowed in anonymous structs.
+structlist_anon = structel_anon		&rul_idlist_head(SEM_T_IDLIST) $
+	^ structlist_anon ',' structel_anon	&rul_idlist_tail(SEM_T_IDLIST)
+structel = structel_anon $
+	^ expr				&rul_structel_expr(SEM_T_IDLISTEL)
+structel_anon = id ':' expr		&rul_structel_id_expr(SEM_T_IDLISTEL) $
+	^ id id				&rul_structel_inherits(SEM_T_IDLISTEL)
+;
+fcn_call = fcn_cname '(' plist ')'	&rul_fcn_call_plist(SEM_T_FCNCALL) $
+	^ fcn_cname '(' ')'		&rul_fcn_call_noplist(SEM_T_FCNCALL)
+fcn_cname = funct			&rul_fcn_cname_plain(SEM_T_FCNCNAME) $
+	^ lval '->' rtn_name		&rul_fcn_cname_method(SEM_T_FCNCNAME)
+;
+;
+;
+;
+; [MISC]
+; This rule needs some explanation. It is not used by any of the functional
+; grammer (e.g. dummy_eof is never referenced by any other rule). It does
+; however cause EOF to be allocated as a terminal of the grammer, and gets
+; it assigned a valid TOK_EOF token code. This is necessary so that when
+; gettok() returns TOK_EOF, the parser will understand it.
+dummy_eof = EOF

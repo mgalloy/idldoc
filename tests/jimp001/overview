@@ -1,0 +1,18 @@
+Probably because of the use of OBSOLETE tag.
+
+<pre>IDL> idldoc, root = '.'
+Copying IDLdoc resources...
+Parsing calibration_simulator.pro...
+Creating doc for calibration_simulator.pro...
+Expression must be a scalar or 1 element array in this context: CONDITION.
+Execution halted at: IDLDOCOBJTEMPLATE_PROCESS_IF
+                     IDLDOCOBJTEMPLATE_PROCESS_TOKENS
+                     IDLDOCOBJTEMPLATE_PROCESS_SCOPE
+                     IDLDOCOBJTEMPLATE_PROCESS_TOKENS
+                     IDLDOCOBJTEMPLATE_PROCESS_FOREACH
+                     IDLDOCOBJTEMPLATE_PROCESS_TOKENS
+                     IDLDOCOBJTEMPLATE::PROCESS
+                     IDLDOCFILE::OUTPUT
+                     IDLDOC          
+                     $MAIN$  
+</pre>    

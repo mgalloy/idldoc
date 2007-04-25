@@ -1,0 +1,85 @@
+<H1>Help on IDLdoc output</H1>
+
+<H2>Routine summary</H2>
+
+The routine summary simply provides the calling sequence for each routine in
+the file and the first sentence of the detailed description.
+
+<H2>Routine Details</H2>
+
+The routine details sections gives a possibly longer description of the routine
+as well as a tables of the parameters and keywords accepted by the routine.
+
+All the parameters and keywords of the routine will be in these tables
+regardless if they have been commented using IDLdoc.
+
+<H3>Notes on routine attributes</H3>
+
+See the IDLdoc page for IDLdoc itself for a full listing of the attributes of
+a routine.
+
+<P>
+
+<TABLE CELLPADDING="3" CELLSPACING="0" CLASS="minor_listing">
+    <TR bgcolor="#EEEEFF">
+        <TD width="1%" valign="top"><B>Attribute</B></TD>
+        <TD><B>Description</B></TD>
+    </TR>
+    <TR>
+        <TD valign="top">abstract</TD>
+        <TD>The routine name will be italicized if the routine is marked
+            "abstract" (meaning it is not implemented, it is provided for its
+            interface).  This is generally used in only object-oriented
+            programming.
+        </TD>
+    </TR>
+    <TR>
+        <TD valign="top">private</TD>
+        <TD>This routine is not intended to be called except by other routines
+            in the same file. In other words it is a "helper routine".
+        </TD>
+    </TR>
+</TABLE>
+
+
+<H3>Keyword and parameter attributes</H3>
+
+<TABLE CELLPADDING="3" CELLSPACING="0" CLASS="minor_listing">
+    <TR bgcolor="#EEEEFF">
+        <TD width="1%" valign="top"><B>Attribute</B></TD>
+        <TD><B>Description</B></TD>
+    </TR>
+    <TR>
+        <TD valign="top">in</TD>
+        <TD>indicates that the argument is intended to be passed into the
+            routine.
+        </TD>
+    </TR>
+    <TR>
+        <TD valign="top">out</TD>
+        <TD>indicates that the argument is intended to be used to pass a value
+            out of the routine. A named variable must be passed to the routine
+            to pass a value back to the calling level.
+        </TD>
+    </TR>
+    <TR>
+        <TD valign="top">optional</TD>
+        <TD>indicates the argument is optional; optional parameters and keywords
+            are also placed inside brackets ([]) in the routine summary.
+        </TD>
+    </TR>
+    <TR>
+        <TD valign="top">required</TD>
+        <TD>indicates the argument is required</TD>
+    </TR>
+    <TR>
+        <TD valign="top">type</TD>
+        <TD>"type" indicates the type of the variable.  Can be used indicate a
+            group of types, a specific type, an array of a certain type, etc.
+            Boolean keywords are indicated by a /KEYWORD_NAME in the routine
+            summary.
+        </TD>
+    </TR>
+</TABLE>
+
+<P>

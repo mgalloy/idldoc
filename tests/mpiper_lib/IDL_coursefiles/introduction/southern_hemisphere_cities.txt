@@ -1,0 +1,13 @@
+Cities in the Southern Hemisphere
+
+   lat     lon    name
+   ---     ---    ----
+ -36.53  174.45 Auckland       
+ -34.55  138.34 Adelaide       
+ -34.20  -58.30 Buenos Aires   
+ -33.55  151.17 Sydney         
+ -33.48   18.28 Cape Town      
+ -33.26  -70.40 Santiago       
+ -22.27  -43.20 Rio de Janerio 
+ -12.06  -76.55 Lima           
+  -6.17  106.45 Djakarta       

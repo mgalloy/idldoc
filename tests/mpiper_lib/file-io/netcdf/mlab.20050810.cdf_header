@@ -1,0 +1,25 @@
+netcdf mlab.20050810 {
+dimensions:
+	time = UNLIMITED ; // (288 currently)
+variables:
+	int base_time ;
+	int samp_secs ;
+	float lat ;
+	float lon ;
+	float alt ;
+	int station ;
+	float time_offset(time) ;
+	float tdry(time) ;
+	float rh(time) ;
+	float pres(time) ;
+	float cpres0(time) ;
+	float dp(time) ;
+	float wdir(time) ;
+	float wspd(time) ;
+	float wmax(time) ;
+	float wsdev(time) ;
+	float wchill(time) ;
+	float raina(time) ;
+	float raina24(time) ;
+	float bat(time) ;
+}

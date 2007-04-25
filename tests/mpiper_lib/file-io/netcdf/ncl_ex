@@ -1,0 +1,32 @@
+netcdf example_1 {  // example of CDL notation for a netCDF dataset
+
+dimensions:         // dimension names and lengths are declared first
+        lat = 5, lon = 10, level = 4, time = unlimited;
+
+variables:          // variable types, names, shapes, attributes
+        float   temp(time,level,lat,lon);
+                    temp:long_name     = "temperature";
+                    temp:units         = "celsius";
+        float   rh(time,lat,lon);
+                    rh:long_name = "relative humidity";
+                    rh:valid_range = 0.0, 1.0;      // min and max
+        int     lat(lat), lon(lon), level(level);
+                    lat:units       = "degrees_north";
+                    lon:units       = "degrees_east";
+                    level:units     = "millibars";
+        short   time(time);
+                    time:units      = "hours since 1996-1-1";
+        // global attributes
+                    :source = "Fictional Model Output";
+
+data:                // optional data assignments
+        level   = 1000, 850, 700, 500;
+        lat     = 20, 30, 40, 50, 60;
+        lon     = -160,-140,-118,-96,-84,-52,-45,-35,-25,-15;
+        time    = 12;
+        rh      =.5,.2,.4,.2,.3,.2,.4,.5,.6,.7,
+                 .1,.3,.1,.1,.1,.1,.5,.7,.8,.8,
+                 .1,.2,.2,.2,.2,.5,.7,.8,.9,.9,
+                 .1,.2,.3,.3,.3,.3,.7,.8,.9,.9,
+                  0,.1,.2,.4,.4,.4,.4,.7,.9,.9;
+}

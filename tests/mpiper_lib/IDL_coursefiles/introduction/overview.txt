@@ -1,0 +1,11 @@
+<img src="./idl_wavy.png" align="right" border="0" alt="Get IDL!">
+
+<p>These are the class files for <i>Introduction to IDL</i>,
+the first in RSI's series of IDL courses.
+Instructions for downloading and installing these files
+are given in Chapter 1 of the <i>Introduction to IDL</i>
+course manual.
+The use of these files without the course manual is permitted,
+but not recommended.
+
+<p>Last update: October 2005, mp

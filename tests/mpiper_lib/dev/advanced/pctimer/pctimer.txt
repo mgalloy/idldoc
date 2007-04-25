@@ -1,0 +1,95 @@
+pctimer
+
+Place pctimer.dll and pctimer.dlm in the bin\bin.x86 directory under IDL.
+
+QueryPerformanceCounter:
+This function takes no arguments and returns the current count if a 
+performance counter is present in the system.
+
+QueryPerformanceFrequency:
+This function accepts no arguments and returns the number of counts
+per second if a performance counter was found otherwise zero is returned.
+
+
+QSYSTIME:
+This function accepts one argument, which is ignored.  This is
+done to make it easy to substitute SYSTIME(1) with QSYSTIME(1)
+in existing code that uses SYSTIME(1) to measure relatively
+small time intervals.
+
+Under Windows SYSTIME(1) normally has a resolution of just 1/100 of
+a second or more.  To find out the resolution of SYSTIME on a Windows
+machine use:
+
+IDL> t=[systime(1),systime(1)] & while (t[0] eq t[1]) do t[1]=systime(1) & print, t[1]-t[0]
+
+Note that QSYSTIME(1) should only be used to measure fairly short time
+intervals.  Use SYSTIME(1) for absolute time measurements such as 
+time of day measurements or timestamps.
+
+time_test.pro is a good example of a routine where it can be beneficial to change SYSTIME(1) to QSYSTIME(1).
+
+IDL> t=[systime(1),systime(1)] & while (t[0] eq t[1]) do t[1]=systime(1) & print, t[1]-t[0]
+     0.014999986
+
+Note that in this case the times are multiples of the resolution of SYSTIME:
+IDL> time_test3
+|TIME_TEST3 performance for IDL 6.0:
+|       OS_FAMILY=Windows, OS=Win32, ARCH=x86
+|	Thu Oct 02 16:34:53 2003
+       1    0.0150000 Empty For loop, 2000000 times
+       2    0.0319999 Call empty procedure (1 param) 100000 times
+       3    0.0310000 Add 200000 integer scalars and store
+       4    0.0310000 50000 scalar loops each of 5 ops, 2 =, 1 if)
+       5    0.0470001 Mult 512 by 512 byte by constant and store, 30 times
+       6     0.141000 Shift 512 by 512 byte and store, 300 times
+       7    0.0460000 Add constant to 512x512 byte array, 100 times
+       8    0.0630001 Add two 512 by 512 byte arrays and store, 80 times
+       9    0.0940000 Mult 512 by 512 floating by constant, 30 times
+      10     0.172000 Shift 512 x 512 array, 60 times
+      11     0.140000 Add two 512 by 512 floating images, 40 times
+      12    0.0310000 Generate 1000000 random numbers
+      13    0.0320001 Invert a 192^2 random matrix
+      14     0.000000 LU Decomposition of a 192^2 random matrix
+      15    0.0310000 Transpose 384^2 byte, FOR loops
+      16    0.0460000 Transpose 384^2 byte, row and column ops x 10
+      17     0.110000 Transpose 384^2 byte, TRANSPOSE function x 100
+      18    0.0320001 Log of 100000 numbers, FOR loop
+      19    0.0310000 Log of 100000 numbers, vector ops 10 times
+      20     0.187000 131072 point forward plus inverse FFT
+      21    0.0630001 Smooth 512 by 512 byte array, 5x5 boxcar, 10 times
+      22    0.0159999 Smooth 512 by 512 floating array, 5x5 boxcar, 5 times
+      23     0.125000 Write and read 512 by 512 byte array x 40
+      1.51600=Total Time,     0.0013413049=Geometric mean,      23 tests.
+
+
+Modified time_test.pro to replace systime(1) with qsystime(1).
+In this case the resolution is much better:
+IDL> time_test3
+|TIME_TEST3 performance for IDL 6.0:
+|       OS_FAMILY=Windows, OS=Win32, ARCH=x86
+|	Thu Oct 02 16:33:59 2003
+       1    0.0174835 Empty For loop, 2000000 times
+       2    0.0235695 Call empty procedure (1 param) 100000 times
+       3    0.0290990 Add 200000 integer scalars and store
+       4    0.0318621 50000 scalar loops each of 5 ops, 2 =, 1 if)
+       5    0.0621964 Mult 512 by 512 byte by constant and store, 30 times
+       6     0.140265 Shift 512 by 512 byte and store, 300 times
+       7    0.0957971 Add constant to 512x512 byte array, 100 times
+       8     0.130636 Add two 512 by 512 byte arrays and store, 80 times
+       9    0.0860238 Mult 512 by 512 floating by constant, 30 times
+      10     0.175763 Shift 512 x 512 array, 60 times
+      11     0.141358 Add two 512 by 512 floating images, 40 times
+      12    0.0290408 Generate 1000000 random numbers
+      13    0.0234851 Invert a 192^2 random matrix
+      14   0.00637424 LU Decomposition of a 192^2 random matrix
+      15    0.0339526 Transpose 384^2 byte, FOR loops
+      16    0.0493177 Transpose 384^2 byte, row and column ops x 10
+      17     0.120554 Transpose 384^2 byte, TRANSPOSE function x 100
+      18    0.0339752 Log of 100000 numbers, FOR loop
+      19    0.0375464 Log of 100000 numbers, vector ops 10 times
+      20     0.177641 131072 point forward plus inverse FFT
+      21    0.0626976 Smooth 512 by 512 byte array, 5x5 boxcar, 10 times
+      22    0.0146602 Smooth 512 by 512 floating array, 5x5 boxcar, 5 times
+      23     0.120418 Write and read 512 by 512 byte array x 40
+      1.64372=Total Time,      0.051095331=Geometric mean,      23 tests.e

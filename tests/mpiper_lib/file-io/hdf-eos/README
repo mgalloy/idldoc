@@ -1,0 +1,46 @@
+**********
+* README * ~/IDL/file-io/hdf-eos
+**********
+
+hdfeos_read_ex.pro - my omnibus HDF-EOS read example.
+hdfeos_write_ex.pro - my omnibus HDF-EOS write example.
+read_L12_swath_file.pro - AIRS file reader provided by JPL.
+mp_hdf-eos_notes.html - class notes in pretty markup.
+HDF-EOS_swath_file_organization.png - a picture for the class notes.
+
+display_AIRS_sfc_temp_ex.pro - simple example
+display_AIRS_temp_profile_ex.pro - simple example
+quick_write.pro - simple example, makes...
+sample_data.txt
+
+
+
+READ_L12_SWATH_FILE reads Level 1 or 2 granule data file in the
+HDF-EOS format and extracts information into a data buffer.
+
+IDL> file1 = '/home/mpiper/IDL/file-io/AIRS.2006.01.24.240.L2.RetStd.v4.0.9...'
+IDL> a = read_l12_swath_file(file1, 3, buffer)
+IDL> print, a ; 0 is success, -1 is failure
+       0 
+IDL> help, buffer, /str
+** Structure <8595134>, 110 tags, length=5161064, data length=5161055, refs=1:
+   LATITUDE        DOUBLE    Array[30, 45]
+   LONGITUDE       DOUBLE    Array[30, 45]
+   TIME            DOUBLE    Array[30, 45]
+   RETQAFLAG       UINT      Array[30, 45]
+   QUAL_MW_ONLY_TEMP_STRAT
+                   UINT      Array[30, 45]
+   QUAL_MW_ONLY_TEMP_TROPO
+                   UINT      Array[30, 45]
+<etc>
+
+IDL> ; temperature profile at one point, logarithmic vertical axis
+IDL> plot, buffer.tairstd[*,0,0], buffer.pressstd, xrange=[1e2,3e2], $
+IDL>    yrange=[1e3,1e-1], /ylog, xtitle='Temperature (K)', $
+IDL>    ytitle='Pressure (mb)'
+
+
+
+
+
+.

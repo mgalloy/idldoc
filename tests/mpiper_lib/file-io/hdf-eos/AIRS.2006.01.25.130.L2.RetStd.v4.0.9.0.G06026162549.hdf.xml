@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GranuleMetaDataFile>
+    <DTDVersion>1.0</DTDVersion>
+    <DataCenterId>GSFC</DataCenterId>
+    <GranuleURMetaData>
+        <GranuleUR>SC:AIRX2RET.003:70152843</GranuleUR>
+        <DbID>70152843</DbID>
+        <InsertTime>2006-01-26 21:51:25.926</InsertTime>
+        <LastUpdate>2006-01-26 21:51:25.926</LastUpdate>
+        <CollectionMetaData>
+            <ShortName>AIRX2RET</ShortName>
+            <VersionID>3</VersionID>
+        </CollectionMetaData>
+        <DataFiles>
+            <DataFileContainer>
+                <DistributedFileName>AIRS.2006.01.25.130.L2.RetStd.v4.0.9.0.G06026162549.hdf</DistributedFileName>
+                <FileSize>5387322</FileSize>
+                <ChecksumType>CKSUM</ChecksumType>
+                <Checksum>2295925051</Checksum>
+                <ChecksumOrigin>DataProvider</ChecksumOrigin>
+            </DataFileContainer>
+        </DataFiles>
+        <ECSDataGranule>
+            <SizeMBECSDataGranule>5.387322</SizeMBECSDataGranule>
+            <LocalGranuleID>AIRS.2006.01.25.130.L2.RetStd.v4.0.9.0.G06026162549.hdf</LocalGranuleID>
+            <DayNightFlag>Day</DayNightFlag>
+            <ProductionDateTime>2006-01-26 21:25:50.0</ProductionDateTime>
+            <LocalVersionID>Unspecified</LocalVersionID>
+        </ECSDataGranule>
+        <PGEVersionClass>
+            <PGEVersion>4.0.9.0</PGEVersion>
+        </PGEVersionClass>
+        <RangeDateTime>
+            <RangeEndingTime>13:05:25.0000000</RangeEndingTime>
+            <RangeEndingDate>2006-01-25</RangeEndingDate>
+            <RangeBeginningTime>12:59:25.0000000</RangeBeginningTime>
+            <RangeBeginningDate>2006-01-25</RangeBeginningDate>
+        </RangeDateTime>
+        <SpatialDomainContainer>
+            <HorizontalSpatialDomainContainer>
+                <ZoneIdentifierClass>
+                    <ZoneIdentifier>Other Grid System</ZoneIdentifier>
+                </ZoneIdentifierClass>
+                <BoundingRectangle>
+                    <WestBoundingCoordinate>-15.7209</WestBoundingCoordinate>
+                    <NorthBoundingCoordinate>53.8073</NorthBoundingCoordinate>
+                    <EastBoundingCoordinate>11.9437</EastBoundingCoordinate>
+                    <SouthBoundingCoordinate>29.9895</SouthBoundingCoordinate>
+                </BoundingRectangle>
+            </HorizontalSpatialDomainContainer>
+        </SpatialDomainContainer>
+        <OrbitCalculatedSpatialDomain>
+            <OrbitCalculatedSpatialDomainContainer>
+                <StartOrbitNumber>19839</StartOrbitNumber>
+                <StopOrbitNumber>19839</StopOrbitNumber>
+                <EquatorCrossingLongitude>178.011032104492</EquatorCrossingLongitude>
+                <EquatorCrossingDate>2006-01-25</EquatorCrossingDate>
+                <EquatorCrossingTime>13:40:13.0980060</EquatorCrossingTime>
+            </OrbitCalculatedSpatialDomainContainer>
+        </OrbitCalculatedSpatialDomain>
+        <MeasuredParameter>
+            <MeasuredParameterContainer>
+                <ParameterName>Water Vapor Mass Mixing Ratio</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Total Precipitable Water Vapor</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Total Ozone Burden</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Total Cloud Water</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Surface Skin Temperature</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Surface Air Temperature</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Spectral IR Surface Emissivities</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Spectral IR Surf Bidirect Reflectivity</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Ozone Volume Mixing Ratio</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>MW Surface Brightness</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>MW Emissivity</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Geopotential Heights</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Geopotential Height of Surface</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Effective Cloud Fraction</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Cloud Top Temperature</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Cloud Top Pressure</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+            <MeasuredParameterContainer>
+                <ParameterName>Atmospheric Temperature</ParameterName>
+                <QAStats>
+                    <QAPercentMissingData>0</QAPercentMissingData>
+                    <QAPercentCloudCover>44</QAPercentCloudCover>
+                </QAStats>
+                <QAFlags>
+                    <AutomaticQualityFlag>Passed</AutomaticQualityFlag>
+                    <AutomaticQualityFlagExplanation>Based on percentage of product that is good. Suspect used where true quality is not known.</AutomaticQualityFlagExplanation>
+                </QAFlags>
+            </MeasuredParameterContainer>
+        </MeasuredParameter>
+        <Platform>
+            <PlatformShortName>Aqua</PlatformShortName>
+            <Instrument>
+                <InstrumentShortName>HSB</InstrumentShortName>
+                <Sensor>
+                    <SensorShortName>HSB Channel 1</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>HSB Channel 2</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>HSB Channel 3</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>HSB Channel 4</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>HSB Channel 5</SensorShortName>
+                </Sensor>
+                <OperationMode>Normal</OperationMode>
+            </Instrument>
+            <Instrument>
+                <InstrumentShortName>AIRS</InstrumentShortName>
+                <Sensor>
+                    <SensorShortName>VNIR Channel 4</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>VNIR Channel 3</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>VNIR Channel 2</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>VNIR Channel 1</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M12 Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M11 Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M1a Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M1b Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M2a Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M2b Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M3 Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M4a Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M4b Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M4c Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M4d Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M5 Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M6 Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M7 Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M8 Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M9 Detector Array</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>M10 Detector Array</SensorShortName>
+                </Sensor>
+                <OperationMode>Normal</OperationMode>
+            </Instrument>
+            <Instrument>
+                <InstrumentShortName>AMSU-A</InstrumentShortName>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 15</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 14</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 13</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 12</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 11</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 10</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 9</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 8</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 7</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 6</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 5</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 4</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 3</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 2</SensorShortName>
+                </Sensor>
+                <Sensor>
+                    <SensorShortName>AMSU-A Channel 1</SensorShortName>
+                </Sensor>
+                <OperationMode>Normal</OperationMode>
+            </Instrument>
+        </Platform>
+        <PSAs>
+            <PSA>
+                <PSAName>NumRetInvalid</PSAName>
+                <PSAValue>5</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumNoAIRS</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadL1BAIRS</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>AIRSRunTag</PSAName>
+                <PSAValue>06026162549</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NodeType</PSAName>
+                <PSAValue>Ascending</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumProcessData</PSAName>
+                <PSAValue>1345</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadIRSceneChans</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadIRScans</PSAName>
+                <PSAValue>135</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadData</PSAName>
+                <PSAValue>5</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumClearVis</PSAName>
+                <PSAValue>90</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumFpe</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>MoonInViewMWCount</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumCloudyVis</PSAName>
+                <PSAValue>515</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>ScanLineCount</PSAName>
+                <PSAValue>45</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>VersionRetrieval</PSAName>
+                <PSAValue>4.0.9.0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>SP_STARTING_PATH</PSAName>
+                <PSAValue>61</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumLandSurface</PSAName>
+                <PSAValue>688</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumHighNoiseIRChans</PSAName>
+                <PSAValue>21</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadL1BAMSU</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>DCRCount</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadIRGainChans</PSAName>
+                <PSAValue>1</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>PercentHighContrast</PSAName>
+                <PSAValue>36.18</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadAIRSTelemChans</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>LocTimeGranuleCen</PSAName>
+                <PSAValue>770</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumClearMW</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumNoVis</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>SP_ENDING_ROW</PSAName>
+                <PSAValue>223</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumPrecipMW</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadIROffsetChans</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumSpecialData</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>AIRSGranuleNumber</PSAName>
+                <PSAValue>130</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadL1BHSB</PSAName>
+                <PSAValue>1350</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumNoTuning</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumVisInvalid</PSAName>
+                <PSAValue>969</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumNoAngCorr</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumMissingData</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>LonGranuleCen</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>PhotoCalibrationOn</PSAName>
+                <PSAValue>FALSE</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumGeoQA</PSAName>
+                <PSAValue>1</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumCloudIceMW</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadL1B</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumIRPopChans</PSAName>
+                <PSAValue>13</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumNoHSB</PSAName>
+                <PSAValue>1350</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>LatGranuleCen</PSAName>
+                <PSAValue>42</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumClearIR</PSAName>
+                <PSAValue>155</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumNoPsurfGuess</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumOceanSurface</PSAName>
+                <PSAValue>445</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumTotalData</PSAName>
+                <PSAValue>1350</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumNoAMSUA</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>ProductGenerationFacility</PSAName>
+                <PSAValue>G</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumMWStratIrRetOnly</PSAName>
+                <PSAValue>215</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>PopCount</PSAName>
+                <PSAValue>200</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>OrbitPath</PSAName>
+                <PSAValue>61</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>SP_STARTING_ROW</PSAName>
+                <PSAValue>208</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>AIRSMode</PSAName>
+                <PSAValue>Unknown</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumLowCloudVis</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadL1BVIS</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumBadIRSpecChans</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+            <PSA>
+                <PSAName>NumSunGlint</PSAName>
+                <PSAValue>0</PSAValue>
+            </PSA>
+        </PSAs>
+        <InputGranule>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI9_ANH.001:70083591</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI9_ANH.001:70075538</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI9_ANH.001:70065657</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI9_ANH.001:70056026</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI9_ANH.001:70039512</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI6_ANH.001:70083597</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI6_ANH.001:70075532</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI6_ANH.001:70065642</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI6_ANH.001:70056069</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI6_ANH.001:70039511</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI3_ANH.001:70083604</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI3_ANH.001:70075442</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI3_ANH.001:70065601</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI3_ANH.001:70056058</InputPointer>
+            <InputPointer>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:13:[GSF:DSSDSRV]:24:SC:AVI3_ANH.001:70039513</InputPointer>
+            <InputPointer>LGID:AIRIBRAD:003:AIRS.2006.01.25.130.L1B.AIRS_Rad.v4.0.9.0.G06026160144.hdf</InputPointer>
+            <InputPointer>LGID:AIRABRAD:003:AIRS.2006.01.25.131.L1B.AMSU_Rad.v4.0.9.0.G06026150244.hdf</InputPointer>
+            <InputPointer>LGID:AIRABRAD:003:AIRS.2006.01.25.130.L1B.AMSU_Rad.v4.0.9.0.G06026150237.hdf</InputPointer>
+            <InputPointer>LGID:AIRABRAD:003:AIRS.2006.01.25.129.L1B.AMSU_Rad.v4.0.9.0.G06026150238.hdf</InputPointer>
+            <InputPointer>LGID:AIRVBRAD:003:AIRS.2006.01.25.130.L1B.VIS_Rad.v4.0.9.0.G06026155952.hdf</InputPointer>
+            <InputPointer>L2.I.cleartest_coef.night.2002.08.30.v3.0.0.anc</InputPointer>
+            <InputPointer>L2.I.cldreg.eigvec_allang.2002.08.30.v8.0.1.anc</InputPointer>
+            <InputPointer>L2.I.cleartest_coef.day.2002.08.30.v3.0.0.anc</InputPointer>
+            <InputPointer>L2h.brtemp_tuning_coef.2002.07.20.v8.2.0.anc</InputPointer>
+            <InputPointer>L2h.angle_adj_coef.2002.05.04.v8.0.0.anc</InputPointer>
+            <InputPointer>L2.I.eigvec_allang.solang.nf.v2.0.0.anc</InputPointer>
+            <InputPointer>MOD11C3.A2001335.004.2003228190201.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001305.004.2003228185128.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001274.004.2003228184117.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001244.004.2003228183108.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001213.004.2003228182112.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001182.004.2003228181102.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001152.004.2003228180147.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001121.004.2003228175642.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001091.004.2003228174637.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001060.004.2003228173636.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001032.004.2003228172624.hdf</InputPointer>
+            <InputPointer>MOD11C3.A2001001.004.2003228171721.hdf</InputPointer>
+            <InputPointer>L2.I.freq.eigvec.2002.08.30.v8.0.1.anc</InputPointer>
+            <InputPointer>L2b.trcoef.airs.2002.08.30.v8.2.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Sep11to20_1993.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Oct11to20_1992.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Nov11to20_1992.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_May11to20_1993.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Mar11to20_1993.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Jun11to20_1993.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Jul11to20_1993.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Jan11to20_1993.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Feb11to20_1993.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Dec11to20_1992.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Aug11to20_1993.v1.1.0.anc</InputPointer>
+            <InputPointer>/AVHRR_NDVI_Apr11to20_1993.v1.1.0.anc</InputPointer>
+            <InputPointer>L2.solar_rad.2002.08.30.v8.0.0.anc</InputPointer>
+            <InputPointer>L2.cloud_avg.2002.08.30.v8.0.0.anc</InputPointer>
+            <InputPointer>L2.chan_prop.2003.11.19.v8.1.0.anc</InputPointer>
+            <InputPointer>L2.chan_prop.2003.01.10.v8.1.0.anc</InputPointer>
+            <InputPointer>L2.chan_prop.2002.10.22.v8.1.0.anc</InputPointer>
+            <InputPointer>L2.chan_prop.2002.09.17.v8.1.0.anc</InputPointer>
+            <InputPointer>L2.chan_prop.2002.08.30.v8.1.0.anc</InputPointer>
+            <InputPointer>L2.chan_prop.2002.07.09.v8.1.0.anc</InputPointer>
+            <InputPointer>L2.chan_prop.2002.05.04.v8.1.0.anc</InputPointer>
+            <InputPointer>L2.namelist.2002.05.04.v6.9.3.anc</InputPointer>
+            <InputPointer>L2.F.model_err.IAH.v8.2.1.anc</InputPointer>
+            <InputPointer>L2.I.rcoef.solang.v2.0.0.anc</InputPointer>
+            <InputPointer>L2.I.freq.tmp.ret.v2.0.0.anc</InputPointer>
+            <InputPointer>L2.I.freq.h2o.ret.v2.0.0.anc</InputPointer>
+            <InputPointer>L2.I.airs_covmtx.v2.0.0.anc</InputPointer>
+            <InputPointer>L2.M.weight.hsb.v1.0.0.anc</InputPointer>
+            <InputPointer>L2.trcoef.amsu.v4.0.1.anc</InputPointer>
+            <InputPointer>L2.F.error_est.v1.0.0.anc</InputPointer>
+            <InputPointer>L2h.ncep_clim.v1.0.0.anc</InputPointer>
+            <InputPointer>L2.trcoef.hsb.v4.0.0.anc</InputPointer>
+            <InputPointer>L2.M.cov100av.v1.0.0.anc</InputPointer>
+            <InputPointer>L2.I.peak_wgt.v2.0.0.anc</InputPointer>
+            <InputPointer>L2.F.coef_olr.v1.0.0.anc</InputPointer>
+            <InputPointer>L2.uars_clim.v1.0.3.anc</InputPointer>
+            <InputPointer>L2.I.ang_pc.v2.0.0.anc</InputPointer>
+            <InputPointer>L2.vis_nir.v2.0.0.anc</InputPointer>
+            <InputPointer>L2.masuda.v2.0.0.anc</InputPointer>
+        </InputGranule>
+    </GranuleURMetaData>
+</GranuleMetaDataFile>
+

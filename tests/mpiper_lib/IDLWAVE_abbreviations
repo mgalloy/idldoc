@@ -1,0 +1,67 @@
+
+Template abbreviations:
+
+\pr PROCEDURE template
+\fu FUNCTION template
+\c CASE statement template
+\f FOR loop template
+\r REPEAT loop template
+\w WHILE loop template
+\i IF statement template
+\elif IF-ELSE statement template
+
+String abbreviations:
+
+\ap arg_present()
+\b begin
+\cb byte()
+\cc complex()
+\cd double()
+\cf float()
+\cl long()
+\co common
+\cs string()
+\cx fix()
+\e else
+\ec endcase
+\ee endelse
+\ef endfor
+\ei endif else if
+\el endif else
+\en endif
+\er endrep
+\es endswitch
+\ew endwhile
+\g goto,
+\h help,
+\ik if keyword_set() then
+\iap if arg_present() then
+\ine if n_elements() eq 0 then
+\inn if n_elements() ne 0 then
+\k keyword_set()
+\n n_elements()
+\np n_params()
+\oi on_ioerror,
+\or openr,
+\ou openu,
+\ow openw,
+\p print,
+\pt plot,
+\re read,
+\rf readf,
+\rt return
+\ru readu,
+\s size()
+\sc strcompress()
+\sl strlowcase()
+\sm strmid()
+\sn strlen()
+\sp strpos()
+\sr strtrim()
+\st strput()
+\su strupcase()
+\t then
+\u until
+\wc widget_control,
+\wi widget_info()
+\wu writeu,

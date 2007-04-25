@@ -1,0 +1,21 @@
+
+A UI Panel is a collection of user interface elements displayed in one
+or more tabs located on the right, left, or bottom edge of an iTool
+window. The UI panel interface makes it easy to attach a set of
+controls chosen by the iTool developer to the standard iTool
+interface.
+
+Five steps.
+<ol>
+<li> UI panel definition module
+<li> UI panel event handling module
+<li> UI panel callback
+<li> iTool launch routine that registers the UI panel
+<li> iTool class definition
+</ol>
+
+It seems like there is no way to "embed" an iTool in a standard IDL
+widget program. Instead, the widget program must be written from
+scratch in the iTools system, with a custom UI.
+
+

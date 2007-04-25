@@ -1,0 +1,15 @@
+<p>Here's another one.</p>
+
+<p>Culex_TargetTaskDL inherits from Culex_DistributedTaskDL which inherits TaskDL.</p>
+
+<pre>Parsing targettasks\culex_targettaskdl__define.pro...
+CATCH: Unexpected keyword cleanup stack found on return.
+Attempt to call undefined procedure/function: 'TASKDL__DEFINE'.</pre>
+
+<p>The problem here is that I'm subclassing from a class (TaskDL) that's defined in a DLM that I don't have on Windows, only Linux.</p>
+
+<p>This doesn't stop idldoc, though.  It keeps running after this message.</p>
+
+<p>Looks like an old CREATE_STRUCT message that I thought was fixed in
+6.2 is still popping up.  See CR 39897.</p>
+

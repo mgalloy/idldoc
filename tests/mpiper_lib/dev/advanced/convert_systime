@@ -1,0 +1,17 @@
+#!/bin/sh
+# Converts calls to SYSTIME to calls to MANUAL_TIMER.
+# Mark Piper, 2005
+
+if [ $# -eq 0 ]; then
+    echo 1>&2 Usage: convert_systime file1 file2...
+    exit 1
+fi
+
+while [ $# -ge 1 ]; do
+    echo convert_systime: converting $1
+    sed -e 's/systime/manual_timer/g' -e 's/\/seconds/1/g' $1 > $1.1
+    mv $1.1 $1
+    shift
+done
+
+exit 0

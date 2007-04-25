@@ -1,0 +1,78 @@
+ <p> Only comments in between ;+ and ;- markers (as the first non-whitespace
+ items on their lines) before a routine are parsed by IDLdoc.  Text (including
+ HTML code) is simply copied verbatim to the IDLdoc HTML file until the first
+ tag is encountered.
+
+ <p> Tags are prefixed by an '@' sign which also serves as a delimiter
+ between the content of the previous tag and its own content.  The parameters
+ to the tags are whitespace delimited.  Often tags will have a parameter or
+ two and then use the remainder of the tag content as a single parameter.
+ Once an '@' sign appears in an IDLdoc comment, all remaining comment is
+ interpreted as tags or contents of tags.
+
+ <p> Also, certain tags accept further attributes.  Attributes are enclosed in
+ curly braces {}.  For example, the param tag to comment positional parameters
+ of a routine, accepts the attributes "in", "out", "type=", and "optional".
+
+ <p> The below tags are processed by IDLdoc in headings for routines.  Note to
+ use an @ sign in a routine's comments, it must be escaped with a \ immediately
+ before the @.
+
+ <p>
+
+ <table width="100%" border="1" cellspacing="0" cellpadding="3">
+ <tr bgcolor="#DDDDDD"><td colspan="2"><b>Routine Tags</b></td></tr>
+
+ <tr><td width="100" align="right" valign="top">abstract</td><td>Indicates
+     the method is abstract (ie. the routine is not implemented)</td></tr>
+ <tr><td width="100" align="right" valign="top">author</td><td>Author of the
+     routine</td></tr>
+ <tr><td width="100" align="right" valign="top">bugs</td><td>Comment to
+     describing the known bugs for the routine</td></tr>
+ <tr><td width="100" align="right" valign="top">copyright</td><td>Copyright
+     information</td></tr>
+ <tr><td width="100" align="right" valign="top">examples</td><td>Example
+     code</td></tr>
+ <tr><td width="100" align="right" valign="top">field</td><td>Comments
+     for fields of a class defined in a file that ends in __DEFINE.PRO</td></tr>
+ <tr><td width="100" align="right" valign="top">file_comments</td><td>Comments
+     for the entire file.</td></tr>
+ <tr><td width="100" align="right" valign="top">hidden</td><td>Hides this
+     routine from IDLdoc</td></tr>
+ <tr><td width="100" align="right" valign="top">hidden_file</td><td>Hides the
+     file this routine is part of from IDLdoc</td></tr>
+ <tr><td width="100" align="right" valign="top">history</td><td>History of
+     modifcations of the routine</td></tr>
+ <tr><td width="100" align="right" valign="top">inherits</td><td>parent class
+     of the class (if class definition)</td></tr>
+ <tr><td width="100" align="right" valign="top">keyword</td><td>Keyword
+     parameter; attributes of this tag are {in}, {out}, {optional},
+     {type=name}, {default=value}, {private}, {required}</td></tr>
+ <tr><td width="100" align="right" valign="top">obsolete</td><td>Indicates
+     the routines is obsolete</td></tr>
+ <tr><td width="100" align="right" valign="top">param</td><td>Positional
+     parameter; attributes of this tag are {in}, {out}, {optional},
+     {type=name}, {default=value}, {private}, {required}</td></tr>
+ <tr><td width="100" align="right" valign="top">pre</td><td>Indicates a
+     pre-condition (requirement) for the routine to run</td></tr>
+ <tr><td width="100" align="right" valign="top">post</td><td>Indicates
+     a post-condition that should be true when the routine has finished
+     </td></tr>
+ <tr><td width="100" align="right" valign="top">private</td><td>Indicates the
+     routine is not intended to be called by users. Routines with this tag set
+     will be hidden if the USER keyword to IDLdoc is set.</td></tr>
+ <tr><td width="100" align="right" valign="top">private_file</td><td>Indicates the
+     file this routine is part of is not intended to be called by users of the file.
+     Routines with this tag set will be hidden if the USER keyword to IDLdoc is
+     set.</td></tr>
+ <tr><td width="100" align="right" valign="top">returns</td><td>Return
+     information for a function</td></tr>
+ <tr><td width="100" align="right" valign="top">requires</td><td>Version of
+     IDL required to run routine</td></tr>
+ <tr><td width="100" align="right" valign="top">restrictions</td><td>
+     Restrictions on the use of the routine</td></tr>
+ <tr><td width="100" align="right" valign="top">uses</td><td>Which non-RSI
+     IDL routines this routine needs</td></tr>
+ <tr><td width="100" align="right" valign="top">version</td><td>Current version of the
+     routine</td></tr>
+ </table>
