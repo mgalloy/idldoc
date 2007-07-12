@@ -1,0 +1,146 @@
+=====================
+IDLdoc 3 Requirements
+=====================
+
+The parsing front end will be completely redone.
+
+- Full IDL parser of code to give more info about it.
+- Linking via scoping names using restructured text's \`name\` notation
+- The format of the comments (IDL, IDLdoc, or rst) and markup (verbatim,
+  rst) notation is indicated in each file by::
+
+	  ; docformat = 'format markup' 
+	  
+- Format and markup defaults can be set through keywords to IDLDOC routine.
+	
+
+Plan
+----
+
+#. Create library packages:
+    - collection package with hashtable, list (done)
+    - text markup processor
+    - IDL parser
+    - structure/object template (done)
+#. Create index/lookup repository object
+#. Create system object
+#. Write frontend
+
+
+Examples
+--------
+
+Here is a restructured text example::
+
+  ; docformat = 'rst'
+
+  ;+
+  ; These are the comments about the my_routine routine. It is *very* cool.
+  ; 
+  ; :returns: comment about what this returns
+  ;
+  ; :params:
+  ;   param1 {in}{required}{type=numeric}
+  ;     comment about param1
+  ;   param2 {in}{optional}{type=float}{default=0.0}
+  ;     comment about param2
+  ; 
+  ; :keywords:
+  ;   keyword1 {in}{optional}{type=boolean}
+  ;     comment about keyword1
+  ; 
+  ; :uses: 
+  ;   `some_other_routine`, `some_other_routine.param1`, `MGSomeClass`, 
+  ;   `MGSomeClass::method1`, and `MGSomeClass::method1.param1`
+  ;-
+  function my_routine, param1, param2, keyword1=key1
+	...
+  end
+
+An example of the old IDLdoc style with restructured text markup::
+
+  ; docformat = 'IDLdoc rst'
+
+  ;+
+  ; These are the comments about the my_routine routine. It is very *cool*.
+  ; 
+  ; @returns comment abot what this returns
+  ; @param param1 {in}{required}{type=numeric} comment about param1
+  ; @param param2 {in}{optional}{type=float}{default=0.0} comment about param2
+  ; @keyword1 {in}{optional}{type=boolean} comment about keyword1
+  ;
+  ; @uses `some_other_routine`, `some_other_routine.param1`, `MGSomeClass`, 
+  ;   `MGSomeClass::method1`, and `MGSomeClass::method1.param1`
+  ;-
+  function my_routine, param1, param2, keyword1=key1
+	...
+  end
+
+An example of the old IDLdoc style with content copied verbatim::
+  
+  ; docformat = 'IDLdoc verbatim'
+
+  ;+
+  ; These are the comments about the my_routine routine. It is very
+  ; <bold>cool</bold>.
+  ; 
+  ; @returns comment abot what this returns
+  ; @param param1 {in}{required}{type=numeric} comment about param1
+  ; @param param2 {in}{optional}{type=float}{default=0.0} comment about param2
+  ; @keyword1 {in}{optional}{type=boolean} comment about keyword1
+  ;
+  ; @uses some_other_routine, some_other_routine.param1, MGSomeClass, 
+  ;   MGSomeClass::method1, and param1 keyword of MGSomeClass::method1
+  ;-
+  function my_routine, param1, param2, keyword1=key1
+	...
+  end
+
+An example of the tradition IDL template with restructured text markup::
+
+  ; docformat = 'IDL rst'
+  
+  ;+
+  ; NAME:
+  ;   my_routine
+  ;
+  ; PURPOSE:
+  ;   These are the comments about the my_routine routine. It is very *cool*.
+  ; 
+  ; INPUTS:
+  ;   param1: comment about param1
+  ; 
+  ; OPTIONAL INPUTS:
+  ;   param2: comment about param2
+  ;
+  ; KEYWORD PARAMETERS:
+  ;   keyword1: comment about keyword1
+  ;-
+  function my_routine, param1, param2, keyword1=key1
+	...
+  end
+
+An example of the traditional IDL template with text markup copied verbatim::
+
+  ; docformat = 'IDL verbatim'
+  
+  ;+
+  ; NAME:
+  ;   my_routine
+  ;
+  ; PURPOSE:
+  ;   These are the comments about the my_routine routine. It is very 
+  ;   <bold>cool</bold>.
+  ; 
+  ; INPUTS:
+  ;   param1: comment about param1
+  ; 
+  ; OPTIONAL INPUTS:
+  ;   param2: comment about param2
+  ;
+  ; KEYWORD PARAMETERS:
+  ;   keyword1: comment about keyword1
+  ;-
+  function my_routine, param1, param2, keyword1=key1
+	...
+  end
