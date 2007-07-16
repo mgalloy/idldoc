@@ -79,8 +79,8 @@ end
 ;          developers)
 ; @keyword is_private {out}{optional}{type=boolean}
 ;          set to indicate that this argument is private (hidden from users)
-; @keyword comments {out}{optional}{type=object}
-;          MGcoArrayList of comments for this argument
+; @keyword comments {out}{optional}{type=strarr}
+;          text node hierarchy
 ;-
 pro doctreeargument::getProperty, routine=routine, name=name, $
     is_first=isFirst, is_keyword=isKeyword, is_optional=isOptional, $
@@ -101,7 +101,7 @@ pro doctreeargument::getProperty, routine=routine, name=name, $
   if (arg_present(defaultValue)) then defaultValue = self.defaultValue      
   if (arg_present(isHidden)) then isHidden = self.isHidden      
   if (arg_present(isPrivate)) then isPrivate = self.isPrivate      
-  if (arg_present(comments)) then comments = self.comments      
+  if (arg_present(comments)) then comments = self.comments
 end
 
 
@@ -129,8 +129,8 @@ end
 ;          developers)
 ; @keyword is_private {in}{optional}{type=boolean}
 ;          set to indicate that this argument is private (hidden from users)
-; @keyword comments {in}{optional}{type=string/strarr}
-;          string or string array of comments for this argument
+; @keyword comments {in}{optional}{type=object}
+;          text node hierarchy
 ;-
 pro doctreeargument::setProperty, is_first=isFirst, is_keyword=isKeyword, $
     is_optional=isOptional, is_required=isRequired, is_input=isInput, $
@@ -148,9 +148,7 @@ pro doctreeargument::setProperty, is_first=isFirst, is_keyword=isKeyword, $
   if (n_elements(defaultValue) gt 0) then self.defaultValue = defaultValue
   if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
   if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
-  if (n_elements(comments) gt 0) then begin
-    self.comments->add, comments
-  endif
+  if (n_elements(comments) gt 0) then self.comments = comments
 end
 
 
@@ -177,9 +175,6 @@ function doctreeargument::init, routine, name
   self.routine = routine
   self.name = name
   
-  ; list of strings
-  self.comments = obj_new('MGcoArrayList', type=7)
-  
   return, 1
 end
 
@@ -201,7 +196,7 @@ end
 ; @field isHidden indicates that this argument is hidden (hidden from users and
 ;        developers)
 ; @field isPrivate indicates that this argument is private (hidden from users)
-; @field comments MGcoArrayList of comments for this argument
+; @field comments text node hierarchy
 ;-
 pro doctreeargument__define
   compile_opt strictarr

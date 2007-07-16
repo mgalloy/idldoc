@@ -4,6 +4,8 @@ pro doctreefile__define
   define = { DOCtreeFile, $
              directory: obj_new(), $
              name: '', $
+             hasMainLevel: 0B, $
+             isBatch: 0B, $
              routines: obj_new() $
            }
 end
