@@ -1,3 +1,5 @@
+; docformat = 'rst'
+
 pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction
   compile_opt strictarr
   
@@ -10,13 +12,14 @@ end
 ;+
 ; Define instance variables for routine class. 
 ;
-; @field file file object containing this routine
-; @field name string name of this routine
-; @field isFunction true if this routine is a function
-; @field isMethod true if this routine is a method of a class
-; @field parameters list of parameter objects
-; @field keywords list of keyword objects
-; @field comments tree node hierarchy
+; :Fields:
+;    `file` file object containing this routine
+;    `name` string name of this routine
+;    `isFunction` true if this routine is a function
+;    `isMethod` true if this routine is a method of a class
+;    `parameters` list of parameter objects
+;    `keywords` list of keyword objects
+;    `comments` tree node hierarchy
 ;-
 pro doctreeroutine__define
   compile_opt strictarr

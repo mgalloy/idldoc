@@ -1,12 +1,51 @@
+; docformat = 'rst'
+
+;+
+; Argument class representing a positional parameter or keyword for a routine. 
+; 
+; :Properties:
+;    `routine` : out, type=object
+;       DOCtreeRoutine object that contains this argument
+;    `name` : out, type=string
+;       name of the routine
+;    `is_first` : in, out, type=boolean
+;       set to indicate that this argument is the first of its parent routine
+;    `is_keyword` : in, out, type=boolean
+;       set to indicate that this argument is a keyword
+;    `is_optional` : in, out, type=boolean
+;       set to indicate that this argument is optional
+;    `is_required` : in, out, type=boolean
+;       set to indicate that this argument is required
+;    `is_input` : in, out, type=boolean
+;       set to indicate that this argument is an input
+;    `is_output` : in, out, type=boolean
+;       set to indicate that this arugment is an output
+;    `type` : in, out, type=string
+;       string indicating the IDL variable type of the argument
+;    `default_value` : in, out, type=string
+;       string indicating the default value if this argument is not present
+;    `is_hidden` : in, out, type=boolean
+;       set to indicate that this argument is hidden (hidden from users and
+;       developers)
+;    `is_private` : in, out, type=boolean
+;       set to indicate that this argument is private (hidden from users)
+;    `comments` : in, out, type=strarr
+;       text node hierarchy
+;-
+
 ;+
 ; The getVariable method is required for objects passed as an input to a
 ; template.
 ;
-; @returns value or -1L if variable name not found
-; @param name {in}{required}{type=string}
-;        name of variable (case insensitive)
-; @keyword found {out}{optional}{type=boolean}
-;          pass a named variable to get whether the variable was found
+; :Returns: value or -1L if variable name not found
+;
+; :Params:
+;    `name` : in, required, type=string
+;       name of variable (case insensitive)
+; 
+; :Keywords: 
+;    `found` : out, optional, type=boolean
+;       pass a named variable to get whether the variable was found
 ;-
 function doctreeargument::getVariable, name, found=found
   compile_opt strictarr
@@ -53,34 +92,6 @@ end
 
 ;+
 ; Set properties of the argument.
-; 
-; @keyword routine {out}{optional}{type=object}
-;          DOCtreeRoutine object that contains this argument
-; @keyword name {out}{optional}{type=string}
-;          name of the routine
-; @keyword is_first {out}{optional}{type=boolean}
-;          set to indicate that this argument is the first of its parent routine
-; @keyword is_keyword {out}{optional}{type=boolean}
-;          set to indicate that this argument is a keyword
-; @keyword is_optional {out}{optional}{type=boolean}
-;          set to indicate that this argument is optional
-; @keyword is_required {out}{optional}{type=boolean}
-;          set to indicate that this argument is required
-; @keyword is_input {out}{optional}{type=boolean}
-;          set to indicate that this argument is an input
-; @keyword is_output {out}{optional}{type=boolean}
-;          set to indicate that this arugment is an output
-; @keyword type {out}{optional}{type=string}
-;          string indicating the IDL variable type of the argument
-; @keyword default_value {out}{optional}{type=string}
-;          string indicating the default value if this argument is not present
-; @keyword is_hidden {out}{optional}{type=boolean}
-;          set to indicate that this argument is hidden (hidden from users and
-;          developers)
-; @keyword is_private {out}{optional}{type=boolean}
-;          set to indicate that this argument is private (hidden from users)
-; @keyword comments {out}{optional}{type=strarr}
-;          text node hierarchy
 ;-
 pro doctreeargument::getProperty, routine=routine, name=name, $
     is_first=isFirst, is_keyword=isKeyword, is_optional=isOptional, $
@@ -107,30 +118,6 @@ end
 
 ;+
 ; Set properties of the argument.
-; 
-; @keyword is_first {in}{optional}{type=boolean}
-;          set to indicate that this argument is the first of its parent routine
-; @keyword is_keyword {in}{optional}{type=boolean}
-;          set to indicate that this argument is a keyword
-; @keyword is_optional {in}{optional}{type=boolean}
-;          set to indicate that this argument is optional
-; @keyword is_required {in}{optional}{type=boolean}
-;          set to indicate that this argument is required
-; @keyword is_input {in}{optional}{type=boolean}
-;          set to indicate that this argument is an input
-; @keyword is_output {in}{optional}{type=boolean}
-;          set to indicate that this arugment is an output
-; @keyword type {in}{optional}{type=string}
-;          string indicating the IDL variable type of the argument
-; @keyword default_value {in}{optional}{type=string}
-;          string indicating the default value if this argument is not present
-; @keyword is_hidden {in}{optional}{type=boolean}
-;          set to indicate that this argument is hidden (hidden from users and
-;          developers)
-; @keyword is_private {in}{optional}{type=boolean}
-;          set to indicate that this argument is private (hidden from users)
-; @keyword comments {in}{optional}{type=object}
-;          text node hierarchy
 ;-
 pro doctreeargument::setProperty, is_first=isFirst, is_keyword=isKeyword, $
     is_optional=isOptional, is_required=isRequired, is_input=isInput, $
@@ -165,9 +152,10 @@ end
 ;+
 ; Create an argument: positional parameter or keyword.
 ; 
-; @returns 1 for success, 0 for failure
-; @param routine {in}{required}{type=object}
-;        DOCtreeRoutine object
+; :Returns: 1 for success, 0 for failure
+; :Params: 
+;    `routine` : in, required, type=object
+;       DOCtreeRoutine object
 ;-
 function doctreeargument::init, routine, name
   compile_opt strictarr
@@ -182,21 +170,22 @@ end
 ;+
 ; Define the instance variables.
 ;
-; @field routine DOCtreeRoutine object that contains this argument
-; @field name name of the argument
-; @field isFirst indicates that this argument is the first of its parent routine
-; @field isKeyword indicates that this argument is a keyword
-; @field isOptional indicates that this argument is optional
-; @field isRequired indicates that this argument is required
-; @field isInput indicates that this argument is an input
-; @field isOutput indicates that this arugment is an output
-; @field type string indicating the IDL variable type of the argument
-; @field defaultValue string indicating the default value if this argument is 
-;        not present
-; @field isHidden indicates that this argument is hidden (hidden from users and
-;        developers)
-; @field isPrivate indicates that this argument is private (hidden from users)
-; @field comments text node hierarchy
+; :Fields:
+;    `routine` DOCtreeRoutine object that contains this argument
+;    `name` name of the argument
+;    `isFirst` indicates that this argument is the first of its parent routine
+;    `isKeyword` indicates that this argument is a keyword
+;    `isOptional` indicates that this argument is optional
+;    `isRequired` indicates that this argument is required
+;    `isInput` indicates that this argument is an input
+;    `isOutput` indicates that this arugment is an output
+;    `type` string indicating the IDL variable type of the argument
+;    `defaultValue` string indicating the default value if this argument is 
+;       not present
+;    `isHidden` indicates that this argument is hidden (hidden from users and
+;       developers)
+;    `isPrivate` indicates that this argument is private (hidden from users)
+;    `comments` text node hierarchy
 ;-
 pro doctreeargument__define
   compile_opt strictarr

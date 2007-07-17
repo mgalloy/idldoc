@@ -1,3 +1,9 @@
+; docformat = 'rst'
+
+;+
+; Index containing all directories, files, routines, and arguments.
+;-
+
 ; need:
 ;   - a way to partition given a number of items per page
 ;   - a way to iterate through the results
@@ -5,9 +11,10 @@
 ;+
 ; Returns an array of first letters of the names of the items in the index.
 ;
-; @returns strarr
-; @keyword count {out}{optional}{type=long}
-;          number of first letters for items in the index
+; :Returns: strarr
+; :Keywords: 
+;    `count` : out, optional, type=long
+;       number of first letters for items in the index
 ;-
 function doctreeindex::getFirstLetters, count=count
   compile_opt strictarr
@@ -46,7 +53,7 @@ end
 ;+
 ; Create the index.
 ; 
-; @returns 1 for success, 0 for failure
+; :Returns: 1 for success, 0 for failure
 ;-
 function doctreeindex::init
   compile_opt strictarr
@@ -61,9 +68,10 @@ end
 ;+
 ; Define instance variables.
 ;
-; @field items hash table of strings -> objects (index names to DOCtree* 
-;        objects)
-; @field letters histogram of letter usage
+; :Fields:
+;    `items` hash table of strings -> objects (index names to DOCtree* 
+;       objects)
+;    `letters` histogram of letter usage
 ;-
 pro doctreeindex__define
   compile_opt strictarr

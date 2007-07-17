@@ -11,7 +11,7 @@ The parsing front end will be completely redone.
 
 	  ; docformat = 'format markup' 
 	  
-- Format and markup defaults can be set through keywords to IDLDOC routine.
+- Format and markup defaults can be set through keywords to the IDLDOC routine.
 	
 
 Plan
@@ -37,19 +37,19 @@ Here is a restructured text example::
   ;+
   ; These are the comments about the my_routine routine. It is *very* cool.
   ; 
-  ; :returns: comment about what this returns
+  ; :Returns: comment about what this returns
   ;
-  ; :params:
-  ;   param1 {in}{required}{type=numeric}
+  ; :Params:
+  ;   `param1` : in, required, type=numeric
   ;     comment about param1
-  ;   param2 {in}{optional}{type=float}{default=0.0}
+  ;   `param2` : in, optional, type=float, default=0.0
   ;     comment about param2
   ; 
-  ; :keywords:
-  ;   keyword1 {in}{optional}{type=boolean}
+  ; :Keywords:
+  ;   `keyword1` : in, optional, type=boolean
   ;     comment about keyword1
   ; 
-  ; :uses: 
+  ; :Uses: 
   ;   `some_other_routine`, `some_other_routine.param1`, `MGSomeClass`, 
   ;   `MGSomeClass::method1`, and `MGSomeClass::method1.param1`
   ;-
