@@ -1,35 +1,34 @@
-function docparprofileparser_ut::test_stripComments
+;+
+; Test the _checkDocformatLine method.
+;-
+function docparprofileparser_ut::test_checkDocformatLine
   compile_opt strictarr
   
-  filename = filepath('simple_example.pro', subdir=['unit_tests', 'examples'], $
-                      root=self.root)  
-                      
-  nLines = file_lines(filename)
-  all = strarr(nLines)
-  openr, lun, filename, /get_lun
-  readf, lun, all
-  free_lun, lun
+  ; invalid docformat lines
+  invalid = ['; just a comment', $
+             'docformat = ''idl rst''']
+           
+  for l = 0L, n_elements(invalid) - 1L do begin
+    ;assert, self.parser->_checkDocformatLine(invalid[l]) eq 0B, $
+    ;        'accepted invalid docformat line: ' + invalid[l]
+  endfor
   
-  answer = [ '', $
-             '', $
-             '', $
-             'pro simple_example', $
-             '  compile_opt strictarr', $
-             '', $  
-             '  ', $
-             '  a = 5  ', $
-             '  b = ''; this is not a comment''   ', $
-             '  c = ''Eat at Joes''''s''   ',$
-             '  d = "; not a comment"   ', $
-             '  e = ";'';"   ', $
-             '  f = '';'''';";"'' + ";'';'';'';"   ', $ 
-             'end']
-  for line = 0L, nLines - 1L do begin
-    code = self.parser->_stripComments(all[line], empty=empty)
-    assert, code eq answer[line], $
-            'incorrect code on line ' + strtrim(line, 2) + ': ' + code 
-  endfor  
-  
+  ; valid docformat lines
+  valid = ['; docformat = ''idl rst''', $
+           '    ;   DOCformat   =  "idl rst"', $
+           '  ; Docformat  = "IDL Rst"' $
+          ]    
+
+  for l = 0L, n_elements(valid) - 1L do begin
+    format = ''
+    markup = ''
+    result = self.parser->_checkDocformatLine(valid[l], format=format, markup=markup)
+    assert, result eq 1B, $
+            'rejected valid docformat line: ' + valid[l]
+    assert, format eq 'idl', 'incorrect format on line: ' + valid[l]
+    assert, markup eq 'rst', 'incorrect markup on line: ' + valid[l]
+  endfor
+    
   return, 1
 end
 
@@ -48,6 +47,29 @@ function docparprofileparser_ut::test_simple_example
   
   file->getProperty, name=name
   assert, name eq 'simple_example.pro', 'incorrect name of file'
+  
+  obj_destroy, file
+  
+  return, 1
+end
+
+
+;+
+; Test for compound_example.pro.
+;-
+function docparprofileparser_ut::test_compound_example
+  compile_opt strictarr
+  
+  filename = filepath('compound_example.pro', subdir=['unit_tests', 'examples'], $
+                      root=self.root)            
+  file = self.parser->parse(filename, found=found)
+  
+  assert, found, 'compound_example.pro not found'
+  
+  file->getProperty, name=name
+  assert, name eq 'compound_example.pro', 'incorrect name of file'
+  
+  obj_destroy, file
   
   return, 1
 end

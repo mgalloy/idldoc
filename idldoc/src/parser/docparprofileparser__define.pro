@@ -6,64 +6,6 @@
 ;-
 
 ;+
-; Strip comments from a line of code. Returns the line of code without the 
-; comments.
-; 
-; :Returns: string
-;
-; :Params:
-;    `line` : in, required, type=string
-;       line of IDL code
-;
-; :Keywords:
-;    `empty` : out, optional, type=boolean
-;       true if there is no IDL statement on the line (only comments or 
-;       whitespace)
-;-
-function docparprofileparser::_stripComments, line, empty=empty
-  compile_opt strictarr
-  
-  semicolonPosition = strpos(line, ';')
-  while (semicolonPosition ne -1L) do begin
-    before = strmid(line, 0, semicolonPosition)
-    
-    beforeAsBytes = byte(before)
-    ; ' = 39B, " = 34B
-    ind = where(beforeAsBytes eq 34B or beforeAsBytes eq 39B, count)
-    
-    ; the semicolon is not in a string because there are no quotes
-    if (count eq 0) then return, before
-    
-    looking = 0B   ; true if already seen a quote and looking for a match
-    lookingFor = 0B   ; which quote to look for, either 39B or 34B
-    
-    ; loop through each ' or " before the current semicolon
-    for i = 0L, n_elements(ind) - 1L do begin
-      cur = beforeAsBytes[ind[i]]
-      
-      if (~looking) then begin
-        looking = 1B
-        lookingFor = cur
-        continue
-      endif 
-      
-      if (cur eq lookingFor) then looking = 0B
-    endfor
-    
-    ; strings before semicolon are completed so return everything before 
-    ; the semicolon
-    if (~looking) then return, before
-    
-    ; semicolon is inside a string, so go to the next semicolon
-    semicolonPosition = strpos(line, ';', semicolonPosition + 1L)
-  endwhile 
-  
-  ; no comments found
-  return, line
-end
-
-
-;+
 ; Return the contents of a .pro file.
 ;
 ; :Returns: strarr or -1L if empty file
@@ -115,9 +57,9 @@ function docparprofileparser::_checkDocformatLine, line, $
                                                    markup=markup
   compile_opt strictarr
 
+  ; if first non-whitespace character is not a semicolon, then not a comment 
+  ; and no docformat
   trimLine = strtrim(line, 2)
-  
-  ; if not a comment, then no docformat
   if (strmid(trimLine, 0, 1) ne ';') then return, 0B
   
   ; remove semicolon and any whitespace
@@ -130,7 +72,7 @@ function docparprofileparser::_checkDocformatLine, line, $
   trimLine = strtrim(strmid(trimLine, 10), 2)
   
   ; return negative if no =
-  if (strmid(trimLine, 0, 1) eq '=') then return, 0B
+  if (strmid(trimLine, 0, 1) ne '=') then return, 0B
   
   ; remove "=" and any whitespace
   trimLine = strtrim(strmid(trimLine, 1), 2)
@@ -139,7 +81,7 @@ function docparprofileparser::_checkDocformatLine, line, $
   first = strmid(trimLine, 0, 1)
   last = strmid(trimLine, 0, 1, /reverse_offset)
   if (first ne last) then return, 0B
-  if (first ne '''' or first ne '"') then return, 0B
+  if (first ne '''' and first ne '"') then return, 0B
   trimLine = strmid(trimLine, 1, strlen(trimLine) - 2L)
   
   ; set format and/or markup depending on the number of tokens
@@ -156,6 +98,80 @@ function docparprofileparser::_checkDocformatLine, line, $
       return, 1B
     end
   endcase
+end
+
+
+;+
+; Parse the lines of a .pro file, ripping out comments.
+;
+; :Params:
+;    `lines` : in, required, type=strarr
+;       text of .pro file
+;    `file` : in, required, type=object
+;       file tree object
+;
+; :Keywords:
+;    `format` : in, optional, type=string, default=self.format
+;       format of comments 
+;    `markup` : in, optional, type=string, default=self.markup
+;       markup format for comments
+;-
+pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
+  compile_opt strictarr, logical_predicate
+  
+  insideComment = 0B
+  justFinishedComment = 0L
+  codeLevel = 0L
+  currentComments = obj_new('MGcoArrayList', type=7)
+  
+  tokenizer = obj_new('DOCparProFileTokenizer', lines)
+  
+  endVariants = ['end', 'endif', 'endelse', 'endcase', 'endswitch', 'endfor', $
+                 'endwhile', 'endrep']
+                 
+  while (tokenizer->hasNext()) do begin
+    ; determine if line has: ;+, ;-, pro/function, begin, end*
+    command = tokenizer->next()
+    
+    if (strmid(command, 0, 2) eq ';-' && insideComment) then begin
+      insideComment = 0B
+      justFinishedComment = 2L
+    endif    
+    if (strmid(command, 0, 2) eq '; ' && codeLevel eq 0L && insideComment) then begin
+      currentComments->add, strmid(command, 2)
+    endif
+    if (strmid(command, 0, 2) eq ';+') then insideComment = 1B
+    
+    tokens = strsplit(command, /extract, count=nTokens)
+    if (nTokens eq 0) then continue
+    
+    ; if ends with begin then codeLevel++
+    if (strlowcase(tokens[nTokens - 1L]) eq 'begin' && ~insideComment) then codeLevel++
+    
+    ; if starts with end* then codeLevel--
+    ind = where(strlowcase(tokens[0]) eq endVariants, nEndsFound)
+    if (nEndsFound gt 0) then codeLevel--
+    
+    ; if starts with pro or function  then codeLevel++
+    if (strlowcase(tokens[0]) eq 'pro' $
+        || strlowcase(tokens[0]) eq 'function') then begin
+      codeLevel++
+      routine = obj_new('DOCtreeRoutine')
+      file->addRoutine, routine
+      ; TODO: parse arguments and add to routine object
+      if (currentComments->count() gt 0) then begin
+        ; TODO: parse and add comments to routine 
+        currentComments->remove, /all
+      endif
+    endif else if (justFinishedComment eq 1 && currentComments->count() gt 0) then begin
+      ; TODO: associate comments with file
+      currentComments->remove, /all
+    endif
+    
+    justFinishedComment--
+  endwhile
+  
+  obj_destroy, [tokenizer, currentComments]
 end
 
 
@@ -191,9 +207,8 @@ function docparprofileparser::parse, filename, found=found
                                           format=format, $ 
                                           markup=markup)
   
-  ; check for file comments
-  ; go through each routine
-  ; check if main-level program present
+  ; parse lines of file
+  self->_parseLines, lines, file, format=format, markup=markup
   
   ; return independent file
   return, file
