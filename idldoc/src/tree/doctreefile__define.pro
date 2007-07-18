@@ -4,16 +4,31 @@
 ; This class represents a .pro file.
 ; 
 ; :Properties:
-;    `name` basename of filename
+;    `name` : in, out, type=string
+;       basename of filename
+;    `is_batch` : in, out, type=boolean
+;       true if the file is a batch file
 ;-
 
 ;+
 ; Get properties.
 ;-
-pro doctreefile::getProperty, name=name
+pro doctreefile::getProperty, name=name, is_batch=isBatch
   compile_opt strictarr
   
   if (arg_present(name)) then name = self.name
+  if (arg_present(isBatch)) then name = self.isBatch  
+end
+
+
+;+
+; Set properties.
+;-
+pro doctreefile::setProperty, name=name, is_batch=isBatch
+  compile_opt strictarr
+  
+  if (n_elements(name) eq 0) then self.name = name
+  if (n_elements(isBatch) eq 0) then self.isBatch = isBatch
 end
 
 
