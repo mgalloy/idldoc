@@ -4,32 +4,32 @@
 ; Argument class representing a positional parameter or keyword for a routine. 
 ; 
 ; :Properties:
-;    `routine` : out, type=object
+;    `routine` : get, type=object
 ;       DOCtreeRoutine object that contains this argument
-;    `name` : out, type=string
+;    `name` : get, type=string
 ;       name of the routine
-;    `is_first` : in, out, type=boolean
+;    `is_first` : get, set, type=boolean
 ;       set to indicate that this argument is the first of its parent routine
-;    `is_keyword` : in, out, type=boolean
+;    `is_keyword` : get, set, type=boolean
 ;       set to indicate that this argument is a keyword
-;    `is_optional` : in, out, type=boolean
+;    `is_optional` : get, set, type=boolean
 ;       set to indicate that this argument is optional
-;    `is_required` : in, out, type=boolean
+;    `is_required` : get, set, type=boolean
 ;       set to indicate that this argument is required
-;    `is_input` : in, out, type=boolean
+;    `is_input` : get, set, type=boolean
 ;       set to indicate that this argument is an input
-;    `is_output` : in, out, type=boolean
+;    `is_output` : get, set, type=boolean
 ;       set to indicate that this arugment is an output
-;    `type` : in, out, type=string
+;    `type` : get, set, type=string
 ;       string indicating the IDL variable type of the argument
-;    `default_value` : in, out, type=string
+;    `default_value` : get, set, type=string
 ;       string indicating the default value if this argument is not present
-;    `is_hidden` : in, out, type=boolean
+;    `is_hidden` : get, set, type=boolean
 ;       set to indicate that this argument is hidden (hidden from users and
 ;       developers)
-;    `is_private` : in, out, type=boolean
+;    `is_private` : get, set, type=boolean
 ;       set to indicate that this argument is private (hidden from users)
-;    `comments` : in, out, type=strarr
+;    `comments` : get, set, type=strarr
 ;       text node hierarchy
 ;-
 

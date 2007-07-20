@@ -4,13 +4,13 @@
 ; This class represents a .pro file.
 ; 
 ; :Properties:
-;    `name` : in, out, type=string
+;    `name` : get, set, type=string
 ;       basename of filename
-;    `has_main_level` : in, out, type=boolean
+;    `has_main_level` : get, set, type=boolean
 ;       true if the file has a main-level program at the end
-;    `is_batch` : in, out, type=boolean
+;    `is_batch` : get, set, type=boolean
 ;       true if the file is a batch file
-;    `comments` : in, out, type=object
+;    `comments` : get, set, type=object
 ;       text tree hierarchy for file level comments
 ;-
 

@@ -2,7 +2,10 @@
 
 ;+ 
 ; Parser for .pro files: files containing routines, main-level programs, and 
-; batch files. Only one file parser should be created for all .pro files.
+; batch files. This parser is responsible for finding comments (but not parsing 
+; them) and parsing IDL code.
+;
+; Only one file parser should be created for all .pro files.
 ;-
 
 ;+
