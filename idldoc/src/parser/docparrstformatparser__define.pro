@@ -26,11 +26,11 @@ pro docparrstformatparser::_handleTag, tag, lines, routine=routine, file=file, $
   compile_opt strictarr
   
   case strlowcase(tag) of
-  'abstract' :
-  'keywords' :
-  'params' :
-  'returns' :
-  else :
+    'abstract' :
+    'keywords' :
+    'params' :
+    'returns' :
+    else :
   endcase
 end
 
@@ -50,11 +50,12 @@ end
 ;       markup parser object
 ;-
 pro docparrstformatparser::parse, lines, routine=routine, file=file, $
-                                     markup_parser=markupParser
+                                  markup_parser=markupParser
   compile_opt strictarr
   
   ; look for "tags"
 end
+
 
 ;+
 ; Define instance variables.
