@@ -23,10 +23,11 @@
 ;    `markup_parser` : in, required, type=object
 ;       markup parser object
 ;-
-pro docparformatparser::parse, lines, routine=routine, file=file, $
-                               markup_parser=markupParser
+function docparformatparser::parse, lines, routine=routine, file=file, $
+                                    markup_parser=markupParser
   compile_opt strictarr
   
+  ; TODO: implement this
 end
 
 

@@ -20,7 +20,7 @@
 ;       markup parser object
 ;-
 pro docparidlformatparser::parse, lines, routine=routine, file=file, $
-                                     markup_parser=markupParser
+                                  markup_parser=markupParser
   compile_opt strictarr
   
   ; TODO: implement this

@@ -8,6 +8,7 @@
 ; Only one file parser should be created for all .pro files.
 ;-
 
+
 ;+
 ; Return the contents of a .pro file.
 ;
@@ -185,6 +186,9 @@ end
 ; :Params:
 ;    `filename` : in, required, type=string
 ;       absolute path to .pro file to be parsed
+; :Keywords:
+;    `found` : out, optional, type=boolean
+;       returns 1 if filename found, 0 otherwise
 ;-
 function docparprofileparser::parse, filename, found=found
   compile_opt strictarr

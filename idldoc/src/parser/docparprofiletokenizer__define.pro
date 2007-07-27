@@ -5,16 +5,15 @@
 ; commands on one line).
 ;-
 
+
 ;+
 ; Strip comments from a line of code. Returns the line of code without the 
 ; comments.
 ; 
 ; :Returns: string
-;
 ; :Params:
 ;    `line` : in, required, type=string
 ;       line of IDL code
-;
 ; :Keywords:
 ;    `empty` : out, optional, type=boolean
 ;       true if there is no IDL statement on the line (only comments or 

@@ -25,6 +25,7 @@ pro docparrstformatparser::_handleTag, tag, lines, routine=routine, file=file, $
                                        markup_parser=markupParser
   compile_opt strictarr
   
+  ; TODO: implement this
   case strlowcase(tag) of
     'abstract' :
     'keywords' :
@@ -53,6 +54,7 @@ pro docparrstformatparser::parse, lines, routine=routine, file=file, $
                                   markup_parser=markupParser
   compile_opt strictarr
   
+  ; TODO: implement this
   ; look for "tags"
 end
 
