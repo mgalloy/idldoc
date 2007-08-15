@@ -94,6 +94,7 @@ function docparprofileparser::_checkDocformatLine, line, $
     0 : return, 0B
     1 : begin
       format = strlowcase(tokens[0])
+      markup = format eq 'rst' ? 'rst' : 'verbatim'
       return, 1B
     end
     else : begin
@@ -141,7 +142,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       insideComment = 0B
       justFinishedComment = 2L
     endif    
-    if (strmid(command, 0, 2) eq '; ' && codeLevel eq 0L && insideComment) then begin
+    if (strmid(command, 0, 2) eq ';' && codeLevel eq 0L && insideComment) then begin
       currentComments->add, strmid(command, 2)
     endif
     if (strmid(command, 0, 2) eq ';+') then insideComment = 1B
@@ -149,20 +150,25 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     tokens = strsplit(command, /extract, count=nTokens)
     if (nTokens eq 0) then continue
     
+    firstToken = strlowcase(tokens[0])
+    
     ; if ends with begin then codeLevel++
     if (strlowcase(tokens[nTokens - 1L]) eq 'begin' && ~insideComment) then codeLevel++
     
     ; if starts with end* then codeLevel--
-    ind = where(strlowcase(tokens[0]) eq endVariants, nEndsFound)
+    ind = where(firstToken eq endVariants, nEndsFound)
     if (nEndsFound gt 0) then codeLevel--
     
-    ; if starts with pro or function  then codeLevel++
-    if (strlowcase(tokens[0]) eq 'pro' $
-        || strlowcase(tokens[0]) eq 'function') then begin
+    ; if starts with pro or function then codeLevel++
+    if (firstToken eq 'pro' || firstToken eq 'function') then begin
       codeLevel++
+      insideComment = 0B
+      
       routine = obj_new('DOCtreeRoutine')
       file->addRoutine, routine
+      
       ; TODO: parse arguments and add to routine object
+      
       if (currentComments->count() gt 0) then begin
         ; TODO: parse and add comments to routine 
         currentComments->remove, /all
@@ -174,6 +180,16 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     
     justFinishedComment--
   endwhile
+  
+  ; if the codeLevel ends up negative then the file had a main-level program
+  file->setProperty, has_main_level=codeLevel lt 0
+  
+  ; if there are not routines in the file and it doesn't have a main-level
+  ; program, then it's batch file
+  file->getProperty, n_routines=nRoutines, has_main_level=hasMainLevel
+  if (~hasMainLevel && nRoutines eq 0) then begin
+    file->setProperty, is_batch=1B
+  endif
   
   obj_destroy, [tokenizer, currentComments]
 end

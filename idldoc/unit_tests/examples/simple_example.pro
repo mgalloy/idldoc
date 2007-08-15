@@ -1,3 +1,5 @@
+; docformat = 'rst'
+
 ;+
 ; This is an example of an IDL .pro file to be documented.
 ;-

@@ -12,19 +12,23 @@
 ;       true if the file is a batch file
 ;    `comments` : get, set, type=object
 ;       text tree hierarchy for file level comments
+;    `n_routines` : get, type=integer
+;       number of routines in the file
 ;-
 
 ;+
 ; Get properties.
 ;-
 pro doctreefile::getProperty, name=name, has_main_level=hasMainLevel, $
-                              is_batch=isBatch, comments=comments
+                              is_batch=isBatch, comments=comments, $
+                              n_routines=nRoutines
   compile_opt strictarr
   
   if (arg_present(name)) then name = self.name
   if (arg_present(hasMainLevel)) then hasMainLevel = self.hasMainLevel
-  if (arg_present(isBatch)) then name = self.isBatch  
+  if (arg_present(isBatch)) then isBatch = self.isBatch  
   if (arg_present(comments)) then comments = self.comments
+  if (arg_present(nRoutines)) then nRoutines = self.routines->count()
 end
 
 
@@ -35,10 +39,10 @@ pro doctreefile::setProperty, name=name, has_main_level=hasMainLevel, $
                               is_batch=isBatch, comments=comments
   compile_opt strictarr
   
-  if (n_elements(name) eq 0) then self.name = name
-  if (n_elements(hasMainLevel) eq 0) then self.hasMainLevel = hasMainLevel
-  if (n_elements(isBatch) eq 0) then self.isBatch = isBatch
-  if (n_elements(comments) eq 0) then self.comments = comments
+  if (n_elements(name) ne 0) then self.name = name
+  if (n_elements(hasMainLevel) ne 0) then self.hasMainLevel = hasMainLevel
+  if (n_elements(isBatch) ne 0) then self.isBatch = isBatch
+  if (n_elements(comments) ne 0) then self.comments = comments
 end
 
 ;+
