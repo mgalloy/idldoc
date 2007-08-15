@@ -54,7 +54,8 @@ end
 ;    `format`: out, optional, type=string
 ;       format string: either idldoc, idl, or rst
 ;    `markup` : out, optional, type=string 
-;       markup string: either verbatim or rst
+;       markup string: either verbatim or rst; defaults to rst if format is
+;       rst or verbatim if markup is specified but not rst 
 ;-
 function docparprofileparser::_checkDocformatLine, line, $
                                                    format=format, $
@@ -107,6 +108,31 @@ end
 
 
 ;+
+; Parse comments for a routine and update the information for the routine.
+; 
+; :Params:
+;    `routine` : in, required, type=object
+;       routine tree object
+;    `comments` : in, required, type=strarr
+;       comments to parse
+;
+; :Keywords:
+;    `format` : in, required, type=string
+;       format type: idldoc, idl, rst
+;    `markup` : in, required, type=string
+;       markup type: verbatim, rst
+;-
+pro docparprofileparser::_parseRoutineComments, routine, comments, $
+                                                format=format, markup=markup
+  compile_opt strictarr
+  
+  ; TODO: implement this
+  ; lookup correct format and markup parsers
+  ; call format parser's "parse" method
+end
+
+
+;+
 ; Parse the lines of a .pro file, ripping out comments.
 ;
 ; :Params:
@@ -116,9 +142,9 @@ end
 ;       file tree object
 ;
 ; :Keywords:
-;    `format` : in, optional, type=string, default=self.format
+;    `format` : in, required, type=string, default=self.format
 ;       format of comments 
-;    `markup` : in, optional, type=string, default=self.markup
+;    `markup` : in, required, type=string, default=self.markup
 ;       markup format for comments
 ;-
 pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
@@ -174,8 +200,9 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       ; TODO: parse arguments and add to routine object
       
       if (currentComments->count() gt 0) then begin
-        ; currentComments->get(/all)
-        ; TODO: parse and add comments to routine 
+        self->_parseRoutineComments, routine, currentComments->get(/all), $
+                                     format=format, markup=markup
+        
         currentComments->remove, /all
       endif
     endif else if (justFinishedComment eq 1 && currentComments->count() gt 0) then begin
