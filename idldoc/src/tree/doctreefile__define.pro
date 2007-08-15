@@ -1,7 +1,7 @@
 ; docformat = 'rst'
 
 ;+
-; This class represents a .pro file.
+; This class represents a information about .pro file.
 ; 
 ; :Properties:
 ;    `name` : get, set, type=string
@@ -15,6 +15,7 @@
 ;    `n_routines` : get, type=integer
 ;       number of routines in the file
 ;-
+
 
 ;+
 ; Get properties.
@@ -44,6 +45,7 @@ pro doctreefile::setProperty, name=name, has_main_level=hasMainLevel, $
   if (n_elements(isBatch) ne 0) then self.isBatch = isBatch
   if (n_elements(comments) ne 0) then self.comments = comments
 end
+
 
 ;+
 ; Add a routine to the list of routines in the file.

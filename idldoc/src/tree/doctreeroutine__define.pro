@@ -4,31 +4,57 @@
 ; :Properties:
 ;    `file` : get, type=object
 ;       file tree object
-;    `name` : get, type=string
+;    `name` : set, get, type=string
 ;       name of the routine
-;    `isFunction` : get, set, type=boolean
+;    `is_function` : get, set, type=boolean
 ;       1 if a function, 0 if not 
+;    `is_method` : get, set, type=boolean
+;       1 if a method, 0 if not
 ;-
 
 ;+
 ; Get properties.
 ;-
-pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction
+pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
+                                 is_method=isMethod
   compile_opt strictarr
   
   if (arg_present(file)) then file = self.file
   if (arg_present(name)) then name = self.name
   if (arg_present(isFunction)) then isFunction = self.isFunction
+  if (arg_present(isMethod)) then isMethod = self.isMethod
 end
 
 
 ;+
 ; Set properties.
 ;-
-pro doctreeroutine::setProperty, is_Function=isFunction
+pro doctreeroutine::setProperty, name=name, is_Function=isFunction, $
+                                 is_method=isMethod
   compile_opt strictarr
   
+  if (n_elements(name) gt 0) then self.name = name
   if (n_elements(isFunction) gt 0) then self.isFunction = isFunction
+  if (n_elements(isMethod) gt 0) then self.isMethod = isMethod
+end
+
+
+;+
+; Create a routine object.
+;
+; :Returns:
+;    1 for success, 0 for failure
+;
+; :Params:
+;    `file` : in, required, type=object
+;       file tree object
+;-
+function doctreeroutine::init, file
+  compile_opt strictarr
+  
+  self.file = file
+  
+  return, 1B
 end
 
 

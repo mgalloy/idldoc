@@ -142,7 +142,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       insideComment = 0B
       justFinishedComment = 2L
     endif    
-    if (strmid(command, 0, 2) eq ';' && codeLevel eq 0L && insideComment) then begin
+    if (strmid(command, 0, 1) eq ';' && codeLevel eq 0L && insideComment) then begin
       currentComments->add, strmid(command, 2)
     endif
     if (strmid(command, 0, 2) eq ';+') then insideComment = 1B
@@ -152,7 +152,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     
     firstToken = strlowcase(tokens[0])
     
-    ; if ends with begin then codeLevel++
+    ; if ends with "begin" then codeLevel++
     if (strlowcase(tokens[nTokens - 1L]) eq 'begin' && ~insideComment) then codeLevel++
     
     ; if starts with end* then codeLevel--
@@ -164,12 +164,17 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       codeLevel++
       insideComment = 0B
       
-      routine = obj_new('DOCtreeRoutine')
+      routine = obj_new('DOCtreeRoutine', file)
       file->addRoutine, routine
       
+      routine->setProperty, name=tokens[1]
+      if (strpos(tokens[1], '::') ne -1) then routine->setProperty, is_method=1B
+      if (firstToken eq 'function') then routine->setProperty, is_function=1B   
+         
       ; TODO: parse arguments and add to routine object
       
       if (currentComments->count() gt 0) then begin
+        ; currentComments->get(/all)
         ; TODO: parse and add comments to routine 
         currentComments->remove, /all
       endif
@@ -229,6 +234,10 @@ function docparprofileparser::parse, filename, found=found
   foundFormat = self->_checkDocformatLine(lines[0], $ 
                                           format=format, $ 
                                           markup=markup)
+  if (~foundFormat) then begin
+    format = self.format
+    markup = self.markup
+  endif
   
   ; parse lines of file
   self->_parseLines, lines, file, format=format, markup=markup

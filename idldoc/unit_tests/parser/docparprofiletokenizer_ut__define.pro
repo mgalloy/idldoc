@@ -6,7 +6,8 @@ function docparprofiletokenizer_ut::test_stripComments
   
   tokenizer = obj_new('DOCparProFileTokenizer', '')
   
-  filename = filepath('simple_example.pro', subdir=['unit_tests', 'examples'], $
+  filename = filepath('simple_example.pro', $
+                      subdir=['unit_tests', 'examples'], $
                       root=self.root)  
                       
   nLines = file_lines(filename)
@@ -16,6 +17,8 @@ function docparprofiletokenizer_ut::test_stripComments
   free_lun, lun
   
   answer = [ '', $
+             '', $
+             '', $
              '', $
              '', $
              'pro simple_example', $
