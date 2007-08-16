@@ -65,8 +65,10 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    `root` root directory of hierarchy to document; full path ending with slash
-;    `nWarnings` number of warning messages printed
+;    `root` 
+;       root directory of hierarchy to document; full path ending with slash
+;    `nWarnings` 
+;       number of warning messages printed
 ;-
 pro doc_system__define
   compile_opt strictarr

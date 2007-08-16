@@ -140,6 +140,7 @@ end
 ;       routine tree object
 ;    `cmd` : in, required, type=string
 ;       header line (comments stripped already)
+;
 ; :Keywords:
 ;    `first_line` : in, optional, type=boolean
 ;       set if this is the first line of the routine header
@@ -159,10 +160,12 @@ pro docparprofileparser::_parseHeader, routine, cmd, first_line=firstLine
       name = (strsplit(argument, '=', /extract))[0]
       keyword = obj_new('DOCtreeArgument', routine, name=name, /is_keyword)
       routine->addKeyword, keyword
+      print, 'Adding keyword ' + name
     endif else begin
       ; add param as a positional parameter to routine
       param = obj_new('DOCtreeArgument', routine, name=argument)
       routine->addParameter, param
+      print, 'Adding param ' + argument
     endelse
   endfor
 end
@@ -225,8 +228,11 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     
     ; process keywords/params in continued header
     if (headerContinued) then begin
+      ; comment lines in the header automatically continue the header
+      if (strmid(command, 0, 1) eq ';') then continue
+      
       self->_parseHeader, routine, command
-    
+      
       ; might be continued more
       headerContinued = lastToken eq '$' ? 1B : 0B
     endif
@@ -282,6 +288,7 @@ end
 ; :Params:
 ;    `filename` : in, required, type=string
 ;       absolute path to .pro file to be parsed
+;
 ; :Keywords:
 ;    `found` : out, optional, type=boolean
 ;       returns 1 if filename found, 0 otherwise
@@ -345,8 +352,10 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    `format` format of the comments
-;    `markup` markup style of the comments
+;    `format`
+;       format of the comments
+;    `markup` 
+;       markup style of the comments
 ;-
 pro docparprofileparser__define
   compile_opt strictarr

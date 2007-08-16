@@ -22,5 +22,6 @@ end
 ; More comments.
 ;-
 pro compound_example, param1, param2, $
+                      ;commented_keyword=ckw, $
                       keyword1=kw
 end

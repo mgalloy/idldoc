@@ -29,8 +29,8 @@ end
 ; Define instance variables.
 ; 
 ; Fields:
-;    `root` absolute path to the root of the IDLdoc project (with trailing 
-;       slash)
+;    `root` 
+;       absolute path to the root of the IDLdoc project (with trailing slash)
 ;-
 pro docuttestcase__define
   compile_opt strictarr
