@@ -85,6 +85,9 @@ function docparprofileparser_ut::test_compound_example
   file->getProperty, is_batch=isBatch
   assert, ~isBatch, 'batch file incorrectly found'
       
+  ; TODO: assert has two routines with correct names, is_function
+  ; TODO: assert the routines have the correct param, keywords   
+   
   obj_destroy, file
   
   return, 1

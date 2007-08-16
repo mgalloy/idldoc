@@ -6,11 +6,11 @@
 ; :Properties:
 ;    `routine` : get, type=object
 ;       DOCtreeRoutine object that contains this argument
-;    `name` : get, type=string
+;    `name` : init, get, type=string
 ;       name of the routine
 ;    `is_first` : get, set, type=boolean
 ;       set to indicate that this argument is the first of its parent routine
-;    `is_keyword` : get, set, type=boolean
+;    `is_keyword` : init, get, set, type=boolean
 ;       set to indicate that this argument is a keyword
 ;    `is_optional` : get, set, type=boolean
 ;       set to indicate that this argument is optional
@@ -157,11 +157,12 @@ end
 ;    `routine` : in, required, type=object
 ;       DOCtreeRoutine object
 ;-
-function doctreeargument::init, routine, name
+function doctreeargument::init, routine, name=name, is_keyword=isKeyword
   compile_opt strictarr
   
   self.routine = routine
-  self.name = name
+  if (n_elements(name) gt 0) then self.name = name
+  self.isKeyword = keyword_set(isKeyword)
   
   return, 1
 end

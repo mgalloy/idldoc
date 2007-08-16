@@ -133,6 +133,42 @@ end
 
 
 ;+
+; Parse arguments/keywords of the routine header. 
+; 
+; :Params:
+;    `routine` : in, required, type=object
+;       routine tree object
+;    `cmd` : in, required, type=string
+;       header line (comments stripped already)
+; :Keywords:
+;    `first_line` : in, optional, type=boolean
+;       set if this is the first line of the routine header
+;-
+pro docparprofileparser::_parseHeader, routine, cmd, first_line=firstLine
+  compile_opt strictarr
+  
+  args = strsplit(cmd, ',', /extract, count=nargs)
+  
+  ; skip first "argument" if this is the first line (the "pro routine_name" 
+  ; part)
+  for a = keyword_set(firstLine), nargs - 1L do begin
+    argument = strcompress(args[a], /remove_all)
+    if (argument eq '$') then continue
+    if (strpos(argument, '=') ne -1) then begin
+      ; add text before "=" as keyword to routine
+      name = (strsplit(argument, '=', /extract))[0]
+      keyword = obj_new('DOCtreeArgument', routine, name=name, /is_keyword)
+      routine->addKeyword, keyword
+    endif else begin
+      ; add param as a positional parameter to routine
+      param = obj_new('DOCtreeArgument', routine, name=argument)
+      routine->addParameter, param
+    endelse
+  endfor
+end
+
+
+;+
 ; Parse the lines of a .pro file, ripping out comments.
 ;
 ; :Params:
@@ -152,6 +188,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
   
   insideComment = 0B
   justFinishedComment = 0L
+  headerContinued = 0B
   codeLevel = 0L
   currentComments = obj_new('MGcoArrayList', type=7)
   
@@ -177,18 +214,29 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     if (nTokens eq 0) then continue
     
     firstToken = strlowcase(tokens[0])
+    lastToken = strlowcase(tokens[nTokens - 1L])
     
     ; if ends with "begin" then codeLevel++
-    if (strlowcase(tokens[nTokens - 1L]) eq 'begin' && ~insideComment) then codeLevel++
+    if (lastToken eq 'begin' && ~insideComment) then codeLevel++
     
     ; if starts with end* then codeLevel--
     ind = where(firstToken eq endVariants, nEndsFound)
     if (nEndsFound gt 0) then codeLevel--
     
+    ; process keywords/params in continued header
+    if (headerContinued) then begin
+      self->_parseHeader, routine, command
+    
+      ; might be continued more
+      headerContinued = lastToken eq '$' ? 1B : 0B
+    endif
+    
     ; if starts with pro or function then codeLevel++
     if (firstToken eq 'pro' || firstToken eq 'function') then begin
       codeLevel++
       insideComment = 0B
+      
+      if (lastToken eq '$') then headerContinued = 1B
       
       routine = obj_new('DOCtreeRoutine', file)
       file->addRoutine, routine
@@ -197,8 +245,8 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       if (strpos(tokens[1], '::') ne -1) then routine->setProperty, is_method=1B
       if (firstToken eq 'function') then routine->setProperty, is_function=1B   
          
-      ; TODO: parse arguments and add to routine object
-      
+      self->_parseHeader, routine, command, /first_line
+            
       if (currentComments->count() gt 0) then begin
         self->_parseRoutineComments, routine, currentComments->get(/all), $
                                      format=format, markup=markup

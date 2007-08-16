@@ -40,6 +40,44 @@ end
 
 
 ;+
+; Add a parameter to the list of parameters for this routine.
+; 
+; :Params:
+;    `param` : in, required, type=object
+;       argument tree object
+;-
+pro doctreeroutine::addParameter, param
+  compile_opt strictarr
+  
+  self.parameters->add, param
+end
+
+
+;+
+; Add a keyword to the list of keywords for this routine.
+; 
+; :Params:
+;    `keyword` : in, required, type=object
+;       argument tree object
+;-
+pro doctreeroutine::addKeyword, keyword
+  compile_opt strictarr
+  
+  self.keywords->add, keyword
+end
+
+
+;+
+; Free resources.
+;-
+pro doctreeroutine::cleanup
+  compile_opt strictarr
+  
+  obj_destroy, [self.parameters, self.keywords]
+end
+
+
+;+
 ; Create a routine object.
 ;
 ; :Returns:
@@ -53,6 +91,9 @@ function doctreeroutine::init, file
   compile_opt strictarr
   
   self.file = file
+  
+  self.parameters = obj_new('MGcoArrayList', type=11)
+  self.keywords = obj_new('MGcoArrayList', type=11)
   
   return, 1B
 end
