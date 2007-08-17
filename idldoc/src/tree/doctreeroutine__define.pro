@@ -10,19 +10,26 @@
 ;       1 if a function, 0 if not 
 ;    `is_method` : get, set, type=boolean
 ;       1 if a method, 0 if not
+;    `parameters` : get, type=object
+;       list object of positional parameter objects for routine
+;    `keywords` : get, type=object
+;       list object of keyword objects for routine
 ;-
 
 ;+
 ; Get properties.
 ;-
 pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
-                                 is_method=isMethod
+                                 is_method=isMethod, parameters=parameters, $
+                                 keywords=keywords
   compile_opt strictarr
   
   if (arg_present(file)) then file = self.file
   if (arg_present(name)) then name = self.name
   if (arg_present(isFunction)) then isFunction = self.isFunction
   if (arg_present(isMethod)) then isMethod = self.isMethod
+  if (arg_present(parameters)) then parameters = self.parameters
+  if (arg_present(keywords)) then keywords = self.keywords
 end
 
 

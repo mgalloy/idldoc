@@ -14,6 +14,8 @@
 ;       text tree hierarchy for file level comments
 ;    `n_routines` : get, type=integer
 ;       number of routines in the file
+;    `routines` : get, type=object
+;       list object containing routine objects in file
 ;-
 
 
@@ -22,7 +24,7 @@
 ;-
 pro doctreefile::getProperty, name=name, has_main_level=hasMainLevel, $
                               is_batch=isBatch, comments=comments, $
-                              n_routines=nRoutines
+                              n_routines=nRoutines, routines=routines
   compile_opt strictarr
   
   if (arg_present(name)) then name = self.name
@@ -30,6 +32,7 @@ pro doctreefile::getProperty, name=name, has_main_level=hasMainLevel, $
   if (arg_present(isBatch)) then isBatch = self.isBatch  
   if (arg_present(comments)) then comments = self.comments
   if (arg_present(nRoutines)) then nRoutines = self.routines->count()
+  if (arg_present(routines)) then routines = self.routines
 end
 
 

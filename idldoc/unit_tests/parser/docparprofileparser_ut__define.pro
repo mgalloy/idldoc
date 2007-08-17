@@ -85,9 +85,62 @@ function docparprofileparser_ut::test_compound_example
   file->getProperty, is_batch=isBatch
   assert, ~isBatch, 'batch file incorrectly found'
       
-  ; TODO: assert has two routines with correct names, is_function
-  ; TODO: assert the routines have the correct param, keywords   
-   
+  file->getProperty, routines=routines
+  routine1 = routines->get(position=0)
+  routine1->getProperty, name=name
+  
+  assert, name eq 'compound_example_helper', $
+          'incorrect name for compound_example_helper'
+          
+  routine1->getProperty, parameters=parameters, keywords=keywords
+  assert, parameters->count() eq 2, $
+          'incorrect number of params for compound_example_helper'
+  assert, keywords->count() eq 1, $
+          'incorrect number of keywords for compound_example_helper'
+  
+  paramNames = ['hparam1', 'hparam2']
+  for p = 0L, parameters->count() - 1L do begin
+    arg = parameters->get(position=p)
+    arg->getProperty, name=name
+    assert, name eq paramNames[p], $
+            'incorrect name "' + name + '" for parameter ' + paramNames[p]
+  endfor
+
+  keywordNames = ['hkeyword1']
+  for p = 0L, keywords->count() - 1L do begin
+    arg = keywords->get(position=p)
+    arg->getProperty, name=name
+    assert, name eq keywordNames[p], $
+            'incorrect name "' + name + '" for keyword ' + keywordNames[p]
+  endfor
+    
+  routine2 = routines->get(position=1)
+  routine2->getProperty, name=name
+
+  routine2->getProperty, parameters=parameters, keywords=keywords
+  assert, parameters->count() eq 2, $
+          'incorrect number of params for compound_example_helper'
+  assert, keywords->count() eq 1, $
+          'incorrect number of keywords for compound_example_helper'
+            
+  assert, name eq 'compound_example', 'incorrect name for compound_example'
+
+  paramNames = ['param1', 'param2']
+  for p = 0L, parameters->count() - 1L do begin
+    arg = parameters->get(position=p)
+    arg->getProperty, name=name
+    assert, name eq paramNames[p], $
+            'incorrect name "' + name + '" for parameter ' + paramNames[p]
+  endfor
+
+  keywordNames = ['keyword1']
+  for p = 0L, keywords->count() - 1L do begin
+    arg = keywords->get(position=p)
+    arg->getProperty, name=name
+    assert, name eq keywordNames[p], $
+            'incorrect name "' + name + '" for keyword ' + keywordNames[p]
+  endfor
+              
   obj_destroy, file
   
   return, 1

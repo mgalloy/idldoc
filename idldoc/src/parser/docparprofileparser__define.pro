@@ -160,12 +160,10 @@ pro docparprofileparser::_parseHeader, routine, cmd, first_line=firstLine
       name = (strsplit(argument, '=', /extract))[0]
       keyword = obj_new('DOCtreeArgument', routine, name=name, /is_keyword)
       routine->addKeyword, keyword
-      print, 'Adding keyword ' + name
     endif else begin
       ; add param as a positional parameter to routine
       param = obj_new('DOCtreeArgument', routine, name=argument)
       routine->addParameter, param
-      print, 'Adding param ' + argument
     endelse
   endfor
 end
@@ -247,7 +245,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       routine = obj_new('DOCtreeRoutine', file)
       file->addRoutine, routine
       
-      routine->setProperty, name=tokens[1]
+      routine->setProperty, name=(strsplit(tokens[1], ',', /extract))[0]
       if (strpos(tokens[1], '::') ne -1) then routine->setProperty, is_method=1B
       if (firstToken eq 'function') then routine->setProperty, is_function=1B   
          
