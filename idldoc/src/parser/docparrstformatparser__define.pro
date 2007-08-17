@@ -6,13 +6,14 @@
 
 
 ;+
-; Handles one tag.
+; Handles special field names ("tags").
 ; 
 ; :Params:
 ;    `tag` : in, required, type=string
 ;       rst tag, i.e. returns, params, keywords, etc.
 ;    `lines` : in, required, type=strarr
 ;       lines of raw text for that tag
+;
 ; :Keywords:
 ;    `routine` : in, required, type=object
 ;       routine tree object 
@@ -28,8 +29,10 @@ pro docparrstformatparser::_handleTag, tag, lines, routine=routine, file=file, $
   ; TODO: implement this
   case strlowcase(tag) of
     'abstract' :
+    'fields' :
     'keywords' :
     'params' :
+    'properties' :
     'returns' :
     else :
   endcase
