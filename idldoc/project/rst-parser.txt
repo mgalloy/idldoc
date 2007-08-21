@@ -1,0 +1,20 @@
+rst parser grammer
+
+draft of a grammer for the rest parser
+  #. make sure to handle EOL and BLANK very carefully
+  
+
+document:
+  END
+  block_list END
+  
+block_list:
+  block
+  block BLANK block_list
+  
+block:
+  paragraph
+  
+paragraph:
+  line
+  line EOL paragraph
