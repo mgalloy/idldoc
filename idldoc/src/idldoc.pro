@@ -1,5 +1,7 @@
+; docformat = 'rst'
+
 ;+
-; Document IDL code.
+; Generate documentation for IDL code.
 ;
 ; :Keywords:
 ;    `root` : in, required, type=string
@@ -14,6 +16,14 @@
 pro idldoc, root=root, output=output, $
             quiet=quiet, silent=silent
   compile_opt strictarr
+
+  error = 0L
+  catch, error
+  if (error ne 0L) then begin
+    catch, /cancel
+    message, !error_state.msg, /informational
+    return
+  endif
 
   cd, current=startDirectory
   

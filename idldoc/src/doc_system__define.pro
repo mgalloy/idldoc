@@ -1,3 +1,17 @@
+; docformat = 'rst'
+
+
+;+
+; Print out debugging information about the system object.
+;-
+pro doc_system::debug
+  compile_opt strictarr
+  
+  print, 'ROOT = ' + self.root
+  print, 'OUTPUT = ' + self.output
+end
+
+
 ;+
 ; Print error messages respecting /QUIET and /SILENT.
 ;
@@ -7,8 +21,9 @@
 ;-
 pro doc_system::error, msg
   compile_opt strictarr
+  on_error, 2
   
-  ; TODO: implement this
+  message, msg, /noname
 end
 
 
@@ -22,7 +37,7 @@ end
 pro doc_system::warning, msg
   compile_opt strictarr
   
-  if (~self.silent) then print, msg
+  if (~self.silent) then message, msg, /informational
   ++self.nWarnings
 end
 
@@ -38,6 +53,36 @@ pro doc_system::print, msg
   compile_opt strictarr
   
   if (~self.quiet || ~self.silent) then print, msg
+end
+
+
+;+
+; Build the tree of directories, files, routines, and parameters.
+;-
+pro doc_system::buildTree
+  compile_opt strictarr
+  
+  proFiles = file_search(self.root, '*.pro')
+  savFiles = file_search(self.root, '*.sav')
+  idldocFiles = file_search(self.root, '*.idldoc')
+
+  ; TODO: implement this
+end
+
+
+;+
+; Determine if the output directory can be written to.
+;
+; :Returns: error code (0 indicates no error)
+;-
+function doc_system::testOutput
+  compile_opt strictarr
+  
+  testfile = self.output + 'idldoc.test'
+  openw, lun, testfile, error=error, /get_lun
+  if (error eq 0L) then free_lun, lun
+  file_delete, testfile, /allow_nonexistent
+  return, error
 end
 
 
@@ -61,13 +106,13 @@ function doc_system::init, root=root, output=output, $
   on_error, 2
   
   if (n_elements(root) eq 0) then begin
-    message, 'ROOT must be defined'
+    self->error, 'ROOT keyword must be defined'
   endif else begin
-    self.root = file_expand_path(root) + path_sep()
+    self.root = file_search(root, /mark_directory)
   endelse
   
   if (n_elements(output) gt 0) then begin
-    self.output = file_expand_path(output) + path_sep()
+    self.output = file_search(output, /mark_directory)
   endif else begin
     self.output = self.root
   endelse
@@ -75,6 +120,13 @@ function doc_system::init, root=root, output=output, $
   self.quiet = keyword_set(quiet)
   self.silent = keyword_set(silent)
   
+  ; test output directory for write permission
+  outputError = self->testOutput()
+  if (outputError ne 0L) then self->error, 'unable to write to ' + self.output
+  
+  ; build tree of directories
+  self->buildTree
+    
   return, 1
 end
 
