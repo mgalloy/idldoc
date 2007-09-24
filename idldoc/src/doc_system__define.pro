@@ -8,6 +8,7 @@
 pro doc_system::error, msg
   compile_opt strictarr
   
+  ; TODO: implement this
 end
 
 
@@ -21,6 +22,7 @@ end
 pro doc_system::warning, msg
   compile_opt strictarr
   
+  if (~self.silent) then print, msg
   ++self.nWarnings
 end
 
@@ -35,7 +37,7 @@ end
 pro doc_system::print, msg
   compile_opt strictarr
   
-
+  if (~self.quiet || ~self.silent) then print, msg
 end
 
 
@@ -46,8 +48,15 @@ end
 ; :Keywords:
 ;    `root` : in, required, type=string
 ;       root of directory hierarchy to document
+;    `output` : in, optional, type=string
+;       directory to place output
+;    `quiet` : in, optional, type=boolean
+;       if set, don't print info or warning messages, only print errors
+;    `silent` : in, optional, type=boolean
+;       if set, don't print anything
 ;-
-function doc_system::init, root=root
+function doc_system::init, root=root, output=output, $
+                           quiet=quiet, silent=silent
   compile_opt strictarr
   on_error, 2
   
@@ -56,6 +65,15 @@ function doc_system::init, root=root
   endif else begin
     self.root = file_expand_path(root) + path_sep()
   endelse
+  
+  if (n_elements(output) gt 0) then begin
+    self.output = file_expand_path(output) + path_sep()
+  endif else begin
+    self.output = self.root
+  endelse
+  
+  self.quiet = keyword_set(quiet)
+  self.silent = keyword_set(silent)
   
   return, 1
 end
@@ -67,14 +85,23 @@ end
 ; :Fields:
 ;    `root` 
 ;       root directory of hierarchy to document; full path ending with slash
+;    `output`
+;       directory to place output
 ;    `nWarnings` 
 ;       number of warning messages printed
+;    `quiet`
+;       set to only print errors and warnings
+;    `silent`
+;       don't print anything
 ;-
 pro doc_system__define
   compile_opt strictarr
   
   define = { DOC_System, $
              root: '', $
-             nWarnings: 0L $             
+             output: '', $
+             nWarnings: 0L, $
+             quiet: 0B, $
+             silent: 0B $             
            }
 end
