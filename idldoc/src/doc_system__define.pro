@@ -62,10 +62,10 @@ end
 pro doc_system::buildTree
   compile_opt strictarr
   
-  proFiles = file_search(self.root, '*.pro')
-  savFiles = file_search(self.root, '*.sav')
-  idldocFiles = file_search(self.root, '*.idldoc')
-
+  proFiles = file_search(self.root, '*.pro', /test_regular)
+  savFiles = file_search(self.root, '*.sav', /test_regular)
+  idldocFiles = file_search(self.root, '*.idldoc', /test_regular)
+  
   ; TODO: implement this
 end
 
