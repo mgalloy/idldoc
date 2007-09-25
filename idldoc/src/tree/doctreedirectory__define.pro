@@ -57,7 +57,7 @@ function doctreedirectory::init, location=location, files=files, system=system
     extension = strmid(files[f], dotpos + 1L)
     case strlowcase(extension) of
       'pro': begin
-          file = obj_new('DOCtreeFile', $
+          file = obj_new('DOCtreeProFile', $
                          name=file_basename(files[f]), $
                          directory=self)
           self.proFiles->add, file

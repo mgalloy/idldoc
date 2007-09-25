@@ -22,7 +22,7 @@
 ;+
 ; Get properties.
 ;-
-pro doctreefile::getProperty, name=name, has_main_level=hasMainLevel, $
+pro doctreeprofile::getProperty, name=name, has_main_level=hasMainLevel, $
                               is_batch=isBatch, comments=comments, $
                               n_routines=nRoutines, routines=routines
   compile_opt strictarr
@@ -39,7 +39,7 @@ end
 ;+
 ; Set properties.
 ;-
-pro doctreefile::setProperty, name=name, has_main_level=hasMainLevel, $
+pro doctreeprofile::setProperty, name=name, has_main_level=hasMainLevel, $
                               is_batch=isBatch, comments=comments
   compile_opt strictarr
   
@@ -57,7 +57,7 @@ end
 ;    `routine` : in, required, type=object
 ;       routine object
 ;-
-pro doctreefile::addRoutine, routine
+pro doctreeprofile::addRoutine, routine
   compile_opt strictarr
   
   self.routines->add, routine
@@ -67,7 +67,7 @@ end
 ;+
 ; Free resources.
 ;-
-pro doctreefile::cleanup
+pro doctreeprofile::cleanup
   compile_opt strictarr
   
   obj_destroy, self.routines
@@ -82,7 +82,7 @@ end
 ;    `name` : in, required, type=string
 ;    `directory` : in, required, type=object
 ;-
-function doctreefile::init, name=name, directory=directory
+function doctreeprofile::init, name=name, directory=directory
   compile_opt strictarr
   
   self.name = name
@@ -101,10 +101,10 @@ end
 ;    `isBatch` true if the file is a batch file
 ;    `routines` list of routine objects
 ;-
-pro doctreefile__define
+pro doctreeprofile__define
   compile_opt strictarr
   
-  define = { DOCtreeFile, $
+  define = { DOCtreeProFile, $
              directory: obj_new(), $
              name: '', $
              hasMainLevel: 0B, $
