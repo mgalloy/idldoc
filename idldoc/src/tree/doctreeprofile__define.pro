@@ -23,8 +23,8 @@
 ; Get properties.
 ;-
 pro doctreeprofile::getProperty, name=name, has_main_level=hasMainLevel, $
-                              is_batch=isBatch, comments=comments, $
-                              n_routines=nRoutines, routines=routines
+                                 is_batch=isBatch, comments=comments, $
+                                 n_routines=nRoutines, routines=routines
   compile_opt strictarr
   
   if (arg_present(name)) then name = self.name
@@ -40,7 +40,7 @@ end
 ; Set properties.
 ;-
 pro doctreeprofile::setProperty, name=name, has_main_level=hasMainLevel, $
-                              is_batch=isBatch, comments=comments
+                                 is_batch=isBatch, comments=comments
   compile_opt strictarr
   
   if (n_elements(name) ne 0) then self.name = name
@@ -61,6 +61,13 @@ pro doctreeprofile::addRoutine, routine
   compile_opt strictarr
   
   self.routines->add, routine
+end
+
+
+pro doctreeprofile::generateOutput, outputRoot, directory
+  compile_opt strictarr
+  
+  print, '  Generating output for ' + self.name
 end
 
 

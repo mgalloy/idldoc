@@ -70,22 +70,26 @@ pro doc_system::parseTree
   ; quit if no files found
   if (nProFiles + nSavFiles + nIDLdocFiles eq 0) then return
   
-  ; add all the files together...
+  ; add all the files together
   allFiles = ['']
   if (nProFiles gt 0) then allFiles = [allFiles, proFiles]
   if (nSavFiles gt 0) then allFiles = [allFiles, savFiles]
   if (nIDLdocFiles gt 0) then allFiles = [allFiles, idldocFiles]
   allFiles = allFiles[1:*]
   
+  ; remove the common root location
   allFiles = strmid(allFiles, strlen(self.root))
   
+  ; get the unique directories
   dirs = file_dirname(allFiles, /mark_directory)
   uniqueDirIndices = uniq(dirs, sort(dirs))  
   
+  ; create the directory objects
   for d = 0L, n_elements(uniqueDirIndices) - 1L do begin
-     filesIndices = where(dirs eq dirs[uniqueDirIndices[d]])
+     location = dirs[uniqueDirIndices[d]]
+     filesIndices = where(dirs eq location)
      directory = obj_new('DOCtreeDirectory', $
-                         location=dirs[uniqueDirIndices[d]], $
+                         location=location, $
                          files=allFiles[filesIndices], $
                          system=self)
      self.directories->add, directory
@@ -99,14 +103,14 @@ end
 pro doc_system::generateOutput
   compile_opt strictarr
   
-  ; TODO: finish this
-  
   ; generate files per directory
   for d = 0L, self.directories->count() - 1L do begin
     directory = self.directories->get(position=d)
     directory->generateOutput, self.output
   endfor
   
+  ; TODO: finish this
+    
   ; generate index
   
   ; generate warnings page

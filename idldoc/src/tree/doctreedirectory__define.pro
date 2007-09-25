@@ -11,7 +11,21 @@ pro doctreedirectory::generateOutput, outputRoot
   print, 'Generating output for ' + self.location
   
   ; generate docs for each .pro/.sav/.idldoc file in directory
+  for f = 0L, self.proFiles->count() - 1L do begin
+    file = self.proFiles->get(position=f)
+    file->generateOutput, outputRoot, self.location
+  endfor
+
+  for f = 0L, self.savFiles->count() - 1L do begin
+    file = self.savFiles->get(position=f)
+    file->generateOutput, outputRoot, self.location
+  endfor
   
+  for f = 0L, self.idldocFiles->count() - 1L do begin
+    file = self.idldocFiles->get(position=f)
+    file->generateOutput, outputRoot, self.location
+  endfor
+      
   ; generate directory overview
   
   ; generate file listing
@@ -62,9 +76,18 @@ function doctreedirectory::init, location=location, files=files, system=system
                          directory=self)
           self.proFiles->add, file
         end
-      'sav':
-      'idldoc':
-      else:
+      'sav': begin
+          file = obj_new('DOCtreeSavFile', $
+                         name=file_basename(files[f]), $
+                         directory=self)
+          self.savFiles->add, file
+        end
+      'idldoc': begin
+          file = obj_new('DOCtreeIDLdocFile', $
+                         name=file_basename(files[f]), $
+                         directory=self)
+          self.idldocFiles->add, file
+        end                
     endcase
   endfor
   
