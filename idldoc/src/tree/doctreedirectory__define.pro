@@ -1,7 +1,11 @@
-pro doctreedirectory::getProperty, location=location
+pro doctreedirectory::getProperty, location=location, relative_root=relativeRoot
   compile_opt strictarr
   
   if (arg_present(location)) then location = self.location
+  if (arg_present(relativeRoot)) then begin
+    dummy = strsplit(self.location, path_sep(), count=nUps)
+    relativeRoot = strjoin(replicate('..' + path_sep(), nUps))
+  endif
 end
 
 
@@ -80,21 +84,21 @@ function doctreedirectory::init, location=location, files=files, system=system
     case strlowcase(extension) of
       'pro': begin
           file = obj_new('DOCtreeProFile', $
-                         name=file_basename(files[f]), $
+                         basename=file_basename(files[f]), $
                          directory=self, $
                          system=self.system)
           self.proFiles->add, file
         end
       'sav': begin
           file = obj_new('DOCtreeSavFile', $
-                         name=file_basename(files[f]), $
+                         basename=file_basename(files[f]), $
                          directory=self, $
                          system=self.system)
           self.savFiles->add, file
         end
       'idldoc': begin
           file = obj_new('DOCtreeIDLdocFile', $
-                         name=file_basename(files[f]), $
+                         basename=file_basename(files[f]), $
                          directory=self, $
                          self.system)
           self.idldocFiles->add, file

@@ -4,7 +4,7 @@
 ; This class represents a information about .pro file.
 ; 
 ; :Properties:
-;    `name` : get, set, type=string
+;    `basename` : get, set, type=string
 ;       basename of filename
 ;-
 
@@ -12,27 +12,26 @@
 ;+
 ; Get properties.
 ;-
-pro doctreeidldocfile::getProperty, name=name
+pro doctreeidldocfile::getProperty, basename=basename
   compile_opt strictarr
   
-  if (arg_present(name)) then name = self.name
+  if (arg_present(basename)) then basename = self.basename
 end
 
 
 ;+
 ; Set properties.
 ;-
-pro doctreeidldocfile::setProperty, name=name
+pro doctreeidldocfile::setProperty
   compile_opt strictarr
-  
-  if (n_elements(name) ne 0) then self.name = name
+
 end
 
 
 pro doctreeidldocfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
-  print, '  Generating output for .idldoc file ' + self.name
+  print, '  Generating output for .idldoc file ' + self.basename
 end
 
 
@@ -50,13 +49,15 @@ end
 ;
 ; :Returns: 1 for success, 0 for failure
 ; :Keywords:
-;    `name` : in, required, type=string
+;    `basename` : in, required, type=string
+;    
 ;    `directory` : in, required, type=object
 ;-
-function doctreeidldocfile::init, name=name, directory=directory, system=system
+function doctreeidldocfile::init, basename=basename, directory=directory, $
+                                  system=system
   compile_opt strictarr
   
-  self.name = name
+  self.basename = basename
   self.directory = directory
   self.system = system
   
@@ -67,7 +68,7 @@ end
 ;+
 ; :Fields:
 ;    `directory` directory tree object
-;    `name` basename of file
+;    `basename` basename of file
 ;    `hasMainLevel` true if the file has a main level program at the end
 ;    `isBatch` true if the file is a batch file
 ;    `routines` list of routine objects
@@ -78,6 +79,6 @@ pro doctreeidldocfile__define
   define = { DOCtreeIDLdocFile, $
              system: obj_new(), $
              directory: obj_new(), $
-             name: '' $
+             basename: '' $
            }
 end

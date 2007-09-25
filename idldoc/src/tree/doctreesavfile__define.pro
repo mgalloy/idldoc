@@ -25,40 +25,64 @@ function doctreesavfile::getVariable, name, found=found
   compile_opt strictarr
   
   found = 1B
-  case strlowcase(name) of
-    'description': begin
-        contents = self.savFile->contents()
-        return, contents.description
+  switch strlowcase(name) of
+    'basename' : return, self.basename
+    'relative_root' : begin
+        self.directory->getProperty, relative_root=relativeRoot
+        return, relativeRoot
       end
-    'type': begin
+    'creation_date': begin
         contents = self.savFile->contents()
-        return, contents.filetype
+        return, contents.date
+      end
+    'filename':
+    'description': 
+    'filetype': 
+    'user':
+    'host':
+    'arch': 
+    'os':   
+    'release': 
+    'n_common':
+    'n_var':
+    'n_sysvar':
+    'n_procedure':
+    'n_function':
+    'n_object_heapvar':
+    'n_pointer_heapvar':
+    'n_structdef': begin
+        contents = self.savFile->contents()
+        ind = where(strupcase(name) eq tag_names(contents))
+        return, contents.(ind[0])
       end
     else: begin
+        ; search in the system object if the variable is not found here
+        var = self.system->getVariable(name, found=found)
+        if (found) then return, var
+        
         found = 0B
         return, -1L
       end
-  endcase
+  endswitch
 end
 
 
 ;+
 ; Get properties.
 ;-
-pro doctreesavfile::getProperty, name=name
+pro doctreesavfile::getProperty, basename=basename
   compile_opt strictarr
   
-  if (arg_present(name)) then name = self.name
+  if (arg_present(basename)) then name = self.basename
 end
 
 
 ;+
 ; Set properties.
 ;-
-pro doctreesavfile::setProperty, name=name
+pro doctreesavfile::setProperty
   compile_opt strictarr
   
-  if (n_elements(name) ne 0) then self.name = name
 end
 
 
@@ -66,7 +90,7 @@ pro doctreesavfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   on_error, 2
   
-  print, '  Generating output for .sav file ' + self.name
+  print, '  Generating output for .sav file ' + self.basename
   
   self.system->getProperty, sav_file_template=savFileTemplate
   
@@ -77,7 +101,7 @@ pro doctreesavfile::generateOutput, outputRoot, directory
       self.system->error, 'unable to make directory ' + outputDir
     endif
   endif
-  outputFilename = outputDir + file_basename(self.name, '.sav') + '-sav.html'
+  outputFilename = outputDir + file_basename(self.basename, '.sav') + '-sav.html'
   
   savFileTemplate->process, self, outputFilename
 end
@@ -98,31 +122,36 @@ end
 ;
 ; :Returns: 1 for success, 0 for failure
 ; :Keywords:
-;    `name` : in, required, type=string
+;    `basename` : in, required, type=string
 ;       basename of filename
 ;    `directory` : in, required, type=object
 ;       object representing parent directory
 ;-
-function doctreesavfile::init, name=name, directory=directory, system=system
+function doctreesavfile::init, basename=basename, directory=directory, $
+                               system=system
   compile_opt strictarr
   
-  self.name = name
+  self.basename = basename
   self.directory = directory
   self.system = system
   
   self.system->getProperty, root=root
   self.directory->getProperty, location=location
   
-  self.savFile = obj_new('IDL_Savefile', root + location + self.name)
+  self.savFile = obj_new('IDL_Savefile', root + location + self.basename)
   
   return, 1
 end
 
 
 ;+
+; Define instance variables.
+;
 ; :Fields:
+;    `system` system object
 ;    `directory` directory tree object
-;    `name` basename of file
+;    `basename` basename of file
+;    `savFile` IDL_Savefile object corresponding to this sav file
 ;-
 pro doctreesavfile__define
   compile_opt strictarr
@@ -130,7 +159,7 @@ pro doctreesavfile__define
   define = { DOCtreeSavFile, $
              system: obj_new(), $
              directory: obj_new(), $
-             name: '', $
+             basename: '', $
              savFile: obj_new() $
            }
 end

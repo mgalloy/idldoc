@@ -4,7 +4,7 @@
 ; This class represents a information about .pro file.
 ; 
 ; :Properties:
-;    `name` : get, set, type=string
+;    `basename` : get, set, type=string
 ;       basename of filename
 ;    `has_main_level` : get, set, type=boolean
 ;       true if the file has a main-level program at the end
@@ -22,12 +22,13 @@
 ;+
 ; Get properties.
 ;-
-pro doctreeprofile::getProperty, name=name, has_main_level=hasMainLevel, $
+pro doctreeprofile::getProperty, basename=basename, $
+                                 has_main_level=hasMainLevel, $
                                  is_batch=isBatch, comments=comments, $
                                  n_routines=nRoutines, routines=routines
   compile_opt strictarr
   
-  if (arg_present(name)) then name = self.name
+  if (arg_present(basename)) then basename = self.basename
   if (arg_present(hasMainLevel)) then hasMainLevel = self.hasMainLevel
   if (arg_present(isBatch)) then isBatch = self.isBatch  
   if (arg_present(comments)) then comments = self.comments
@@ -39,11 +40,10 @@ end
 ;+
 ; Set properties.
 ;-
-pro doctreeprofile::setProperty, name=name, has_main_level=hasMainLevel, $
+pro doctreeprofile::setProperty, has_main_level=hasMainLevel, $
                                  is_batch=isBatch, comments=comments
   compile_opt strictarr
   
-  if (n_elements(name) ne 0) then self.name = name
   if (n_elements(hasMainLevel) ne 0) then self.hasMainLevel = hasMainLevel
   if (n_elements(isBatch) ne 0) then self.isBatch = isBatch
   if (n_elements(comments) ne 0) then self.comments = comments
@@ -67,7 +67,7 @@ end
 pro doctreeprofile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
-  print, '  Generating output for ' + self.name
+  print, '  Generating output for ' + self.basename
 end
 
 
@@ -86,13 +86,14 @@ end
 ;
 ; :Returns: 1 for success, 0 for failure
 ; :Keywords:
-;    `name` : in, required, type=string
+;    `basename` : in, required, type=string
 ;    `directory` : in, required, type=object
 ;-
-function doctreeprofile::init, name=name, directory=directory, system=system
+function doctreeprofile::init, basename=basename, directory=directory, $
+                               system=system
   compile_opt strictarr
   
-  self.name = name
+  self.basename = basename
   self.directory = directory
   self.system = system
   
@@ -105,7 +106,7 @@ end
 ;+
 ; :Fields:
 ;    `directory` directory tree object
-;    `name` basename of file
+;    `basename` basename of file
 ;    `hasMainLevel` true if the file has a main level program at the end
 ;    `isBatch` true if the file is a batch file
 ;    `routines` list of routine objects
@@ -116,7 +117,7 @@ pro doctreeprofile__define
   define = { DOCtreeProFile, $
              system: obj_new(), $
              directory: obj_new(), $
-             name: '', $
+             basename: '', $
              hasMainLevel: 0B, $
              isBatch: 0B, $
              comments: obj_new(), $
