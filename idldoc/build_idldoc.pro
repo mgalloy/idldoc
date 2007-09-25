@@ -5,7 +5,10 @@
 ; clear any other compilations
 .reset
 
+version = '3.0 development'
+
 ; compile required code
+
 .compile src/idldoc
 .compile src/doc_system__define
 
@@ -56,4 +59,4 @@
 resolve_all
 
 ; create the sav file
-save, filename='idldoc.sav', description='IDLdoc distribution', /routines
+save, filename='idldoc.sav', /routines, description='IDLdoc ' + version
