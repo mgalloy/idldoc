@@ -29,7 +29,7 @@ end
 ;    `filename` absolute path to the .idldoc file to be parsed
 ;-
 pro docparidldocfileparser__define
-  compile_opt strictarrr
+  compile_opt strictarr
   
 	define = { DOCparIDLdocFileParser, $
              filename: '' $

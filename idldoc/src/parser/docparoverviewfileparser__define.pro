@@ -34,6 +34,6 @@ pro docparoverviewfileparser__define
   compile_opt strictarr
   
 	define = { DOCparOverviewFileParser, $
-             filename: '' 
+             filename: '' $
            }
 end
