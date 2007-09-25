@@ -17,14 +17,18 @@ pro idldoc, root=root, output=output, $
             quiet=quiet, silent=silent
   compile_opt strictarr
 
-  error = 0L
-  catch, error
-  if (error ne 0L) then begin
-    catch, /cancel
-    message, !error_state.msg, /informational
-    return
+  debug = 0B
+  
+  if (~keyword_set(debug)) then begin
+    error = 0L
+    catch, error
+    if (error ne 0L) then begin
+      catch, /cancel
+      message, !error_state.msg, /informational
+      return
+    endif
   endif
-
+  
   cd, current=startDirectory
   
   system = obj_new('DOC_System', root=root, output=output, $
