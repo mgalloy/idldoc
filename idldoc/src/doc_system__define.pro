@@ -135,7 +135,7 @@ end
 ;-
 function doc_system::testOutput
   compile_opt strictarr
-  
+    
   testfile = self.output + 'idldoc.test'
   openw, lun, testfile, error=error, /get_lun
   if (error eq 0L) then free_lun, lun
@@ -174,6 +174,7 @@ function doc_system::init, root=root, output=output, $
   compile_opt strictarr
   on_error, 2
   
+  ; check root directory
   if (n_elements(root) gt 0) then begin
     self.root = file_search(root, /mark_directory, /test_directory)
     if (self.root eq '') then self->error, 'ROOT directory does not exist'
@@ -181,7 +182,9 @@ function doc_system::init, root=root, output=output, $
     self->error, 'ROOT keyword must be defined'
   endelse
   
+  ; fix up output directory
   if (n_elements(output) gt 0) then begin
+    if (~file_test(output)) then file_mkdir, output
     self.output = file_search(output, /mark_directory, /test_directory)
   endif else begin
     self.output = self.root
