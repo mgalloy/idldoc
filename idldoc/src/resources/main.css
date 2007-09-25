@@ -1,4 +1,11 @@
 body { font-family: Helvetica, sans-serif; font-size: 9pt; }
 
-table.attribute { background: #EFEFEF; padding: 0.5em; border: 1px #9F9F9F dotted; }
-table.attribute td.name { font-weight: bold; }
+/* An attribute table is a vertical list of name-value pairs. */
+table.attribute { 
+  background: #EFEFEF; 
+  padding: 0.5em; 
+  border: 1px #9F9F9F dotted; 
+  margin-left: auto;   /* centers table */
+  margin-right: auto; 
+}
+table.attribute td.name { font-weight: bold; padding-right: 1em; }

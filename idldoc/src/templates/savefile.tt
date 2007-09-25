@@ -29,7 +29,12 @@
   </head>
     
   <body onload="setTitle();">
+  
     <table class="attribute">
+      <tr>
+        <td class="name">Filename:</td>
+        <td>[% filename %]</td>
+      </tr>     
       <tr>
         <td class="name">Description:</td>
         <td>[% description %]</td>
@@ -40,12 +45,33 @@
       </tr>
       <tr>
         <td class="name">Creation: </td>
-        <td>[% user %]@[% host %] on [% os %]/[% arch %] at [% creation_date %]</td>
+        <td>[% user %]@[% host %] on [% os %]/[% arch %]</td>
       </tr>
+      <tr>
+        <td class="name">Creation date: </td>
+        <td>[% creation_date %]</td>
+      </tr>      
       <tr>
         <td class="name">IDL version: </td>
         <td>[% release %]</td>
-      </tr>      
+      </tr>    
+      <tr>
+        <td class="name">Procedures: </td>
+        <td>[% n_procedure %]</td>
+      </tr>  
+      <tr>
+        <td class="name">Functions: </td>
+        <td>[% n_function %]</td>
+      </tr> 
+      <tr>
+        <td class="name">Variables: </td>
+        <td>[% n_var %]</td>
+      </tr>  
+      <tr>
+        <td class="name">System variables: </td>
+        <td>[% n_sysvar %]</td>
+      </tr>  
     </table>
+    
   </body>
  </html>
