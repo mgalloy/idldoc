@@ -10,6 +10,39 @@
 
 
 ;+
+; Get variables for use with templates.
+;
+; :Returns: variable
+; :Params:
+;    `name` : in, required, type=string
+;       name of variable
+;
+; :Keywords:
+;    `found` : out, optional, type=boolean
+;       set to a named variable, returns if variable name was found
+;-
+function doctreesavfile::getVariable, name, found=found
+  compile_opt strictarr
+  
+  found = 1B
+  case strlowcase(name) of
+    'description': begin
+        contents = self.savFile->contents()
+        return, contents.description
+      end
+    'type': begin
+        contents = self.savFile->contents()
+        return, contents.filetype
+      end
+    else: begin
+        found = 0B
+        return, -1L
+      end
+  endcase
+end
+
+
+;+
 ; Get properties.
 ;-
 pro doctreesavfile::getProperty, name=name
@@ -31,12 +64,22 @@ end
 
 pro doctreesavfile::generateOutput, outputRoot, directory
   compile_opt strictarr
+  on_error, 2
   
   print, '  Generating output for .sav file ' + self.name
-  contents = self.savFile->contents()
-  print, '    os=' + contents.os
-  print, '    user=' + contents.user
-  print, '    type=' + contents.filetype
+  
+  self.system->getProperty, sav_file_template=savFileTemplate
+  
+  outputDir = outputRoot + directory
+  if (~file_test(outputDir)) then begin
+    self.system->makeDirectory, outputDir, error=error
+    if (error ne 0L) then begin
+      self.system->error, 'unable to make directory ' + outputDir
+    endif
+  endif
+  outputFilename = outputDir + file_basename(self.name, '.sav') + '-sav.html'
+  
+  savFileTemplate->process, self, outputFilename
 end
 
 

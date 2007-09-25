@@ -14,6 +14,7 @@ end
 ;-
 pro doctreedirectory::generateOutput, outputRoot
   compile_opt strictarr
+  on_error, 2
   
   print, 'Generating output for ' + self.location
   

@@ -1,10 +1,11 @@
 ; docformat = 'rst'
 
 
-pro doc_system::getProperty, root=root
+pro doc_system::getProperty, root=root, sav_file_template=savFileTemplate
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
+  if (arg_present(savFileTemplate)) then savFileTemplate = self.savFileTemplate
 end
 
 
@@ -109,6 +110,7 @@ end
 ;-
 pro doc_system::generateOutput
   compile_opt strictarr
+  on_error, 2
   
   ; generate files per directory
   for d = 0L, self.directories->count() - 1L do begin
@@ -166,6 +168,7 @@ pro doc_system::cleanup
   compile_opt strictarr
   
   obj_destroy, self.directories
+  obj_destroy, self.savFileTemplate
 end
 
 
@@ -198,8 +201,10 @@ function doc_system::init, root=root, output=output, $
   
   ; fix up output directory
   if (n_elements(output) gt 0) then begin
-    if (~file_test(output)) then self->makeDirectory, output, error=error
-    if (error ne 0L) then self->error, 'can not create output directory'
+    if (~file_test(output)) then begin
+      self->makeDirectory, output, error=error
+      if (error ne 0L) then self->error, 'can not create output directory'
+    endif
     self.output = file_search(output, /mark_directory, /test_directory)
   endif else begin
     self.output = self.root
@@ -216,7 +221,14 @@ function doc_system::init, root=root, output=output, $
   outputError = self->testOutput()
   if (outputError ne 0L) then self->error, 'unable to write to ' + self.output
   
+  ; initialize some data structures
   self.directories = obj_new('MGcoArrayList', type=11)
+  
+  ; load templates
+  self.savFileTemplate = obj_new('MGffTemplate', $
+                                 filepath('savefile.tt', $
+                                          subdir=['templates'], $
+                                          root=self.sourceLocation))
   
   ; parse tree of directories, files, routines, parameters 
   self->parseTree
@@ -253,6 +265,7 @@ pro doc_system__define
              quiet: 0B, $
              silent: 0B, $
              sourceLocation: '', $
-             directories: obj_new() $             
+             directories: obj_new(), $  
+             savFileTemplate: obj_new() $           
            }
 end
