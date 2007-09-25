@@ -145,6 +145,20 @@ function doc_system::testOutput
 end
 
 
+pro doc_system::makeDirectory, dir, error=error
+  compile_opt strictarr
+  
+  error = 0L
+  catch, error
+  if (error ne 0L) then begin
+    catch, /cancel
+    return
+  endif
+  
+  file_mkdir, dir
+end
+
+
 ;+
 ; Free resources.
 ;-
@@ -184,7 +198,8 @@ function doc_system::init, root=root, output=output, $
   
   ; fix up output directory
   if (n_elements(output) gt 0) then begin
-    if (~file_test(output)) then file_mkdir, output
+    if (~file_test(output)) then self->makeDirectory, output, error=error
+    if (error ne 0L) then self->error, 'can not create output directory'
     self.output = file_search(output, /mark_directory, /test_directory)
   endif else begin
     self.output = self.root
