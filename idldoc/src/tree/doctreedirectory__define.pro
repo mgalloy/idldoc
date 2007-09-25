@@ -37,10 +37,12 @@ end
 ; :Keywords:
 ;    `location` : in, required, type=string
 ;       location of the directory relative to the ROOT (w/ trailing slash)
+;    `files` : in, required, type=strarr
+;       .sav/.pro/.idldoc files in directory
 ;    `system` : in, required, type=object
 ;       system object
 ;-
-function doctreedirectory::init, location=location, system=system
+function doctreedirectory::init, location=location, files=files, system=system
   compile_opt strictarr
   
   self.location = location
@@ -50,8 +52,21 @@ function doctreedirectory::init, location=location, system=system
   self.savFiles = obj_new('MGcoArrayList', type=11)
   self.idldocFiles = obj_new('MGcoArrayList', type=11)
   
-  ; find .pro/.sav/.idldoc files in directory 
-  ; create file objects
+  for f = 0L, n_elements(files) - 1L do begin
+    dotpos = strpos(files[f], '.', /reverse_search)
+    extension = strmid(files[f], dotpos + 1L)
+    case strlowcase(extension) of
+      'pro': begin
+          file = obj_new('DOCtreeFile', $
+                         name=file_basename(files[f]), $
+                         directory=self)
+          self.proFiles->add, file
+        end
+      'sav':
+      'idldoc':
+      else:
+    endcase
+  endfor
   
   return, 1
 end

@@ -80,11 +80,13 @@ end
 ; :Returns: 1 for success, 0 for failure
 ; :Keywords:
 ;    `name` : in, required, type=string
+;    `directory` : in, required, type=object
 ;-
-function doctreefile::init, name=name
+function doctreefile::init, name=name, directory=directory
   compile_opt strictarr
   
   self.name = name
+  self.directory = directory
   self.routines = obj_new('MGcoArrayList', type=11)
   
   return, 1

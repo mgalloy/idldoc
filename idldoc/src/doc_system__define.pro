@@ -71,18 +71,23 @@ pro doc_system::parseTree
   if (nProFiles + nSavFiles + nIDLdocFiles eq 0) then return
   
   ; add all the files together...
-  dirs = ['']
-  if (nProFiles gt 0) then dirs = [dirs, proFiles]
-  if (nSavFiles gt 0) then dirs = [dirs, savFiles]
-  if (nIDLdocFiles gt 0) then dirs = [dirs, idldocFiles]
-  dirs = dirs[1:*]
+  allFiles = ['']
+  if (nProFiles gt 0) then allFiles = [allFiles, proFiles]
+  if (nSavFiles gt 0) then allFiles = [allFiles, savFiles]
+  if (nIDLdocFiles gt 0) then allFiles = [allFiles, idldocFiles]
+  allFiles = allFiles[1:*]
   
-  ; ...then find the unique directories
-  dirs = file_dirname(strmid(dirs, strlen(self.root)), /mark_directory)
-  dirs = dirs[uniq(dirs, sort(dirs))]
+  allFiles = strmid(allFiles, strlen(self.root))
   
-  for d = 0L, n_elements(dirs) - 1L do begin
-     directory = obj_new('DOCtreeDirectory', location=dirs[d], system=self)
+  dirs = file_dirname(allFiles, /mark_directory)
+  uniqueDirIndices = uniq(dirs, sort(dirs))  
+  
+  for d = 0L, n_elements(uniqueDirIndices) - 1L do begin
+     filesIndices = where(dirs eq dirs[uniqueDirIndices[d]])
+     directory = obj_new('DOCtreeDirectory', $
+                         location=dirs[uniqueDirIndices[d]], $
+                         files=allFiles[filesIndices], $
+                         system=self)
      self.directories->add, directory
   endfor
 end
