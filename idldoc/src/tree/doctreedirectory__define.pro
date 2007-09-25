@@ -69,7 +69,7 @@ pro doctreedirectory::generateOutput, outputRoot
   
   ; generate file listing
   listingFilename = filepath('dir-files.html', root=outputDir)
-  self.system->getProperty, listing_template=listingTemplate
+  listingTemplate = self.system->getTemplate('listing')
   listingTemplate->reset
   listingTemplate->process, self, listingFilename
 end

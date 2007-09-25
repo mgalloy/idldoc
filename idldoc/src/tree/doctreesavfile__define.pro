@@ -88,7 +88,7 @@ pro doctreesavfile::generateOutput, outputRoot, directory
   
   print, '  Generating output for .sav file ' + self.basename
   
-  self.system->getProperty, sav_file_template=savFileTemplate
+  savFileTemplate = self.system->getTemplate('savefile')
   
   outputDir = outputRoot + directory
   outputFilename = outputDir + file_basename(self.basename, '.sav') + '-sav.html'

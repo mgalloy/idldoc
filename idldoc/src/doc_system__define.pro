@@ -31,14 +31,10 @@ function doc_system::getVariable, name, found=found
 end
 
 
-pro doc_system::getProperty, root=root, $
-                             listing_template=listingTemplate, $
-                             sav_file_template=savFileTemplate
+pro doc_system::getProperty, root=root
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
-  if (arg_present(listingTemplate)) then listingTemplate = self.listingTemplate
-  if (arg_present(savFileTemplate)) then savFileTemplate = self.savFileTemplate
 end
 
 
@@ -138,21 +134,24 @@ pro doc_system::parseTree
 end
 
 
-function doc_system::createTemplate, basename
+function doc_system::getTemplate, name, found=found
   compile_opt strictarr
   
-  templateFilename = filepath(basename, $
-                              subdir=['templates'], $
-                              root=self.sourceLocation) 
-  return, obj_new('MGffTemplate', templateFilename)
+  return, self.templates->get(name, found=found)
 end
 
 
 pro doc_system::loadTemplates
   compile_opt strictarr
   
-  self.listingTemplate = self->createTemplate('listing.tt')
-  self.savFileTemplate = self->createTemplate('savefile.tt')
+  templates = ['listing', 'savefile']
+  for t = 0L, n_elements(templates) - 1L do begin
+    templateFilename = filepath(templates[t] + '.tt', $
+                                subdir=['templates'], $
+                                root=self.sourceLocation) 
+    self.templates->put, templates[t], $
+                         obj_new('MGffTemplate', templateFilename)
+  endfor
 end
 
 
@@ -235,7 +234,7 @@ pro doc_system::cleanup
   compile_opt strictarr
   
   obj_destroy, self.directories
-  obj_destroy, self.savFileTemplate
+  obj_destroy, self.templates
 end
 
 
@@ -339,6 +338,7 @@ function doc_system::init, root=root, output=output, $
   self.directories = obj_new('MGcoArrayList', type=11)
   
   ; load templates
+  self.templates = obj_new('MGcoHashTable', key_type=7, value_type=11)
   self->loadTemplates
   
   ; parse tree of directories, files, routines, parameters 
@@ -378,8 +378,7 @@ pro doc_system__define
              silent: 0B, $
              sourceLocation: '', $
              directories: obj_new(), $  
-             listingTemplate: obj_new(), $
-             savFileTemplate: obj_new(), $  
+             templates: obj_new(), $
              title: '', $
              subtitle: '' $         
            }
