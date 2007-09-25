@@ -27,10 +27,6 @@ function doctreesavfile::getVariable, name, found=found
   found = 1B
   switch strlowcase(name) of
     'basename' : return, self.basename
-    'relative_root' : begin
-        self.directory->getProperty, relative_root=relativeRoot
-        return, relativeRoot
-      end
     'creation_date': begin
         contents = self.savFile->contents()
         return, contents.date
@@ -57,7 +53,7 @@ function doctreesavfile::getVariable, name, found=found
       end
     else: begin
         ; search in the system object if the variable is not found here
-        var = self.system->getVariable(name, found=found)
+        var = self.directory->getVariable(name, found=found)
         if (found) then return, var
         
         found = 0B
@@ -95,14 +91,9 @@ pro doctreesavfile::generateOutput, outputRoot, directory
   self.system->getProperty, sav_file_template=savFileTemplate
   
   outputDir = outputRoot + directory
-  if (~file_test(outputDir)) then begin
-    self.system->makeDirectory, outputDir, error=error
-    if (error ne 0L) then begin
-      self.system->error, 'unable to make directory ' + outputDir
-    endif
-  endif
   outputFilename = outputDir + file_basename(self.basename, '.sav') + '-sav.html'
   
+  savFileTemplate->reset
   savFileTemplate->process, self, outputFilename
 end
 

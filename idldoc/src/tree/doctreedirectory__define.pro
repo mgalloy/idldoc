@@ -1,11 +1,29 @@
-pro doctreedirectory::getProperty, location=location, relative_root=relativeRoot
+pro doctreedirectory::getProperty, location=location
   compile_opt strictarr
   
   if (arg_present(location)) then location = self.location
-  if (arg_present(relativeRoot)) then begin
-    dummy = strsplit(self.location, path_sep(), count=nUps)
-    relativeRoot = strjoin(replicate('..' + path_sep(), nUps))
-  endif
+end
+
+
+function doctreedirectory::getVariable, name, found=found
+  compile_opt strictarr
+
+  found = 1B
+  case strlowcase(name) of
+    'location' : return, self.location
+    'relative_root' : begin
+        dummy = strsplit(self.location, path_sep(), count=nUps)
+        return, strjoin(replicate('..' + path_sep(), nUps))
+      end
+    else: begin
+        ; search in the system object if the variable is not found here
+        var = self.system->getVariable(name, found=found)
+        if (found) then return, var
+        
+        found = 0B
+        return, -1L
+      end
+  endcase
 end
 
 
@@ -21,7 +39,16 @@ pro doctreedirectory::generateOutput, outputRoot
   on_error, 2
   
   print, 'Generating output for ' + self.location
-  
+
+  ; create directory in the output if necessary
+  outputDir = outputRoot + self.location
+  if (~file_test(outputDir)) then begin
+    self.system->makeDirectory, outputDir, error=error
+    if (error ne 0L) then begin
+      self.system->error, 'unable to make directory ' + outputDir
+    endif
+  endif
+    
   ; generate docs for each .pro/.sav/.idldoc file in directory
   for f = 0L, self.proFiles->count() - 1L do begin
     file = self.proFiles->get(position=f)
@@ -41,6 +68,10 @@ pro doctreedirectory::generateOutput, outputRoot
   ; generate directory overview
   
   ; generate file listing
+  listingFilename = filepath('dir-files.html', root=outputDir)
+  self.system->getProperty, listing_template=listingTemplate
+  listingTemplate->reset
+  listingTemplate->process, self, listingFilename
 end
 
 

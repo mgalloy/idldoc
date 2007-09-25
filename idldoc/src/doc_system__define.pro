@@ -31,10 +31,13 @@ function doc_system::getVariable, name, found=found
 end
 
 
-pro doc_system::getProperty, root=root, sav_file_template=savFileTemplate
+pro doc_system::getProperty, root=root, $
+                             listing_template=listingTemplate, $
+                             sav_file_template=savFileTemplate
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
+  if (arg_present(listingTemplate)) then listingTemplate = self.listingTemplate
   if (arg_present(savFileTemplate)) then savFileTemplate = self.savFileTemplate
 end
 
@@ -132,6 +135,24 @@ pro doc_system::parseTree
                          system=self)
      self.directories->add, directory
   endfor
+end
+
+
+function doc_system::createTemplate, basename
+  compile_opt strictarr
+  
+  templateFilename = filepath(basename, $
+                              subdir=['templates'], $
+                              root=self.sourceLocation) 
+  return, obj_new('MGffTemplate', templateFilename)
+end
+
+
+pro doc_system::loadTemplates
+  compile_opt strictarr
+  
+  self.listingTemplate = self->createTemplate('listing.tt')
+  self.savFileTemplate = self->createTemplate('savefile.tt')
 end
 
 
@@ -318,10 +339,7 @@ function doc_system::init, root=root, output=output, $
   self.directories = obj_new('MGcoArrayList', type=11)
   
   ; load templates
-  templateFilename = filepath('savefile.tt', $
-                              subdir=['templates'], $
-                              root=self.sourceLocation)
-  self.savFileTemplate = obj_new('MGffTemplate', templateFilename)
+  self->loadTemplates
   
   ; parse tree of directories, files, routines, parameters 
   self->parseTree
@@ -360,6 +378,7 @@ pro doc_system__define
              silent: 0B, $
              sourceLocation: '', $
              directories: obj_new(), $  
+             listingTemplate: obj_new(), $
              savFileTemplate: obj_new(), $  
              title: '', $
              subtitle: '' $         
