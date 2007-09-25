@@ -1,3 +1,10 @@
+pro doctreedirectory::getProperty, location=location
+  compile_opt strictarr
+  
+  if (arg_present(location)) then location = self.location
+end
+
+
 ;+
 ; Generate all the output for the directory.
 ;
@@ -73,19 +80,22 @@ function doctreedirectory::init, location=location, files=files, system=system
       'pro': begin
           file = obj_new('DOCtreeProFile', $
                          name=file_basename(files[f]), $
-                         directory=self)
+                         directory=self, $
+                         system=self.system)
           self.proFiles->add, file
         end
       'sav': begin
           file = obj_new('DOCtreeSavFile', $
                          name=file_basename(files[f]), $
-                         directory=self)
+                         directory=self, $
+                         system=self.system)
           self.savFiles->add, file
         end
       'idldoc': begin
           file = obj_new('DOCtreeIDLdocFile', $
                          name=file_basename(files[f]), $
-                         directory=self)
+                         directory=self, $
+                         self.system)
           self.idldocFiles->add, file
         end                
     endcase

@@ -1,6 +1,13 @@
 ; docformat = 'rst'
 
 
+pro doc_system::getProperty, root=root
+  compile_opt strictarr
+
+  if (arg_present(root)) then root = self.root
+end
+
+
 ;+
 ; Print out debugging information about the system object.
 ;-

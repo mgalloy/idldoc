@@ -53,11 +53,12 @@ end
 ;    `name` : in, required, type=string
 ;    `directory` : in, required, type=object
 ;-
-function doctreeidldocfile::init, name=name, directory=directory
+function doctreeidldocfile::init, name=name, directory=directory, system=system
   compile_opt strictarr
   
   self.name = name
   self.directory = directory
+  self.system = system
   
   return, 1
 end
@@ -75,6 +76,7 @@ pro doctreeidldocfile__define
   compile_opt strictarr
   
   define = { DOCtreeIDLdocFile, $
+             system: obj_new(), $
              directory: obj_new(), $
              name: '' $
            }

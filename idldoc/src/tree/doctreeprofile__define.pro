@@ -89,11 +89,13 @@ end
 ;    `name` : in, required, type=string
 ;    `directory` : in, required, type=object
 ;-
-function doctreeprofile::init, name=name, directory=directory
+function doctreeprofile::init, name=name, directory=directory, system=system
   compile_opt strictarr
   
   self.name = name
   self.directory = directory
+  self.system = system
+  
   self.routines = obj_new('MGcoArrayList', type=11)
   
   return, 1
@@ -112,6 +114,7 @@ pro doctreeprofile__define
   compile_opt strictarr
   
   define = { DOCtreeProFile, $
+             system: obj_new(), $
              directory: obj_new(), $
              name: '', $
              hasMainLevel: 0B, $
