@@ -1,4 +1,19 @@
-- Add collection, dist_tools, templating as external svn references
-- Finish text markup package and add as external
-- Get all keywords into IDLDOC main routine and doc_system object
-- Setup a couple regression tests
+- Finish text markup package
+- Get all keywords into IDLDOC main routine and doc_system object::
+
+     ASSISTANT 
+     BROWSE_ROUTINES 
+     EMBED 
+     FOOTER 
+     LOG_FILE 
+     NONAVBAR 
+     N_WARNINGS 
+     OVERVIEW 
+     PREFORMAT  
+     STATISTICS 
+     SUBTITLE 
+     TITLE 
+     USER 
+       
+- Generate output                  
+- Setup some regression tests
