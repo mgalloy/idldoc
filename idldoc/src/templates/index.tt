@@ -11,7 +11,7 @@
       frameset#nav_frames { border-right: 1px dotted #CCCCCC; }
     </style>
 
-    <link rel="shortcut icon" href="./idldoc.ico"/>
+    <link rel="shortcut icon" href="./idldoc-resources/idldoc.ico"/>
   </head>
 
   <frameset cols="20%,80%" border="1">

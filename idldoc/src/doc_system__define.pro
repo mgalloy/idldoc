@@ -144,7 +144,7 @@ end
 pro doc_system::loadTemplates
   compile_opt strictarr
   
-  templates = ['listing', 'savefile']
+  templates = ['listing', 'savefile', 'index']
   for t = 0L, n_elements(templates) - 1L do begin
     templateFilename = filepath(templates[t] + '.tt', $
                                 subdir=['templates'], $
@@ -177,6 +177,9 @@ pro doc_system::generateOutput
   ; generate help
   
   ; generate index.html
+  indexTemplate = self->getTemplate('index')
+  indexTemplate->reset
+  indexTemplate->process, self, filepath('index.html', root=self.output)
 end
 
 
@@ -234,6 +237,7 @@ pro doc_system::cleanup
   compile_opt strictarr
   
   obj_destroy, self.directories
+  obj_destroy, self.templates->values()
   obj_destroy, self.templates
 end
 
