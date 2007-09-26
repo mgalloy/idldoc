@@ -23,6 +23,8 @@
   </head>
   
   <body>
+    <h1>[% location %]</h1>
+  
   	[% IF n_pro_files gt 0 %]
     <h1>.pro files</h1>
     	<ul>
