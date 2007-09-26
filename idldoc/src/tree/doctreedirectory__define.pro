@@ -12,6 +12,7 @@ function doctreedirectory::getVariable, name, found=found
   case strlowcase(name) of
     'location' : return, self.location
     'relative_root' : begin
+        if (self.location eq '.' + path_sep()) then return, ''
         dummy = strsplit(self.location, path_sep(), count=nUps)
         return, strjoin(replicate('..' + path_sep(), nUps))
       end
