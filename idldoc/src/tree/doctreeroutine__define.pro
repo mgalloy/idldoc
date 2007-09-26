@@ -47,6 +47,36 @@ end
 
 
 ;+
+; Get variables for use with templates.
+;
+; :Returns: variable
+; :Params:
+;    `name` : in, required, type=string
+;       name of variable
+;
+; :Keywords:
+;    `found` : out, optional, type=boolean
+;       set to a named variable, returns if variable name was found
+;-
+function doctreeroutine::getVariable, name, found=found
+  compile_opt strictarr
+  
+  found = 1B
+  case strlowcase(name) of
+    'name' : return, self.name
+    else: begin
+        ; search in the system object if the variable is not found here
+        var = self.file->getVariable(name, found=found)
+        if (found) then return, var
+        
+        found = 0B
+        return, -1L
+      end
+  endcase
+end
+
+
+;+
 ; Add a parameter to the list of parameters for this routine.
 ; 
 ; :Params:
