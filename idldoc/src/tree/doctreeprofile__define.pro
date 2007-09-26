@@ -62,7 +62,7 @@ end
 ;    `found` : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
-function doctreesavfile::getVariable, name, found=found
+function doctreeprofile::getVariable, name, found=found
   compile_opt strictarr
   
   found = 1B
@@ -78,6 +78,8 @@ function doctreesavfile::getVariable, name, found=found
       end
   endcase
 end
+
+
 ;+
 ; Add a routine to the list of routines in the file.
 ; 

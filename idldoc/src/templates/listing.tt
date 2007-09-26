@@ -27,17 +27,27 @@
     <h1>.pro files</h1>
     	<ul>
     		[% FOREACH f IN pro_files %]
-    		  <li></li>
+    		  <li>[% SCOPE f %][% basename %][% END %]</li>
     		[% END %]
     	</ul>
     [% END %]
     
     [% IF n_sav_files gt 0 %]
     <h1>.sav files</h1>
+      <ul>
+        [% FOREACH f IN sav_files %]
+          <li>[% SCOPE f %][% basename %][% END %]</li>
+        [% END %]
+      </ul>    
     [% END %]
     
     [% IF n_idldoc_files %]
     <h1>.idldoc files</h1>
+      <ul>
+        [% FOREACH f IN idldoc_files %]
+          <li>[% SCOPE f %][% basename %][% END %]</li>
+        [% END %]
+      </ul>     
     [% END %]
             
   </body>
