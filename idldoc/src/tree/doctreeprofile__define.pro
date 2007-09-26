@@ -68,6 +68,7 @@ function doctreeprofile::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'basename' : return, self.basename
+    'local_url' : return, file_basename(self.basename, '.pro') + '.html'
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)

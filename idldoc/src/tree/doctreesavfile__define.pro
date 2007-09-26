@@ -27,6 +27,7 @@ function doctreesavfile::getVariable, name, found=found
   found = 1B
   switch strlowcase(name) of
     'basename' : return, self.basename
+    'local_url' : return, file_basename(self.basename, '.sav') + '-sav.html'
     'creation_date': begin
         contents = self.savFile->contents()
         return, contents.date
