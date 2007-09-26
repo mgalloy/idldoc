@@ -99,6 +99,14 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
   print, '  Generating output for ' + self.basename
+
+  proFileTemplate = self.system->getTemplate('profile')
+  
+  outputDir = outputRoot + directory
+  outputFilename = outputDir + file_basename(self.basename, '.pro') + '.html'
+  
+  proFileTemplate->reset
+  proFileTemplate->process, self, outputFilename  
 end
 
 
