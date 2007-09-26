@@ -1,3 +1,5 @@
+; docformat = 'rst'
+
 pro doctreedirectory::getProperty, location=location
   compile_opt strictarr
   
@@ -5,6 +7,18 @@ pro doctreedirectory::getProperty, location=location
 end
 
 
+;+
+; Get variables for use with templates.
+;
+; :Returns: variable
+; :Params:
+;    `name` : in, required, type=string
+;       name of variable
+;
+; :Keywords:
+;    `found` : out, optional, type=boolean
+;       set to a named variable, returns if variable name was found
+;-
 function doctreedirectory::getVariable, name, found=found
   compile_opt strictarr
 
