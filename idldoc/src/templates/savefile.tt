@@ -30,7 +30,7 @@
     
   <body onload="setTitle();">
   
-    <table class="attribute">
+    <table class="attribute center">
       <tr>
         <td class="name">Filename:</td>
         <td>[% filename %]</td>

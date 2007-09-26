@@ -25,6 +25,12 @@ function doc_system::getVariable, name, found=found
     'output_root': return, self.output
     'n_dirs' : return, self.directories->count()
     'dirs' : return, self.directories->get(/all)
+    'idldoc_header_location' : return, filepath('idldoc-header.tt', $
+                                                subdir=['templates'], $
+                                                root=self.sourceLocation)    
+    'idldoc_footer_location' : return, filepath('idldoc-footer.tt', $
+                                                subdir=['templates'], $
+                                                root=self.sourceLocation)
     else: begin
         found = 0B
         return, -1L
