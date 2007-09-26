@@ -19,11 +19,11 @@
     <frame id="nav_frames" src="all-files.html" name="dir_frame"/>
     [% ELSE %]
     <frameset id="nav_frames" rows="30%,70%" border="1">
-      <frame src="all-dirs.html" name="dirslist_frame"/>
-      <frame src="all-files.html" name="dir_frame"/>
+      <frame src="all-dirs.html" name="dirs_frame"/>
+      <frame src="all-files.html" name="files_frame"/>
     </frameset>
     [% END %]
-    <frame src="overview.html" name="file_frame"/>
+    <frame src="overview.html" name="main_frame"/>
   </frameset>
 
   <noframes>
