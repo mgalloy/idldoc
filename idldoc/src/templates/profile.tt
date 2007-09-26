@@ -29,17 +29,24 @@
   </head>
     
   <body onload="setTitle();">
-    <h1>[% basename %]</h1>
-    <h2>[% location %]</h2>
+
+    [% INCLUDE_TEMPLATE idldoc_header_location %]
     
-    [% IF is_batch %]Batch file[% END %]
-    [% IF has_main_level %]includes main-level program[% END %]
-    [% IF n_routines gt 0 %]
-      <ul>
-        [% FOREACH r IN routines %][% SCOPE r %]
-          <li>[% name %]</li>
-        [% END %][% END %]
-      </ul>
-    [% END %]
+    <div class="content">  
+      <h1>[% basename %]</h1>
+      <h2>[% location %]</h2>
+    
+      [% IF is_batch %]Batch file[% END %]
+      [% IF has_main_level %]includes main-level program[% END %]
+      [% IF n_routines gt 0 %]
+        <ul>
+          [% FOREACH r IN routines %][% SCOPE r %]
+            <li>[% name %]</li>
+          [% END %][% END %]
+        </ul>
+      [% END %]
+    </div>
+    
+    [% INCLUDE_TEMPLATE idldoc_footer_location %]    
   </body>
 </html>
