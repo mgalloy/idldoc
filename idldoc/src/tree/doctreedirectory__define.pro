@@ -1,9 +1,22 @@
 ; docformat = 'rst'
 
-pro doctreedirectory::getProperty, location=location
+;+
+; :Properties:
+;    `location` : get, init
+;       location of the directory
+;    `url` : get
+;       location of the directory as an URL
+;-
+
+
+;+
+; Get properties.
+;-
+pro doctreedirectory::getProperty, location=location, url=url
   compile_opt strictarr
   
   if (arg_present(location)) then location = self.location
+  if (arg_present(url)) then url = self.url
 end
 
 
@@ -25,11 +38,18 @@ function doctreedirectory::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'location' : return, self.location
+    'url' : return, self.url
     'relative_root' : begin
         if (self.location eq '.' + path_sep()) then return, ''
         dummy = strsplit(self.location, path_sep(), count=nUps)
         return, strjoin(replicate('..' + path_sep(), nUps))
       end
+    'n_pro_files' : return, self.proFiles->count()
+    'pro_files' : return, self.proFiles->get(/all)
+    'n_sav_files' : return, self.savFiles->count()
+    'sav_files' : return, self.savFiles->get(/all)
+    'n_idldoc_files' : return, self.idldocFiles->count()
+    'idldoc_files' : return, self.idldocFiles->get(/all)
     else: begin
         ; search in the system object if the variable is not found here
         var = self.system->getVariable(name, found=found)
@@ -124,6 +144,8 @@ function doctreedirectory::init, location=location, files=files, system=system
   self.savFiles = obj_new('MGcoArrayList', type=11)
   self.idldocFiles = obj_new('MGcoArrayList', type=11)
   
+  self.url = strjoin(strsplit(self.location, path_sep(), /extract), '/') + '/'
+  
   for f = 0L, n_elements(files) - 1L do begin
     dotpos = strpos(files[f], '.', /reverse_search)
     extension = strmid(files[f], dotpos + 1L)
@@ -164,6 +186,9 @@ end
 ;       system object
 ;    `location`
 ;       location of the directory relative to the ROOT (w/ trailing slash)
+;    `url`
+;       location of the directory relative to the ROOT as an URL (w/ trailing 
+;       slash) 
 ;    `proFiles`
 ;       array list of .pro file objects
 ;    `savFiles`
@@ -177,6 +202,7 @@ pro doctreedirectory__define
   define = { DOCtreeDirectory, $
              system: obj_new(), $
              location: '', $
+             url: '', $
              proFiles: obj_new(), $
              savFiles: obj_new(), $
              idldocFiles: obj_new() $
