@@ -30,5 +30,8 @@
     
   <body onload="setTitle();">
     <h1>[% basename %]</h1>
+    
+    [% IF is_batch %]Batch file[% END %]
+    [% IF has_main_level %]includes main-level program[% END %]
   </body>
 </html>

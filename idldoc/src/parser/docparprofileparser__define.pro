@@ -291,7 +291,7 @@ end
 ;    `found` : out, optional, type=boolean
 ;       returns 1 if filename found, 0 otherwise
 ;-
-function docparprofileparser::parse, filename, found=found
+function docparprofileparser::parse, filename, found=found, directory=directory
   compile_opt strictarr
   
   ; sanity check
@@ -299,7 +299,10 @@ function docparprofileparser::parse, filename, found=found
   if (~found) then return, obj_new()
   
   ; create file
-  file = obj_new('DOCtreeFile', name=file_basename(filename))
+  file = obj_new('DOCtreeProFile', $
+                 basename=file_basename(filename), $
+                 directory=directory, $
+                 system=self.system)
   
   ; get the contents of the file
   lines = self->_readFile(filename, empty=empty)
@@ -336,9 +339,10 @@ end
 ;    `markup` : in, optional, type=string, default=verbatim
 ;       style of markup: verbatim or rst
 ;-
-function docparprofileparser::init, format=format, markup=markup
+function docparprofileparser::init, system=system, format=format, markup=markup
   compile_opt strictarr
   
+  self.system = system
   self.format = n_elements(format) eq 0 ? 'idldoc' : format
   self.markup = n_elements(markup) eq 0 ? 'verbatim' : markup
   
@@ -359,6 +363,7 @@ pro docparprofileparser__define
   compile_opt strictarr
   
   define = { DOCparProFileParser, $
+             system: obj_new(), $
              format: '', $
              markup: '' $
            }

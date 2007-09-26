@@ -146,15 +146,15 @@ function doctreedirectory::init, location=location, files=files, system=system
   
   self.url = strjoin(strsplit(self.location, path_sep(), /extract), '/') + '/'
   
+  self.system->getProperty, root=root
+  
   for f = 0L, n_elements(files) - 1L do begin
     dotpos = strpos(files[f], '.', /reverse_search)
     extension = strmid(files[f], dotpos + 1L)
     case strlowcase(extension) of
       'pro': begin
-          file = obj_new('DOCtreeProFile', $
-                         basename=file_basename(files[f]), $
-                         directory=self, $
-                         system=self.system)
+          proFileParser = self.system->getParser('profile')
+          file = proFileParser->parse(root + files[f], directory=self)
           self.proFiles->add, file
         end
       'sav': begin

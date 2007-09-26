@@ -158,6 +158,20 @@ pro doc_system::loadTemplates
 end
 
 
+function doc_system::getParser, name, found=found
+  compile_opt strictarr
+  
+  return, self.parsers->get(name, found=found)
+end
+
+
+pro doc_system::loadParsers
+  compile_opt strictarr
+  
+  self.parsers->put, 'profile', obj_new('DOCparProFileParser', system=self)
+end
+
+
 ;+
 ; Generate all output for the run.
 ;-
@@ -254,6 +268,8 @@ pro doc_system::cleanup
   obj_destroy, self.directories
   obj_destroy, self.templates->values()
   obj_destroy, self.templates
+  obj_destroy, self.parsers->values()
+  obj_destroy, self.parsers
 end
 
 
@@ -360,6 +376,10 @@ function doc_system::init, root=root, output=output, $
   self.templates = obj_new('MGcoHashTable', key_type=7, value_type=11)
   self->loadTemplates
   
+  ; load parsers
+  self.parsers = obj_new('MGcoHashTable', key_type=7, value_type=11)
+  self->loadParsers
+  
   ; parse tree of directories, files, routines, parameters 
   self->parseTree
     
@@ -398,6 +418,7 @@ pro doc_system__define
              sourceLocation: '', $
              directories: obj_new(), $  
              templates: obj_new(), $
+             parsers: obj_new(), $
              title: '', $
              subtitle: '' $         
            }
