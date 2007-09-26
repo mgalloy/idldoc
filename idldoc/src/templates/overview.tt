@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>[% title %]</title>
+
+    [% IF embed %]
+    <style type="text/css" media="all">
+         [% INCLUDE css_location %]
+    </style>
+    <style type="text/css" media="print">
+         [% INCLUDE print_css_location %]
+    </style>
+    [% ELSE %]
+    <link rel="stylesheet" type="text/css" media="all" 
+          href="idldoc-resources/main.css" />
+    <link rel="stylesheet" type="text/css" media="print" 
+          href="idldoc-resources/main-print.css" />
+    [% END %]
+    
+    <script type="text/javascript">
+      function setTitle() {
+        parent.document.title="[% title %]";
+      }
+    </script>
+  </head>
+    
+  <body onload="setTitle();">
+    <h1>Overview</h1>
+    
+      <table>
+        [% FOREACH d IN dirs %][% SCOPE d %]
+        <tr>
+          <td><a href="[% url %]dir-overview.html">[% location %]</a></td>
+          <td></td>
+        </tr>
+        [% END %][% END %]
+      </table>
+          
+  </body>
+</html>

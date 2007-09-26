@@ -146,7 +146,8 @@ end
 pro doc_system::loadTemplates
   compile_opt strictarr
   
-  templates = ['file-listing', 'dir-listing', 'savefile', 'profile', 'index']
+  templates = ['file-listing', 'dir-listing', 'index', 'overview', $
+               'savefile', 'profile']
   for t = 0L, n_elements(templates) - 1L do begin
     templateFilename = filepath(templates[t] + '.tt', $
                                 subdir=['templates'], $
@@ -179,11 +180,16 @@ pro doc_system::generateOutput
   allDirsTemplate->reset
   allDirsTemplate->process, self, filepath('all-dirs.html', root=self.output)
   
-  ; generate index
+  ; generate overview page
+  overviewTemplate = self->getTemplate('overview')
+  overviewTemplate->reset
+  overviewTemplate->process, self, filepath('overview.html', root=self.output)
+    
+  ; generate index entries page
   
   ; generate warnings page
   
-  ; generate help
+  ; generate help page
   
   ; generate index.html
   indexTemplate = self->getTemplate('index')
