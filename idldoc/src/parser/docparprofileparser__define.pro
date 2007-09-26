@@ -217,8 +217,10 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     firstToken = strlowcase(tokens[0])
     lastToken = strlowcase(tokens[nTokens - 1L])
     
-    ; if ends with "begin" then codeLevel++
+    ; if starting begin/end block (switch/case implicitly start a bloack) then 
+    ; increase code level
     if (lastToken eq 'begin' && ~insideComment) then codeLevel++
+    if (firstToken eq 'case' || firstToken eq 'switch') then codeLevel++
     
     ; if starts with end* then codeLevel--
     ind = where(firstToken eq endVariants, nEndsFound)
