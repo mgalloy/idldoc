@@ -71,6 +71,7 @@ function doctreeprofile::getVariable, name, found=found
     'local_url' : return, file_basename(self.basename, '.pro') + '.html'
     'is_batch' : return, self.isBatch
     'has_main_level' : return, self.hasMainLevel
+    'is_class' : return, strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
     'n_routines' : return, self.routines->count()
     'routines' : return, self.routines->get(/all)
     else: begin
@@ -163,6 +164,7 @@ pro doctreeprofile__define
              basename: '', $
              hasMainLevel: 0B, $
              isBatch: 0B, $
+             isClass: 0B, $
              comments: obj_new(), $
              routines: obj_new() $
            }

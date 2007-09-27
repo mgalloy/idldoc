@@ -14,7 +14,6 @@ h1, h2 { font-weight:normal; color: #900000; }
 
 h1.basename { margin-top: 0; }
 h2.directory { font-size: 90%; margin-bottom: 0; }
-h2.section { padding: 0.5em 1em 0.5em 1em; background: #EFEFEF; border-top: 1px #A0A0A0 dotted; border-bottom: 1px #A0A0A0 dotted; }
 
 dl.routine-summary dt { font-family: "Courier New", Courier, monospace; margin-bottom: 0.25em; }
 dl.routine-summary dd { margin-bottom: 0.5em; }
@@ -23,7 +22,7 @@ dl.routine-summary dd { margin-bottom: 0.5em; }
 table.attribute { 
   font-size: 90%; 
   background: #EFEFEF; 
-  padding: 0.5em; 
+  padding: 1em; 
   border: 1px #A0A0A0 dotted; 
 }
 table.attribute td.name { font-weight: bold; padding-right: 1em; }

@@ -1,9 +1,9 @@
-<div class="footer small">
+<div class="footer">
 
-  <table>
+  <table class="small">
     <tr>
       <td class="left">Produced by IDLdoc [% version %] on [% date %]</td>
-      <td class="right">Report bugs to: me</td>
+      <td class="right">Report bugs to: <a href="mailto:idldoc@idlddev.com">idldoc@idldev.com</a></td>
     </tr>
   </table>
 

@@ -34,7 +34,9 @@
     
     <div class="content">
       
-      <table class="attribute center">
+      <h2>SAV file attributes</h2>
+      
+      <table class="attribute">
         <tr>
           <td class="name">Filename:</td>
           <td>[% filename %]</td>
@@ -76,6 +78,8 @@
           <td>[% n_sysvar %]</td>
         </tr>  
       </table>
+      
+      <h2>File attributes</h2>
       
     </div>
     

@@ -38,7 +38,8 @@
     
       [% IF is_batch %]Batch file[% END %]
       [% IF has_main_level %]includes main-level program[% END %]
-      [% IF n_routines gt 0 %]
+
+      [% IF n_routines gt 1 %]
         <dl class="routine-summary">
           [% FOREACH r IN routines %][% SCOPE r %]
             <dt>[% IF is_function %]result = [% END %][% name %][% IF n_parameters gt 0 %][% END %]</dt>
@@ -46,16 +47,13 @@
           [% END %][% END %]
         </dl>
       [% END %]
-    </div>
-
-    <h2 class="section">Class description</h2>
-    
-    <div class="content">
-    </div>
-        
-    <h2 class="section">Routines</h2>
-    
-    <div class="content">
+      
+      [% IF is_class %]
+    	<h2>Class description</h2>
+    	[% END %]
+    	
+    	<h2>Routines</h2>
+    	
     </div>
     
     [% INCLUDE_TEMPLATE idldoc_footer_location %]    
