@@ -64,6 +64,10 @@ function doctreeroutine::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'name' : return, self.name
+    'n_parameters' : return, self.parameters->count()
+    'parameters' : return, self.parameters->get(/all)
+    'n_keywords' : return, self.keywords->count()
+    'keywords' : return, self.keywords->get(/all)
     else: begin
         ; search in the system object if the variable is not found here
         var = self.file->getVariable(name, found=found)

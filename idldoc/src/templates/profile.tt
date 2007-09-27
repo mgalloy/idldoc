@@ -41,7 +41,7 @@
       [% IF n_routines gt 0 %]
         <ul>
           [% FOREACH r IN routines %][% SCOPE r %]
-            <li>[% name %]</li>
+            <li>[% name %][% IF n_parameters gt 0 %]paramters[% END %]</li>
           [% END %][% END %]
         </ul>
       [% END %]

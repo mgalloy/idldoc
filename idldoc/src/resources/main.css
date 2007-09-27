@@ -1,15 +1,14 @@
-a { text-decoration: none; }
 /* setup page */
 body { font-family: Helvetica, sans-serif; font-size: 10pt; margin: 0; padding: 0; }
 div.content { padding: 1em; }
 
 /* link styles */
+a { text-decoration: none; }
 a:link, a:visited { color: #0000FF; }
 a:hover, a:focus { background: yellow; border-bottom: 1px dotted #303099; }
 
-
 /* general styles */
-h1, h2 { font-weight:normal; color: darkred; }
+h1, h2 { font-weight:normal; color: #900000; }
 .center { margin-left: auto; margin-right: auto; }
 
 /* An attribute table is a vertical list of name-value pairs. */
@@ -17,17 +16,17 @@ table.attribute {
   font-size: 90%; 
   background: #EFEFEF; 
   padding: 0.5em; 
-  border: 1px #9F9F9F dotted; 
+  border: 1px #A0A0A0 dotted; 
 }
 table.attribute td.name { font-weight: bold; padding-right: 1em; }
 
 /* header styles */
-div.header { padding: 2em 2em 0 2em; background: #933; border-bottom: 1px #CAA dotted; }
+div.header { padding: 2em 2em 0 2em; background: #71900B; border-bottom: 1px #384806 dotted; }
 div.header h1 { color: white; margin:0; font-weight: normal; }
 div.header h2 { color: white; margin-top: 0; font-weight: normal; font-style: italic; font-size: 100%; }
 
 /* footer styles */
-div.footer { padding: 0.5em 1em 0.5em 1em; background: #EFEFEF; border-top: 1px #AAA dotted; }
+div.footer { padding: 0.5em 1em 0.5em 1em; background: #EFEFEF; border-top: 1px #A0A0A0 dotted; }
 div.footer table { font-size: 80%; width: 100%; }
 div.footer td.left {}
 div.footer td.right { text-align: right; }
