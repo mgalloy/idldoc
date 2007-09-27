@@ -10,6 +10,14 @@ a:hover, a:focus { background: yellow; border-bottom: 1px dotted #303099; }
 /* general styles */
 h1, h2 { font-weight:normal; color: #900000; }
 .center { margin-left: auto; margin-right: auto; }
+.small { font-family: Verdana, Helvetica, sans-serif; font-size: 80%; }
+
+h1.basename { margin-top: 0; }
+h2.directory { font-size: 90%; margin-bottom: 0; }
+h2.section { padding: 0.5em 1em 0.5em 1em; background: #EFEFEF; border-top: 1px #A0A0A0 dotted; border-bottom: 1px #A0A0A0 dotted; }
+
+dl.routine-summary dt { font-family: "Courier New", Courier, monospace; margin-bottom: 0.25em; }
+dl.routine-summary dd { margin-bottom: 0.5em; }
 
 /* An attribute table is a vertical list of name-value pairs. */
 table.attribute { 
@@ -27,6 +35,6 @@ div.header h2 { color: white; margin-top: 0; font-weight: normal; font-style: it
 
 /* footer styles */
 div.footer { padding: 0.5em 1em 0.5em 1em; background: #EFEFEF; border-top: 1px #A0A0A0 dotted; }
-div.footer table { font-size: 80%; width: 100%; }
+div.footer table { width: 100%; }
 div.footer td.left {}
 div.footer td.right { text-align: right; }
