@@ -50,7 +50,7 @@
           <td>[% filetype %]</td>
         </tr>
         <tr>
-          <td class="name">Creation: </td>
+          <td class="name">Creator: </td>
           <td>[% user %]@[% host %] on [% os %]/[% arch %]</td>
         </tr>
         <tr>
@@ -61,6 +61,11 @@
           <td class="name">IDL version: </td>
           <td>[% release %]</td>
         </tr>    
+      </table>
+
+      <h2>Contents</h2>
+      
+      <table class="attribute">      
         <tr>
           <td class="name">Procedures: </td>
           <td>[% n_procedure %]</td>
@@ -76,6 +81,22 @@
         <tr>
           <td class="name">System variables: </td>
           <td>[% n_sysvar %]</td>
+        </tr>  
+        <tr>
+          <td class="name">Common blocks: </td>
+          <td>[% n_common %]</td>
+        </tr>
+        <tr>
+          <td class="name">Structure definitions: </td>
+          <td>[% n_structdef %]</td>
+        </tr>  
+        <tr>
+          <td class="name">Pointers: </td>
+          <td>[% n_pointer_heapvar %]</td>
+        </tr>                            
+        <tr>
+          <td class="name">Objects: </td>
+          <td>[% n_object_heapvar %]</td>
         </tr>  
       </table>
       
