@@ -91,6 +91,8 @@ function doctreeidldocfile::init, basename=basename, directory=directory, $
   self.directory = directory
   self.system = system
   
+  self.system->createIndexEntry, self.basename, self
+  
   return, 1
 end
 

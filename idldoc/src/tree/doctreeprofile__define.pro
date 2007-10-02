@@ -143,6 +143,8 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   
   self.routines = obj_new('MGcoArrayList', type=11)
   
+  self.system->createIndexEntry, self.basename, self
+  
   return, 1
 end
 

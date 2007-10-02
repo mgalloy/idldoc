@@ -132,6 +132,8 @@ function doctreesavfile::init, basename=basename, directory=directory, $
   
   self.savFile = obj_new('IDL_Savefile', root + location + self.basename)
   
+  self.system->createIndexEntry, self.basename, self
+  
   return, 1
 end
 

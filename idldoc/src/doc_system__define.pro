@@ -18,7 +18,6 @@ function doc_system::getVariable, name, found=found
   
   found = 1B
   case strlowcase(name) of
-    'location' : return, 'All files'
     'version': return, self.version
     'date': return, systime()
     'title': return, self.title
@@ -26,12 +25,60 @@ function doc_system::getVariable, name, found=found
     'output_root': return, self.output
     'n_dirs' : return, self.directories->count()
     'dirs' : return, self.directories->get(/all)
-    'n_pro_files' :
-    'pro_files' :
-    'n_sav_files' :
-    'sav_files' :
-    'n_idldoc_files' :
-    'idldoc_files' :
+    'n_pro_files' : begin
+        entries = self.index->values(count=nEntries)
+        if (nEntries eq 0) then return, 0
+        
+        proFileTest = obj_isa(entries, 'DOCtreeProFile')
+        ind = where(proFileTest, nProFiles)
+        return, nProFiles
+      end
+    'pro_files' : begin
+        entries = self.index->values(count=nEntries)
+        if (nEntries eq 0) then return, -1L
+        
+        proFileTest = obj_isa(entries, 'DOCtreeProFile')
+        ind = where(proFileTest, nProFiles)
+        if (nProFiles eq 0) then return, -1L
+        
+        return, entries[ind]   ; TODO: sort these
+      end
+    'n_sav_files' : begin
+        entries = self.index->values(count=nEntries)
+        if (nEntries eq 0) then return, 0
+        
+        savFileTest = obj_isa(entries, 'DOCtreeSavFile')
+        ind = where(savFileTest, nSavFiles)
+        return, nSavFiles
+      end
+    'sav_files' : begin
+        entries = self.index->values(count=nEntries)
+        if (nEntries eq 0) then return, -1L
+        
+        savFileTest = obj_isa(entries, 'DOCtreeSavFile')
+        ind = where(savFileTest, nSavFiles)
+        if (nSavFiles eq 0) then return, -1L
+        
+        return, entries[ind]   ; TODO: sort these
+      end
+    'n_idldoc_files' : begin
+        entries = self.index->values(count=nEntries)
+        if (nEntries eq 0) then return, 0
+        
+        idldocFileTest = obj_isa(entries, 'DOCtreeIDLdocFile')
+        ind = where(idldocFileTest, nIDLdocFiles)
+        return, nIDLdocFiles
+      end
+    'idldoc_files' : begin
+        entries = self.index->values(count=nEntries)
+        if (nEntries eq 0) then return, -1L
+        
+        idldocFileTest = obj_isa(entries, 'DOCtreeIDLdocFile')
+        ind = where(idldocFileTest, nIDLdocFiles)
+        if (nIDLdocFiles eq 0) then return, -1L
+        
+        return, entries[ind]   ; TODO: sort these
+      end
     'relative_root' : return, ''
     'idldoc_header_location' : return, filepath('idldoc-header.tt', $
                                                 subdir=['templates'], $
@@ -177,8 +224,8 @@ end
 pro doc_system::loadTemplates
   compile_opt strictarr
   
-  templates = ['file-listing', 'dir-listing', 'dir-overview', 'index', $
-               'overview', 'savefile', 'profile']
+  templates = ['file-listing', 'all-files', 'dir-listing', 'dir-overview', $
+               'index', 'overview', 'savefile', 'profile']
   for t = 0L, n_elements(templates) - 1L do begin
     templateFilename = filepath(templates[t] + '.tt', $
                                 subdir=['templates'], $
@@ -217,7 +264,7 @@ pro doc_system::generateOutput
   endfor
       
   ; generate all-files
-  allFilesTemplate = self->getTemplate('file-listing')
+  allFilesTemplate = self->getTemplate('all-files')
   allFilesTemplate->reset
   allFilesTemplate->process, self, filepath('all-files.html', root=self.output)
     
@@ -241,6 +288,22 @@ pro doc_system::generateOutput
   indexTemplate = self->getTemplate('index')
   indexTemplate->reset
   indexTemplate->process, self, filepath('index.html', root=self.output)
+end
+
+
+;+
+; Enter the item in the index.
+; 
+; :Params:
+;    `name` : in, required, string
+;       name to register the entry under
+;    `value` : in, required, type=object
+;       tree object (i.e. directory, file, param)
+;-
+pro doc_system::createIndexEntry, name, value
+  compile_opt strictarr
+  
+  self.index->put, name, value
 end
 
 
@@ -302,6 +365,7 @@ pro doc_system::cleanup
   obj_destroy, self.templates
   obj_destroy, self.parsers->values()
   obj_destroy, self.parsers
+  obj_destroy, self.index
 end
 
 
@@ -398,6 +462,8 @@ function doc_system::init, root=root, output=output, $
   outputError = self->testOutput()
   if (outputError ne 0L) then self->error, 'unable to write to ' + self.output
   
+  self.index = obj_new('MGcoHashTable', key_type=7, value_type=11)
+  
   ; copy resources
   self->copyResources
   
@@ -452,6 +518,7 @@ pro doc_system__define
              templates: obj_new(), $
              parsers: obj_new(), $
              title: '', $
-             subtitle: '' $         
+             subtitle: '', $
+             index: obj_new() $         
            }
 end
