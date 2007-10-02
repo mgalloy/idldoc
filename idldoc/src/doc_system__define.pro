@@ -224,8 +224,9 @@ end
 pro doc_system::loadTemplates
   compile_opt strictarr
   
-  templates = ['file-listing', 'all-files', 'dir-listing', 'dir-overview', $
-               'index', 'overview', 'savefile', 'profile']
+  templates = ['file-listing', 'all-files', 'dir-listing',  $
+               'index', 'overview', 'help', 'warnings', 'index-entries', $
+               'dir-overview', 'savefile', 'profile']
   for t = 0L, n_elements(templates) - 1L do begin
     templateFilename = filepath(templates[t] + '.tt', $
                                 subdir=['templates'], $
@@ -279,11 +280,22 @@ pro doc_system::generateOutput
   overviewTemplate->process, self, filepath('overview.html', root=self.output)
     
   ; generate index entries page
-  
+  indexEntriesTemplate = self->getTemplate('index-entries')
+  indexEntriesTemplate->reset
+  indexEntriesTemplate->process, self, filepath('idldoc-index.html', $
+                                                root=self.output)
+    
   ; generate warnings page
+  warningsTemplate = self->getTemplate('warnings')
+  warningsTemplate->reset
+  warningsTemplate->process, self, filepath('idldoc-warnings.html', $
+                                            root=self.output)
   
   ; generate help page
-  
+  helpTemplate = self->getTemplate('help')
+  helpTemplate->reset
+  helpTemplate->process, self, filepath('idldoc-help.html', root=self.output)
+    
   ; generate index.html
   indexTemplate = self->getTemplate('index')
   indexTemplate->reset
