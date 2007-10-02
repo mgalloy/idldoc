@@ -3,11 +3,34 @@
   <h2>[% subtitle %]</h2>
 </div>
 
-<table class="navbar small">
+<table class="navbar small" cellspacing="0">
   <tr>
-    <td>Overview</td>
-    <td><a href="[% relative_root %]idldoc-help.html">Help</a></td>
-    <td>Warnings</td>
-    <td class="flexible">User/developer</td>
+    <td>
+      <a href="[% relative_root %]overview.html">Overview</a>
+    </td>
+
+    <td>Directory</td>
+    <td>File</td>
+    <td>Source</td>
+    <td>Etc</td>
+    
+    <td>Categories</td>       
+    <td>Search</td>
+    
+    <td>
+      <a href="[% relative_root %]idldoc-index.html">Index</a>
+    </td>
+
+    <td>
+      <a href="[% relative_root %]idldoc-warnings.html">Warnings</a>
+    </td>
+        
+    <td class="selected">
+      <a href="[% relative_root %]idldoc-help.html">Help</a>
+    </td>
+        
+    <td class="flexible">
+      [% IF user %]User[% ELSE %]Developer[% END %] documentation
+    </td>
   </tr>
 </table>

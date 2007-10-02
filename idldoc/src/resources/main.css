@@ -30,16 +30,17 @@ table.attribute {
 }
 table.attribute td.name { font-weight: bold; padding-right: 1em; }
 
-/* header styles */
+/* header/navbar styles */
 div.header { padding: 2em 2em 0 2em; background: #71900B; border-bottom: 2px #384806 solid; }
 div.header h1 { color: white; margin:0; font-weight: normal; }
 div.header h2 { color: white; margin-top: 0; margin-bottom 1em; font-weight: normal; font-style: italic; font-size: 100%; }
-table.navbar { background: #B0E020; margin: 0; border-bottom: 1px #384806 dotted; width: 100%; }
-table.navbar td { padding: 1px 0 1px 1em; }
+table.navbar { background: #B0E020; margin: 0; padding: 0; border-bottom: 1px #384806 dotted; width: 100%; }
+table.navbar td { padding: 4px 0.5em 3px 0.5em; }
 table.navbar td.flexible { width: 100%; text-align: right; }
+table.navbar td.selected { background: #384806; }
+table.navbar td.selected a { color: white; }
 
 /* footer styles */
 div.footer { padding: 0.5em 1em 0.5em 1em; background: #EFEFEF; border-top: 1px #A0A0A0 dotted; }
 div.footer table { width: 100%; }
-div.footer td.left {}
 div.footer td.right { text-align: right; }
