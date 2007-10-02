@@ -18,6 +18,7 @@ function doc_system::getVariable, name, found=found
   
   found = 1B
   case strlowcase(name) of
+    'location' : return, 'All files'
     'version': return, self.version
     'date': return, systime()
     'title': return, self.title
@@ -25,6 +26,13 @@ function doc_system::getVariable, name, found=found
     'output_root': return, self.output
     'n_dirs' : return, self.directories->count()
     'dirs' : return, self.directories->get(/all)
+    'n_pro_files' :
+    'pro_files' :
+    'n_sav_files' :
+    'sav_files' :
+    'n_idldoc_files' :
+    'idldoc_files' :
+    'relative_root' : return, ''
     'idldoc_header_location' : return, filepath('idldoc-header.tt', $
                                                 subdir=['templates'], $
                                                 root=self.sourceLocation)    
@@ -142,6 +150,19 @@ pro doc_system::parseTree
 end
 
 
+;+
+; Get a template by name (as used when loaded in loadTemplates).
+; 
+; :Returns: template object or -1 if not found
+;
+; :Params:
+;    `name` : in, required, type=string
+;       name of template as used when loaded in loadTemplates
+;
+; :Keywords:
+;    `found` : out, optional, type=boolean
+;       indicates if the template name was found and returned
+;-
 function doc_system::getTemplate, name, found=found
   compile_opt strictarr
   
@@ -149,6 +170,10 @@ function doc_system::getTemplate, name, found=found
 end
 
 
+;+
+; Create the templates to be used to generate all the output and store the 
+; templates in a hash table.
+;-
 pro doc_system::loadTemplates
   compile_opt strictarr
   
@@ -190,11 +215,12 @@ pro doc_system::generateOutput
     directory = self.directories->get(position=d)
     directory->generateOutput, self.output
   endfor
-  
-  ; TODO: finish this
-    
+      
   ; generate all-files
-  
+  allFilesTemplate = self->getTemplate('file-listing')
+  allFilesTemplate->reset
+  allFilesTemplate->process, self, filepath('all-files.html', root=self.output)
+    
   ; generate all-dirs
   allDirsTemplate = self->getTemplate('dir-listing')
   allDirsTemplate->reset
