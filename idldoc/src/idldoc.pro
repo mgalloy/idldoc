@@ -54,7 +54,7 @@ pro idldoc, root=root, output=output, $
   compile_opt strictarr
 
   ; TODO: make sure to turn debug off before releasing
-  debug = 0B
+  debug = 1B
   
   if (~keyword_set(debug)) then begin
     error = 0L

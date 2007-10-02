@@ -25,60 +25,12 @@ function doc_system::getVariable, name, found=found
     'output_root': return, self.output
     'n_dirs' : return, self.directories->count()
     'dirs' : return, self.directories->get(/all)
-    'n_pro_files' : begin
-        entries = self.index->values(count=nEntries)
-        if (nEntries eq 0) then return, 0
-        
-        proFileTest = obj_isa(entries, 'DOCtreeProFile')
-        ind = where(proFileTest, nProFiles)
-        return, nProFiles
-      end
-    'pro_files' : begin
-        entries = self.index->values(count=nEntries)
-        if (nEntries eq 0) then return, -1L
-        
-        proFileTest = obj_isa(entries, 'DOCtreeProFile')
-        ind = where(proFileTest, nProFiles)
-        if (nProFiles eq 0) then return, -1L
-        
-        return, entries[ind]   ; TODO: sort these
-      end
-    'n_sav_files' : begin
-        entries = self.index->values(count=nEntries)
-        if (nEntries eq 0) then return, 0
-        
-        savFileTest = obj_isa(entries, 'DOCtreeSavFile')
-        ind = where(savFileTest, nSavFiles)
-        return, nSavFiles
-      end
-    'sav_files' : begin
-        entries = self.index->values(count=nEntries)
-        if (nEntries eq 0) then return, -1L
-        
-        savFileTest = obj_isa(entries, 'DOCtreeSavFile')
-        ind = where(savFileTest, nSavFiles)
-        if (nSavFiles eq 0) then return, -1L
-        
-        return, entries[ind]   ; TODO: sort these
-      end
-    'n_idldoc_files' : begin
-        entries = self.index->values(count=nEntries)
-        if (nEntries eq 0) then return, 0
-        
-        idldocFileTest = obj_isa(entries, 'DOCtreeIDLdocFile')
-        ind = where(idldocFileTest, nIDLdocFiles)
-        return, nIDLdocFiles
-      end
-    'idldoc_files' : begin
-        entries = self.index->values(count=nEntries)
-        if (nEntries eq 0) then return, -1L
-        
-        idldocFileTest = obj_isa(entries, 'DOCtreeIDLdocFile')
-        ind = where(idldocFileTest, nIDLdocFiles)
-        if (nIDLdocFiles eq 0) then return, -1L
-        
-        return, entries[ind]   ; TODO: sort these
-      end
+    'n_pro_files' : return, self.proFiles->count()
+    'pro_files' : return, self.proFiles->get(/all)
+    'n_sav_files' : return, self.savFiles->count()
+    'sav_files' : return, self.savFiles->get(/all)
+    'n_idldoc_files' : return, self.idldocFiles->count()
+    'idldoc_files' : return, self.idldocFiles->get(/all)
     'relative_root' : return, ''
     'idldoc_header_location' : return, filepath('idldoc-header.tt', $
                                                 subdir=['templates'], $
@@ -256,8 +208,37 @@ end
 ;-
 pro doc_system::generateOutput
   compile_opt strictarr
-  on_error, 2
   
+  ; first, organize the pro/sav/idldoc files
+  entries = self.index->values(count=nEntries)
+  names = self.index->keys()
+  
+  if (nEntries gt 0) then begin
+    ind = where(obj_isa(entries, 'DOCtreeProFile'), nProFiles)
+    if (nProFiles gt 0) then begin
+      proFiles = entries[ind]
+      proFileNames = names[ind]
+      sind = sort(proFileNames)
+      self.proFiles->add, proFiles[sind]
+    endif
+      
+    ind = where(obj_isa(entries, 'DOCtreeSavFile'), nSavFiles)
+    if (nSavFiles gt 0) then begin
+      savFiles = entries[ind]
+      savFileNames = names[ind]
+      sind = sort(savFileNames)
+      self.savFiles->add, savFiles[sind]
+    endif
+    
+    ind = where(obj_isa(entries, 'DOCtreeIDLdocFile'), nIDLdocFiles)
+    if (nIDLdocFiles gt 0) then begin
+      idldocFiles = entries[ind]
+      idldocFileNames = names[ind]
+      sind = sort(idldocFileNames)
+      self.idldocFiles->add, idldocFiles[sind]
+    endif    
+  endif
+        
   ; generate files per directory
   for d = 0L, self.directories->count() - 1L do begin
     directory = self.directories->get(position=d)
@@ -372,12 +353,14 @@ end
 pro doc_system::cleanup
   compile_opt strictarr
   
+  obj_destroy, [self.index, self.proFiles, self.savFiles, self.idldocFiles]
+  
   obj_destroy, self.directories
+  
   obj_destroy, self.templates->values()
   obj_destroy, self.templates
   obj_destroy, self.parsers->values()
-  obj_destroy, self.parsers
-  obj_destroy, self.index
+  obj_destroy, self.parsers  
 end
 
 
@@ -475,6 +458,9 @@ function doc_system::init, root=root, output=output, $
   if (outputError ne 0L) then self->error, 'unable to write to ' + self.output
   
   self.index = obj_new('MGcoHashTable', key_type=7, value_type=11)
+  self.proFiles = obj_new('MGcoArrayList', type=11)
+  self.savFiles = obj_new('MGcoArrayList', type=11)
+  self.idldocFiles = obj_new('MGcoArrayList', type=11)
   
   ; copy resources
   self->copyResources
@@ -531,6 +517,9 @@ pro doc_system__define
              parsers: obj_new(), $
              title: '', $
              subtitle: '', $
-             index: obj_new() $         
+             index: obj_new(), $
+             proFiles: obj_new(), $
+             savFiles: obj_new(), $
+             idldocFiles: obj_new() $      
            }
 end
