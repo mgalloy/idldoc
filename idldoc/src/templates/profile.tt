@@ -42,7 +42,7 @@
       [% IF n_routines gt 1 %]
         <dl class="routine-summary">
           [% FOREACH r IN routines %][% SCOPE r %]
-            <dt class="code">[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %]p[% END %][% IF n_keywords gt 0 %]k[% END %][% IF is_function %])[% END %]</dt>
+            <dt><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %]p[% END %][% IF n_keywords gt 0 %]k[% END %][% IF is_function %])[% END %]</code></dt>
             <dd class="small">Comments go here.</dd>
           [% END %][% END %]
         </dl>
@@ -56,7 +56,7 @@
 
           [% FOREACH r IN routines %][% SCOPE r %]
             <div class="routine-detail">
-              <p class="code">[% IF is_function %]result = [% END %]routine name[% IF is_function %]([% END %][% IF n_parameters gt 0 %]p[% END %][% IF n_keywords gt 0 %]k[% END %][% IF is_function %])[% END %]</p>
+              <p><code>[% IF is_function %]result = [% END %]routine name[% IF is_function %]([% END %][% IF n_parameters gt 0 %]p[% END %][% IF n_keywords gt 0 %]k[% END %][% IF is_function %])[% END %]</code></p>
             </div>            
           [% END %][% END %]    	
     </div>

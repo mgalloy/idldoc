@@ -2,3 +2,12 @@
   <h1>[% title %]</h1>
   <h2>[% subtitle %]</h2>
 </div>
+
+<table class="navbar small">
+  <tr>
+    <td>Overview</td>
+    <td><a href="[% relative_root %]idldoc-help.html">Help</a></td>
+    <td>Warnings</td>
+    <td class="flexible">User/developer</td>
+  </tr>
+</table>
