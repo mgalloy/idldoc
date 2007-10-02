@@ -24,15 +24,16 @@ function doc_system::getVariable, name, found=found
     'subtitle': return, self.subtitle
     'user': return, self.user
     'output_root': return, self.output
-    'n_dirs' : return, self.directories->count()
-    'dirs' : return, self.directories->get(/all)
-    'n_pro_files' : return, self.proFiles->count()
-    'pro_files' : return, self.proFiles->get(/all)
-    'n_sav_files' : return, self.savFiles->count()
-    'sav_files' : return, self.savFiles->get(/all)
-    'n_idldoc_files' : return, self.idldocFiles->count()
-    'idldoc_files' : return, self.idldocFiles->get(/all)
-    'relative_root' : return, ''
+    'n_dirs': return, self.directories->count()
+    'dirs': return, self.directories->get(/all)
+    'n_pro_files': return, self.proFiles->count()
+    'pro_files': return, self.proFiles->get(/all)
+    'n_sav_files': return, self.savFiles->count()
+    'sav_files': return, self.savFiles->get(/all)
+    'n_idldoc_files': return, self.idldocFiles->count()
+    'idldoc_files': return, self.idldocFiles->get(/all)
+    'relative_root': return, ''
+    'current_template': return, self.currentTemplate
     'idldoc_header_location' : return, filepath('idldoc-header.tt', $
                                                 subdir=['templates'], $
                                                 root=self.sourceLocation)    
@@ -166,6 +167,7 @@ end
 function doc_system::getTemplate, name, found=found
   compile_opt strictarr
   
+  self.currentTemplate = name
   return, self.templates->get(name, found=found)
 end
 
@@ -520,6 +522,7 @@ pro doc_system__define
              title: '', $
              subtitle: '', $
              user: 0B, $
+             currentTemplate: '', $
              index: obj_new(), $
              proFiles: obj_new(), $
              savFiles: obj_new(), $

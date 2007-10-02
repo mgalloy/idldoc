@@ -5,27 +5,31 @@
 
 <table class="navbar small" cellspacing="0">
   <tr>
-    <td>
+    <td [% IF current_template eq 'overview' %]class="selected"[% END %]>
       <a href="[% relative_root %]overview.html">Overview</a>
     </td>
 
-    <td>Directory</td>
+    <td [% IF current_template eq 'dir-overview' %]class="selected"[% END %]>
+      Directory
+    </td>
+    
     <td>File</td>
     <td>Source</td>
     <td>Etc</td>
     
-    <td>Categories</td>       
+    <td>Categories</td>  
+         
     <td>Search</td>
     
-    <td>
+    <td [% IF current_template eq 'index-entries' %]class="selected"[% END %]>
       <a href="[% relative_root %]idldoc-index.html">Index</a>
     </td>
 
-    <td>
+    <td [% IF current_template eq 'warnings' %]class="selected"[% END %]>
       <a href="[% relative_root %]idldoc-warnings.html">Warnings</a>
     </td>
         
-    <td class="selected">
+    <td [% IF current_template eq 'help' %]class="selected"[% END %]>
       <a href="[% relative_root %]idldoc-help.html">Help</a>
     </td>
         
@@ -34,3 +38,5 @@
     </td>
   </tr>
 </table>
+
+<p class="localnavbar smaller">single page | use frames &nbsp;&nbsp;&nbsp; summary &nbsp;&nbsp;&nbsp; class &nbsp;&nbsp;&nbsp; fields &nbsp;&nbsp;&nbsp; routine details &nbsp;&nbsp;&nbsp; statistics</p>

@@ -11,6 +11,7 @@ a:hover, a:focus { background: yellow; border-bottom: 1px dotted #303099; }
 h1, h2 { font-weight:normal; color: #900000; }
 .center { margin-left: auto; margin-right: auto; }
 .small { font-family: Verdana, Helvetica, sans-serif; font-size: 80%; }
+.smaller { font-family: Verdana, Helvetica, sans-serif; font-size: 70%; }
 h1.basename { margin-top: 0; }
 h2.directory { font-size: 90%; margin-bottom: 0; }
 
@@ -36,9 +37,11 @@ div.header h1 { color: white; margin:0; font-weight: normal; }
 div.header h2 { color: white; margin-top: 0; margin-bottom 1em; font-weight: normal; font-style: italic; font-size: 100%; }
 table.navbar { background: #B0E020; margin: 0; padding: 0; border-bottom: 1px #384806 dotted; width: 100%; }
 table.navbar td { padding: 4px 0.5em 3px 0.5em; }
-table.navbar td.flexible { width: 100%; text-align: right; }
+table.navbar td.flexible { width: 100%; text-align: right; padding-right: 1em; }
 table.navbar td.selected { background: #384806; }
 table.navbar td.selected a { color: white; }
+table.navbar a:hover, table.navbar a:focus { background: inherit; border-bottom: 1px solid #303099; }
+p.localnavbar { text-align: right; margin: 0.2em 1em 0.2em 0.2em; padding: 0; }
 
 /* footer styles */
 div.footer { padding: 0.5em 1em 0.5em 1em; background: #EFEFEF; border-top: 1px #A0A0A0 dotted; }

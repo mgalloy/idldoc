@@ -4,8 +4,12 @@ a:link, a:visited { color: #0000FF; }
 a:hover, a:focus { background: yellow; border-bottom: 1px dotted #303099; }
 
 /* page setup */
-body { font-family: Helvetica, sans-serif; font-size: 9pt; margin: 0; }
+body { font-family: Helvetica, sans-serif; font-size: 10pt; margin: 0; }
 
+/* headings */
 h1 { font-size: 100%; margin-bottom: 0.5em; padding-left: 0.5em; }
-ul { padding: 0em 1em 0em 1.5em; margin-top: 0; }
+h1 span { font-size: 80%; font-samily: Verdana, Helvetica, sans-serif; font-weight: normal; }
+
+/* list items */
+ul { font-size: 90%; padding: 0em 1em 0em 1.5em; margin-top: 0; }
 li { list-style-type: none; }
