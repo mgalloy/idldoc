@@ -152,8 +152,8 @@ end
 pro doc_system::loadTemplates
   compile_opt strictarr
   
-  templates = ['file-listing', 'dir-listing', 'index', 'overview', $
-               'savefile', 'profile']
+  templates = ['file-listing', 'dir-listing', 'dir-overview', 'index', $
+               'overview', 'savefile', 'profile']
   for t = 0L, n_elements(templates) - 1L do begin
     templateFilename = filepath(templates[t] + '.tt', $
                                 subdir=['templates'], $

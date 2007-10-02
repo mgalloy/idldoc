@@ -101,7 +101,11 @@ pro doctreedirectory::generateOutput, outputRoot
   endfor
       
   ; generate directory overview
-  
+  dirOverviewFilename = filepath('dir-overview.html', root=outputDir)
+  dirOverviewTemplate = self.system->getTemplate('dir-overview')
+  dirOverviewTemplate->reset
+  dirOverviewTemplate->process, self, dirOverviewFilename
+    
   ; generate file listing
   listingFilename = filepath('dir-files.html', root=outputDir)
   listingTemplate = self.system->getTemplate('file-listing')
