@@ -110,6 +110,31 @@ end
 
 
 ;+
+; Mark first and last arguments of a routine. Needs to be called after parsing
+; the routine, but before the output is started.
+;-
+pro doctreeroutine::markArguments
+  compile_opt strictarr
+  
+  nArgs = self.parameters->count() + self.keywords->count()
+  if (nArgs le 0) then return
+  
+  arguments = objarr(nArgs)
+  
+  if (self.parameters->count() gt 0) then begin
+    arguments[0] = self.parameters->get(/all)
+  endif
+  
+  if (self.keywords->count() gt 0) then begin
+    arguments[self.parameters->count()] = self.keywords->get(/all)
+  endif
+
+  arguments[0]->setProperty, is_first=1B
+  arguments[n_elements(arguments) - 1L]->setProperty, is_last=1B
+end
+
+
+;+
 ; Free resources.
 ;-
 pro doctreeroutine::cleanup

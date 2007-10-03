@@ -119,6 +119,11 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   
   print, '  Generating output for ' + self.basename
 
+  for r = 0L, self.routines->count() - 1L do begin
+    routine = self.routines->get(position=r)
+    routine->markArguments
+  endfor
+
   proFileTemplate = self.system->getTemplate('profile')
   
   outputDir = outputRoot + directory

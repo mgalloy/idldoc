@@ -60,6 +60,7 @@ function doctreeargument::getVariable, name, found=found
   found = 1B
   case name of
     'name' : return, self.name
+    
     'iskeyword' : return, self.isKeyword
     'isoptional' : return, self.isOptional
     'isrequired' : return, self.isRequired
@@ -70,14 +71,16 @@ function doctreeargument::getVariable, name, found=found
     'defaultvalue' : return, self.defaultValue
     'ishidden' : return, self.isHidden
     'isprivate' : return, self.isPrivate
+    
     'prefix' : begin
       self.routine->getProperty, is_function=isFunction
       return, (isFunction && self.isFirst) ? '(' : ', '
     end
     'suffix' : begin
       self.routine->getProperty, is_function=isFunction
-      return, isFunction ? ')' : ''
+      return, (isFunction && self.isLast) ? ')' : ''
     end
+    
     'comments' : begin
       comments = self.comments->get(/all, count=count)
       return, count eq 0 ? '' : comments
@@ -94,7 +97,7 @@ end
 ; Set properties of the argument.
 ;-
 pro doctreeargument::getProperty, routine=routine, name=name, $
-    is_first=isFirst, is_keyword=isKeyword, is_optional=isOptional, $
+    is_first=isFirst, is_last=isLast, is_keyword=isKeyword, is_optional=isOptional, $
     is_required=isRequired, is_input=isInput, is_output=isOutput, $
     type=type, default_value=defaultValue, is_hidden=isHidden, $
     is_private=isPrivate, comments=comments  
@@ -103,6 +106,7 @@ pro doctreeargument::getProperty, routine=routine, name=name, $
   if (arg_present(routine)) then routine = self.routine
   if (arg_present(name)) then name = self.name
   if (arg_present(isFirst)) then isFirst = self.isFirst  
+  if (arg_present(isLast)) then isLast = self.isLast  
   if (arg_present(isKeyword)) then isKeyword = self.isKeyword  
   if (arg_present(isOptional)) then isOptional = self.isOptional    
   if (arg_present(isRequired)) then isRequired = self.isRequired      
@@ -119,13 +123,21 @@ end
 ;+
 ; Set properties of the argument.
 ;-
-pro doctreeargument::setProperty, is_first=isFirst, is_keyword=isKeyword, $
-    is_optional=isOptional, is_required=isRequired, is_input=isInput, $
-    is_output=isOutput, type=type, default_value=defaultValue, $
-    is_hidden=isHidden, is_private=isPrivate, comments=comments
+pro doctreeargument::setProperty, is_keyword=isKeyword, $
+                                  is_first=isFirst, is_last=isLast, $
+                                  is_optional=isOptional, $
+                                  is_required=isRequired, $
+                                  is_input=isInput, $
+                                  is_output=isOutput, $
+                                  type=type, $
+                                  default_value=defaultValue, $
+                                  is_hidden=isHidden, $
+                                  is_private=isPrivate, $
+                                  comments=comments
   compile_opt strictarr
   
   if (n_elements(isFirst) gt 0) then self.isFirst = isFirst
+  if (n_elements(isLast) gt 0) then self.isLast = isLast  
   if (n_elements(isKeyword) gt 0) then self.isKeyword = isKeyword
   if (n_elements(isOptional) gt 0) then self.isOptional = isOptional
   if (n_elements(isRequired) gt 0) then self.isRequired = isRequired
@@ -175,6 +187,7 @@ end
 ;    `routine` DOCtreeRoutine object that contains this argument
 ;    `name` name of the argument
 ;    `isFirst` indicates that this argument is the first of its parent routine
+;    `isLast` indicates that this argument is the first of its parent routine
 ;    `isKeyword` indicates that this argument is a keyword
 ;    `isOptional` indicates that this argument is optional
 ;    `isRequired` indicates that this argument is required
@@ -195,6 +208,7 @@ pro doctreeargument__define
              routine: obj_new(), $
              name: '', $
              isFirst: 0B, $
+             isLast: 0B, $
              isKeyword: 0B, $
              isOptional: 0B, $
              isRequired: 0B, $
