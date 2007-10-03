@@ -54,11 +54,13 @@
     	
     	<h2>Routines</h2>
 
+          [% IF n_routines gt 0 %]
           [% FOREACH r IN routines %][% SCOPE r %]
             <div class="routine-detail">
-              <p><code>[% IF is_function %]result = [% END %]routine name[% IF is_function %]([% END %][% IF n_parameters gt 0 %]p[% END %][% IF n_keywords gt 0 %]k[% END %][% IF is_function %])[% END %]</code></p>
+              <p><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %]p[% END %][% IF n_keywords gt 0 %]k[% END %][% IF is_function %])[% END %]</code></p>
             </div>            
-          [% END %][% END %]    	
+          [% END %][% END %]  
+          [% END %]  	
     </div>
     
     [% INCLUDE_TEMPLATE idldoc_footer_location %]    
