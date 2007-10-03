@@ -8,13 +8,17 @@ a:link, a:visited { color: #0000FF; }
 a:hover, a:focus { background: yellow; border-bottom: 1px dotted #303099; }
 
 /* titles */
-h1, h2 { font-weight:normal; color: #900000; margin-top: 1.5em; }
+h1, h2, h3, h4 { font-weight:normal; color: #900000; margin-top: 1.5em; }
 .center { margin-left: auto; margin-right: auto; }
 .small { font-size: 90%; }
 .smaller { font-family: Verdana, Helvetica, sans-serif; font-size: 80%; }
 .smallest { font-family: Verdana, Helvetica, sans-serif; font-size: 70%; }
 h1.basename { margin-top: 0; }
 h2.directory { font-size: 90%; margin-bottom: 0; }
+
+div.routine-details { border: 1px dotted #C0C0C0; margin-top: 1em; padding: 1em; }
+div.routine-details h3 { margin-top: 0; }
+a.top { font-weight: bold; text-transform: uppercase; float: right; }
 
 /* code styles */
 code { font-family: "Courier New", Courier, monospace; }

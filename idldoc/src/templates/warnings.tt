@@ -28,7 +28,25 @@
     
     <div class="content">
     
-    	<h2>Warnings</h2>
+    	<div id="todos">
+    		<h2>Todos</h2>
+    	</div>
+    	
+    	<div id="bugs">
+    		<h2>Bugs</h2>
+    	</div>
+    	
+    	<div id="undocumented">	
+    		<h2>Undocumented</h2>    		
+    	</div>
+    	
+    	<div id="obsolete">
+    		<h2>Obsolete</h2>
+    	</div>
+    	
+    	<div id="statistics">
+    		<h2>Statistics</h2>
+    	</div>
     	
 		</div>    
 

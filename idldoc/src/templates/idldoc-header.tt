@@ -46,5 +46,13 @@
 </table>
 
 [% IF current_template eq 'profile' %]
-<p class="localnavbar smallest">single page | use frames &nbsp;&nbsp;&nbsp; summary &nbsp;&nbsp;&nbsp; class &nbsp;&nbsp;&nbsp; fields &nbsp;&nbsp;&nbsp; <a href="#routine-details">routine details</a> &nbsp;&nbsp;&nbsp; <a href="#attributes">file attributes</a></p>
+<p class="localnavbar smallest"><a href="[% local_url %]" target="_top">single page</a> | use frames &nbsp;&nbsp;&nbsp; summary &nbsp;&nbsp;&nbsp; class &nbsp;&nbsp;&nbsp; fields &nbsp;&nbsp;&nbsp; <a href="#routine-details">routine details</a> &nbsp;&nbsp;&nbsp; <a href="#attributes">file attributes</a></p>
+[% END %]
+
+[% IF current_template eq 'warnings' %]
+<p class="localnavbar smallest"><a href="idldoc-warnings.html" target="_top">single page</a> | use frames &nbsp;&nbsp;&nbsp; <a href="#todo">todo</a> &nbsp;&nbsp;&nbsp; <a href="#bugs">bugs</a> &nbsp;&nbsp;&nbsp; <a href="#undocumented">undocumented</a> &nbsp;&nbsp;&nbsp; <a href="#obsolete">obsolete</a> &nbsp;&nbsp;&nbsp; <a href="#statistics">statistics</a></p>
+[% END %]
+
+[% IF current_template eq 'help' %]
+<p class="localnavbar smallest"><a href="idldoc-help.html" target="_top">single page</a> | use frames &nbsp;&nbsp;&nbsp; <a href="#calling">calling</a> &nbsp;&nbsp;&nbsp; <a href="#commenting">commenting</a> &nbsp;&nbsp;&nbsp; <a href="#customizing">customizing</a></p>
 [% END %]

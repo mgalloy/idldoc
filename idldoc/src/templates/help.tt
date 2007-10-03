@@ -27,21 +27,24 @@
     [% INCLUDE_TEMPLATE idldoc_header_location %]
     
     <div class="content">
-    
-    	<h1>Help</h1>
     	
-    	<h2>Calling IDLdoc</h2>
+    	<div id="calling">
+    		<h2>Calling IDLdoc</h2>
     	
-    	<p>To install IDLdoc, simply unzip and place the IDLdoc distribution in your IDL path. A typical call to IDLdoc is: <code class="listing">IDL> idldoc, root='~/projects/idllib', output='~/projects/libdocs'</code></p>
+    		<p>To install IDLdoc, simply unzip and place the IDLdoc distribution in your IDL path. A typical call to IDLdoc is: <code class="listing">IDL> idldoc, root='~/projects/idllib', output='~/projects/libdocs'</code></p>
+    	</div>
     	
-    	<h2>Commenting your code</h2>
+    	<div id="commenting">
+    		<h2>Commenting your code</h2>
     	
-    	<p>IDLdoc now accepts three different styles of commenting: the traditional IDL provided comment template, IDLdoc style, or a restructured text style.</p>
-    	  
-    	<h2>Producing customized output</h2>
+    		<p>IDLdoc now accepts three different styles of commenting: the traditional IDL provided comment template, IDLdoc style, or a restructured text style.</p>
+    	</div>
     	
-    	<p>IDLdoc uses text file templates to create its output. These can be customized to produce any kind of text output: HTML, LaTeX, DocBook, restructured text, etc. The templates are located in the "templates" directory of the distribution.</p>
+    	<div id="customizing">  
+    		<h2>Producing customized output</h2>
     	
+    		<p>IDLdoc uses text file templates to create its output. These can be customized to produce any kind of text output: HTML, LaTeX, DocBook, restructured text, etc. The templates are located in the "templates" directory of the distribution.</p>
+    	</div>
 		</div>    
 
     [% INCLUDE_TEMPLATE idldoc_footer_location %]
