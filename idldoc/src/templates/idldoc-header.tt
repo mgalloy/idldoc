@@ -13,15 +13,19 @@
       Directory
     </td>
     
-    <td>File</td>
+    <td [% IF current_template eq 'profile' || current_template eq 'savefile' %]class="selected"[% END %]>File</td>
     
     <td>Source</td>
     
     <td>Etc</td>
     
-    <td>Categories</td>  
+    <td [% IF current_template eq 'categories' %]class="selected"[% END %]>
+    	<a href="[% relative_root %]categories.html">Categories</a>
+    </td>  
          
-    <td>Search</td>
+    <td [% IF current_template eq 'search' %]class="selected"[% END %]>
+    	<a href="[% relative_root %]search.html">Search</a>
+    </td>
     
     <td [% IF current_template eq 'index-entries' %]class="selected"[% END %]>
       <a href="[% relative_root %]idldoc-index.html">Index</a>

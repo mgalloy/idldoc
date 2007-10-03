@@ -181,6 +181,7 @@ pro doc_system::loadTemplates
   
   templates = ['file-listing', 'all-files', 'dir-listing',  $
                'index', 'overview', 'help', 'warnings', 'index-entries', $
+               'categories', 'search', $
                'dir-overview', 'savefile', 'profile']
   for t = 0L, n_elements(templates) - 1L do begin
     templateFilename = filepath(templates[t] + '.tt', $
@@ -274,7 +275,18 @@ pro doc_system::generateOutput
   warningsTemplate->reset
   warningsTemplate->process, self, filepath('idldoc-warnings.html', $
                                             root=self.output)
-  
+
+  ; generate search page
+  searchTemplate = self->getTemplate('search')
+  searchTemplate->reset
+  searchTemplate->process, self, filepath('search.html', $
+                                          root=self.output)
+                                          
+  ; generate categories page
+  categoriesTemplate = self->getTemplate('categories')
+  categoriesTemplate->reset
+  categoriesTemplate->process, self, filepath('categories.html', $
+                                              root=self.output)
   ; generate help page
   helpTemplate = self->getTemplate('help')
   helpTemplate->reset
