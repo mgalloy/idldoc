@@ -42,7 +42,7 @@
       [% IF n_routines gt 1 %]
         <dl class="routine-summary">
           [% FOREACH r IN routines %][% SCOPE r %]
-            <dt><code>[% IF is_function %]result = [% END %][% name %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %]</code></dt>
+            <dt class="syntax"><code>[% IF is_function %]result = [% END %][% name %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %]</code></dt>
             <dd class="small">Comments go here.</dd>
           [% END %][% END %]
         </dl>
@@ -54,11 +54,11 @@
     	
     	[% IF n_routines gt 0 %]
     	<div id="routine-details">
-    	  <h2>Routines</h2>
+    	  [% IF n_routines gt 1 %]<h2>Routine details</h2>[% END %]
         
         [% FOREACH r IN routines %][% SCOPE r %]
         <div class="routine-detail">
-          <p><code>[% IF is_function %]result = [% END %][% name %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %]</code></p>
+          <p class="syntax"><code>[% IF is_function %]result = [% END %][% name %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %]</code></p>
         </div>            
         [% END %][% END %]
             
@@ -70,17 +70,17 @@
         	
         <table class="attribute smaller">
           <tr>
-            <td>Modifcation date:</td>
+            <td class="name">Modifcation date:</td>
             <td>[% modification_time %]</td>
           </tr>
 
           <tr>
-            <td>Lines:</td>
+            <td class="name">Lines:</td>
             <td>[% n_lines %]</td>
           </tr>
                             
           <tr>
-            <td>Docformat:</td>
+            <td class="name">Docformat:</td>
             <td>[% format %][% IF format ne '' %] [% END %][% markup %]</td>
           </tr>
         </table> 

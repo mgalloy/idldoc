@@ -19,9 +19,13 @@ h2.directory { font-size: 90%; margin-bottom: 0; }
 /* code styles */
 code { font-family: "Courier New", Courier, monospace; }
 code.listing { white-space: pre; display: block; padding: 0.5em 3em 0.5em 3em; }
+.syntax { margin-left: 1.5em; text-indent: -1.5em; }
 
 dl.routine-summary dt { margin-bottom: 0.25em; }
 dl.routine-summary dd { margin-bottom: 0.5em; margin-left: 2em; }
+
+/* table */
+table { empty-cells: show; }
 
 /* An attribute table is a vertical list of name-value pairs. */
 table.attribute { 
@@ -29,7 +33,8 @@ table.attribute {
   padding: 0.75em; 
   border: 1px #A0A0A0 dotted; 
 }
-table.attribute td.name { font-weight: bold; padding-right: 1em; }
+table.attribute td { font-style: italic; }
+table.attribute td.name { font-style: normal; padding-right: 1.5em; }
 
 /* header/navbar styles */
 div.header { padding: 2em 2em 0 2em; background: #71900B; border-bottom: 2px #384806 solid; }
