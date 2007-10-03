@@ -27,6 +27,9 @@
     
       <ul>
         <li><a href="all-files.html" target="files_frame">All files</a></li>
+      </ul>
+      
+      <ul>
         [% FOREACH d IN dirs %][% SCOPE d %]
         <li><a href="[% url %]dir-files.html" target="files_frame">[% location %]</a></li>
         [% END %][% END %]
