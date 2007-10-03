@@ -20,10 +20,14 @@
 ; :Keywords:
 ;    `empty` : out, optional, type=boolean
 ;       returns whether the file was empty
+;    `n_lines` : out, optional, type=long
+;       number of lines in the file
 ;-
-function docparprofileparser::_readFile, filename, empty=empty
+function docparprofileparser::_readFile, filename, empty=empty, $
+                                         n_lines=nLines, modification_time=mTime
   compile_opt strictarr
   
+  mTime = systime(0, (file_info(filename)).mtime)
   nLines = file_lines(filename)
   if (nLines eq 0) then begin
     empty = 1B
@@ -307,7 +311,9 @@ function docparprofileparser::parse, filename, found=found, directory=directory
                  system=self.system)
   
   ; get the contents of the file
-  lines = self->_readFile(filename, empty=empty)
+  lines = self->_readFile(filename, empty=empty, n_lines=nLines, $
+                          modification_time=mTime)
+  file->setProperty, n_lines=nLines, modification_time=mTime
   
   ; if the file is empty, no parsing needs to be done
   if (empty) then begin
@@ -322,7 +328,7 @@ function docparprofileparser::parse, filename, found=found, directory=directory
   if (~foundFormat) then begin
     format = self.format
     markup = self.markup
-  endif
+  endif else file->setProperty, format=format, markup=markup
   
   ; parse lines of file
   self->_parseLines, lines, file, format=format, markup=markup

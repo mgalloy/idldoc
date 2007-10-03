@@ -1,6 +1,6 @@
 <div class="footer">
 
-  <table class="small">
+  <table class="smaller">
     <tr>
       <td class="left">Produced by IDLdoc [% version %] on [% date %]</td>
       <td class="right">Report bugs to: <a href="mailto:idldoc@idlddev.com">idldoc@idldev.com</a></td>

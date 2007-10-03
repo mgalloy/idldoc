@@ -61,7 +61,27 @@
             </div>            
           [% END %][% END %]  
           
-      [% END %]  	
+      [% END %]
+      
+      <h2 id="attributes">File attributes</h2>
+        	
+        <table class="attribute smaller">
+          <tr>
+            <td>Modifcation date:</td>
+            <td>[% modification_time %]</td>
+          </tr>
+
+          <tr>
+            <td>Lines:</td>
+            <td>[% n_lines %]</td>
+          </tr>
+                            
+          <tr>
+            <td>Docformat:</td>
+            <td>[% format %][% IF format ne '' %] [% END %][% markup %]</td>
+          </tr>
+      </table> 
+      
     </div>
     
     [% INCLUDE_TEMPLATE idldoc_footer_location %]    

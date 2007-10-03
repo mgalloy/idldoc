@@ -8,10 +8,11 @@ a:link, a:visited { color: #0000FF; }
 a:hover, a:focus { background: yellow; border-bottom: 1px dotted #303099; }
 
 /* titles */
-h1, h2 { font-weight:normal; color: #900000; }
+h1, h2 { font-weight:normal; color: #900000; margin-top: 1.5em; }
 .center { margin-left: auto; margin-right: auto; }
-.small { font-family: Verdana, Helvetica, sans-serif; font-size: 80%; }
-.smaller { font-family: Verdana, Helvetica, sans-serif; font-size: 70%; }
+.small { font-size: 90%; }
+.smaller { font-family: Verdana, Helvetica, sans-serif; font-size: 80%; }
+.smallest { font-family: Verdana, Helvetica, sans-serif; font-size: 70%; }
 h1.basename { margin-top: 0; }
 h2.directory { font-size: 90%; margin-bottom: 0; }
 
@@ -24,9 +25,8 @@ dl.routine-summary dd { margin-bottom: 0.5em; margin-left: 2em; }
 
 /* An attribute table is a vertical list of name-value pairs. */
 table.attribute { 
-  font-size: 90%; 
   background: #EFEFEF; 
-  padding: 1em; 
+  padding: 0.75em; 
   border: 1px #A0A0A0 dotted; 
 }
 table.attribute td.name { font-weight: bold; padding-right: 1em; }

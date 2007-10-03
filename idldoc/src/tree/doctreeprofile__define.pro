@@ -41,12 +41,18 @@ end
 ; Set properties.
 ;-
 pro doctreeprofile::setProperty, has_main_level=hasMainLevel, $
-                                 is_batch=isBatch, comments=comments
+                                 is_batch=isBatch, comments=comments, $
+                                 modification_time=mTime, n_lines=nLines, $ 
+                                 format=format, markup=markup                                 
   compile_opt strictarr
   
-  if (n_elements(hasMainLevel) ne 0) then self.hasMainLevel = hasMainLevel
-  if (n_elements(isBatch) ne 0) then self.isBatch = isBatch
-  if (n_elements(comments) ne 0) then self.comments = comments
+  if (n_elements(hasMainLevel) gt 0) then self.hasMainLevel = hasMainLevel
+  if (n_elements(isBatch) gt 0) then self.isBatch = isBatch
+  if (n_elements(comments) gt 0) then self.comments = comments
+  if (n_elements(format) gt 0) then self.format = format
+  if (n_elements(markup) gt 0) then self.markup = markup
+  if (n_elements(nLines) gt 0) then self.nLines = nLines
+  if (n_elements(mTime) gt 0) then self.modificationTime = mTime
 end
 
 
@@ -67,13 +73,21 @@ function doctreeprofile::getVariable, name, found=found
   
   found = 1B
   case strlowcase(name) of
-    'basename' : return, self.basename
-    'local_url' : return, file_basename(self.basename, '.pro') + '.html'
-    'is_batch' : return, self.isBatch
-    'has_main_level' : return, self.hasMainLevel
-    'is_class' : return, strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
+    'basename': return, self.basename
+    'local_url': return, file_basename(self.basename, '.pro') + '.html'
+    
+    'is_batch': return, self.isBatch
+    'has_main_level': return, self.hasMainLevel
+    'is_class': return, strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
+    
+    'modification_time': return, self.modificationTime
+    'n_lines': return, self.nLines
+    'format': return, self.format
+    'markup': return, self.markup
+    
     'n_routines' : return, self.routines->count()
     'routines' : return, self.routines->get(/all)
+    
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
@@ -167,6 +181,12 @@ pro doctreeprofile__define
              hasMainLevel: 0B, $
              isBatch: 0B, $
              isClass: 0B, $
+             
+             modificationTime: '', $
+             nLines: 0L, $
+             format: '', $
+             markup: '', $
+             
              comments: obj_new(), $
              routines: obj_new() $
            }
