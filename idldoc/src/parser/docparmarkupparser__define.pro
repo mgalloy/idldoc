@@ -24,11 +24,20 @@ function docparmarkupparser::parse, lines
 end
 
 
+function docparmarkupparser::init, system=system
+  compile_opt strictarr
+  
+  self.system = system
+  
+  return, 1
+end
+
+
 ;+
 ; Define instance variables.
 ;-
 pro docparmarkupparser__define 
   compile_opt strictarr
   
-  define = { DOCparMarkupParser, _: 0L }
+  define = { DOCparMarkupParser, system: obj_new() }
 end

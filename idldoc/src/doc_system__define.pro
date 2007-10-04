@@ -203,7 +203,17 @@ end
 pro doc_system::loadParsers
   compile_opt strictarr
   
+  ; file parsers
   self.parsers->put, 'profile', obj_new('DOCparProFileParser', system=self)
+  
+  ; header comment parsers
+  self.parsers->put, 'rstformat', obj_new('DOCparRSTFormatParser', system=self)
+  self.parsers->put, 'idldocformat', obj_new('DOCparIDLdocFormatParser', system=self)
+  self.parsers->put, 'idlformat', obj_new('DOCparIDLFormatParser', system=self)
+  
+  ; markup parsers
+  self.parsers->put, 'verbatimmarkup', obj_new('DOCparVerbatimMarkupParser', system=self)
+  self.parsers->put, 'rstmarkup', obj_new('DOCparRSTMarkupParser', system=self)
 end
 
 

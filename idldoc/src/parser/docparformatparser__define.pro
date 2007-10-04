@@ -31,11 +31,20 @@ function docparformatparser::parse, lines, routine=routine, file=file, $
 end
 
 
+function docparformatparser::init, system=system
+  compile_opt strictarr
+  
+  self.system = system
+  
+  return, 1
+end
+
+
 ;+
 ; Define instance variables.
 ;-
 pro docparformatparser__define 
   compile_opt strictarr
   
-  define = { DOCparFormatParser, _: 0L }
+  define = { DOCparFormatParser, system: obj_new() }
 end

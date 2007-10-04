@@ -37,12 +37,13 @@ end
 ; Set properties.
 ;-
 pro doctreeroutine::setProperty, name=name, is_Function=isFunction, $
-                                 is_method=isMethod
+                                 is_method=isMethod, comment=comments
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then self.name = name
   if (n_elements(isFunction) gt 0) then self.isFunction = isFunction
   if (n_elements(isMethod) gt 0) then self.isMethod = isMethod
+  if (n_elements(comments) gt 0) then self.comments = comments
 end
 
 

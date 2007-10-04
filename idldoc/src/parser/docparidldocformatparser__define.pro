@@ -91,27 +91,10 @@ end
 
 
 ;+
-; :Returns: 1 for success, 0 for failure
-; :Params:
-;    `system` : in, required, type=object
-;       IDLdoc system object
-;-
-function docparidldocformatparser::init, system=system
-  compile_opt strictarr
-  
-  self.system = system
-  
-  return, 1
-end
-
-
-;+
 ; Define instance variables.
 ;-
 pro docparidldocformatparser__define
   compile_opt strictarr
 
-  define = { DOCparIDLdocFormatParser, inherits DOCparFormatParser, $
-             system: obj_new() $
-           }
+  define = { DOCparIDLdocFormatParser, inherits DOCparFormatParser }
 end
