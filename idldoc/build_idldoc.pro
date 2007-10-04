@@ -53,6 +53,7 @@
 .compile src/parser/docparrstformatparser__define
 .compile src/parser/docparrstmarkupparser__define
 .compile src/parser/docparverbatimmarkupparser__define
+.compile src/parser/docparverbatimformatparser__define
 
 ; compile any system routines that are used in the required code
 resolve_all
