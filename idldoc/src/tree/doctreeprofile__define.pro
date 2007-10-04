@@ -124,7 +124,7 @@ end
 pro doctreeprofile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
-  print, '  Generating output for ' + self.basename
+  self.system->print, '  Generating output for ' + self.basename + '...'
 
   for r = 0L, self.routines->count() - 1L do begin
     routine = self.routines->get(position=r)
@@ -170,6 +170,7 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   self.routines = obj_new('MGcoArrayList', type=11)
   
   self.system->createIndexEntry, self.basename, self
+  self.system->print, '  Parsing ' + self.basename + '...'
   
   return, 1
 end

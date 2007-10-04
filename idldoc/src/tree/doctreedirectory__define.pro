@@ -75,7 +75,7 @@ pro doctreedirectory::generateOutput, outputRoot
   compile_opt strictarr
   on_error, 2
   
-  print, 'Generating output for ' + self.location
+  self.system->print, 'Generating output for ' + self.location + '...'
 
   ; create directory in the output if necessary
   outputDir = outputRoot + self.location
@@ -152,7 +152,8 @@ function doctreedirectory::init, location=location, files=files, system=system
   
   self.url = strjoin(strsplit(self.location, path_sep(), /extract), '/') + '/'
   
-  self.system->getProperty, root=root
+  self.system->getProperty, root=root  
+  self.system->print, 'Parsing ' + self.location + '...'
   
   for f = 0L, n_elements(files) - 1L do begin
     dotpos = strpos(files[f], '.', /reverse_search)

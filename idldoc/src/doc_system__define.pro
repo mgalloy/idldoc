@@ -106,7 +106,7 @@ end
 pro doc_system::print, msg
   compile_opt strictarr
   
-  if (~self.quiet || ~self.silent) then print, msg
+  if (~self.quiet && ~self.silent) then print, msg
 end
 
 
@@ -264,49 +264,58 @@ pro doc_system::generateOutput
   endfor
       
   ; generate all-files
+  self->print, 'Generating file listing...'
   allFilesTemplate = self->getTemplate('all-files')
   allFilesTemplate->reset
   allFilesTemplate->process, self, filepath('all-files.html', root=self.output)
     
   ; generate all-dirs
+  self->print, 'Generating directory listing...'
   allDirsTemplate = self->getTemplate('dir-listing')
   allDirsTemplate->reset
   allDirsTemplate->process, self, filepath('all-dirs.html', root=self.output)
   
   ; generate overview page
+  self->print, 'Generating overview page...'
   overviewTemplate = self->getTemplate('overview')
   overviewTemplate->reset
   overviewTemplate->process, self, filepath('overview.html', root=self.output)
     
   ; generate index entries page
+  self->print, 'Generating index entries page...'
   indexEntriesTemplate = self->getTemplate('index-entries')
   indexEntriesTemplate->reset
   indexEntriesTemplate->process, self, filepath('idldoc-index.html', $
                                                 root=self.output)
     
   ; generate warnings page
+  self->print, 'Generating warnings page...'
   warningsTemplate = self->getTemplate('warnings')
   warningsTemplate->reset
   warningsTemplate->process, self, filepath('idldoc-warnings.html', $
                                             root=self.output)
 
   ; generate search page
+  self->print, 'Generating search page...'
   searchTemplate = self->getTemplate('search')
   searchTemplate->reset
   searchTemplate->process, self, filepath('search.html', $
                                           root=self.output)
                                           
   ; generate categories page
+  self->print, 'Generating categories page...'
   categoriesTemplate = self->getTemplate('categories')
   categoriesTemplate->reset
   categoriesTemplate->process, self, filepath('categories.html', $
                                               root=self.output)
   ; generate help page
+  self->print, 'Generating help page...'
   helpTemplate = self->getTemplate('help')
   helpTemplate->reset
   helpTemplate->process, self, filepath('idldoc-help.html', root=self.output)
     
   ; generate index.html
+  self->print, 'Generating index page...'
   indexTemplate = self->getTemplate('index')
   indexTemplate->reset
   indexTemplate->process, self, filepath('index.html', root=self.output)
