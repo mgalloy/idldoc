@@ -436,8 +436,7 @@ function doc_system::init, root=root, output=output, $
   compile_opt strictarr
   on_error, 2
   
-  ; TODO: change to appropriate value on release
-  self.version = '3.0 development'
+  self.version = idldoc_version()
   
   ; check root directory
   if (n_elements(root) gt 0) then begin
