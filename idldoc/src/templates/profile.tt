@@ -46,7 +46,7 @@
       [% IF n_routines gt 1 %]
         <dl class="routine-summary">
           [% FOREACH r IN routines %][% SCOPE r %]
-            <dt class="syntax"><a href="#[% name %]"><code>[% IF is_function %]result = [% END %][% name %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %]</code></a></dt>
+            <dt class="syntax"><a href="#[% name %]"><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %][% IF is_function %])[% END %]</code></a></dt>
             <dd class="smallest">Comments go here.</dd>
           [% END %][% END %]
         </dl>
@@ -64,15 +64,34 @@
         <div class="routine-details" id="[% name %]">
         	<h3><a href="#root" class="top smallest">top</a>[% name %]</h3>
         	
-          <p class="syntax"><code>[% IF is_function %]result = [% END %][% name %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %]</code></p>
+          <p class="syntax"><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %][% IF is_function %])[% END %]</code></p>
           
           [% IF has_comments %]
           <p>[% comments %]</p>
           [% END %]
           
           <h4>Return value</h4>
+          
+          [% IF n_parameters gt 0 %]
           <h4>Parameters</h4>
+            <dl>
+            [% FOREACH p IN parameters %][% SCOPE p %]
+              <dt>[% name %]</dt>
+              <dd></dd>
+            [% END %][% END %]
+            </dl>
+          [% END %]
+          
+          [% IF n_keywords gt 0 %]
           <h4>Keywords</h4>
+            <dl>
+            [% FOREACH k IN keywords %][% SCOPE k %]
+              <dt>[% name %]</dt>
+              <dd></dd>
+            [% END %][% END %]
+            </dl>
+          [% END %]
+          
           <h4>Statistics</h4>
           <h4>Other attributes</h4>
         </div>            

@@ -74,11 +74,11 @@ function doctreeargument::getVariable, name, found=found
     
     'prefix' : begin
       self.routine->getProperty, is_function=isFunction
-      return, (isFunction && self.isFirst) ? '(' : ', '
+      return, (isFunction && self.isFirst) ? '' : ', '
     end
     'suffix' : begin
       self.routine->getProperty, is_function=isFunction
-      return, (isFunction && self.isLast) ? ')' : ''
+      return, (isFunction && self.isLast) ? '' : ''
     end
     
     'comments' : begin
