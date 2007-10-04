@@ -23,7 +23,7 @@
   </head>
   
   <body>
-    <h1>[% location %]</h1>
+    <h1><a href="dir-overview.html" target="main_frame">[% location %]</a></h1>
   
   	[% IF n_pro_files gt 0 %]
     <h1>.pro files &nbsp;&nbsp; <span>[% n_pro_files %] files</span></h1>

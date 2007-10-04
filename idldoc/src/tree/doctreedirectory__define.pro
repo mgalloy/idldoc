@@ -44,12 +44,14 @@ function doctreedirectory::getVariable, name, found=found
         dummy = strsplit(self.location, path_sep(), count=nUps)
         return, strjoin(replicate('..' + path_sep(), nUps))
       end
+      
     'n_pro_files' : return, self.proFiles->count()
     'pro_files' : return, self.proFiles->get(/all)
     'n_sav_files' : return, self.savFiles->count()
     'sav_files' : return, self.savFiles->get(/all)
     'n_idldoc_files' : return, self.idldocFiles->count()
     'idldoc_files' : return, self.idldocFiles->get(/all)
+    
     else: begin
         ; search in the system object if the variable is not found here
         var = self.system->getVariable(name, found=found)
