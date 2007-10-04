@@ -74,7 +74,27 @@ function doctreeroutine::getVariable, name, found=found
         html = self.system->getParser('htmloutput')
         return, html->process(self.comments)        
       end
-    
+    'comments_first_line': begin
+        if (~obj_valid(self.comments)) then return, ''
+        
+        ; TODO: check system for output type (assuming HTML here)
+        html = self.system->getParser('htmloutput')    
+        comments = html->process(self.comments)
+        
+        nLines = n_elements(comments)
+        line = 0
+        while (line lt nLines) do begin
+          pos = stregex(comments[line], '\.( |$)')
+          if (pos ne -1) then break
+          line++
+        endwhile  
+        
+        if (pos eq -1) then return, comments[0:line-1]
+        if (line eq 0) then return, strmid(comments[line], 0, pos + 1)
+        
+        return, [comments[0:line-1], strmid(comments[line], 0, pos + 1)]
+      end
+      
     'n_parameters': return, self.parameters->count()
     'parameters': return, self.parameters->get(/all)
     'n_keywords': return, self.keywords->count()

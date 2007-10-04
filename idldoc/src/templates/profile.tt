@@ -47,7 +47,7 @@
         <dl class="routine-summary">
           [% FOREACH r IN routines %][% SCOPE r %]
             <dt class="syntax"><a href="#[% name %]"><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %][% IF is_function %])[% END %]</code></a></dt>
-            <dd class="smallest">Comments go here.</dd>
+            <dd class="smallest">[% comments_first_line %]</dd>
           [% END %][% END %]
         </dl>
       [% END %]
