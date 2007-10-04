@@ -130,11 +130,27 @@ pro docparprofileparser::_parseRoutineComments, routine, comments, $
                                                 format=format, markup=markup
   compile_opt strictarr
   
-  ; TODO: implement this
-  
-  ; lookup correct format and markup parsers
+  ; TODO: lookup correct format and markup parsers (using verbatim as a default
+  ; now)
+  formatParser = self.system->getParser('verbatimformat')
+  markupParser = self.system->getParser('verbatimmarkup')
   
   ; call format parser's "parse" method
+  formatParser->parseRoutineComments, comments, routine=routine, markup_parser=markupParser
+end
+
+
+pro docparprofileparser::_parseFileComments, file, comments, $
+                                             format=format, markup=markup
+  compile_opt strictarr
+  
+  ; TODO: lookup correct format and markup parsers (using verbatim as a default
+  ; now)
+  formatParser = self.system->getParser('verbatimformat')
+  markupParser = self.system->getParser('verbatimmarkup')
+  
+  ; call format parser's "parse" method
+  formatParser->parseFileComments, comments, file=file, markup_parser=markupParser
 end
 
 
@@ -250,7 +266,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       
       if (lastToken eq '$') then headerContinued = 1B
       
-      routine = obj_new('DOCtreeRoutine', file)
+      routine = obj_new('DOCtreeRoutine', file, system=self.system)
       file->addRoutine, routine
       
       routine->setProperty, name=(strsplit(tokens[1], ',', /extract))[0]
@@ -266,7 +282,8 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
         currentComments->remove, /all
       endif
     endif else if (justFinishedComment eq 1 && currentComments->count() gt 0) then begin
-      ; TODO: associate comments with file
+      self->_parseFileComments, file, currentComments->get(/all), $
+                                format=format, markup=markup
       currentComments->remove, /all
     endif
     

@@ -207,6 +207,7 @@ pro doc_system::loadParsers
   self.parsers->put, 'profile', obj_new('DOCparProFileParser', system=self)
   
   ; header comment parsers
+  self.parsers->put, 'verbatimformat', obj_new('DOCparVerbatimFormatParser', system=self)
   self.parsers->put, 'rstformat', obj_new('DOCparRSTFormatParser', system=self)
   self.parsers->put, 'idldocformat', obj_new('DOCparIDLdocFormatParser', system=self)
   self.parsers->put, 'idlformat', obj_new('DOCparIDLFormatParser', system=self)
@@ -214,6 +215,9 @@ pro doc_system::loadParsers
   ; markup parsers
   self.parsers->put, 'verbatimmarkup', obj_new('DOCparVerbatimMarkupParser', system=self)
   self.parsers->put, 'rstmarkup', obj_new('DOCparRSTMarkupParser', system=self)
+  
+  ; tree node parsers
+  self.parsers->put, 'htmloutput', obj_new('MGtmHTML')
 end
 
 

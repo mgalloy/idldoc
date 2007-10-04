@@ -17,12 +17,10 @@
 ; :Keywords:
 ;    `routine` : in, required, type=object
 ;       routine tree object 
-;    `file` : in, required, type=file
-;       file tree object
 ;    `markup_parser` : in, required, type=object
 ;       markup parser object
 ;-
-pro docparrstformatparser::_handleTag, tag, lines, routine=routine, file=file, $
+pro docparrstformatparser::_handleTag, tag, lines, routine=routine, $
                                        markup_parser=markupParser
   compile_opt strictarr
   
@@ -48,13 +46,20 @@ end
 ; :Keywords:
 ;    `routine` : in, required, type=object
 ;       routine tree object 
-;    `file` : in, required, type=file
-;       file tree object
 ;    `markup_parser` : in, required, type=object
 ;       markup parser object
 ;-
-pro docparrstformatparser::parse, lines, routine=routine, file=file, $
-                                  markup_parser=markupParser
+pro docparrstformatparser::parseRoutineComments, lines, routine=routine,  $
+                                                 markup_parser=markupParser
+  compile_opt strictarr
+  
+  ; TODO: implement this
+  ; look for "tags"
+end
+
+
+pro docparrstformatparser::parseFileComments, lines, file=file,  $
+                                              markup_parser=markupParser
   compile_opt strictarr
   
   ; TODO: implement this

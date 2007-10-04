@@ -39,6 +39,10 @@
       [% IF is_batch %]Batch file[% END %]
       [% IF has_main_level %]includes main-level program[% END %]
 
+      [% IF has_comments %]
+      [% comments %]
+      [% END %]
+      
       [% IF n_routines gt 1 %]
         <dl class="routine-summary">
           [% FOREACH r IN routines %][% SCOPE r %]
@@ -61,6 +65,10 @@
         	<h3><a href="#root" class="top smallest">top</a>[% name %]</h3>
         	
           <p class="syntax"><code>[% IF is_function %]result = [% END %][% name %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %]</code></p>
+          
+          [% IF has_comments %]
+          <p>[% comments %]</p>
+          [% END %]
           
           <h4>Return value</h4>
           <h4>Parameters</h4>

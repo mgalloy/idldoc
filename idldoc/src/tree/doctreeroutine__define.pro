@@ -37,7 +37,7 @@ end
 ; Set properties.
 ;-
 pro doctreeroutine::setProperty, name=name, is_Function=isFunction, $
-                                 is_method=isMethod, comment=comments
+                                 is_method=isMethod, comments=comments
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then self.name = name
@@ -64,12 +64,21 @@ function doctreeroutine::getVariable, name, found=found
   
   found = 1B
   case strlowcase(name) of
-    'name' : return, self.name
-    'is_function' : return, self.isFunction
-    'n_parameters' : return, self.parameters->count()
-    'parameters' : return, self.parameters->get(/all)
-    'n_keywords' : return, self.keywords->count()
-    'keywords' : return, self.keywords->get(/all)
+    'name': return, self.name
+
+    'is_function': return, self.isFunction
+    
+    'has_comments': return, obj_valid(self.comments)
+    'comments': begin
+        ; TODO: check system for output type (assuming HTML here)
+        html = self.system->getParser('htmloutput')
+        return, html->process(self.comments)        
+      end
+    
+    'n_parameters': return, self.parameters->count()
+    'parameters': return, self.parameters->get(/all)
+    'n_keywords': return, self.keywords->count()
+    'keywords': return, self.keywords->get(/all)
     else: begin
         ; search in the system object if the variable is not found here
         var = self.file->getVariable(name, found=found)
@@ -155,10 +164,11 @@ end
 ;    `file` : in, required, type=object
 ;       file tree object
 ;-
-function doctreeroutine::init, file
+function doctreeroutine::init, file, system=system
   compile_opt strictarr
   
   self.file = file
+  self.system = system
   
   self.parameters = obj_new('MGcoArrayList', type=11)
   self.keywords = obj_new('MGcoArrayList', type=11)
@@ -183,12 +193,16 @@ pro doctreeroutine__define
   compile_opt strictarr
   
   define = { DOCtreeRoutine, $
+             system: obj_new(), $
              file: obj_new(), $
+             
              name: '', $
              isFunction: 0B, $
              isMethod: 0B, $
+             
              parameters: obj_new(), $
              keywords: obj_new(), $
+             
              comments: obj_new() $
            }
 end

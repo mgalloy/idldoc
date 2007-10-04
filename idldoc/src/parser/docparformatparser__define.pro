@@ -18,16 +18,22 @@
 ; :Keywords:
 ;    `routine` : in, required, type=object
 ;       routine tree object 
-;    `file` : in, required, type=file
-;       file tree object
 ;    `markup_parser` : in, required, type=object
 ;       markup parser object
 ;-
-function docparformatparser::parse, lines, routine=routine, file=file, $
-                                    markup_parser=markupParser
+function docparformatparser::parseRoutineComments, lines, routine=routine, $
+                                                   markup_parser=markupParser
   compile_opt strictarr
   
-  ; TODO: implement this
+  return, obj_new()
+end
+
+
+function docparformatparser::parseFileComments, lines, file=file, $
+                                                markup_parser=markupParser
+  compile_opt strictarr
+  
+  return, obj_new()
 end
 
 

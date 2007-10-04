@@ -16,13 +16,11 @@
 ; :Keywords:
 ;    `routine` : in, required, type=object
 ;       routine tree object 
-;    `file` : in, required, type=file
-;       file tree object
 ;    `markup_parser` : in, required, type=object
 ;       markup parser object
 ;-
 pro docparidldocformatparser::_handleTag, tag, lines, $
-                                          routine=routine, file=file, $
+                                          routine=routine,  $
                                           markup_parser=markupParser
   compile_opt strictarr
   
@@ -73,13 +71,11 @@ end
 ; :Keywords:
 ;    `routine` : in, required, type=object
 ;       routine tree object 
-;    `file` : in, required, type=file
-;       file tree object
 ;    `markup_parser` : in, required, type=object
 ;       markup parser object
 ;-
-pro docparidldocformatparser::parse, lines, routine=routine, file=file, $
-                                     markup_parser=markupParser
+pro docparidldocformatparser::parseRoutineComments, lines, routine=routine, $
+                                                    markup_parser=markupParser
   compile_opt strictarr
   
   ; TODO: implement this
@@ -89,6 +85,17 @@ pro docparidldocformatparser::parse, lines, routine=routine, file=file, $
   ; go through each tag
 end
 
+
+pro docparidldocformatparser::parseFileComments, lines, file=file, $
+                                                 markup_parser=markupParser                          
+  compile_opt strictarr
+  
+  ; TODO: implement this
+  
+  ; look for @'s (but not escaped with \'s)
+  ; get free text comment for routine
+  ; go through each tag
+end
 
 ;+
 ; Define instance variables.

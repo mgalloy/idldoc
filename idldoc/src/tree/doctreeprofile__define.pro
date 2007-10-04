@@ -85,6 +85,13 @@ function doctreeprofile::getVariable, name, found=found
     'format': return, self.format
     'markup': return, self.markup
     
+    'has_comments': return, obj_valid(self.comments)
+    'comments': begin
+        ; TODO: check system for output type (assuming HTML here)
+        html = self.system->getParser('htmloutput')
+        return, html->process(self.comments)        
+      end
+    
     'n_routines' : return, self.routines->count()
     'routines' : return, self.routines->get(/all)
     
@@ -182,6 +189,7 @@ pro doctreeprofile__define
   define = { DOCtreeProFile, $
              system: obj_new(), $
              directory: obj_new(), $
+             
              basename: '', $
              hasMainLevel: 0B, $
              isBatch: 0B, $
@@ -193,6 +201,7 @@ pro doctreeprofile__define
              markup: '', $
              
              comments: obj_new(), $
+             
              routines: obj_new() $
            }
 end

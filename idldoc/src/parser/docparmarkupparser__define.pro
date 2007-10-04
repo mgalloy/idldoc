@@ -20,7 +20,7 @@
 function docparmarkupparser::parse, lines
   compile_opt strictarr
   
-  ; TODO: implement this
+  return, obj_new()
 end
 
 
