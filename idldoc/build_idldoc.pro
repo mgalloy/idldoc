@@ -5,12 +5,11 @@
 ; clear any other compilations
 .reset
 
-version = '3.0 development'
-
 ; compile required code
 
 .compile src/idldoc
 .compile src/doc_system__define
+.compile src/idldoc_version
 
 .compile src/tree/doctreedirectory__define
 .compile src/tree/doctreeprofile__define
@@ -59,6 +58,6 @@ version = '3.0 development'
 resolve_all
 
 ; create the sav file
-save, filename='idldoc.sav', /routines, description='IDLdoc ' + version
+save, filename='idldoc.sav', /routines, description='IDLdoc ' + idldoc_version()
 
 exit

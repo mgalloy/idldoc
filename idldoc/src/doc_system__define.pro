@@ -446,7 +446,7 @@ function doc_system::init, root=root, output=output, $
                            footer=footer, title=title, subtitle=subtitle, $
                            nonavbar=nonavbar, $
                            user=user, statistics=statistics, $
-                           preformat=preformat, browse_routines                           
+                           preformat=preformat, browse_routines=browseRoutines                           
   compile_opt strictarr
   on_error, 2
   
@@ -470,6 +470,9 @@ function doc_system::init, root=root, output=output, $
   endif else begin
     self.output = self.root
   endelse
+  
+  self.assistant = keyword_set(assistant)
+  self.embed = keyword_set(embed)
   
   ; get location of IDLdoc in order to find locations of data files like
   ; images, templates, etc.
@@ -511,6 +514,8 @@ function doc_system::init, root=root, output=output, $
   ; generate output for directories, files (of various kinds), index, etc.
   self->generateOutput
   
+  nWarnings = self.nWarnings
+  
   return, 1
 end
 
@@ -535,19 +540,31 @@ pro doc_system__define
   
   define = { DOC_System, $
              version: '', $
+             
              root: '', $
              output: '', $
+             
              nWarnings: 0L, $
+             
              quiet: 0B, $
              silent: 0B, $
+             
              sourceLocation: '', $
-             directories: obj_new(), $  
+             
+             directories: obj_new(), $ 
+              
              templates: obj_new(), $
              parsers: obj_new(), $
+             
              title: '', $
              subtitle: '', $
              user: 0B, $
+             
+             assistant: 0B, $
+             embed: 0B, $
+             
              currentTemplate: '', $
+             
              index: obj_new(), $
              proFiles: obj_new(), $
              savFiles: obj_new(), $

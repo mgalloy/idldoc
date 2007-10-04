@@ -50,7 +50,7 @@ pro idldoc, root=root, output=output, $
             assistant=assistant, embed=embed, overview=overview, footer=footer, $
             title=title, subtitle=subtitle, nonavbar=nonavbar, $
             user=user, statistics=statistics, $
-            preformat=preformat, browse_routines
+            preformat=preformat, browse_routines=browseRoutines
   compile_opt strictarr
 
   ; TODO: make sure to turn debug off before releasing
@@ -75,7 +75,7 @@ pro idldoc, root=root, output=output, $
                    footer=footer, title=title, subtitle=subtitle, $
                    nonavbar=nonavbar, $
                    user=user, statistics=statistics, $
-                   preformat=preformat, browse_routines)
+                   preformat=preformat, browse_routines=browseRoutines)
   
   obj_destroy, system
   cd, startDirectory
