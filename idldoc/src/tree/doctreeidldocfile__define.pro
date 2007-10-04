@@ -92,6 +92,7 @@ function doctreeidldocfile::init, basename=basename, directory=directory, $
   self.system = system
   
   self.system->createIndexEntry, self.basename, self
+  self.system->print, '  Parsing ' + self.basename + '...'
   
   return, 1
 end

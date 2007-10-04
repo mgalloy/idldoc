@@ -3,7 +3,7 @@
   <h2>[% subtitle %]</h2>
 </div>
 
-<table class="navbar small" cellspacing="0">
+<table class="navbar smaller" cellspacing="0">
   <tr>
     <td [% IF current_template eq 'overview' %]class="selected"[% END %]>
       <a href="[% relative_root %]overview.html">Overview</a>
