@@ -87,7 +87,7 @@
             <dl>
             [% FOREACH k IN keywords %][% SCOPE k %]
               <dt>[% name %] <span class="small"></span></dt>
-              <dd>Some comment about this keyword.</dd>
+              <dd></dd>
             [% END %][% END %]
             </dl>
           [% END %]

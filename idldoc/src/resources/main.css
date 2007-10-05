@@ -18,9 +18,9 @@ h2.directory { font-size: 90%; margin-bottom: 0; }
 
 div.routine-details { border: 1px dotted #C0C0C0; margin-top: 1em; padding: 1em; }
 div.routine-details h3 { margin-top: 0; }
-div.routine-details dt { font-size: 90%; color: #900000; }
+div.routine-details dt { font-size: 90%; color: #900000; margin-left: 2em; }
 div.routine-details dt span { color: #384806; margin-left: 3em; }
-div.routine-details dd { font-size: 90%; margin: 0.5em 2em 1em 2em; }
+div.routine-details dd { font-size: 90%; margin: 0.5em 2em 1em 4em; }
 a.top { font-weight: bold; text-transform: uppercase; float: right; }
 
 /* code styles */
