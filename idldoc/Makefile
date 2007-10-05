@@ -7,7 +7,7 @@ clean:
 	rm *.zip
 
 docs:
-	# idl make_idldoc_docs
+	idl build_idldoc_docs
 
 tests:
 	idl -e "mgunit, 'docutalltests_uts'"
