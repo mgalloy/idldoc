@@ -26,6 +26,9 @@ div.routine-details dt span { color: #384806; margin-left: 3em; }
 div.routine-details dd { font-size: 90%; margin: 0.5em 2em 1em 4em; }
 a.top { font-weight: bold; text-transform: uppercase; float: right; }
 
+/* comments */
+.pre { white-space: pre; }
+
 /* code styles */
 code { font-family: "Courier New", Courier, monospace; }
 code.listing { white-space: pre; display: block; padding: 0.5em 3em 0.5em 3em; }
