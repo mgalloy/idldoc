@@ -1,12 +1,10 @@
 VERSION=3.0-development
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 
-all: clean docs dist
-
 clean:
-	rm *.zip
+	rm -f *.zip
 
-docs:
+doc:
 	idl build_idldoc_docs
 
 tests:
