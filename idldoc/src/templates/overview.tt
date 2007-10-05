@@ -39,8 +39,14 @@
         [% END %][% END %]
       </table>               
       
-      <h2>Statistics</h2>
-    	
+      <h2>Attributes</h2>
+
+      <table class="attribute small">
+        <tr>
+          <td class="name">Lines:</td>
+          <td>[% n_lines %]</td>
+        </tr>
+      </table>     	
     </div>    
 
     [% INCLUDE_TEMPLATE idldoc_footer_location %]

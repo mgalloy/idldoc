@@ -25,7 +25,8 @@
 pro doctreeprofile::getProperty, basename=basename, $
                                  has_main_level=hasMainLevel, $
                                  is_batch=isBatch, comments=comments, $
-                                 n_routines=nRoutines, routines=routines
+                                 n_routines=nRoutines, routines=routines, $
+                                 n_lines=nLines
   compile_opt strictarr
   
   if (arg_present(basename)) then basename = self.basename
@@ -34,6 +35,7 @@ pro doctreeprofile::getProperty, basename=basename, $
   if (arg_present(comments)) then comments = self.comments
   if (arg_present(nRoutines)) then nRoutines = self.routines->count()
   if (arg_present(routines)) then routines = self.routines
+  if (arg_present(nLines)) then nLines = self.nLines
 end
 
 
@@ -77,13 +79,6 @@ end
 ;-
 function doctreeprofile::getVariable, name, found=found
   compile_opt strictarr
-  
-  catch, error
-  if error ne 0 then begin
-    catch, /cancel
-    print, !error_state.msg
-    message, 'problem'
-  endif
   
   found = 1B
   case strlowcase(name) of

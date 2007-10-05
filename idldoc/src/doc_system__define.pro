@@ -2,6 +2,11 @@
 
 
 ;+
+; This class represents the entire IDLdoc run. All information/settings for the
+; run are stored (or at least accessible from) here.
+;-
+
+;+
 ; Get variables for use with templates.
 ;
 ; :Returns: variable
@@ -40,6 +45,19 @@ function doc_system::getVariable, name, found=found
     'n_idldoc_files': return, self.idldocFiles->count()
     'idldoc_files': return, self.idldocFiles->get(/all)
 
+    'n_lines': begin
+        if (self.proFiles->count() eq 0) then return, '0'
+        
+        nLines = 0L
+        
+        proFiles = self.proFiles->get(/all)
+        for f = 0L, n_elements(proFiles) - 1L do begin
+          proFiles[f]->getProperty, n_lines=fileLines
+          nLines += fileLines
+        endfor
+        
+        return, mg_int_format(nLines)
+      end
     
     'current_template': return, self.currentTemplate
     'idldoc_header_location' : return, filepath('idldoc-header.tt', $
