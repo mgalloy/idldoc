@@ -175,7 +175,7 @@ function doctreedirectory::init, location=location, files=files, system=system
           file = obj_new('DOCtreeIDLdocFile', $
                          basename=file_basename(files[f]), $
                          directory=self, $
-                         self.system)
+                         system=self.system)
           self.idldocFiles->add, file
         end                
     endcase
