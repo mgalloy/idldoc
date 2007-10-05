@@ -8,6 +8,10 @@ a { text-decoration: none; }
 a:link, a:visited { color: #0000FF; }
 a:hover, a:focus { background: yellow; border-bottom: 1px dotted #303099; }
 
+/* dir-overview styles */
+dt.filename { margin-top: 0.5em; }
+dl.file_listing { margin-left: 1em; }
+
 /* titles */
 h1, h2, h3, h4 { font-weight:normal; color: #900000; margin-top: 1.5em; }
 .center { margin-left: auto; margin-right: auto; }

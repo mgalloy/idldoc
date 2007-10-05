@@ -78,6 +78,13 @@ end
 function doctreeprofile::getVariable, name, found=found
   compile_opt strictarr
   
+  catch, error
+  if error ne 0 then begin
+    catch, /cancel
+    print, !error_state.msg
+    message, 'problem'
+  endif
+  
   found = 1B
   case strlowcase(name) of
     'basename': return, self.basename
@@ -98,7 +105,34 @@ function doctreeprofile::getVariable, name, found=found
         html = self.system->getParser('htmloutput')
         return, html->process(self.comments)        
       end
-    
+    'comments_first_line': begin
+        ; if no file comments, but there is only one routine then return the
+        ; first line of the routine's comments
+        if (~obj_valid(self.comments)) then begin
+          if (self.routines->count() eq 1) then begin
+            routine = self.routines->get(position=0)
+            return, routine->getVariable('comments_first_line', found=found)
+          endif else return, ''
+        endif else return, ''
+        
+        ; TODO: check system for output type (assuming HTML here)
+        html = self.system->getParser('htmloutput')    
+        comments = html->process(self.comments)
+        
+        nLines = n_elements(comments)
+        line = 0
+        while (line lt nLines) do begin
+          pos = stregex(comments[line], '\.( |$)')
+          if (pos ne -1) then break
+          line++
+        endwhile  
+        
+        if (pos eq -1) then return, comments[0:line-1]
+        if (line eq 0) then return, strmid(comments[line], 0, pos + 1)
+        
+        return, [comments[0:line-1], strmid(comments[line], 0, pos + 1)]
+      end
+          
     'n_routines' : return, self.routines->count()
     'routines' : return, self.routines->get(/all)
     
