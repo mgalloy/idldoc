@@ -35,12 +35,16 @@
     <div class="content">
       <h2 class="directory">[% location %]</h2>
       <h1 class="basename">[% basename %]</h1>
+      
+      [% IF is_batch %]<span class="file_attribute small">batch file</span>[% END %]
+      [% IF has_main_level %]<span class="file_attribute small">includes main-level program</span>[% END %]
     
-      [% IF is_batch %]Batch file[% END %]
-      [% IF has_main_level %]includes main-level program[% END %]
-
+      
+			
       [% IF has_comments %]
-      [% comments %]
+      <div id="file_comments">
+      	<p>[% comments %]</p>
+      </div>
       [% END %]
       
       [% IF n_routines gt 1 %]

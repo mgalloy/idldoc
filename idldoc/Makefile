@@ -9,8 +9,10 @@ clean:
 docs:
 	# idl make_idldoc_docs
 
+tests:
+	idl -e "mgunit, 'docutalltests_uts'"
+	
 dist:
-	echo $(REVISION)
 	sed "s/version = '.*'/version = '$(VERSION)'/" < src/idldoc_version.pro | sed "s/revision = '.*'/revision = '$(REVISION)'/" > idldoc_version.pro
 	mv idldoc_version.pro src/
 	

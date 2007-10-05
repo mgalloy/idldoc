@@ -48,7 +48,14 @@ pro doctreeprofile::setProperty, has_main_level=hasMainLevel, $
   
   if (n_elements(hasMainLevel) gt 0) then self.hasMainLevel = hasMainLevel
   if (n_elements(isBatch) gt 0) then self.isBatch = isBatch
-  if (n_elements(comments) gt 0) then self.comments = comments
+  if (n_elements(comments) gt 0) then begin
+    if (obj_valid(self.comments)) then begin
+      parent = obj_new('MGtmTag')
+      parent->addChild, self.comments
+      parent->addChild, comments
+      self.comments = parent
+    endif else self.comments = comments
+  endif
   if (n_elements(format) gt 0) then self.format = format
   if (n_elements(markup) gt 0) then self.markup = markup
   if (n_elements(nLines) gt 0) then self.nLines = nLines
