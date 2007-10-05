@@ -32,6 +32,8 @@ function doctreesavfile::getVariable, name, found=found
         contents = self.savFile->contents()
         return, contents.date
       end
+    'modification_time': return, self.modificationTime
+    'size': return, self.size
     'filename':
     'description': 
     'filetype': 
@@ -79,7 +81,7 @@ end
 ;-
 pro doctreesavfile::setProperty
   compile_opt strictarr
-  
+
 end
 
 
@@ -131,6 +133,9 @@ function doctreesavfile::init, basename=basename, directory=directory, $
   self.directory->getProperty, location=location
   
   self.savFile = obj_new('IDL_Savefile', root + location + self.basename)
+  info = file_info(root + location + self.basename)
+  self.modificationTime = systime(0, info.mtime)
+  self.size = mg_int_format(info.size) + ' bytes'
   
   self.system->createIndexEntry, self.basename, self
   self.system->print, '  Parsing ' + self.basename + '...'
@@ -154,7 +159,11 @@ pro doctreesavfile__define
   define = { DOCtreeSavFile, $
              system: obj_new(), $
              directory: obj_new(), $
+             
              basename: '', $
-             savFile: obj_new() $
+             
+             savFile: obj_new(), $
+             modificationTime: '', $
+             size: '' $
            }
 end

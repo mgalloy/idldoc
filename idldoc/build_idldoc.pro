@@ -59,6 +59,6 @@
 resolve_all
 
 ; create the sav file
-save, filename='idldoc.sav', /routines, description='IDLdoc ' + idldoc_version()
+save, filename='idldoc.sav', /routines, description='IDLdoc ' + idldoc_version(/full)
 
 exit

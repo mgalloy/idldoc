@@ -1,4 +1,5 @@
 VERSION=3.0-development
+REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 
 all: clean docs dist
 
@@ -9,7 +10,8 @@ docs:
 	# idl make_idldoc_docs
 
 dist:
-	sed "s/return, '.*'/return, '$(VERSION)'/" < src/idldoc_version.pro > idldoc_version.pro
+	echo $(REVISION)
+	sed "s/version = '.*'/version = '$(VERSION)'/" < src/idldoc_version.pro | sed "s/revision = '.*'/revision = '$(REVISION)'/" > idldoc_version.pro
 	mv idldoc_version.pro src/
 	
 	mkdir idldoc-$(VERSION)

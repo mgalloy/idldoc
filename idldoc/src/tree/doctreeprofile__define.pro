@@ -81,7 +81,7 @@ function doctreeprofile::getVariable, name, found=found
     'is_class': return, strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
     
     'modification_time': return, self.modificationTime
-    'n_lines': return, self.nLines
+    'n_lines': return, mg_int_format(self.nLines)
     'format': return, self.format
     'markup': return, self.markup
     

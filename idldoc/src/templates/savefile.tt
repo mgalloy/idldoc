@@ -33,14 +33,12 @@
     [% INCLUDE_TEMPLATE idldoc_header_location %]
     
     <div class="content">
-      
+      <h2 class="directory">[% location %]</h2>
+      <h1 class="basename">[% basename %]</h1>
+            
       <h2>SAV file attributes</h2>
       
-      <table class="attribute">
-        <tr>
-          <td class="name">Filename:</td>
-          <td>[% filename %]</td>
-        </tr>     
+      <table class="attribute smaller">  
         <tr>
           <td class="name">Description:</td>
           <td>[% description %]</td>
@@ -65,7 +63,7 @@
 
       <h2>Contents</h2>
       
-      <table class="attribute">      
+      <table class="attribute smaller">      
         <tr>
           <td class="name">Procedures: </td>
           <td>[% n_procedure %]</td>
@@ -102,6 +100,18 @@
       
       <h2>File attributes</h2>
       
+        <table class="attribute smaller">
+          <tr>
+            <td class="name">Modifcation date:</td>
+            <td>[% modification_time %]</td>
+          </tr>
+
+          <tr>
+            <td class="name">Size:</td>
+            <td>[% size %]</td>
+          </tr>          
+        </table      
+        
     </div>
     
     [% INCLUDE_TEMPLATE idldoc_footer_location %]    
