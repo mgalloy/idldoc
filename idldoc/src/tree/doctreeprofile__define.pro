@@ -108,7 +108,7 @@ function doctreeprofile::getVariable, name, found=found
             routine = self.routines->get(position=0)
             return, routine->getVariable('comments_first_line', found=found)
           endif else return, ''
-        endif else return, ''
+        endif
         
         ; TODO: check system for output type (assuming HTML here)
         html = self.system->getParser('htmloutput')    
