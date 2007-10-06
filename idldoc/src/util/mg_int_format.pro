@@ -1,3 +1,12 @@
+;+
+; Convert an integer into a string with no trailing/leading spaces and
+; delimited with commas every three digits from the right.
+;   
+; :Returns: string
+; :Params:
+;    `n` : in, required, type=integer
+;       integer to format
+;-
 function mg_int_format, n
   compile_opt strictarr
   
