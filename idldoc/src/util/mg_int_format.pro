@@ -1,3 +1,5 @@
+; docformat = 'rst'
+
 ;+
 ; Convert an integer into a string with no trailing/leading spaces and
 ; delimited with commas every three digits from the right.
