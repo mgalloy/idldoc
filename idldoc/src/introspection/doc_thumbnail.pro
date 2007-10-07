@@ -90,8 +90,12 @@ function doc_thumbnail_contourplot, data, valid=valid
   view->add, model
   
   nLevels = 20
-  contour = obj_new('IDLgrContour', data, planar=1, geomz=0.0, n_levels=nLevels, $
-                    c_color=bytscl(bindgen(nLevels)), /fill)
+  contour = obj_new('IDLgrContour', data, $
+                    planar=1, $ 
+                    geomz=0.0, $
+                    n_levels=nLevels, $
+                    c_color=bytscl(bindgen(nLevels)), $
+                    /fill)
   model->add, contour
 
   ; use most of the view: -0.9...0.9 for both x and y
@@ -239,7 +243,7 @@ function doc_thumbnail, data, valid=valid
     3: begin
         ind = where(sz.dimensions[0:sz.n_dimensions - 1L] le 4, count)
 
-        ; if no small dimensions then assume volume
+        ; if not exactly one small dimension then assume volume
         if (count ne 1) then return, doc_thumbnail_volumeplot(data, valid=valid) 
         
         ; if there are small dimensions then assume an image
