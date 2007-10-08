@@ -41,7 +41,8 @@ code.listing { white-space: pre; display: block; padding: 0.5em 3em 0.5em 3em; }
 dl.routine-summary dt { margin-bottom: 0.25em; }
 dl.routine-summary dd { margin-bottom: 0.5em; margin-left: 2em; }
 
-/* table */
+/* general styles */
+ul li { list-style-type: none; }
 table { empty-cells: show; }
 
 /* An attribute table is a vertical list of name-value pairs. */

@@ -196,11 +196,17 @@ function doc_thumbnail_image, data, valid=valid
 
   ; calculate dimensions that preserve aspect ratio, but are in the range
   ; minDimSize...maxDimSize
-  dims = [sz.dimensions[cind[0]], sz.dimensions[cind[1]]]
-  dims = long(dims / float(max(dims)) * maxDimSize)
+  origDims = [sz.dimensions[cind[0]], sz.dimensions[cind[1]]]
+  dims = long(origDims / float(max(origDims)) * maxDimSize)
+  
+  ; only resize to smaller, never bigger
+  doResize = total(dims gt origDims) eq 0
+  
   dims = dims > minDimSize < maxDimSize
   
-  im = congrid(im, sz.dimensions[ind[0]], dims[0], dims[1])
+  if (doResize) then begin
+    im = congrid(im, sz.dimensions[ind[0]], dims[0], dims[1])
+  endif
   
   return, im
 end

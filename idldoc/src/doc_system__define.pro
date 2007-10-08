@@ -74,10 +74,11 @@ function doc_system::getVariable, name, found=found
 end
 
 
-pro doc_system::getProperty, root=root
+pro doc_system::getProperty, root=root, output=output
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
+  if (arg_present(output)) then output = self.output
 end
 
 
@@ -87,8 +88,6 @@ end
 pro doc_system::debug
   compile_opt strictarr
   
-  print, 'ROOT = ' + self.root
-  print, 'OUTPUT = ' + self.output
 end
 
 

@@ -65,15 +65,15 @@
       
       <table class="attribute smaller">      
         <tr>
-          <td class="name">Procedures: </td>
+          <td class="name">[% IF n_procedure gt 0%]<a href="#procedures">[% END %]Procedures:[% IF n_procedure gt 0 %]</a>[% END %]</td>
           <td>[% n_procedure %]</td>
         </tr>  
         <tr>
-          <td class="name">Functions: </td>
+          <td class="name">[% IF n_function gt 0 %]<a href="#functions">[% END %]Functions:[% IF n_function gt 0 %]</a>[% END %]</td>
           <td>[% n_function %]</td>
         </tr> 
         <tr>
-          <td class="name">Variables: </td>
+          <td class="name">[% IF n_var gt 0 %]<a href="#vars">[% END %]Variables:[% IF n_var gt 0 %]</a>[% END %]</td>
           <td>[% n_var %]</td>
         </tr>  
         <tr>
@@ -97,6 +97,46 @@
           <td>[% n_object_heapvar %]</td>
         </tr>  
       </table>
+            
+      [% IF n_procedure gt 0 %]
+      <div id="procedures">
+        <h3>Procedures</h3>
+        
+        <ul class="smaller">
+          [% FOREACH p IN procedures %]
+          <li>[% p %]</li>
+          [% END %]
+        </ul>
+      </div>
+      [% END %]
+
+      [% IF n_function gt 0 %]
+      <div id="functions">
+        <h3>Functions</h3>
+        
+        <ul class="smaller">
+          [% FOREACH f IN functions %]
+          <li>[% f %]</li>
+          [% END %]
+        </ul>
+      </div>
+      [% END %]
+            
+      [% IF n_var gt 0 %]
+      <div id="vars">
+        <h3>Variables</h3>
+        
+        <table class="smaller">
+        [% FOREACH v IN vars %][% SCOPE v %]
+          <tr>
+            <td>[% IF has_thumbnail %]<img src="[% thumbnail_url %]"/>[% END %]</td>
+            <td>[% name %]</td>
+            <td><code>[% declaration %]</code></td>             
+          </tr>
+        [% END %][% END %]
+        </table>
+      </div>
+      [% END %]
       
       <h2>File attributes</h2>
       
@@ -110,7 +150,7 @@
             <td class="name">Size:</td>
             <td>[% size %]</td>
           </tr>          
-        </table      
+        </table>   
         
     </div>
     

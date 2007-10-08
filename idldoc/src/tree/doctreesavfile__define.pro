@@ -52,8 +52,12 @@ function doctreesavfile::getVariable, name, found=found
     'n_structdef': begin
         contents = self.savFile->contents()
         ind = where(strupcase(name) eq tag_names(contents))
-        return, contents.(ind[0])
+        val = contents.(ind[0])
+        return, (size(val, /type) eq 3 or size(val, /type) eq 14) ? mg_int_format(val) : val
       end
+    'vars': return, self.vars->get(/all)
+    'procedures': return, self.procedures->get(/all)
+    'functions': return, self.functions->get(/all)
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
@@ -69,10 +73,39 @@ end
 ;+
 ; Get properties.
 ;-
-pro doctreesavfile::getProperty, basename=basename
+pro doctreesavfile::getProperty, basename=basename, directory=directory
   compile_opt strictarr
   
-  if (arg_present(basename)) then name = self.basename
+  if (arg_present(basename)) then basename = self.basename
+  if (arg_present(directory)) then directory = self.directory
+end
+
+
+function doctreesavfile::loadItem, itemName, _extra=e
+  compile_opt strictarr
+  
+  self.savFile->restore, itemName, _strict_extra=e
+  
+  return, scope_varfetch(itemName)
+end
+
+
+pro doctreesavfile::loadSavContents
+  compile_opt strictarr
+
+  procedureNames = self.savFile->names(count=nProcedures, /procedure)
+  if (nProcedures gt 0) then self.procedures->add, procedureNames
+  
+  functionNames = self.savFile->names(count=nFunctions, /function)
+  if (nFunctions gt 0) then self.functions->add, functionNames
+  
+  varNames = self.savFile->names(count=nVars)
+  for i = 0L, nVars - 1L do begin
+    data = self->loadItem(varNames[i])
+    
+    var = obj_new('DOCtreeSavVar', varNames[i], data, self, system=self.system)
+    self.vars->add, var
+  endfor
 end
 
 
@@ -89,7 +122,9 @@ pro doctreesavfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   on_error, 2
   
-  print, '  Generating output for .sav file ' + self.basename
+  self.system->print, '  Generating output for .sav file ' + self.basename
+  
+  self->loadSavContents
   
   savFileTemplate = self.system->getTemplate('savefile')
   
@@ -107,7 +142,7 @@ end
 pro doctreesavfile::cleanup
   compile_opt strictarr
   
-  obj_destroy, self.savFile
+  obj_destroy, [self.procedures, self.functions, self.vars, self.savFile]
 end
 
 
@@ -140,6 +175,10 @@ function doctreesavfile::init, basename=basename, directory=directory, $
   self.system->createIndexEntry, self.basename, self
   self.system->print, '  Parsing ' + self.basename + '...'
   
+  self.procedures = obj_new('MGcoArrayList', type=7)
+  self.functions = obj_new('MGcoArrayList', type=7)
+  self.vars = obj_new('MGcoArrayList', type=11)
+  
   return, 1
 end
 
@@ -164,6 +203,10 @@ pro doctreesavfile__define
              
              savFile: obj_new(), $
              modificationTime: '', $
-             size: '' $
+             size: '', $
+             
+             procedures: obj_new(), $
+             functions: obj_new(), $
+             vars: obj_new() $
            }
 end

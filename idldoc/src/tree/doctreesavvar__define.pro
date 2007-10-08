@@ -12,15 +12,16 @@
 ;    `found` : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
-function doctreesavfile::getVariable, name, found=found
+function doctreesavvar::getVariable, name, found=found
   compile_opt strictarr
   
   found = 1B
   switch strlowcase(name) of
     'name': return, self.name
+    'declaration': return, self.declaration
+    'has_thumbnail': return, self.hasThumbnail
     'thumbnail_url': begin
-        ; TODO: finish this
-        return, self.savFile->getVariable('url')
+        return, self.savFile->getVariable('url') + self.localThumbnailUrl
       end
     else: begin
         ; search in the system object if the variable is not found here
@@ -40,7 +41,6 @@ end
 pro doctreesavvar::cleanup
   compile_opt strictarr
 
-  ptr_free, self.thumbnail
 end
 
 
@@ -52,7 +52,18 @@ function doctreesavvar::init, name, data, savFile, system=system
   self.system = system
   
   im = doc_thumbnail(data, valid=valid)
-  if (valid) then self.thumbnail = ptr_new(im)
+  self.hasThumbnail = valid
+  if (self.hasThumbnail) then begin 
+    self.savFile->getProperty, directory=directory, basename=basename
+    directory->getProperty, location=location
+    self.system->getProperty, output=output
+    self.localThumbnailUrl = file_basename(basename, '.sav') + '-sav-' + self.name + '.png'
+    filename = output + location + self.localThumbnailUrl
+    
+    write_png, filename, im
+  endif
+  
+  self.declaration = doc_variable_declaration(data)
   
   return, 1
 end
@@ -66,6 +77,8 @@ pro doctreesavvar__define
              savFile: obj_new(), $
              
              name: '', $
-             thumbnail: ptr_new() $
+             declaration: '', $
+             localThumbnailUrl: '', $
+             hasThumbnail: 0B $
            }
 end
