@@ -44,6 +44,9 @@
 ;       no longer used
 ;    `browse_routines` : in, optional, type=boolean, obsolete
 ;       no longer used
+;
+;    `error` : out, optional, type=long
+;       error code from run; 0 indicates no error
 ;-
 pro idldoc, root=root, output=output, $
             quiet=quiet, silent=silent, n_warnings=nWarnings, log_file=logFile, $
