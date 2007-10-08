@@ -85,12 +85,12 @@
         </tr>  
         
         <tr>
-          <td class="name">Common blocks: </td>
+          <td class="name">[% IF n_common gt 0 %]<a href="#common">[% END %]Common blocks:[% IF n_common gt 0 %]</a>[% END %]</td>
           <td>[% n_common %]</td>
         </tr>
         
         <tr>
-          <td class="name">Structure definitions: </td>
+          <td class="name">[% IF n_structdef gt 0 %]<a href="#structures">[% END %]Structure definitions:[% IF n_structdef gt 0 %]</a>[% END %]</td>
           <td>[% n_structdef %]</td>
         </tr>  
         
@@ -145,6 +145,36 @@
       </div>
       [% END %]
 
+      [% IF n_common gt 0 %]
+      <div id="common">
+        <h3>Common blocks</h3>
+        
+        <table class="smaller">
+        [% FOREACH cb IN common_blocks %][% SCOPE cb %]
+          <tr>
+            <td>[% name %]</td>
+            <td><code>[% declaration %]</code></td>             
+          </tr>
+        [% END %][% END %]
+        </table>
+      </div>
+      [% END %]
+      
+      [% IF n_structdef gt 0 %]
+      <div id="structures">
+        <h3>Structure definitions</h3>
+        
+        <table class="smaller">
+        [% FOREACH s IN structure_definitions %][% SCOPE s %]
+          <tr>
+            <td>[% name %]</td>
+            <td><code>[% declaration %]</code></td>             
+          </tr>
+        [% END %][% END %]
+        </table>
+      </div>
+      [% END %]
+      
       [% IF n_pointer_heapvar gt 0 %]
       <div id="pointers">
         <h3>Pointers</h3>

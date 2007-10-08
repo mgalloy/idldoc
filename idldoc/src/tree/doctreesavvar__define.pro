@@ -35,6 +35,13 @@ function doctreesavvar::getVariable, name, found=found
 end
 
 
+pro doctreesavvar::setProperty, declaration=declaration
+  compile_opt strictarr
+
+  if (n_elements(declaration) gt 0) then self.declaration = declaration
+end
+
+
 ;+
 ; Free resources.
 ;-

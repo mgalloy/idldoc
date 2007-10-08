@@ -82,7 +82,6 @@ function doc_thumbnail_contourplot, data, valid=valid
   dims = sz.dimensions[0:1]
   dims = long(dims / float(max(dims)) * maxDimSize)
   dims = dims > minDimSize < maxDimSize
-  print, dims
   
   view = obj_new('IDLgrView')
   

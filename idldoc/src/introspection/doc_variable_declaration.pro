@@ -22,11 +22,12 @@ function doc_variable_declaration, var
     endif else begin
       result = ''
       tNames = tag_names(var)
+      structureName = tag_names(var, /structure_name)
       decls = strarr(n_elements(tNames))
       for t = 0L, n_elements(tNames) - 1L do begin
         decls[t] = doc_variable_declaration(var.(t))
       endfor
-      return, '{ ' + strjoin(tNames + ': ' + decls, ', ') + ' }'
+      return, '{ ' + structureName + ', ' + strjoin(tNames + ': ' + decls, ', ') + ' }'
     endelse
   endif
   
