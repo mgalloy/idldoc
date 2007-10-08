@@ -12,6 +12,7 @@
 function mg_int_format, n
   compile_opt strictarr
   
+  if (n lt 0) then return, '-' + mg_int_format(abs(n))
   v = strtrim(n, 2)
   npad = 3 - strlen(v) mod 3
   if (npad lt 3) then v = strjoin(replicate(' ', npad)) + v
