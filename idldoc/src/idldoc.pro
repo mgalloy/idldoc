@@ -50,13 +50,14 @@ pro idldoc, root=root, output=output, $
             assistant=assistant, embed=embed, overview=overview, footer=footer, $
             title=title, subtitle=subtitle, nonavbar=nonavbar, $
             user=user, statistics=statistics, $
-            preformat=preformat, browse_routines=browseRoutines
+            preformat=preformat, browse_routines=browseRoutines, $
+            error=error
   compile_opt strictarr
 
   ; TODO: make sure to turn debug off before releasing
   debug = 1B
   
-  if (~keyword_set(debug)) then begin
+  if (~keyword_set(debug) || arg_present(error)) then begin
     error = 0L
     catch, error
     if (error ne 0L) then begin
