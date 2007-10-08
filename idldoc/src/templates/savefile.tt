@@ -68,32 +68,39 @@
           <td class="name">[% IF n_procedure gt 0%]<a href="#procedures">[% END %]Procedures:[% IF n_procedure gt 0 %]</a>[% END %]</td>
           <td>[% n_procedure %]</td>
         </tr>  
+        
         <tr>
           <td class="name">[% IF n_function gt 0 %]<a href="#functions">[% END %]Functions:[% IF n_function gt 0 %]</a>[% END %]</td>
           <td>[% n_function %]</td>
         </tr> 
+        
         <tr>
           <td class="name">[% IF n_var gt 0 %]<a href="#vars">[% END %]Variables:[% IF n_var gt 0 %]</a>[% END %]</td>
           <td>[% n_var %]</td>
         </tr>  
+        
         <tr>
           <td class="name">System variables: </td>
           <td>[% n_sysvar %]</td>
         </tr>  
+        
         <tr>
           <td class="name">Common blocks: </td>
           <td>[% n_common %]</td>
         </tr>
+        
         <tr>
           <td class="name">Structure definitions: </td>
           <td>[% n_structdef %]</td>
         </tr>  
+        
         <tr>
-          <td class="name">Pointers: </td>
+          <td class="name">[% IF n_pointer_heapvar gt 0 %]<a href="#pointers">[% END %]Pointers:[% IF n_pointer_heapvar gt 0 %]</a>[% END %]</td>
           <td>[% n_pointer_heapvar %]</td>
-        </tr>                            
+        </tr>  
+                                  
         <tr>
-          <td class="name">Objects: </td>
+          <td class="name">[% IF n_object_heapvar gt 0 %]<a href="#objects">[% END %]Objects:[% IF n_object_heapvar gt 0 %]</a>[% END %]</td>
           <td>[% n_object_heapvar %]</td>
         </tr>  
       </table>
