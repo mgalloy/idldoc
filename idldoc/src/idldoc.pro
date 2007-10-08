@@ -48,12 +48,23 @@
 ;    `error` : out, optional, type=long
 ;       error code from run; 0 indicates no error
 ;-
-pro idldoc, root=root, output=output, $
-            quiet=quiet, silent=silent, n_warnings=nWarnings, log_file=logFile, $
-            assistant=assistant, embed=embed, overview=overview, footer=footer, $
-            title=title, subtitle=subtitle, nonavbar=nonavbar, $
-            user=user, statistics=statistics, $
-            preformat=preformat, browse_routines=browseRoutines, $
+pro idldoc, root=root, $
+            output=output, $
+            quiet=quiet, $
+            silent=silent, $
+            n_warnings=nWarnings, $
+            log_file=logFile, $
+            assistant=assistant, $
+            embed=embed, $
+            overview=overview, $
+            footer=footer, $
+            title=title, $
+            subtitle=subtitle, $
+            nonavbar=nonavbar, $
+            user=user, $
+            statistics=statistics, $
+            preformat=preformat, $
+            browse_routines=browseRoutines, $
             error=error
   compile_opt strictarr
 
@@ -72,14 +83,24 @@ pro idldoc, root=root, output=output, $
   
   cd, current=startDirectory
   
-  system = obj_new('DOC_System', root=root, output=output, $
-                   quiet=quiet, silent=silent, n_warnings=nWarnings, $
+  system = obj_new('DOC_System', $
+                   root=root, $
+                   output=output, $
+                   quiet=quiet, $
+                   silent=silent, $
+                   n_warnings=nWarnings, $
                    log_file=logFile, $
-                   assistant=assistant, embed=embed, overview=overview, $
-                   footer=footer, title=title, subtitle=subtitle, $
+                   assistant=assistant, $
+                   embed=embed, $
+                   overview=overview, $
+                   footer=footer, $
+                   title=title, $
+                   subtitle=subtitle, $
                    nonavbar=nonavbar, $
-                   user=user, statistics=statistics, $
-                   preformat=preformat, browse_routines=browseRoutines)
+                   user=user, $
+                   statistics=statistics, $
+                   preformat=preformat, $
+                   browse_routines=browseRoutines)
   
   obj_destroy, system
   cd, startDirectory
