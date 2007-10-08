@@ -482,7 +482,6 @@ function doc_system::init, root=root, output=output, $
                            user=user, statistics=statistics, $
                            preformat=preformat, browse_routines=browseRoutines                           
   compile_opt strictarr
-  on_error, 2
   
   self.version = idldoc_version()
   

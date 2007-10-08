@@ -239,6 +239,8 @@ function doc_thumbnail, data, valid=valid
   if (sz.n_dimensions eq 0) then return, -1L
   if (sz.n_dimensions gt 3) then return, -1L
   
+  if (sz.n_elements lt 3) then return, -1L
+  
   valid = 1B
   
   ; valid types/sizes

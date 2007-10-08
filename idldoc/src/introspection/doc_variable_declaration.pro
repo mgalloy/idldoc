@@ -63,6 +63,13 @@ function doc_variable_declaration, var
             'dblarr', 'complexarr', 'strarr', '---', 'dcomplexarr', $
             'ptrarr', 'objarr', 'uintarr', 'ulonarr', 'lon64arr', 'ulon64arr']
   
+  ; print the values of the array out if only one dimension and a few elements
+  if (sz.n_dimensions eq 1 && sz.dimensions[0] le 5) then begin
+    results = strarr(sz.dimensions[0])
+    for i = 0L, sz.dimensions[0] - 1L do results[i] = doc_variable_declaration(var[i])
+    return, '[' + strjoin(results, ', ') + ']'    
+  endif
+  
   dims = strjoin(strtrim(sz.dimensions[0:sz.n_dimensions - 1L], 2), ', ')
   return, declarations[sz.type] + '(' + dims + ')'
 end

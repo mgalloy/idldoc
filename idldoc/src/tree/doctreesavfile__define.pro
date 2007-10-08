@@ -59,6 +59,7 @@ function doctreesavfile::getVariable, name, found=found
     'procedures': return, self.procedures->get(/all)
     'functions': return, self.functions->get(/all)
     'variables': return, self.variables->get(/all)
+    'system_variables': return, self.systemVariables->get(/all)
     'common_blocks': return, self.commonBlocks->get(/all)
     'structure_definitions': return, self.structureDefinitions->get(/all)
     'pointers': return, self.pointers->get(/all)
@@ -87,12 +88,22 @@ end
 
 
 function doctreesavfile::loadItem, itemName, $
+                                   system_variable=systemVariable, $
                                    structure_definition=structureDefinition, $
                                    pointer_heapvar=pointerHeapvar, $
                                    object_heapvar=objectHeapvar
   compile_opt strictarr
   
   switch 1 of
+    keyword_set(systemVariable): begin
+        result = execute('temp = ' + itemName, 1, 1)
+        self.savFile->restore, itemName
+        result = execute('var = ' + itemName, 1, 1)
+        result = execute(itemName + ' = temp', 1, 1)
+
+        return, var
+      end
+      
     keyword_set(structureDefinition): begin
         self.savFile->restore, itemName, /structure_definition
         return, create_struct(name=itemName)
@@ -131,6 +142,14 @@ pro doctreesavfile::loadSavContents
     self.variables->add, var
   endfor
 
+  systemVariableNames = self.savFile->names(count=nSystemVariables, /system_variable)
+  for i = 0L, nSystemVariables - 1L do begin
+    data = self->loadItem(systemVariableNames[i], /system_variable)
+  
+    var = obj_new('DOCtreeSavVar', systemVariableNames[i], data, self, system=self.system)
+    self.systemVariables->add, var
+  endfor
+  
   commonBlockNames = self.savFile->names(count=nCommonBlocks, /common_block)
   for i = 0L, nCommonBlocks - 1L do begin
     varNames = self.savFile->names(common_variable=commonBlockNames[i])
@@ -206,6 +225,8 @@ pro doctreesavfile::cleanup
   obj_destroy, [self.procedures, $
                 self.functions, $
                 self.variables, $
+                self.systemVariables, $
+                self.commonBlocks, $
                 self.structureDefinitions, $
                 self.pointers, $
                 self.objects]
@@ -245,6 +266,7 @@ function doctreesavfile::init, basename=basename, directory=directory, $
   self.procedures = obj_new('MGcoArrayList', type=7)
   self.functions = obj_new('MGcoArrayList', type=7)
   self.variables = obj_new('MGcoArrayList', type=11)
+  self.systemVariables = obj_new('MGcoArrayList', type=11)
   self.commonBlocks = obj_new('MGcoArrayList', type=11)
   self.structureDefinitions = obj_new('MGcoArrayList', type=11)
   self.pointers = obj_new('MGcoArrayList', type=11)
@@ -279,6 +301,7 @@ pro doctreesavfile__define
              procedures: obj_new(), $
              functions: obj_new(), $
              variables: obj_new(), $
+             systemVariables: obj_new(), $
              commonBlocks: obj_new(), $
              structureDefinitions: obj_new(), $
              pointers: obj_new(), $

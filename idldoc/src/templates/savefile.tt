@@ -80,7 +80,7 @@
         </tr>  
         
         <tr>
-          <td class="name">System variables: </td>
+          <td class="name">[% IF n_sysvar gt 0 %]<a href="#system">[% END %]System variables:[% IF n_sysvar gt 0 %]</a>[% END %]</td>
           <td>[% n_sysvar %]</td>
         </tr>  
         
@@ -145,6 +145,22 @@
       </div>
       [% END %]
 
+      [% IF n_sysvar gt 0 %]
+      <div id="system">
+        <h3>System variables</h3>
+        
+        <table class="smaller">
+        [% FOREACH sv IN system_variables %][% SCOPE sv %]
+          <tr>
+            <td>[% IF has_thumbnail %]<img src="[% thumbnail_url %]"/>[% END %]</td>
+            <td>[% name %]</td>
+            <td><code>[% declaration %]</code></td>             
+          </tr>
+        [% END %][% END %]
+        </table>
+      </div>
+      [% END %]
+      
       [% IF n_common gt 0 %]
       <div id="common">
         <h3>Common blocks</h3>
