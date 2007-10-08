@@ -53,7 +53,7 @@ function doctreesavfile::getVariable, name, found=found
         contents = self.savFile->contents()
         ind = where(strupcase(name) eq tag_names(contents))
         val = contents.(ind[0])
-        return, (size(val, /type) eq 3 or size(val, /type) eq 14) ? mg_int_format(val) : val
+        return, mg_is_int(val) ? mg_int_format(val) : val
       end
     'vars': return, self.vars->get(/all)
     'procedures': return, self.procedures->get(/all)
