@@ -4,6 +4,12 @@
 ;+
 ; This class represents the entire IDLdoc run. All information/settings for the
 ; run are stored (or at least accessible from) here.
+;
+; :Properties:
+;    `root` : get
+;       the directory containing the code to document
+;    `output` : get
+;       the directory to which to output the documentation
 ;-
 
 ;+
@@ -74,6 +80,9 @@ function doc_system::getVariable, name, found=found
 end
 
 
+;+
+; Get properties of the system.
+;-
 pro doc_system::getProperty, root=root, output=output
   compile_opt strictarr
 
@@ -218,6 +227,19 @@ pro doc_system::loadTemplates
 end
 
 
+;+
+; Get a parser by name (as used when loaded in loadParsers).
+; 
+; :Returns: parser object or -1 if not found
+;
+; :Params:
+;    `name` : in, required, type=string
+;       name of parser as used when loaded in loadTemplates
+;
+; :Keywords:
+;    `found` : out, optional, type=boolean
+;       indicates if the parser name was found and returned
+;-
 function doc_system::getParser, name, found=found
   compile_opt strictarr
   
@@ -225,6 +247,10 @@ function doc_system::getParser, name, found=found
 end
 
 
+;+
+; Create the parsers to be used to parse all the code/input files and store
+; the templates in a hash table.
+;-
 pro doc_system::loadParsers
   compile_opt strictarr
   
@@ -396,6 +422,16 @@ pro doc_system::copyResources
 end
 
 
+;+
+; Creates a directory.
+;
+; :Params:
+;    `dir` : in, required, type=string
+;       directory to create
+; :Keywords:
+;    `error` : out, optional, type=long
+;       error code; 0 indicates no error
+;-
 pro doc_system::makeDirectory, dir, error=error
   compile_opt strictarr
   
@@ -559,6 +595,8 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
+;    `version`
+;       IDLdoc version
 ;    `root` 
 ;       root directory of hierarchy to document; full path ending with slash
 ;    `output`
@@ -569,6 +607,39 @@ end
 ;       set to only print errors and warnings
 ;    `silent`
 ;       don't print anything
+;    `sourceLocation`
+;       directory containing the DOC_System__define.pro file
+;    `directories`
+;       array list of directories in current run
+;    `templates`
+;       hash table of template names to template objects
+;    `parsers`
+;       hash table of parser names to parser objects
+;    `title`
+;       title of the documentation
+;    `subtitle`
+;       subtitle of the documentation
+;    `user`
+;       set to generate user-level documentation (as opposed to developer-level
+;       documentation)
+;    `statistics`
+;       set to generate statistics
+;    `preformat`
+;       set if comments should be formatted as given in the source
+;    `assistant`
+;       set to produce IDL Assistant output
+;    `embed`
+;       set to embed CSS in the HTML output
+;    `currentTemplate`
+;       most recently asked for template
+;    `index`
+;       hash table of names to tree objects
+;    `proFiles`
+;       array list of .pro files in current run
+;    `savFiles`
+;       array list of .sav files in current run
+;    `idldocFiles`
+;       array list of .idldoc files in current run
 ;-
 pro doc_system__define
   compile_opt strictarr

@@ -1,3 +1,15 @@
+; docformat = 'rst'
+
+;+
+; Checks a variable to determine if it is an integer type: byte or one of the 
+; signed/unsigned ints, longs, or 64-bit integers. 
+; 
+; :Returns: 0 or 1
+; 
+; :Params:
+;    `n` : in, required, type=any
+;       variable to check
+;-
 function mg_is_int, n
   compile_opt strictarr
   
