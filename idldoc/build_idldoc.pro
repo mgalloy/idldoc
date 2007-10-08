@@ -59,6 +59,7 @@
 .compile src/tree/doctreeindex__define
 
 .compile src/util/mg_int_format
+.compile src/util/mg_is_int
 
 ; compile any system routines that are used in the required code
 resolve_all

@@ -55,9 +55,12 @@ function doctreesavfile::getVariable, name, found=found
         val = contents.(ind[0])
         return, mg_is_int(val) ? mg_int_format(val) : val
       end
-    'vars': return, self.vars->get(/all)
+
     'procedures': return, self.procedures->get(/all)
     'functions': return, self.functions->get(/all)
+    'variables': return, self.variables->get(/all)
+    'pointers': return, self.pointers->get(/all)
+    'objects': return, self.objects->get(/all)
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
@@ -84,9 +87,13 @@ end
 function doctreesavfile::loadItem, itemName, _extra=e
   compile_opt strictarr
   
-  self.savFile->restore, itemName, _strict_extra=e
-  
-  return, scope_varfetch(itemName)
+  if (size(itemName, /type) eq 7) then begin
+    self.savFile->restore, itemName, _strict_extra=e
+    return, scope_varfetch(itemName)
+  endif else begin
+    self.savFile->restore, itemName, new_heapvar=var, _strict_extra=e
+    return, var
+  endelse
 end
 
 
@@ -104,7 +111,27 @@ pro doctreesavfile::loadSavContents
     data = self->loadItem(varNames[i])
     
     var = obj_new('DOCtreeSavVar', varNames[i], data, self, system=self.system)
-    self.vars->add, var
+    self.variables->add, var
+  endfor
+  
+  pointerNames = self.savFile->names(count=nPointers, /pointer_heapvar)
+  for i = 0L, nPointers - 1L do begin
+    data = self->loadItem(pointerNames[i], /pointer_heapvar)
+    
+    var = obj_new('DOCtreeSavVar', $
+                  '&lt;PtrHeapVar' + strtrim(pointerNames[i], 2) + '&gt;', $
+                  data, self, system=self.system)
+    self.pointers->add, var
+  endfor
+  
+  objectNames = self.savFile->names(count=nObjects, /object_heapvar)
+  for i = 0L, nObjects - 1L do begin
+    data = self->loadItem(objectNames[i], /object_heapvar)
+    
+    var = obj_new('DOCtreeSavVar', $
+                  '&lt;ObjHeapVar' + strtrim(objectNames[i], 2) + '&gt;', $
+                  data, self, system=self.system)
+    self.objects->add, var
   endfor
 end
 
@@ -142,7 +169,12 @@ end
 pro doctreesavfile::cleanup
   compile_opt strictarr
   
-  obj_destroy, [self.procedures, self.functions, self.vars, self.savFile]
+  obj_destroy, [self.procedures, $
+                self.functions, $
+                self.variables, $
+                self.pointers, $
+                self.objects]
+  obj_destroy, self.savFile
 end
 
 
@@ -177,7 +209,9 @@ function doctreesavfile::init, basename=basename, directory=directory, $
   
   self.procedures = obj_new('MGcoArrayList', type=7)
   self.functions = obj_new('MGcoArrayList', type=7)
-  self.vars = obj_new('MGcoArrayList', type=11)
+  self.variables = obj_new('MGcoArrayList', type=11)
+  self.pointers = obj_new('MGcoArrayList', type=11)
+  self.objects = obj_new('MGcoArrayList', type=11)
   
   return, 1
 end
@@ -207,6 +241,8 @@ pro doctreesavfile__define
              
              procedures: obj_new(), $
              functions: obj_new(), $
-             vars: obj_new() $
+             variables: obj_new(), $
+             pointers: obj_new(), $
+             objects: obj_new() $
            }
 end

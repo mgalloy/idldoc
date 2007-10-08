@@ -127,7 +127,23 @@
         <h3>Variables</h3>
         
         <table class="smaller">
-        [% FOREACH v IN vars %][% SCOPE v %]
+        [% FOREACH v IN variables %][% SCOPE v %]
+          <tr>
+            <td>[% IF has_thumbnail %]<img src="[% thumbnail_url %]"/>[% END %]</td>
+            <td>[% name %]</td>
+            <td><code>[% declaration %]</code></td>             
+          </tr>
+        [% END %][% END %]
+        </table>
+      </div>
+      [% END %]
+
+      [% IF n_pointer_heapvar gt 0 %]
+      <div id="pointers">
+        <h3>Pointers</h3>
+        
+        <table class="smaller">
+        [% FOREACH p IN pointers %][% SCOPE p %]
           <tr>
             <td>[% IF has_thumbnail %]<img src="[% thumbnail_url %]"/>[% END %]</td>
             <td>[% name %]</td>
@@ -138,6 +154,21 @@
       </div>
       [% END %]
       
+      [% IF n_object_heapvar gt 0 %]
+      <div id="objects">
+        <h3>Objects</h3>
+        
+        <table class="smaller">
+        [% FOREACH o IN objects %][% SCOPE o %]
+          <tr>
+            <td>[% name %]</td>
+            <td><code>[% declaration %]</code></td>             
+          </tr>
+        [% END %][% END %]
+        </table>
+      </div>
+      [% END %]
+                  
       <h2>File attributes</h2>
       
         <table class="attribute smaller">
