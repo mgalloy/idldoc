@@ -32,6 +32,8 @@
     		<h2>Calling IDLdoc</h2>
     	
     		<p>To install IDLdoc, simply unzip and place the IDLdoc distribution in your IDL path. A typical call to IDLdoc is: <code class="listing">IDL> idldoc, root='~/projects/idllib', output='~/projects/libdocs'</code></p>
+
+				<p>A full listing of keywords.</p>
     	</div>
     	
     	<div id="commenting">

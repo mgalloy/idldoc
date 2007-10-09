@@ -1,11 +1,13 @@
 ; docformat = 'rst'
 
 ;+
-; This class represents a information about .pro file.
+; This class represents a information about .idldoc file.
 ; 
 ; :Properties:
-;    `basename` : get, set, type=string
+;    `basename` : get, type=string
 ;       basename of filename
+;    `comments` : set, type=object
+;       text markup tree to add to the current tree
 ;-
 
 
@@ -96,6 +98,16 @@ function doctreeidldocfile::getVariable, name, found=found
 end
 
 
+;+
+; Generate the output for the .idldoc file.
+; 
+; :Params:
+;    `outputRoot` : in, required, type=string
+;       location of the root of the run
+;    `directory` : in, required, type=string
+;       specification of the directory the .idldoc file is in (relative to the 
+;       root)
+;-
 pro doctreeidldocfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
@@ -126,8 +138,11 @@ end
 ; :Returns: 1 for success, 0 for failure
 ; :Keywords:
 ;    `basename` : in, required, type=string
-;    
+;       basename of the .idldoc file
 ;    `directory` : in, required, type=object
+;       directory tree object that the .idldoc file is located within
+;    `system` : in, required, type=object
+;       system object
 ;-
 function doctreeidldocfile::init, basename=basename, directory=directory, $
                                   system=system

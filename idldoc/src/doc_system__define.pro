@@ -13,7 +13,9 @@
 ;    `classes` : get
 ;       hash table (classname -> DOCtreeClass) containing all class definitions
 ;    `format` : get
+;       format style
 ;    `markup` : get
+;       markup style
 ;-
 
 ;+
