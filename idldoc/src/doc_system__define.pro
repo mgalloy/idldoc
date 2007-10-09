@@ -456,7 +456,9 @@ pro doc_system::cleanup
   compile_opt strictarr
   
   obj_destroy, [self.index, self.proFiles, self.savFiles, self.idldocFiles]
-  obj_destroy, self.classes->values()
+  
+  classes = self.classes->values(count=nClasses)
+  if (nClasses gt 0) then obj_destroy, classes
   obj_destroy, self.classes
   
   obj_destroy, self.directories
