@@ -10,6 +10,8 @@
 ;       the directory containing the code to document
 ;    `output` : get
 ;       the directory to which to output the documentation
+;    `classes` : get
+;       hash table (classname -> DOCtreeClass) containing all class definitions
 ;-
 
 ;+
@@ -83,11 +85,12 @@ end
 ;+
 ; Get properties of the system.
 ;-
-pro doc_system::getProperty, root=root, output=output
+pro doc_system::getProperty, root=root, output=output, classes=classes
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
   if (arg_present(output)) then output = self.output
+  if (arg_present(classes)) then classes = self.classes
 end
 
 
@@ -453,6 +456,8 @@ pro doc_system::cleanup
   compile_opt strictarr
   
   obj_destroy, [self.index, self.proFiles, self.savFiles, self.idldocFiles]
+  obj_destroy, self.classes->values()
+  obj_destroy, self.classes
   
   obj_destroy, self.directories
   
@@ -561,6 +566,8 @@ function doc_system::init, root=root, output=output, $
   if (outputError ne 0L) then self->error, 'unable to write to ' + self.output
   
   self.index = obj_new('MGcoHashTable', key_type=7, value_type=11)
+  self.classes = obj_new('MGcoHashTable', key_type=7, value_type=11)
+  
   self.proFiles = obj_new('MGcoArrayList', type=11)
   self.savFiles = obj_new('MGcoArrayList', type=11)
   self.idldocFiles = obj_new('MGcoArrayList', type=11)
@@ -674,8 +681,10 @@ pro doc_system__define
              currentTemplate: '', $
              
              index: obj_new(), $
+             classes: obj_new(), $ 
+             
              proFiles: obj_new(), $
              savFiles: obj_new(), $
-             idldocFiles: obj_new() $      
+             idldocFiles: obj_new() $                 
            }
 end

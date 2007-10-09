@@ -46,19 +46,28 @@
       	<p [% IF preformat %]class="pre"[% END %]>[% comments %]</p>
       </div>
       [% END %]
+
+      [% IF is_class %]
+      <h2>Class description</h2>
       
+      <h3>Inheritance</h3>
+      <h3>Fields</h3>
+      
+      [% END %]
+            
       [% IF n_routines gt 1 %]
+      <div>
+        <h2>Routines</h2>
+      
         <dl class="routine-summary">
           [% FOREACH r IN routines %][% SCOPE r %]
             <dt class="syntax"><a href="#[% name %]"><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %][% IF is_function %])[% END %]</code></a></dt>
             <dd class="smaller">[% comments_first_line %]</dd>
           [% END %][% END %]
         </dl>
+      </div>
       [% END %]
       
-      [% IF is_class %]
-    	<h2>Class description</h2>
-    	[% END %]
     	
     	[% IF n_routines gt 0 %]
     	<div id="routine-details">
