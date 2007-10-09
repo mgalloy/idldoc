@@ -20,11 +20,15 @@ function doctreeclass::getVariable, name, found=found
     'classname': return, self.classname
     'url': begin
         if (~obj_valid(self.proFile)) then return, ''
+        
         self.proFile->getProperty, directory=directory
         dirUrl = directory->getVariable('url')
         proUrl = self.proFile->getVariable('local_url')
         return, dirUrl + proUrl
       end
+    'n_parents': return, self.parents->count()
+    'parents': return, self.parents->get(/all)
+          
     'n_ancestors': return, self.ancestors->count()
     'ancestors': return, self.ancestors->get(/all)
     else: begin
@@ -38,11 +42,37 @@ function doctreeclass::getVariable, name, found=found
   endcase
 end
 
+function doctreeclass::getClassname
+  compile_opt strictarr
   
-pro doctreeclass::setProperty, pro_file=proFile
+  return, self.classname
+end
+
+
+function doctreeclass::hasUrl
+  compile_opt strictarr
+  
+  return, obj_valid(self.proFile)
+end
+
+
+function doctreeclass::getUrl
+  compile_opt strictarr
+  
+  if (~obj_valid(self.proFile)) then return, ''
+  
+  self.proFile->getProperty, directory=directory
+  dirUrl = directory->getVariable('url')
+  proUrl = self.proFile->getVariable('local_url')
+  return, dirUrl + proUrl  
+end
+
+
+pro doctreeclass::setProperty, pro_file=proFile, classname=classname
   compile_opt strictarr
   
   if (n_elements(proFile) gt 0) then self.proFile = proFile
+  if (n_elements(classname) gt 0) then self.classname = classname
 end
 
 
@@ -63,11 +93,12 @@ end
 pro doctreeclass::findParents
   compile_opt strictarr
   
+  s = create_struct(name=self.classname)
   parents = obj_class(self.classname, /superclass)
   if (n_elements(parents) eq 1 && parents eq '') then return
   
   for i = 0L, n_elements(parents) - 1L do begin
-    p = self.classes->get(parents[i], found=found)
+    p = self.classes->get(strlowcase(parents[i]), found=found)
     if (~found) then begin
       p = obj_new('DOCtreeClass', parents[i], system=self.system)
       self.classes->put, strlowcase(parents[i]), p
@@ -100,9 +131,8 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
   
   self.system->getProperty, classes=classes
   self.classes = classes
-  ; TODO: what if you're already in there?
   self.classes->put, strlowcase(self.classname), self
-  
+
   self.parents = obj_new('MGcoArrayList', type=11)
   self.ancestors = obj_new('MGcoArrayList', type=11)
   

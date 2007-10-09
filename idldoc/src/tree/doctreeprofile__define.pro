@@ -207,10 +207,18 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   
   self.isClass = strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
   if (self.isClass) then begin  
-    self.class = obj_new('DOCtreeClass', $
-                         strmid(self.basename, 0, strlen(self.basename) - 12), $
-                         pro_file=self, $
-                         system=self.system)
+    classname = strmid(self.basename, 0, strlen(self.basename) - 12)
+    self.system->getProperty, classes=classes
+    class = classes->get(strlowcase(classname), found=found)
+    if (found) then begin
+      self.class = class
+      self.class->setProperty, pro_file=self, classname=classname
+    endif else begin
+      self.class = obj_new('DOCtreeClass', $
+                           classname, $
+                           pro_file=self, $
+                           system=self.system)
+    endelse
   endif 
   
   self.routines = obj_new('MGcoArrayList', type=11)
