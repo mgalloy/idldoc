@@ -172,10 +172,8 @@ function doctreedirectory::init, location=location, files=files, system=system
           self.savFiles->add, file
         end
       'idldoc': begin
-          file = obj_new('DOCtreeIDLdocFile', $
-                         basename=file_basename(files[f]), $
-                         directory=self, $
-                         system=self.system)
+          idldocFileParser = self.system->getParser('idldocfile')
+          file = idldocFileParser->parse(root + files[f], directory=self)
           self.idldocFiles->add, file
         end                
     endcase

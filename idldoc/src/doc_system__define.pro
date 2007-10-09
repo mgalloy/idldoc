@@ -259,6 +259,7 @@ pro doc_system::loadParsers
   
   ; file parsers
   self.parsers->put, 'profile', obj_new('DOCparProFileParser', system=self)
+  self.parsers->put, 'idldocfile', obj_new('DOCparIDLdocFileParser', system=self)
   
   ; header comment parsers
   self.parsers->put, 'verbatimformat', obj_new('DOCparVerbatimFormatParser', system=self)

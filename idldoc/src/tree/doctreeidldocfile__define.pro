@@ -143,23 +143,6 @@ function doctreeidldocfile::init, basename=basename, directory=directory, $
   self.system->getProperty, root=root
   self.directory->getProperty, location=location
   
-  filename = root + location + self.basename
-  nLines = file_lines(filename)
-  if (nLines gt 0) then begin
-    comments = strarr(nLines)
-    openr, lun, filename, /get_lun
-    readf, lun, comments
-    free_lun, lun
-    
-    ; TODO: lookup correct format and markup parsers (using verbatim as a 
-    ; default now)
-    formatParser = self.system->getParser('verbatimformat')
-    markupParser = self.system->getParser('verbatimmarkup')
-    
-    ; call format parser's "parse" method
-    formatParser->parseIDLdocComments, comments, file=self, markup_parser=markupParser
-  endif
-  
   return, 1
 end
 
