@@ -26,10 +26,11 @@ pro doctreeprofile::getProperty, basename=basename, $
                                  has_main_level=hasMainLevel, $
                                  is_batch=isBatch, comments=comments, $
                                  n_routines=nRoutines, routines=routines, $
-                                 n_lines=nLines
+                                 n_lines=nLines, directory=directory
   compile_opt strictarr
   
   if (arg_present(basename)) then basename = self.basename
+  if (arg_present(directory)) then directory = self.directory
   if (arg_present(hasMainLevel)) then hasMainLevel = self.hasMainLevel
   if (arg_present(isBatch)) then isBatch = self.isBatch  
   if (arg_present(comments)) then comments = self.comments
@@ -87,7 +88,8 @@ function doctreeprofile::getVariable, name, found=found
     
     'is_batch': return, self.isBatch
     'has_main_level': return, self.hasMainLevel
-    'is_class': return, strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
+    'is_class': return, self.isClass
+    'class': return, self.class
     
     'modification_time': return, self.modificationTime
     'n_lines': return, mg_int_format(self.nLines)
@@ -203,6 +205,14 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   self.directory = directory
   self.system = system
   
+  self.isClass = strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
+  if (self.isClass) then begin  
+    self.class = obj_new('DOCtreeClass', $
+                         strmid(self.basename, 0, strlen(self.basename) - 12), $
+                         pro_file=self, $
+                         system=self.system)
+  endif 
+  
   self.routines = obj_new('MGcoArrayList', type=11)
   
   self.system->createIndexEntry, self.basename, self
@@ -231,6 +241,7 @@ pro doctreeprofile__define
              hasMainLevel: 0B, $
              isBatch: 0B, $
              isClass: 0B, $
+             class: obj_new(), $
              
              modificationTime: '', $
              nLines: 0L, $

@@ -38,8 +38,6 @@
       
       [% IF is_batch %]<span class="file_attribute small">batch file</span>[% END %]
       [% IF has_main_level %]<span class="file_attribute small">includes main-level program</span>[% END %]
-    
-      
 			
       [% IF has_comments %]
       <div id="file_comments">
@@ -47,13 +45,21 @@
       </div>
       [% END %]
 
-      [% IF is_class %]
+      [% IF is_class %][% SCOPE class %]
       <h2>Class description</h2>
       
+      [% IF n_ancestors gt 0 %]
       <h3>Inheritance</h3>
+      	<ul>
+      		[% FOREACH a IN ancestors %][% SCOPE a %]
+      		<li><a href="[% url %]">[% classname %]</a></li>
+      		[% END %][% END %]
+      	</ul>
+      [% END %]
+      
       <h3>Fields</h3>
       
-      [% END %]
+      [% END %][% END %]
             
       [% IF n_routines gt 1 %]
       <div>
