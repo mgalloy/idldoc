@@ -40,6 +40,12 @@
 ;    `statistics` : in, optional, type=boolean
 ;       generate complexity statistics for routines
 ;
+;    `format_style` : in, optional, type=string, default='idldoc'
+;       style to use to parse file and routine comments ("idl", "idldoc", 
+;       "verbatim", or "rst")
+;    `markup_style` : in, optional, type=string, default='verbatim'
+;       markup used in comments ("rst" or "verbatim")
+;
 ;    `preformat` : in, optional, type=boolean, obsolete
 ;       no longer used
 ;    `browse_routines` : in, optional, type=boolean, obsolete
@@ -63,6 +69,8 @@ pro idldoc, root=root, $
             nonavbar=nonavbar, $
             user=user, $
             statistics=statistics, $
+            format_style=formatStyle, $
+            markup_style=markupStyle, $
             preformat=preformat, $
             browse_routines=browseRoutines, $
             error=error
@@ -99,6 +107,8 @@ pro idldoc, root=root, $
                    nonavbar=nonavbar, $
                    user=user, $
                    statistics=statistics, $
+                   format_style=formatStyle, $
+                   markup_style=markupStyle, $
                    preformat=preformat, $
                    browse_routines=browseRoutines)
   

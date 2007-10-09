@@ -37,7 +37,7 @@
     	<div id="commenting">
     		<h2>Commenting your code</h2>
     	
-    		<p>IDLdoc now accepts three different styles of commenting: the traditional IDL provided comment template, IDLdoc style, or a restructured text style.</p>
+    		<p>IDLdoc now accepts three different styles of commenting: the traditional IDL provided comment template, IDLdoc style, copied verbatim, or a restructured text style. The style to use can be specified with the format_style keyword to IDLdoc (for a global default) or on each individual file with a docformat comment. Furthermore, the markup styles for comments on files, routines, parameters, and other miscellaneous places are: restructured text or verbatim. The markup styles are specified via the markup_style keyword to IDLdoc or using the docformat comment.</p>
     	</div>
     	
     	<div id="customizing">  

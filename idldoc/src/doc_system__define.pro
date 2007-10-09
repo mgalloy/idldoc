@@ -12,6 +12,8 @@
 ;       the directory to which to output the documentation
 ;    `classes` : get
 ;       hash table (classname -> DOCtreeClass) containing all class definitions
+;    `format` : get
+;    `markup` : get
 ;-
 
 ;+
@@ -85,12 +87,15 @@ end
 ;+
 ; Get properties of the system.
 ;-
-pro doc_system::getProperty, root=root, output=output, classes=classes
+pro doc_system::getProperty, root=root, output=output, classes=classes, $
+                             format=format, markup=markup
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
   if (arg_present(output)) then output = self.output
   if (arg_present(classes)) then classes = self.classes
+  if (arg_present(format)) then format = self.format
+  if (arg_present(markup)) then markup = self.markup
 end
 
 
@@ -512,6 +517,12 @@ end
 ;    `statistics` : in, optional, type=boolean
 ;       generate complexity statistics for routines
 ;
+;    `format_style` : in, optional, type=string, default='idldoc'
+;       style to use to parse file and routine comments ("idl", "idldoc", 
+;       "verbatim", or "rst")
+;    `markup_style` : in, optional, type=string, default='verbatim'
+;       markup used in comments ("rst" or "verbatim")
+;
 ;    `preformat` : in, optional, type=boolean, obsolete
 ;       no longer used
 ;    `browse_routines` : in, optional, type=boolean, obsolete
@@ -524,6 +535,7 @@ function doc_system::init, root=root, output=output, $
                            footer=footer, title=title, subtitle=subtitle, $
                            nonavbar=nonavbar, $
                            user=user, statistics=statistics, $
+                           format_style=formatStyle, markup_style=markupStyle, $
                            preformat=preformat, browse_routines=browseRoutines                           
   compile_opt strictarr
   
@@ -560,6 +572,9 @@ function doc_system::init, root=root, output=output, $
   self.user = keyword_set(user)
   self.statistics = keyword_set(statistics)
   
+  self.format = n_elements(formatStyle) eq 0 ? 'idldoc' : formatStyle
+  self.markup = n_elements(markupStyle) eq 0 ? 'verbatim' : markupStyle
+    
   self.preformat = keyword_set(preformat)
   self.assistant = keyword_set(assistant)
   self.embed = keyword_set(embed)
@@ -634,6 +649,10 @@ end
 ;       documentation)
 ;    `statistics`
 ;       set to generate statistics
+;    `format`
+;       style for parsing comments: 'idldoc', 'idl', 'rst', or 'verbatim'
+;    `markup`
+;       style for comments body markup: 'rst' or 'verbatim'
 ;    `preformat`
 ;       set if comments should be formatted as given in the source
 ;    `assistant`
@@ -677,6 +696,8 @@ pro doc_system__define
              user: 0B, $
              statistics: 0B, $
              
+             format: '', $
+             markup: '', $
              preformat: 0B, $             
              assistant: 0B, $
              embed: 0B, $

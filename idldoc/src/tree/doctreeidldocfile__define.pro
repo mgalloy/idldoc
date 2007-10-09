@@ -99,7 +99,7 @@ end
 pro doctreeidldocfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
-  print, '  Generating output for .idldoc file ' + self.basename
+  self.system->print, '  Generating output for .idldoc file ' + self.basename
   
   idldocFileTemplate = self.system->getTemplate('idldocfile')
     
