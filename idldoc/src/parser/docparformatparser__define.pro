@@ -21,19 +21,26 @@
 ;    `markup_parser` : in, required, type=object
 ;       markup parser object
 ;-
-function docparformatparser::parseRoutineComments, lines, routine=routine, $
-                                                   markup_parser=markupParser
+pro docparformatparser::parseRoutineComments, lines, routine=routine, $
+                                               markup_parser=markupParser
   compile_opt strictarr
   
-  return, obj_new()
 end
 
 
-function docparformatparser::parseFileComments, lines, file=file, $
-                                                markup_parser=markupParser
+pro docparformatparser::parseFileComments, lines, file=file, $
+                                           markup_parser=markupParser
   compile_opt strictarr
   
-  return, obj_new()
+end
+
+
+pro docparformatparser::parseIDLdocComments, lines, file=file, $
+                                             markup_parser=markupParser
+  compile_opt strictarr
+
+  comments = markupParser->parse(lines)
+  file->setProperty, comments=comments  
 end
 
 

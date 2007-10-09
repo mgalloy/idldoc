@@ -97,6 +97,7 @@ pro docparidldocformatparser::parseFileComments, lines, file=file, $
   ; go through each tag
 end
 
+
 ;+
 ; Define instance variables.
 ;-

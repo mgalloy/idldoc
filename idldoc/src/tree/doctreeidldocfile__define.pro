@@ -22,9 +22,17 @@ end
 ;+
 ; Set properties.
 ;-
-pro doctreeidldocfile::setProperty
+pro doctreeidldocfile::setProperty, comments=comments
   compile_opt strictarr
 
+  if (n_elements(comments) gt 0) then begin
+    if (obj_valid(self.comments)) then begin
+      parent = obj_new('MGtmTag')
+      parent->addChild, self.comments
+      parent->addChild, comments
+      self.comments = parent
+    endif else self.comments = comments
+  endif
 end
 
 
@@ -45,7 +53,37 @@ function doctreeidldocfile::getVariable, name, found=found
   
   found = 1B
   case strlowcase(name) of
-    'basename' : return, self.basename
+    'basename': return, self.basename
+    'local_url': return, file_basename(self.basename, '.idldoc') + '.html'
+    
+    'has_comments': return, obj_valid(self.comments)
+    'comments': begin
+        ; TODO: check system for output type (assuming HTML here)
+        html = self.system->getParser('htmloutput')
+        return, html->process(self.comments)        
+      end
+    'comments_first_line': begin
+        if (~obj_valid(self.comments)) then return, ''
+        
+        ; TODO: check system for output type (assuming HTML here)
+        html = self.system->getParser('htmloutput')    
+        comments = html->process(self.comments)
+        
+        nLines = n_elements(comments)
+        line = 0
+        while (line lt nLines) do begin
+          pos = stregex(comments[line], '\.( |$)')
+          if (pos ne -1) then break
+          line++
+        endwhile  
+        
+        if (pos eq -1) then return, comments[0:line-1]
+        if (line eq 0) then return, strmid(comments[line], 0, pos + 1)
+        
+        return, [comments[0:line-1], strmid(comments[line], 0, pos + 1)]
+      end  
+      
+      
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
@@ -62,6 +100,14 @@ pro doctreeidldocfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
   print, '  Generating output for .idldoc file ' + self.basename
+  
+  idldocFileTemplate = self.system->getTemplate('idldocfile')
+    
+  outputDir = outputRoot + directory
+  outputFilename = outputDir + file_basename(self.basename, '.idldoc') + '.html'
+  
+  idldocFileTemplate->reset
+  idldocFileTemplate->process, self, outputFilename   
 end
 
 
@@ -94,6 +140,26 @@ function doctreeidldocfile::init, basename=basename, directory=directory, $
   self.system->createIndexEntry, self.basename, self
   self.system->print, '  Parsing ' + self.basename + '...'
   
+  self.system->getProperty, root=root
+  self.directory->getProperty, location=location
+  
+  filename = root + location + self.basename
+  nLines = file_lines(filename)
+  if (nLines gt 0) then begin
+    comments = strarr(nLines)
+    openr, lun, filename, /get_lun
+    readf, lun, comments
+    free_lun, lun
+    
+    ; TODO: lookup correct format and markup parsers (using verbatim as a 
+    ; default now)
+    formatParser = self.system->getParser('verbatimformat')
+    markupParser = self.system->getParser('verbatimmarkup')
+    
+    ; call format parser's "parse" method
+    formatParser->parseIDLdocComments, comments, file=self, markup_parser=markupParser
+  endif
+  
   return, 1
 end
 
@@ -112,6 +178,8 @@ pro doctreeidldocfile__define
   define = { DOCtreeIDLdocFile, $
              system: obj_new(), $
              directory: obj_new(), $
-             basename: '' $
+             
+             basename: '', $
+             comments: obj_new() $
            }
 end

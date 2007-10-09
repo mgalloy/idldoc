@@ -41,7 +41,7 @@
       
       <h2>Attributes</h2>
 
-      <table class="attribute small">
+      <table class="attribute smaller">
         <tr>
           <td class="name">Lines:</td>
           <td>[% n_lines %]</td>

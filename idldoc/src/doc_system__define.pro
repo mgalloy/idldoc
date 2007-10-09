@@ -219,7 +219,7 @@ pro doc_system::loadTemplates
   templates = ['file-listing', 'all-files', 'dir-listing',  $
                'index', 'overview', 'help', 'warnings', 'index-entries', $
                'categories', 'search', $
-               'dir-overview', 'savefile', 'profile']
+               'dir-overview', 'savefile', 'profile', 'idldocfile']
   for t = 0L, n_elements(templates) - 1L do begin
     templateFilename = filepath(templates[t] + '.tt', $
                                 subdir=['templates'], $
