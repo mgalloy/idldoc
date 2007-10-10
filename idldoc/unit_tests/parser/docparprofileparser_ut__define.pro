@@ -210,7 +210,15 @@ end
 pro docparprofileparser_ut::setup
   compile_opt strictarr
   
-  self.parser = obj_new('DOCparProFileParser')  
+  root = filepath('', $
+                  subdir=['unit_tests', 'examples'], $
+                  root=self.root)
+  output = filepath('', $
+                    subdir=['unit_tests', 'examples-docs'], $
+                    root=self.root)
+  self.system = obj_new('DOC_System', root=root, output=output, /silent)
+  
+  self.parser = obj_new('DOCparProFileParser', system=self.system)  
 end
 
 
@@ -220,7 +228,7 @@ end
 pro docparprofileparser_ut::teardown
   compile_opt strictarr
   
-  obj_destroy, self.parser
+  obj_destroy, [self.system, self.parser]
 end
 
 
@@ -234,6 +242,7 @@ pro docparprofileparser_ut__define
   compile_opt strictarr
   
   define = { docparprofileparser_ut, inherits DOCutTestCase, $
+             system: obj_new(), $             
              parser: obj_new() $
            }
 end
