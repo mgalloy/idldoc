@@ -248,6 +248,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
   compile_opt strictarr, logical_predicate
   
   insideComment = 0B
+  justFinishedComment = 0L   ; 0, 1 (in header), 2 (just finished)
   headerContinued = 0B
   codeLevel = 0L
   currentComments = obj_new('MGcoArrayList', type=7)
@@ -263,14 +264,32 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     
     if (strmid(command, 0, 2) eq ';-' && insideComment) then begin
       insideComment = 0B
+      justFinishedComment = 2L
+      continue
     endif    
+    
     if (strmid(command, 0, 1) eq ';' && codeLevel eq 0L && insideComment) then begin
       currentComments->add, strmid(command, 2)
+      continue
     endif
-    if (strmid(command, 0, 2) eq ';+') then insideComment = 1B
+    
+    if (strmid(command, 0, 2) eq ';+') then begin
+      insideComment = 1B
+      continue
+    endif
+    
+    if (strmid(command, 0, 1) eq ';') then continue
     
     tokens = strsplit(self->_stripComments(command), /extract, count=nTokens)
-    if (nTokens eq 0) then continue
+    if (nTokens eq 0) then begin
+      if (justFinishedComment eq 2 && ~headerContinued && currentComments->count() gt 0) then begin
+        self->_parseFileComments, file, currentComments->get(/all), $
+                                  format=format, markup=markup
+        currentComments->remove, /all
+      endif
+      
+      continue          
+    endif
     
     firstToken = strlowcase(tokens[0])
     lastToken = strlowcase(tokens[nTokens - 1L])   
@@ -323,11 +342,9 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
         
         currentComments->remove, /all
       endif
-    endif else if (~headerContinued && currentComments->count() gt 0) then begin
-      self->_parseFileComments, file, currentComments->get(/all), $
-                                format=format, markup=markup
-      currentComments->remove, /all
     endif
+    
+    justFinishedComment--
   endwhile
   
   ; if the codeLevel ends up negative then the file had a main-level program
