@@ -37,13 +37,18 @@ end
 ; Set properties.
 ;-
 pro doctreeroutine::setProperty, name=name, is_Function=isFunction, $
-                                 is_method=isMethod, comments=comments
+                                 is_method=isMethod, comments=comments, $
+                                 is_abstract=isAbstract, $
+                                 is_hidden=isHidden, is_private=isPrivate
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then self.name = name
   if (n_elements(isFunction) gt 0) then self.isFunction = isFunction
   if (n_elements(isMethod) gt 0) then self.isMethod = isMethod
   if (n_elements(comments) gt 0) then self.comments = comments
+  if (n_elements(isAbstract) gt 0) then self.isAbstract = isAbstract
+  if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
+  if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
 end
 
 
@@ -125,6 +130,20 @@ pro doctreeroutine::addParameter, param
 end
 
 
+function doctreeroutine::getParameter, name, found=found
+  compile_opt strictarr
+
+  found = 1B
+  for i = 0L, n_elements(self.parameters->count()) - 1L do begin
+    p = self.parameters->get(position=i)
+    p->getProperty, name=n
+    if (strlowcase(name) eq strlowcase(n)) then return, p
+  endfor
+  found = 0B
+  return, -1L
+end
+
+
 ;+
 ; Add a keyword to the list of keywords for this routine.
 ; 
@@ -136,6 +155,20 @@ pro doctreeroutine::addKeyword, keyword
   compile_opt strictarr
   
   self.keywords->add, keyword
+end
+
+
+function doctreeroutine::getKeyword, name, found=found
+  compile_opt strictarr
+
+  found = 1B
+  for i = 0L, n_elements(self.keywords->count()) - 1L do begin
+    k = self.keywords->get(position=i)
+    k->getProperty, name=n
+    if (strlowcase(name) eq strlowcase(n)) then return, k 
+  endfor
+  found = 0B
+  return, -1L
 end
 
 
@@ -219,6 +252,9 @@ pro doctreeroutine__define
              name: '', $
              isFunction: 0B, $
              isMethod: 0B, $
+             isAbstract: 0B, $
+             isHidden: 0B, $
+             isPrivate: 0B, $
              
              parameters: obj_new(), $
              keywords: obj_new(), $

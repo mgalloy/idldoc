@@ -41,7 +41,7 @@
 			
       [% IF has_comments %]
       <div id="file_comments">
-      	<p [% IF preformat %]class="pre"[% END %]>[% comments %]</p>
+      	<p class="small [% IF preformat %]pre[% END %]">[% comments %]</p>
       </div>
       [% END %]
 
@@ -94,7 +94,7 @@
           <p class="syntax"><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %][% IF is_function %])[% END %]</code></p>
           
           [% IF has_comments %]
-          <p [% IF preformat %]class="pre"[% END %]>[% comments %]</p>
+          <p class="small [% IF preformat %]pre[% END %]">[% comments %]</p>
           [% END %]
           
           [% IF is_function %]
@@ -106,7 +106,7 @@
             <dl>
             [% FOREACH p IN parameters %][% SCOPE p %]
               <dt>[% name %] <span class="small"></span></dt>
-              <dd></dd>
+              <dd class="smaller">[% comments %]</dd>
             [% END %][% END %]
             </dl>
           [% END %]
@@ -116,7 +116,7 @@
             <dl>
             [% FOREACH k IN keywords %][% SCOPE k %]
               <dt>[% name %] <span class="small"></span></dt>
-              <dd></dd>
+              <dd class="smaller">[% comments %]</dd>
             [% END %][% END %]
             </dl>
           [% END %]

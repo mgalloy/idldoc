@@ -130,10 +130,8 @@ pro docparprofileparser::_parseRoutineComments, routine, comments, $
                                                 format=format, markup=markup
   compile_opt strictarr
   
-  ; TODO: lookup correct format and markup parsers (using verbatim as a default
-  ; now)
-  formatParser = self.system->getParser('verbatimformat')
-  markupParser = self.system->getParser('verbatimmarkup')
+  formatParser = self.system->getParser(format + 'format')
+  markupParser = self.system->getParser(markup + 'markup')
   
   ; call format parser's "parse" method
   formatParser->parseRoutineComments, comments, routine=routine, markup_parser=markupParser
@@ -180,11 +178,13 @@ pro docparprofileparser::_parseHeader, routine, cmd, first_line=firstLine
     if (strpos(argument, '=') ne -1) then begin
       ; add text before "=" as keyword to routine
       name = (strsplit(argument, '=', /extract))[0]
-      keyword = obj_new('DOCtreeArgument', routine, name=name, /is_keyword)
+      keyword = obj_new('DOCtreeArgument', routine, name=name, /is_keyword, $
+                        system=self.system)
       routine->addKeyword, keyword
     endif else begin
       ; add param as a positional parameter to routine
-      param = obj_new('DOCtreeArgument', routine, name=argument)
+      param = obj_new('DOCtreeArgument', routine, name=argument, $
+                      system=self.system)
       routine->addParameter, param
     endelse
   endfor

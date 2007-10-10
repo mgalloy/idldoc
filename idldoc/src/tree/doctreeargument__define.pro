@@ -59,32 +59,35 @@ function doctreeargument::getVariable, name, found=found
   ; return value if name is ok
   found = 1B
   case name of
-    'name' : return, self.name
+    'name': return, self.name
     
     'iskeyword' : return, self.isKeyword
-    'isoptional' : return, self.isOptional
-    'isrequired' : return, self.isRequired
-    'isinput' : return, self.isInput
-    'isoutput' : return, self.isOutput
-    'type' : return, self.type
-    'isboolean' : return, strlowcase(self.type) eq 'boolean'
-    'defaultvalue' : return, self.defaultValue
-    'ishidden' : return, self.isHidden
-    'isprivate' : return, self.isPrivate
+    'isoptional': return, self.isOptional
+    'isrequired': return, self.isRequired
+    'isinput': return, self.isInput
+    'isoutput': return, self.isOutput
+    'type': return, self.type
+    'isboolean': return, strlowcase(self.type) eq 'boolean'
+    'defaultvalue': return, self.defaultValue
+    'ishidden': return, self.isHidden
+    'isprivate': return, self.isPrivate
     
-    'prefix' : begin
+    'prefix': begin
       self.routine->getProperty, is_function=isFunction
       return, (isFunction && self.isFirst) ? '' : ', '
     end
-    'suffix' : begin
+    'suffix': begin
       self.routine->getProperty, is_function=isFunction
       return, (isFunction && self.isLast) ? '' : ''
     end
     
-    'comments' : begin
-      comments = self.comments->get(/all, count=count)
-      return, count eq 0 ? '' : comments
-    end
+    'comments': begin
+        if (~obj_valid(self.comments)) then return, ''
+        
+        ; TODO: check system for output type (assuming HTML here)
+        html = self.system->getParser('htmloutput')
+        return, html->process(self.comments)        
+      end 
     else : begin
       found = 0B
       return, -1L
@@ -169,9 +172,11 @@ end
 ;    `routine` : in, required, type=object
 ;       DOCtreeRoutine object
 ;-
-function doctreeargument::init, routine, name=name, is_keyword=isKeyword
+function doctreeargument::init, routine, name=name, is_keyword=isKeyword, $
+                                system=system
   compile_opt strictarr
   
+  self.system = system
   self.routine = routine
   if (n_elements(name) gt 0) then self.name = name
   self.isKeyword = keyword_set(isKeyword)
@@ -205,6 +210,7 @@ pro doctreeargument__define
   compile_opt strictarr
   
   define = { DOCtreeArgument, $
+             system: obj_new(), $
              routine: obj_new(), $
              name: '', $
              isFirst: 0B, $
