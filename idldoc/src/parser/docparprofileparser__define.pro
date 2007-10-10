@@ -248,7 +248,6 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
   compile_opt strictarr, logical_predicate
   
   insideComment = 0B
-  justFinishedComment = 0L
   headerContinued = 0B
   codeLevel = 0L
   currentComments = obj_new('MGcoArrayList', type=7)
@@ -264,7 +263,6 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     
     if (strmid(command, 0, 2) eq ';-' && insideComment) then begin
       insideComment = 0B
-      justFinishedComment = 2L
     endif    
     if (strmid(command, 0, 1) eq ';' && codeLevel eq 0L && insideComment) then begin
       currentComments->add, strmid(command, 2)
@@ -325,13 +323,11 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
         
         currentComments->remove, /all
       endif
-    endif else if (justFinishedComment eq 1 && currentComments->count() gt 0) then begin
+    endif else if (~headerContinued && currentComments->count() gt 0) then begin
       self->_parseFileComments, file, currentComments->get(/all), $
                                 format=format, markup=markup
       currentComments->remove, /all
     endif
-    
-    justFinishedComment--
   endwhile
   
   ; if the codeLevel ends up negative then the file had a main-level program
