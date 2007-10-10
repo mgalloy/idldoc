@@ -50,18 +50,19 @@
       
       [% IF n_ancestors gt 0 %]
       <h3>Inheritance</h3>
-        <h4>Parents</h4>
         <ul>
           [% FOREACH p IN parents %]
           <li>[% IF p->hasUrl() %]<a href="[% relative_root %][% p->getUrl() %]">[% END %][% p->getClassname() %][% IF p->hasUrl() %]</a>[% END %]</li>
           [% END %]
         </ul>
-              
+        
+        [% IF n_ancestors gt n_parents %]      
         <p class="smaller">All ancestors:
       		[% FOREACH a IN ancestors %]
       		[% IF a->hasUrl() %]<a href="[% relative_root %][% a->getUrl() %]">[% END %][% a->getClassname() %][% IF a->hasUrl() %]</a>[% END %]
       		[% END %]
       	</p>
+      	[% END %]
       [% END %]
       
       <h3>Fields</h3>
