@@ -126,15 +126,16 @@ end
 pro doctreeroutine::addParameter, param
   compile_opt strictarr
   
+  param->getProperty, name=n
   self.parameters->add, param
 end
 
 
 function doctreeroutine::getParameter, name, found=found
   compile_opt strictarr
-
+  
   found = 1B
-  for i = 0L, n_elements(self.parameters->count()) - 1L do begin
+  for i = 0L, self.parameters->count() - 1L do begin
     p = self.parameters->get(position=i)
     p->getProperty, name=n
     if (strlowcase(name) eq strlowcase(n)) then return, p
@@ -162,7 +163,7 @@ function doctreeroutine::getKeyword, name, found=found
   compile_opt strictarr
 
   found = 1B
-  for i = 0L, n_elements(self.keywords->count()) - 1L do begin
+  for i = 0L, self.keywords->count() - 1L do begin
     k = self.keywords->get(position=i)
     k->getProperty, name=n
     if (strlowcase(name) eq strlowcase(n)) then return, k 
