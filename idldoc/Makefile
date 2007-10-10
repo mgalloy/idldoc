@@ -7,6 +7,9 @@ clean:
 doc:
 	idl build_idldoc_docs
 
+regression:
+	idl -e "mgunit, 'docrtalltests_uts'"
+	
 tests:
 	idl -e "mgunit, 'docutalltests_uts'"
 	
