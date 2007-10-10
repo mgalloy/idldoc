@@ -1,4 +1,30 @@
 ;+
+; Test stripping comments.
+;-
+function docparprofileparser_ut::test_stripComments
+  compile_opt strictarr
+
+  line = self.parser->_stripComments('; some comments')
+  assert, line eq '', 'incorrect answer'
+
+  line = self.parser->_stripComments('a = ";" ; some comments')
+  assert, line eq 'a = ";" ', 'incorrect answer'
+    
+  line = self.parser->_stripComments('a = "''" ; some comments')
+  assert, line eq 'a = "''" ', 'incorrect answer'
+
+  line = self.parser->_stripComments('a = ";''" ; some comments')
+  assert, line eq 'a = ";''" ', 'incorrect answer'
+  
+  line = self.parser->_stripComments('a = "'';" ; some comments')
+  assert, line eq 'a = "'';" ', 'incorrect answer'
+        
+  return, 1
+end
+
+
+
+;+
 ; Test the _checkDocformatLine method.
 ;-
 function docparprofileparser_ut::test_checkDocformatLine

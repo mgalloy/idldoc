@@ -45,6 +45,43 @@ function docparprofileparser::_readFile, filename, empty=empty, $
 end
 
 
+function docparprofileparser::_stripComments, line
+  compile_opt strictarr
+
+  if (strpos(line, ';') lt 0) then return, line
+  
+  bline = byte(line)
+  bSingle = (byte(''''))[0]
+  bDouble = (byte('"'))[0]
+  bSemi = (byte(';'))[0]
+  
+  opener = 0B
+  inside = 0B
+  for i = 0L, n_elements(bline) - 1L do begin
+    if (inside) then begin
+      if (bline[i] eq opener) then inside = 0B        
+      continue      
+    endif
+    
+    case bline[i] of
+      bSingle: begin
+          opener = bSingle
+          inside = 1B
+        end
+      bDouble: begin
+          opener = bDouble
+          inside = 1B
+        end
+      bSemi: begin
+          return, strmid(line, 0, i)
+        end
+      else:  ; ignore
+    endcase
+  endfor
+  
+  return, line
+end
+
 ;+
 ; Finds docformat string.
 ;
@@ -233,18 +270,18 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     endif
     if (strmid(command, 0, 2) eq ';+') then insideComment = 1B
     
-    tokens = strsplit(command, /extract, count=nTokens)
+    tokens = strsplit(self->_stripComments(command), /extract, count=nTokens)
     if (nTokens eq 0) then continue
     
     firstToken = strlowcase(tokens[0])
-    lastToken = strlowcase(tokens[nTokens - 1L])
+    lastToken = strlowcase(tokens[nTokens - 1L])   
     
-    ; if starting begin/end block (switch/case implicitly start a bloack) then 
+    ; if starting begin/end block (switch/case implicitly start a block) then 
     ; increase code level
     if (lastToken eq 'begin' && ~insideComment) then codeLevel++
     if (firstToken eq 'case' || firstToken eq 'switch') then codeLevel++
     
-    ; if starts with end* then codeLevel--
+    ; if firstToken is one of the end variants then codeLevel--
     ind = where(firstToken eq endVariants, nEndsFound)
     if (nEndsFound gt 0) then codeLevel--
     
