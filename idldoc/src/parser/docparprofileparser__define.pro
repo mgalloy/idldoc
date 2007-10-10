@@ -82,6 +82,7 @@ function docparprofileparser::_stripComments, line
   return, line
 end
 
+
 ;+
 ; Finds docformat string.
 ;
@@ -133,17 +134,17 @@ function docparprofileparser::_checkDocformatLine, line, $
   ; set format and/or markup depending on the number of tokens
   tokens = strsplit(trimLine, /extract, count=nTokens)
   case nTokens of
-    0 : return, 0B
-    1 : begin
-      format = strlowcase(tokens[0])
-      markup = format eq 'rst' ? 'rst' : 'verbatim'
-      return, 1B
-    end
-    else : begin
-      format = strlowcase(tokens[0])
-      markup = strlowcase(tokens[1])
-      return, 1B
-    end
+    0: return, 0B
+    1: begin
+        format = strlowcase(tokens[0])
+        markup = format eq 'rst' ? 'rst' : 'verbatim'
+        return, 1B
+      end
+    else: begin
+        format = strlowcase(tokens[0])
+        markup = strlowcase(tokens[1])
+        return, 1B
+      end
   endcase
 end
 
@@ -294,6 +295,12 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       
       ; might be continued more
       headerContinued = lastToken eq '$' ? 1B : 0B
+      if (~headerContinued && currentComments->count() gt 0) then begin
+        self->_parseRoutineComments, routine, currentComments->get(/all), $
+                                     format=format, markup=markup
+        
+        currentComments->remove, /all
+      endif      
     endif
     
     ; if starts with pro or function then codeLevel++
@@ -312,7 +319,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
          
       self->_parseHeader, routine, command, /first_line
             
-      if (currentComments->count() gt 0) then begin
+      if (~headerContinued && currentComments->count() gt 0) then begin
         self->_parseRoutineComments, routine, currentComments->get(/all), $
                                      format=format, markup=markup
         
