@@ -84,9 +84,9 @@ function doctreeargument::getVariable, name, found=found
     'comments': begin
         if (~obj_valid(self.comments)) then return, ''
         
-        ; TODO: check system for output type (assuming HTML here)
-        html = self.system->getParser('htmloutput')
-        return, html->process(self.comments)        
+        self.system->getProperty, comment_style=commentStyle
+        commentParser = self.system->getParser(commentStyle + 'output')
+        return, commentParser->process(self.comments)        
       end 
     else : begin
       found = 0B

@@ -98,9 +98,9 @@ function doctreeprofile::getVariable, name, found=found
     
     'has_comments': return, obj_valid(self.comments)
     'comments': begin
-        ; TODO: check system for output type (assuming HTML here)
-        html = self.system->getParser('htmloutput')
-        return, html->process(self.comments)        
+        self.system->getProperty, comment_style=commentStyle
+        commentParser = self.system->getParser(commentStyle + 'output')
+        return, commentParser->process(self.comments)         
       end
     'comments_first_line': begin
         ; if no file comments, but there is only one routine then return the
@@ -112,9 +112,9 @@ function doctreeprofile::getVariable, name, found=found
           endif else return, ''
         endif
         
-        ; TODO: check system for output type (assuming HTML here)
-        html = self.system->getParser('htmloutput')    
-        comments = html->process(self.comments)
+        self.system->getProperty, comment_style=commentStyle
+        commentParser = self.system->getParser(commentStyle + 'output')
+        comments = commentParser->process(self.comments)                
         
         nLines = n_elements(comments)
         line = 0

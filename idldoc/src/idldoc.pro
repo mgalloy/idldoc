@@ -45,6 +45,8 @@
 ;       "verbatim", or "rst")
 ;    `markup_style` : in, optional, type=string, default='verbatim'
 ;       markup used in comments ("rst" or "verbatim")
+;    `comment_style` : in, optional, type=string, default='html'
+;       output format for comments ("html", "rst", or "latex")
 ;
 ;    `preformat` : in, optional, type=boolean, obsolete
 ;       no longer used
@@ -71,6 +73,7 @@ pro idldoc, root=root, $
             statistics=statistics, $
             format_style=formatStyle, $
             markup_style=markupStyle, $
+            comment_style=commentStyle, $
             preformat=preformat, $
             browse_routines=browseRoutines, $
             error=error
@@ -109,6 +112,7 @@ pro idldoc, root=root, $
                    statistics=statistics, $
                    format_style=formatStyle, $
                    markup_style=markupStyle, $
+                   comment_style=commentStyle, $
                    preformat=preformat, $
                    browse_routines=browseRoutines)
   

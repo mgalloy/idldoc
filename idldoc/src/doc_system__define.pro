@@ -90,7 +90,8 @@ end
 ; Get properties of the system.
 ;-
 pro doc_system::getProperty, root=root, output=output, classes=classes, $
-                             format=format, markup=markup
+                             format=format, markup=markup, $
+                             comment_style=commentStyle
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
@@ -98,6 +99,7 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(classes)) then classes = self.classes
   if (arg_present(format)) then format = self.format
   if (arg_present(markup)) then markup = self.markup
+  if (arg_present(commentStyle)) then commentStyle = self.commentStyle
 end
 
 
@@ -280,6 +282,8 @@ pro doc_system::loadParsers
   
   ; tree node parsers
   self.parsers->put, 'htmloutput', obj_new('MGtmHTML')
+  self.parsers->put, 'rstoutput', obj_new('MGtmRST')
+  self.parsers->put, 'latexoutput', obj_new('MGtmLaTeX')
 end
 
 
@@ -524,6 +528,8 @@ end
 ;       "verbatim", or "rst")
 ;    `markup_style` : in, optional, type=string, default='verbatim'
 ;       markup used in comments ("rst" or "verbatim")
+;    `comment_style` : in, optional, type=string, default='html'
+;       output format for comments ("html", "rst", or "latex")
 ;
 ;    `preformat` : in, optional, type=boolean, obsolete
 ;       no longer used
@@ -538,6 +544,7 @@ function doc_system::init, root=root, output=output, $
                            nonavbar=nonavbar, $
                            user=user, statistics=statistics, $
                            format_style=formatStyle, markup_style=markupStyle, $
+                           comment_style=commentStyle, $
                            preformat=preformat, browse_routines=browseRoutines                           
   compile_opt strictarr
   
@@ -576,6 +583,7 @@ function doc_system::init, root=root, output=output, $
   
   self.format = n_elements(formatStyle) eq 0 ? 'idldoc' : formatStyle
   self.markup = n_elements(markupStyle) eq 0 ? 'verbatim' : markupStyle
+  self.commentStyle = n_elements(commentStyle) eq 0 ? 'html' : commentStyle
     
   self.preformat = keyword_set(preformat)
   self.assistant = keyword_set(assistant)
@@ -700,6 +708,7 @@ pro doc_system__define
              
              format: '', $
              markup: '', $
+             commentStyle: '', $
              preformat: 0B, $             
              assistant: 0B, $
              embed: 0B, $
