@@ -16,6 +16,8 @@
 ;       format style
 ;    `markup` : get
 ;       markup style
+;    `overview_comments` : set
+;       comment tree
 ;-
 
 ;+
@@ -45,6 +47,8 @@ function doc_system::getVariable, name, found=found
     'preformat': return, self.preformat
     'embed': return, self.embed
     
+    'has_overview_comments': return, obj_valid(self.overviewComments)
+    'overview_comments': return, self->processComments(self.overviewComments)
     'footer': return, self.footer
     
     'output_root': return, self.output
@@ -102,6 +106,15 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(format)) then format = self.format
   if (arg_present(markup)) then markup = self.markup
   if (arg_present(commentStyle)) then commentStyle = self.commentStyle
+end
+
+
+pro doc_system::setProperty, overview_comments=overviewComments
+  compile_opt strictarr
+
+  if (n_elements(overviewComments) gt 0) then begin
+    self.overviewComments = overviewComments
+  endif
 end
 
 
@@ -196,6 +209,29 @@ pro doc_system::parseTree
                          system=self)
      self.directories->add, directory
   endfor
+  
+  ; parse overview file if present
+  if (self.overview ne '') then begin
+    if (~file_test(self.overview)) then begin
+      self->warning, 'overview file ' + self.overview + ' does not exist'
+      return
+    endif
+    
+    nLines = file_lines(self.overview)
+    if (nLines le 0) then return
+    
+    lines = strarr(nLines)
+    openr, lun, self.overview, /get_lun
+    readf, lun, lines
+    free_lun, lun
+    
+    formatParser = self->getParser(self.format + 'format')
+    markupParser = self->getParser(self.markup + 'markup')
+    
+    formatParser->parseOverviewComments, lines, $
+                                         system=self, $
+                                         markup_parser=markupParser
+  endif
 end
 
 
@@ -722,6 +758,7 @@ pro doc_system__define
              parsers: obj_new(), $
              
              overview: '', $
+             overviewComments: obj_new(), $
              footer: '', $
              
              title: '', $

@@ -27,7 +27,10 @@
     [% INCLUDE_TEMPLATE idldoc_header_location %]
     
     <div class="content">
-    
+      [% IF has_overview_comments %]
+      [% overview_comments %]
+      [% END %]
+      
     	<h2>Directories</h2>
     	
       <table class="attribute box small">

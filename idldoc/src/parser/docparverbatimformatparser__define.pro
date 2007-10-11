@@ -38,6 +38,15 @@ pro docparverbatimformatparser::parseFileComments, lines, file=file, $
 end
 
 
+pro docparverbatimformatparser::parseOverviewComments, lines, system=system, $
+                                                       markup_parser=markupParser
+  compile_opt strictarr
+  
+  comments = markupParser->parse(lines)
+  system->setProperty, overview_comments=comments
+end
+
+
 ;+
 ; Define instance variables.
 ;-

@@ -175,6 +175,16 @@ pro docparidldocformatparser::parseFileComments, lines, file=file, $
 end
 
 
+pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
+                                                     markup_parser=markupParser
+  compile_opt strictarr
+
+  ; TODO: this is verbatim, switch to looking for tags
+  comments = markupParser->parse(lines)
+  system->setProperty, overview_comments=comments  
+end
+
+
 ;+
 ; Define instance variables.
 ;-

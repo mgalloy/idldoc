@@ -44,6 +44,13 @@ pro docparformatparser::parseIDLdocComments, lines, file=file, $
 end
 
 
+pro docparformatparser::parseOverviewComments, lines, system=system, $
+                                               markup_parser=markupParser
+  compile_opt strictarr
+  
+end
+
+
 function docparformatparser::init, system=system
   compile_opt strictarr
   

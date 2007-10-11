@@ -67,6 +67,14 @@ pro docparrstformatparser::parseFileComments, lines, file=file,  $
 end
 
 
+pro docparrstformatparser::parseOverviewComments, lines, system=system, $
+                                                  markup_parser=markupParser
+  compile_opt strictarr
+
+  ; TODO: implement this  
+end
+
+
 ;+
 ; Define instance variables.
 ;- 
