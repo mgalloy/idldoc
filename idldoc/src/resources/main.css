@@ -20,6 +20,7 @@ h1, h2, h3, h4 { font-weight:normal; color: #900000; margin-top: 1.5em; }
 .smallest { font-family: Verdana, Helvetica, sans-serif; font-size: 70%; }
 h1.basename { margin-top: 0; margin-bottom: 0; }
 h2.directory { font-size: 90%; margin-bottom: 0; }
+h2.routine-name { margin-top: 0; }
 span.file_attribute { float: right; color: #384806; margin: 0 0 1em 3em; }
 div#file_comments { margin-top: 1em; }
 
@@ -28,7 +29,13 @@ div.routine-details h3 { margin-top: 0; }
 div.routine-details dt { color: #900000; margin-left: 2em; }
 div.routine-details dt span { color: #384806; margin-left: 3em; }
 div.routine-details dd { margin: 0.5em 2em 1em 4em; }
-a.top { font-weight: bold; text-transform: uppercase; float: right; }
+a.top { 
+	font-family: Verdana, Helvetica, sans-serif; 
+	font-size: 8pt; 
+	font-weight: bold; 
+	text-transform: uppercase; 
+	float: right; 
+}
 
 /* comments */
 .pre { white-space: pre; }

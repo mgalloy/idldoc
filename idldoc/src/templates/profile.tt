@@ -41,7 +41,7 @@
 			
       [% IF has_comments %]
       <div id="file_comments">
-      	<p class="small [% IF preformat %]pre[% END %]">[% comments %]</p>
+      	<div class="small [% IF preformat %]pre[% END %]">[% comments %]</div>
       </div>
       [% END %]
 
@@ -89,7 +89,7 @@
         
         [% FOREACH r IN routines %][% SCOPE r %]
         <div class="routine-details" id="[% name %]">
-        	<h3><a href="#root" class="top smallest">top</a>[% name %]</h3>
+        	<h2 class="routine-name"><a href="#root" class="top">top</a>[% name %]</h2>
         	
           <p class="syntax"><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %][% IF is_function %])[% END %]</code></p>
           
@@ -97,7 +97,7 @@
           <div class="small [% IF preformat %]pre[% END %]">[% comments %]</div>
           [% END %]
           
-          [% IF is_function %]
+          [% IF is_function and has_returns %]
           <h4>Return value</h4>
           	<div class="smaller">[% returns %]</div>
           [% END %]

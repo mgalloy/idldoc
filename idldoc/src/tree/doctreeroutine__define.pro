@@ -101,6 +101,7 @@ function doctreeroutine::getVariable, name, found=found
         return, [comments[0:line-1], strmid(comments[line], 0, pos + 1)]
       end
       
+    'has_returns': return, obj_valid(self.returns)
     'returns': return, self.system->processComments(self.returns)
     
     'n_parameters': return, self.parameters->count()
