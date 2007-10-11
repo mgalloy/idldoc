@@ -30,7 +30,7 @@
     
     	<h2>Directories</h2>
     	
-      <table class="attribute small">
+      <table class="attribute box small">
         [% FOREACH d IN dirs %][% SCOPE d %]
         <tr>
           <td class="name"><a href="[% url %]dir-overview.html">[% location %]</a></td>

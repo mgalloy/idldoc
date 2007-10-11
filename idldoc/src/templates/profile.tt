@@ -98,35 +98,46 @@
           [% END %]
           
           [% IF is_function and has_returns %]
-          <h4>Return value</h4>
-          	<div class="smaller">[% returns %]</div>
+          <h3>Return value</h3>
+          	<div class="small">[% returns %]</div>
           [% END %]
           
           [% IF n_parameters gt 0 %]
-          <h4>Parameters</h4>
+          <h3>Parameters</h3>
             <dl>
             [% FOREACH p IN parameters %][% SCOPE p %]
               <dt>[% name %] <span class="small"></span></dt>
-              <dd class="smaller">[% comments %]</dd>
+              <dd class="small">[% comments %]</dd>
             [% END %][% END %]
             </dl>
           [% END %]
           
           [% IF n_keywords gt 0 %]
-          <h4>Keywords</h4>
+          <h3>Keywords</h3>
             <dl>
             [% FOREACH k IN keywords %][% SCOPE k %]
               <dt>[% name %] <span class="small"></span></dt>
-              <dd class="smaller">[% comments %]</dd>
+              <dd class="small">[% comments %]</dd>
             [% END %][% END %]
             </dl>
           [% END %]
           
           [% IF statistics %]
-          <h4>Statistics</h4>
+          <h3>Statistics</h3>
+
+		        <table class="attribute small">
+		          <tr>
+		            <td class="name">Lines:</td>
+		            <td></td>
+		          </tr> 
+
+		          <tr>
+		            <td class="name">McCabe complexity:</td>
+		            <td></td>
+		          </tr>   		            		                
+		        </table>
           [% END %]
-          
-          <h4>Other attributes</h4>
+                    
         </div>            
         [% END %][% END %]
             
