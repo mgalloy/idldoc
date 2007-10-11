@@ -3,7 +3,10 @@ REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 
 clean:
 	rm -f *.zip
-
+	rm -rf api-docs
+	# remove regression test results
+	# remove unit_test test results
+	
 doc:
 	idl build_idldoc_docs
 
