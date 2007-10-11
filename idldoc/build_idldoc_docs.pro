@@ -1,6 +1,6 @@
 idldoc, root='src', output='api-docs', $
-  title='IDLdoc ' + idldoc_version(/full), $
-  subtitle='IDLdoc API', /statistics, $
+  title='API documenation for IDLdoc ' + idldoc_version(), $
+  subtitle='IDLdoc ' + idldoc_version(/full), /statistics, $
   overview='overview', footer='footer'
   
 exit

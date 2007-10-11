@@ -2,4 +2,14 @@
 
   <p>This is the documentation for the IDLdoc project.</p>
   
+  <p>The IDLdoc project source code can be accessed via Subversion with the command:
+  <code class="listing">svn co http://svn.idldev.com/idldoc</code>
+  </p>
+  
+  <h4>Resources</h4>
+  
+  <ul>
+    <li><a href="http://michaelgalloy.com">Developer site</a></li>
+    <li><a href="http://idldev.com">Hosting site</a></li>
+  </ul>  
 </div>
