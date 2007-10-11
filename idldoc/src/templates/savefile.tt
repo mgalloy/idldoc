@@ -236,6 +236,7 @@
           </tr>          
         </table>   
         
+      [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
     </div>
     
     [% INCLUDE_TEMPLATE idldoc_footer_location %]    

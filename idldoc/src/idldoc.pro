@@ -92,8 +92,6 @@ pro idldoc, root=root, $
     endif
   endif
   
-  cd, current=startDirectory
-  
   system = obj_new('DOC_System', $
                    root=root, $
                    output=output, $
@@ -117,5 +115,4 @@ pro idldoc, root=root, $
                    browse_routines=browseRoutines)
   
   obj_destroy, system
-  cd, startDirectory
 end

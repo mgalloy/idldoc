@@ -66,7 +66,9 @@
           <dd class="smaller"></dd>  
           [% END %][% END %]
         </dl>
-      [% END %]        		
+      [% END %]     
+      
+      [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]   		
   	</div>
   	
     [% INCLUDE_TEMPLATE idldoc_footer_location %]      	

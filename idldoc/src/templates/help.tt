@@ -47,6 +47,8 @@
     	
     		<p>IDLdoc uses text file templates to create its output. These can be customized to produce any kind of text output: HTML, LaTeX, DocBook, restructured text, etc. The templates are located in the "templates" directory of the distribution.</p>
     	</div>
+
+      [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
 		</div>    
 
     [% INCLUDE_TEMPLATE idldoc_footer_location %]

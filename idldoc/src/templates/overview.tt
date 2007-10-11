@@ -46,7 +46,9 @@
           <td class="name">Lines:</td>
           <td>[% n_lines %]</td>
         </tr>
-      </table>     	
+      </table>   
+      
+      [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]  	
     </div>    
 
     [% INCLUDE_TEMPLATE idldoc_footer_location %]
