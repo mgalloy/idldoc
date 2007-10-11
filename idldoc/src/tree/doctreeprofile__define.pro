@@ -97,11 +97,7 @@ function doctreeprofile::getVariable, name, found=found
     'markup': return, self.markup
     
     'has_comments': return, obj_valid(self.comments)
-    'comments': begin
-        self.system->getProperty, comment_style=commentStyle
-        commentParser = self.system->getParser(commentStyle + 'output')
-        return, commentParser->process(self.comments)         
-      end
+    'comments': return, self.system->processComments(self.comments)       
     'comments_first_line': begin
         ; if no file comments, but there is only one routine then return the
         ; first line of the routine's comments
@@ -112,9 +108,7 @@ function doctreeprofile::getVariable, name, found=found
           endif else return, ''
         endif
         
-        self.system->getProperty, comment_style=commentStyle
-        commentParser = self.system->getParser(commentStyle + 'output')
-        comments = commentParser->process(self.comments)                
+        comments = self.system->processComments(self.comments)             
         
         nLines = n_elements(comments)
         line = 0

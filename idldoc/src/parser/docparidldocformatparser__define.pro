@@ -55,6 +55,16 @@ pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
 end
 
 
+function docparidldocformatparser::_removeTag, tag, lines
+  compile_opt strictarr
+  
+  re = '^[[:space:]]*@[[:alpha:]_]+[[:space:]]+'
+  start = stregex(lines[0], re, length=length)
+  lines[0] = strmid(lines[0], start + length)
+  return, lines
+end
+
+
 ;+
 ; Handles one tag.
 ; 
@@ -100,7 +110,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'private_file':
     'requires':
     'restrictions':
-    'returns':  
+    'returns': routine->setProperty, returns=markupParser->parse(self->_removeTag(tag, lines))
     'todo':
     'uses':
     'version':

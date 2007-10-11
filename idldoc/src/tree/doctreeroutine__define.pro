@@ -36,19 +36,26 @@ end
 ;+
 ; Set properties.
 ;-
-pro doctreeroutine::setProperty, name=name, is_Function=isFunction, $
-                                 is_method=isMethod, comments=comments, $
+pro doctreeroutine::setProperty, name=name, $
+                                 is_Function=isFunction, $
+                                 is_method=isMethod, $
                                  is_abstract=isAbstract, $
-                                 is_hidden=isHidden, is_private=isPrivate
+                                 is_hidden=isHidden, $
+                                 is_private=isPrivate, $
+                                 comments=comments, $
+                                 returns=returns
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then self.name = name
+  
   if (n_elements(isFunction) gt 0) then self.isFunction = isFunction
   if (n_elements(isMethod) gt 0) then self.isMethod = isMethod
-  if (n_elements(comments) gt 0) then self.comments = comments
   if (n_elements(isAbstract) gt 0) then self.isAbstract = isAbstract
   if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
   if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
+  
+  if (n_elements(comments) gt 0) then self.comments = comments
+  if (n_elements(returns) gt 0) then self.returns = returns  
 end
 
 
@@ -74,17 +81,11 @@ function doctreeroutine::getVariable, name, found=found
     'is_function': return, self.isFunction
     
     'has_comments': return, obj_valid(self.comments)
-    'comments': begin
-        self.system->getProperty, comment_style=commentStyle
-        commentParser = self.system->getParser(commentStyle + 'output')
-        return, commentParser->process(self.comments)         
-      end
+    'comments': return, self.system->processComments(self.comments)
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
         
-        self.system->getProperty, comment_style=commentStyle
-        commentParser = self.system->getParser(commentStyle + 'output')
-        comments = commentParser->process(self.comments)  
+        comments = self.system->processComments(self.comments) 
         
         nLines = n_elements(comments)
         line = 0
@@ -100,6 +101,8 @@ function doctreeroutine::getVariable, name, found=found
         return, [comments[0:line-1], strmid(comments[line], 0, pos + 1)]
       end
       
+    'returns': return, self.system->processComments(self.returns)
+    
     'n_parameters': return, self.parameters->count()
     'parameters': return, self.parameters->get(/all)
     'n_keywords': return, self.keywords->count()
@@ -204,7 +207,7 @@ end
 pro doctreeroutine::cleanup
   compile_opt strictarr
   
-  obj_destroy, [self.parameters, self.keywords]
+  obj_destroy, [self.parameters, self.keywords, self.comments, self.returns]
 end
 
 
@@ -260,6 +263,7 @@ pro doctreeroutine__define
              parameters: obj_new(), $
              keywords: obj_new(), $
              
-             comments: obj_new() $
+             comments: obj_new(), $
+             returns: obj_new() $
            }
 end

@@ -94,11 +94,12 @@
           <p class="syntax"><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %][% IF is_function %])[% END %]</code></p>
           
           [% IF has_comments %]
-          <p class="small [% IF preformat %]pre[% END %]">[% comments %]</p>
+          <div class="small [% IF preformat %]pre[% END %]">[% comments %]</div>
           [% END %]
           
           [% IF is_function %]
           <h4>Return value</h4>
+          	<div class="smaller">[% returns %]</div>
           [% END %]
           
           [% IF n_parameters gt 0 %]

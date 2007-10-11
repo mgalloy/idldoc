@@ -59,17 +59,10 @@ function doctreeidldocfile::getVariable, name, found=found
     'local_url': return, file_basename(self.basename, '.idldoc') + '.html'
     
     'has_comments': return, obj_valid(self.comments)
-    'comments': begin
-        self.system->getProperty, comment_style=commentStyle
-        commentParser = self.system->getParser(commentStyle + 'output')
-        return, commentParser->process(self.comments)      
-      end
+    'comments': return, self.system->processComments(self.comments)    
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
-        
-        self.system->getProperty, comment_style=commentStyle
-        commentParser = self.system->getParser(commentStyle + 'output')
-        comments = commentParser->process(self.comments)  
+        comments = self.system->processComments(self.comments) 
         
         nLines = n_elements(comments)
         line = 0

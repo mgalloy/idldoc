@@ -239,6 +239,16 @@ pro doc_system::loadTemplates
 end
 
 
+function doc_system::processComments, tree
+  compile_opt strictarr
+  
+  if (~obj_valid(tree)) then return, ''
+  
+  commentParser = self->getParser(self.commentStyle + 'output')
+  return, commentParser->process(tree)  
+end
+
+
 ;+
 ; Get a parser by name (as used when loaded in loadParsers).
 ; 

@@ -81,13 +81,8 @@ function doctreeargument::getVariable, name, found=found
       return, (isFunction && self.isLast) ? '' : ''
     end
     
-    'comments': begin
-        if (~obj_valid(self.comments)) then return, ''
-        
-        self.system->getProperty, comment_style=commentStyle
-        commentParser = self.system->getParser(commentStyle + 'output')
-        return, commentParser->process(self.comments)        
-      end 
+    'comments': return, self.system->processComments(self.comments)       
+    
     else : begin
       found = 0B
       return, -1L
