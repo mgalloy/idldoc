@@ -20,6 +20,13 @@ pro doctreedirectory::getProperty, location=location, url=url
 end
 
 
+pro doctreedirectory::setProperty, overview_comments=overviewComments
+  compile_opt strictarr
+
+  if (n_elements(overviewComments) gt 0) then self.overviewComments = overviewComments
+end
+
+
 ;+
 ; Get variables for use with templates.
 ;
@@ -45,6 +52,7 @@ function doctreedirectory::getVariable, name, found=found
         return, strjoin(replicate('..' + path_sep(), nUps))
       end
       
+    'overview_comments': return, self.system->processComments(self.overviewComments)  
     'n_pro_files' : return, self.proFiles->count()
     'pro_files' : return, self.proFiles->get(/all)
     'n_sav_files' : return, self.savFiles->count()
@@ -122,9 +130,8 @@ end
 pro doctreedirectory::cleanup
   compile_opt strictarr
   
-  obj_destroy, self.proFiles
-  obj_destroy, self.savFiles
-  obj_destroy, self.idldocFiles
+  obj_destroy, self.overviewComments
+  obj_destroy, [self.proFiles, self.savFiles, self.idldocFiles]
 end
 
 
@@ -208,6 +215,7 @@ pro doctreedirectory__define
              system: obj_new(), $
              location: '', $
              url: '', $
+             overviewComments: obj_new(), $
              proFiles: obj_new(), $
              savFiles: obj_new(), $
              idldocFiles: obj_new() $

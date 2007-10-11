@@ -55,7 +55,7 @@ pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
 end
 
 
-function docparidldocformatparser::_removeTag, tag, lines
+function docparidldocformatparser::_removeTag, lines
   compile_opt strictarr
   
   re = '^[[:space:]]*@[[:alpha:]_]+[[:space:]]+'
@@ -110,7 +110,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'private_file':
     'requires':
     'restrictions':
-    'returns': routine->setProperty, returns=markupParser->parse(self->_removeTag(tag, lines))
+    'returns': routine->setProperty, returns=markupParser->parse(self->_removeTag(lines))
     'todo':
     'uses':
     'version':
@@ -179,9 +179,55 @@ pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
                                                      markup_parser=markupParser
   compile_opt strictarr
 
-  ; TODO: this is verbatim, switch to looking for tags
-  comments = markupParser->parse(lines)
-  system->setProperty, overview_comments=comments  
+  ; find @ symbols that are the first non-whitespace character on the line
+  tagLocations = where(stregex(lines, '^[[:space:]]*@') ne -1, nTags)
+  
+  ; parse normal comments
+  tagsStart = nTags gt 0 ? tagLocations[0] : n_elements(lines)
+  if (tagsStart ne 0) then begin
+    comments = markupParser->parse(lines[0:tagsStart - 1L])
+    system->setProperty, overview_comments=comments
+  endif
+
+  ; go through each tag
+  for t = 0L, nTags - 1L do begin
+    tagStart = tagLocations[t]
+    tag = strmid(stregex(lines[tagStart], '@[[:alpha:]_]+', /extract), 1)
+    tagEnd = t eq nTags - 1L $
+               ? n_elements(lines) - 1L $
+               : tagLocations[t + 1L] - 1L
+    tagLines = self->_removeTag(lines[tagStart:tagEnd])
+    
+    case strlowcase(tag) of
+      'dir': begin
+          re = '^[[:space:]]*([[:alpha:]._$\-\/]+)[[:space:]]+'
+          argStart = stregex(tagLines[0], re, /subexpr, length=argLength)
+          if (argStart[0] eq -1L) then begin
+            system->getProperty, overview=overview
+            system->warning, 'directory argument not present for dir tag in overview file ' + overview
+            break            
+          endif
+          
+          dirName = strmid(tagLines[0], argStart[1], argLength[1])
+          tagLines[0] = strmid(tagLines[0], argStart[1] + argLength[1])
+          
+          system->getProperty, directories=directories
+          for d = 0L, directories->count() - 1L do begin
+            dir = directories->get(position=d)
+            dir->getProperty, location=location
+            if (dirName eq location) then begin
+              tree = markupParser->parse(tagLines)
+              dir->setProperty, overview_comments=tree
+              break
+            endif
+          endfor
+        end
+      else: begin
+          system->getProperty, overview=overview
+          system->warning, 'unknown tag ' + tag + ' in overview file ' + overview
+        end
+    endcase
+  endfor
 end
 
 

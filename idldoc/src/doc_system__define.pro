@@ -97,7 +97,8 @@ end
 ;-
 pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              format=format, markup=markup, $
-                             comment_style=commentStyle
+                             comment_style=commentStyle, overview=overview, $
+                             directories=directories
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
@@ -106,6 +107,8 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(format)) then format = self.format
   if (arg_present(markup)) then markup = self.markup
   if (arg_present(commentStyle)) then commentStyle = self.commentStyle
+  if (arg_present(overview)) then overview = self.overview
+  if (arg_present(directories)) then directories = self.directories
 end
 
 

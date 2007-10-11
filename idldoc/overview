@@ -13,3 +13,15 @@
     <li><a href="http://idldev.com">Hosting site</a></li>
   </ul>  
 </div>
+
+
+@dir ./ Main-level programs such as IDLdoc itself, the system object, and the version function.
+@dir collection/ Collection classes (imported from mg library).
+@dir dist_tools/ Routines for handling distributing applications (imported from mg library).
+@dir introspection/ Routines for providing information about an IDL variable.
+@dir math/ Misc computational routines (imported from mg library).
+@dir parser/ Parser classes for parsing files, formats, and comments.
+@dir templating/ Template class and helpers (imported from mg library).
+@dir textmarkup/ Classes to convert a markup tree to a particular markup language (imported from mg library).
+@dir tree/ Classes representing IDL constructs: directories, files, routines, etc.
+@dir util/ Utility classes (formating integers, etc).

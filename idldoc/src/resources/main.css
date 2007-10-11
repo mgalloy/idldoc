@@ -59,7 +59,7 @@ table.box {
   padding-bottom: 0.75em; 
 }
 table.attribute { padding-left: 0.75em; padding-right: 0.75em; }
-table td { font-style: italic; }
+table td { font-style: italic; vertical-align: top; }
 table td.name { font-style: normal; padding-right: 1.5em; }
 
 /* header/navbar styles */

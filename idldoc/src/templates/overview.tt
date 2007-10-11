@@ -37,7 +37,7 @@
         [% FOREACH d IN dirs %][% SCOPE d %]
         <tr>
           <td class="name"><a href="[% url %]dir-overview.html">[% location %]</a></td>
-          <td></td>
+          <td>[% overview_comments %]</td>
         </tr>
         [% END %][% END %]
       </table>               
