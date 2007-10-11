@@ -29,7 +29,9 @@ function doctreesavfile::getVariable, name, found=found
     'basename' : return, self.basename
     'local_url' : return, file_basename(self.basename, '.sav') + '-sav.html'
     'creation_date': begin
-        contents = self.savFile->contents()
+        savFile = obj_new('IDL_Savefile', self.savFilename)
+        contents = savFile->contents()
+        obj_destroy, savFile
         return, contents.date
       end
     'modification_time': return, self.modificationTime
@@ -50,7 +52,10 @@ function doctreesavfile::getVariable, name, found=found
     'n_object_heapvar':
     'n_pointer_heapvar':
     'n_structdef': begin
-        contents = self.savFile->contents()
+        savFile = obj_new('IDL_Savefile', self.savFilename)
+        contents = savFile->contents()
+        obj_destroy, savFile
+        
         ind = where(strupcase(name) eq tag_names(contents))
         val = contents.(ind[0])
         return, mg_is_int(val) ? mg_int_format(val) : val
@@ -97,7 +102,11 @@ function doctreesavfile::loadItem, itemName, $
   switch 1 of
     keyword_set(systemVariable): begin
         result = execute('temp = ' + itemName, 1, 1)
-        self.savFile->restore, itemName
+        
+        savFile = obj_new('IDL_Savefile', self.savFilename)
+        savFile->restore, itemName
+        obj_destroy, savFile
+        
         result = execute('var = ' + itemName, 1, 1)
         result = execute(itemName + ' = temp', 1, 1)
 
@@ -105,20 +114,29 @@ function doctreesavfile::loadItem, itemName, $
       end
       
     keyword_set(structureDefinition): begin
-        self.savFile->restore, itemName, /structure_definition
+        savFile = obj_new('IDL_Savefile', self.savFilename)
+        savFile->restore, itemName, /structure_definition
+        obj_destroy, savFile
+        
         return, create_struct(name=itemName)
       end
       
     keyword_set(pointerHeapvar):
     keyword_set(objectHeapvar): begin
-        self.savFile->restore, itemName, new_heapvar=var, $
+        savFile = obj_new('IDL_Savefile', self.savFilename)
+        savFile->restore, itemName, new_heapvar=var, $
                                pointer_heapvar=pointerHeapvar, $
                                object_heapvar=objectHeapvar
+        obj_destroy, savFile
+        
         return, var           
       end
     
     else: begin
-        self.savFile->restore, itemName
+        savFile = obj_new('IDL_Savefile', self.savFilename)
+        savFile->restore, itemName
+        obj_destroy, savFile
+        
         return, scope_varfetch(itemName)      
       end
     endswitch
@@ -127,14 +145,16 @@ end
 
 pro doctreesavfile::loadSavContents
   compile_opt strictarr
-
-  procedureNames = self.savFile->names(count=nProcedures, /procedure)
+  
+  savFile = obj_new('IDL_Savefile', self.savFilename)
+  
+  procedureNames = savFile->names(count=nProcedures, /procedure)
   if (nProcedures gt 0) then self.procedures->add, procedureNames
   
-  functionNames = self.savFile->names(count=nFunctions, /function)
+  functionNames = savFile->names(count=nFunctions, /function)
   if (nFunctions gt 0) then self.functions->add, functionNames
   
-  varNames = self.savFile->names(count=nVars)
+  varNames = savFile->names(count=nVars)
   for i = 0L, nVars - 1L do begin
     data = self->loadItem(varNames[i])
     
@@ -142,7 +162,7 @@ pro doctreesavfile::loadSavContents
     self.variables->add, var
   endfor
 
-  systemVariableNames = self.savFile->names(count=nSystemVariables, /system_variable)
+  systemVariableNames = savFile->names(count=nSystemVariables, /system_variable)
   for i = 0L, nSystemVariables - 1L do begin
     data = self->loadItem(systemVariableNames[i], /system_variable)
   
@@ -150,16 +170,16 @@ pro doctreesavfile::loadSavContents
     self.systemVariables->add, var
   endfor
   
-  commonBlockNames = self.savFile->names(count=nCommonBlocks, /common_block)
+  commonBlockNames = savFile->names(count=nCommonBlocks, /common_block)
   for i = 0L, nCommonBlocks - 1L do begin
-    varNames = self.savFile->names(common_variable=commonBlockNames[i])
+    varNames = savFile->names(common_variable=commonBlockNames[i])
     
     var = obj_new('DOCtreeSavVar', commonBlockNames[i], '', self, system=self.system)
     var->setProperty, declaration='common ' + commonBlockNames[i] + ', ' + strjoin(varNames, ', ')
     self.commonBlocks->add, var
   endfor
   
-  structureNames = self.savFile->names(count=nStructureDefinitions, /structure_definition)
+  structureNames = savFile->names(count=nStructureDefinitions, /structure_definition)
   for i = 0L, nStructureDefinitions - 1L do begin
     data = self->loadItem(structureNames[i], /structure_definition)
     
@@ -167,7 +187,7 @@ pro doctreesavfile::loadSavContents
     self.structureDefinitions->add, var
   endfor
     
-  pointerNames = self.savFile->names(count=nPointers, /pointer_heapvar)
+  pointerNames = savFile->names(count=nPointers, /pointer_heapvar)
   for i = 0L, nPointers - 1L do begin
     data = self->loadItem(pointerNames[i], /pointer_heapvar)
     
@@ -177,7 +197,7 @@ pro doctreesavfile::loadSavContents
     self.pointers->add, var
   endfor
   
-  objectNames = self.savFile->names(count=nObjects, /object_heapvar)
+  objectNames = savFile->names(count=nObjects, /object_heapvar)
   for i = 0L, nObjects - 1L do begin
     data = self->loadItem(objectNames[i], /object_heapvar)
     
@@ -186,6 +206,8 @@ pro doctreesavfile::loadSavContents
                   data, self, system=self.system)
     self.objects->add, var
   endfor
+  
+  obj_destroy, savFile
 end
 
 
@@ -230,7 +252,6 @@ pro doctreesavfile::cleanup
                 self.structureDefinitions, $
                 self.pointers, $
                 self.objects]
-  obj_destroy, self.savFile
 end
 
 
@@ -254,9 +275,9 @@ function doctreesavfile::init, basename=basename, directory=directory, $
   
   self.system->getProperty, root=root
   self.directory->getProperty, location=location
+  self.savFilename = root + location + self.basename
   
-  self.savFile = obj_new('IDL_Savefile', root + location + self.basename)
-  info = file_info(root + location + self.basename)
+  info = file_info(self.savFilename)
   self.modificationTime = systime(0, info.mtime)
   self.size = mg_int_format(info.size) + ' bytes'
   
@@ -294,7 +315,7 @@ pro doctreesavfile__define
              
              basename: '', $
              
-             savFile: obj_new(), $
+             savFilename: '', $
              modificationTime: '', $
              size: '', $
              
