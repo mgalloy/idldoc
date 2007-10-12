@@ -11,6 +11,13 @@
       frameset#nav_frames { border-right: 1px dotted #CCCCCC; }
     </style>
 
+    <script type="text/javascript" language="JavaScript"><!--
+      regex = /\?(.*)/;
+      r = regex.exec(this.document.location);
+      parent.main_frame.document.location=r[1];
+      //-->
+    </script>
+
     <link rel="shortcut icon" href="./idldoc-resources/idldoc.ico"/>
   </head>
 
