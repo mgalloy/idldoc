@@ -26,7 +26,7 @@ div#file_comments { margin-top: 1em; }
 
 div.routine-details { border: 1px dotted #C0C0C0; margin-top: 1em; padding: 1em; }
 div.routine-details dt { color: #900000; margin-left: 2em; }
-div.routine-details dt span { color: #384806; margin-left: 3em; }
+div.routine-details dt span { color: #384806; margin-left: 2em; }
 div.routine-details dd { margin: 0.5em 2em 1em 4em; }
 a.top { 
 	font-family: Verdana, Helvetica, sans-serif; 
@@ -40,9 +40,11 @@ a.top {
 .pre { white-space: pre; }
 
 /* code styles */
-code { font-family: "Courier New", Courier, monospace; }
+code { font-family: Monaco; "Courier New", Courier, monospace; }
 code.listing { white-space: pre; display: block; padding: 0.5em 3em 0.5em 3em; }
 .syntax { margin-left: 1.5em; text-indent: -1.5em; }
+.var { font-style: italic; } 
+.argument { white-space: nowrap; } /* this does not work in safari */
 
 dl.routine-summary dt { margin-bottom: 0.25em; }
 dl.routine-summary dd { margin-bottom: 0.5em; margin-left: 2em; }

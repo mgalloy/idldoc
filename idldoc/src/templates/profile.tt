@@ -75,8 +75,8 @@
       
         <dl class="routine-summary">
           [% FOREACH r IN routines %][% SCOPE r %]
-            <dt class="syntax"><a href="#[% name %]"><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %][% IF is_function %])[% END %]</code></a></dt>
-            <dd class="smaller">[% comments_first_line %]</dd>
+            <dt class="syntax"><a href="#[% name %]"><code>[% IF is_function %]<span class="var">result</span> = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% name %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %][% name %][% IF ~is_boolean %]=<span class="var">[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</span>[% END %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></a></dt>
+            <dd class="small">[% comments_first_line %]</dd>
           [% END %][% END %]
         </dl>
       </div>
@@ -91,7 +91,7 @@
         <div class="routine-details" id="[% name %]">
         	<h2 class="routine-name"><a href="#root" class="top">top</a>[% name %]</h2>
         	
-          <p class="syntax"><code>[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %][% prefix %][% name %][% suffix %][% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %][% prefix %][% name %]=[% name %][% suffix %][% END %][% END %][% END %][% IF is_function %])[% END %]</code></p>
+          <p class="syntax"><code>[% IF is_function %]<span class="var">result</span> = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %]<a href="#[% id %]">[% name %]</a>[% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %]<a href="#[% id %]">[% name %]</a>[% IF ~is_boolean %]=<span class="var">[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</span>[% END %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></p>
           
           [% IF has_comments %]
           <div class="small [% IF preformat %]pre[% END %]">[% comments %]</div>
@@ -106,7 +106,7 @@
           <h3>Parameters</h3>
             <dl>
             [% FOREACH p IN parameters %][% SCOPE p %]
-              <dt>[% name %] <span class="small"></span></dt>
+              <dt id="[% id %]">[% name %] <span class="smaller">[% IF is_input %]in [% END %][% IF is_output %]out [% END %][% IF is_optional %]optional [% END %][% IF is_required %]required [% END %][% IF is_private %]private [% END %][% IF is_hidden %]hidden [% END %][% IF is_obsolete %]obsolete [% END %][% IF type ne '' %]type=[% type %] [% END %][% IF default_value ne '' %]default=[% default_value %][% END %]</span></dt>
               <dd class="small">[% comments %]</dd>
             [% END %][% END %]
             </dl>
@@ -116,7 +116,7 @@
           <h3>Keywords</h3>
             <dl>
             [% FOREACH k IN keywords %][% SCOPE k %]
-              <dt>[% name %] <span class="small"></span></dt>
+              <dt id="[% id %]">[% name %] <span class="smaller">[% IF is_input %]in [% END %][% IF is_output %]out [% END %][% IF is_optional %]optional [% END %][% IF is_required %]required [% END %][% IF is_private %]private [% END %][% IF is_hidden %]hidden [% END %][% IF is_obsolete %]obsolete [% END %][% IF type ne '' %]type=[% type %] [% END %][% IF default_value ne '' %]default=[% default_value %][% END %]</span></dt>
               <dd class="small">[% comments %]</dd>
             [% END %][% END %]
             </dl>

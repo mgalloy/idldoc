@@ -60,17 +60,21 @@ function doctreeargument::getVariable, name, found=found
   found = 1B
   case name of
     'name': return, self.name
-    
-    'iskeyword' : return, self.isKeyword
-    'isoptional': return, self.isOptional
-    'isrequired': return, self.isRequired
-    'isinput': return, self.isInput
-    'isoutput': return, self.isOutput
+    'id': begin
+        self.routine->getProperty, name=name
+        return, name + ':' + (self.isKeyword ? 'k' : 'p') + ':' + self.name
+      end
+      
+    'is_keyword' : return, self.isKeyword
+    'is_optional': return, self.isOptional
+    'is_required': return, self.isRequired
+    'is_input': return, self.isInput
+    'is_output': return, self.isOutput
     'type': return, self.type
-    'isboolean': return, strlowcase(self.type) eq 'boolean'
-    'defaultvalue': return, self.defaultValue
-    'ishidden': return, self.isHidden
-    'isprivate': return, self.isPrivate
+    'is_boolean': return, strlowcase(self.type) eq 'boolean'
+    'default_value': return, self.defaultValue
+    'is_hidden': return, self.isHidden
+    'is_private': return, self.isPrivate
     
     'prefix': begin
       self.routine->getProperty, is_function=isFunction

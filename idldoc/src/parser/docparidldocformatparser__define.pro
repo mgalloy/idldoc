@@ -39,12 +39,45 @@ pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
   
   headerLine = strmid(headerLine, attrStart)
  
-  re = '^[[:space:]]*({[^}]*}).*'
+  re = '^[[:space:]]*{([^}]*)}.*'
   
   starts = 0
   while (starts[0] ge 0) do begin
     starts = stregex(headerLine, re, /subexpr, length=lengths)
-    headerLine = strmid(headerLine, starts[1] + lengths[1])
+    attribute = strmid(headerLine, starts[1], lengths[1])
+    if (starts[0] ge 0) then begin
+      equalPos = strpos(attribute, '=')
+      if (equalPos eq -1L) then begin
+        case strlowcase(attribute) of
+          'in': arg->setProperty, is_input=1
+          'out': arg->setProperty, is_output=1
+          'optional': arg->setProperty, is_optional=1
+          'required': arg->setProperty, is_required=1
+          'private': arg->setProperty, is_private=1
+          'hidden': arg->setProperty, is_hidden=1
+          'obsolete': arg->setProperty, is_obsolete=1
+          else: begin
+              self.system->warning, $
+                'unknown argument attribute ' + attributeName + ' for argument ' $
+                  + argname + ' in ' + routineName 
+            end
+        endcase
+      endif else begin
+        attributeName = strmid(attribute, 0, equalPos)
+        attributeValue = strmid(attribute, equalPos + 1L)
+        case strlowcase(attributeName) of
+          'type': arg->setProperty, type=attributeValue
+          'default': arg->setProperty, default_value=attributeValue
+          else: begin
+              self.system->warning, $
+                'unknown argument attribute ' + attributeName + ' for argument' $
+                  + argname + ' in ' + routineName           
+            end
+        endcase
+      endelse
+      
+      headerLine = strmid(headerLine, starts[1] + lengths[1] + 1L)
+    endif
   endwhile
    
   ; put back what's left of headerLine
