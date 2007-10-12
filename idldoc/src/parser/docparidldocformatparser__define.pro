@@ -84,7 +84,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
                                                  markup_parser=markupParser
   compile_opt strictarr
   
-  ; TODO: implement this
+  ; TODO: finish this
   
   ; here are all the tags
   case strlowcase(tag) of
@@ -96,7 +96,10 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'customer_id':
     'examples':
     'field':
-    'file_comments':
+    'file_comments': begin
+        routine->getProperty, file=file
+        file->setProperty, comments=markupParser->parse(self->_removeTag(lines))
+      end
     'hidden': routine->setProperty, is_hidden=1
     'hidden_file':
     'history':
