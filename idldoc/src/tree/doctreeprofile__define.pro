@@ -85,6 +85,7 @@ function doctreeprofile::getVariable, name, found=found
   case strlowcase(name) of
     'basename': return, self.basename
     'local_url': return, file_basename(self.basename, '.pro') + '.html'
+    'source_url': return, file_basename(self.basename, '.pro') + '-code.html'
     
     'is_batch': return, self.isBatch
     'has_main_level': return, self.hasMainLevel
@@ -170,6 +171,13 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   
   proFileTemplate->reset
   proFileTemplate->process, self, outputFilename  
+  
+  sourceTemplate = self.system->getTemplate('source')
+  
+  outputFilename = outputDir + file_basename(self.basename, '.pro') + '-code.html'
+  
+  sourceTemplate->reset
+  sourceTemplate->process, self, outputFilename    
 end
 
 

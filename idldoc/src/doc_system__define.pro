@@ -71,7 +71,9 @@ function doc_system::getVariable, name, found=found
         for f = 0L, n_elements(proFiles) - 1L do begin
           proFiles[f]->getProperty, n_routines=fileRoutines
           nRoutines += fileRoutines
-        endfor        
+        endfor  
+        
+        return, mg_int_format(nRoutines)
       end
     'n_lines': begin
         if (self.proFiles->count() eq 0) then return, '0'
@@ -279,7 +281,7 @@ pro doc_system::loadTemplates
   templates = ['file-listing', 'all-files', 'dir-listing',  $
                'index', 'overview', 'help', 'warnings', 'index-entries', $
                'categories', 'search', $
-               'dir-overview', 'savefile', 'profile', 'idldocfile']
+               'dir-overview', 'savefile', 'profile', 'source', 'idldocfile']
   for t = 0L, n_elements(templates) - 1L do begin
     templateFilename = filepath(templates[t] + '.tt', $
                                 subdir=['templates'], $

@@ -27,11 +27,14 @@
     [% INCLUDE_TEMPLATE idldoc_header_location %]
     
     <div class="content">
+    
+      
       [% IF has_overview_comments %]
+      <h2>Overview</h2>
       [% overview_comments %]
       [% END %]
       
-    	<h2>Directories</h2>
+    	<h2 id="directories">Directories</h2>
     	
       <table class="attribute box small">
         [% FOREACH d IN dirs %][% SCOPE d %]
@@ -42,7 +45,7 @@
         [% END %][% END %]
       </table>               
       
-      <h2>Attributes</h2>
+      <h2 id="statistics">Project statistics</h2>
 
       <table class="attribute small">
         <tr>
