@@ -90,7 +90,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
   case strlowcase(tag) of
     'abstract': routine->setProperty, is_abstract=1
     'author':
-    'bugs':
+    'bugs': routine->setProperty, bugs=markupParser->parse(self->_removeTag(lines))      
     'categories':
     'copyright':
     'customer_id':
@@ -107,8 +107,8 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'keyword': self->_handleArgumentTag, tag, lines, routine=routine, markup_parser=markupParser
     'obsolete':
     'param': self->_handleArgumentTag, tag, lines, routine=routine, markup_parser=markupParser
-    'post':
-    'pre':
+    'post': routine->setProperty, post=markupParser->parse(self->_removeTag(lines))
+    'pre': routine->setProperty, pre=markupParser->parse(self->_removeTag(lines))
     'private': routine->setProperty, is_private=1
     'private_file':
     'requires':

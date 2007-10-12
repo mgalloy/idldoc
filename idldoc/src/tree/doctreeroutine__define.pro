@@ -43,7 +43,8 @@ pro doctreeroutine::setProperty, name=name, $
                                  is_hidden=isHidden, $
                                  is_private=isPrivate, $
                                  comments=comments, $
-                                 returns=returns
+                                 returns=returns, $
+                                 bugs=bugs, pre=pre, post=post
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then self.name = name
@@ -56,6 +57,22 @@ pro doctreeroutine::setProperty, name=name, $
   
   if (n_elements(comments) gt 0) then self.comments = comments
   if (n_elements(returns) gt 0) then self.returns = returns  
+  
+  ; "other" attributes
+  if (n_elements(bugs) gt 0) then begin
+    self.hasOthers = 1B
+    self.bugs = bugs
+  endif  
+  
+  if (n_elements(pre) gt 0) then begin
+    self.hasOthers = 1B
+    self.pre = pre
+  endif 
+  
+  if (n_elements(post) gt 0) then begin
+    self.hasOthers = 1B
+    self.post = post
+  endif     
 end
 
 
@@ -104,6 +121,17 @@ function doctreeroutine::getVariable, name, found=found
     'has_returns': return, obj_valid(self.returns)
     'returns': return, self.system->processComments(self.returns)
     
+    'has_others': return, self.hasOthers
+    
+    'has_bugs': return, obj_valid(self.bugs)
+    'bugs': return, self.system->processComments(self.bugs)
+
+    'has_pre': return, obj_valid(self.pre)
+    'pre': return, self.system->processComments(self.pre)
+    
+    'has_post': return, obj_valid(self.post)
+    'post': return, self.system->processComments(self.post)
+            
     'n_parameters': return, self.parameters->count()
     'parameters': return, self.parameters->get(/all)
     'n_keywords': return, self.keywords->count()
@@ -208,7 +236,8 @@ end
 pro doctreeroutine::cleanup
   compile_opt strictarr
   
-  obj_destroy, [self.parameters, self.keywords, self.comments, self.returns]
+  obj_destroy, [self.parameters, self.keywords, self.comments]
+  obj_destroy, [self.returns, self.bugs]
 end
 
 
@@ -265,6 +294,11 @@ pro doctreeroutine__define
              keywords: obj_new(), $
              
              comments: obj_new(), $
-             returns: obj_new() $
+             returns: obj_new(), $
+             
+             hasOthers: 0B, $
+             bugs: obj_new(), $
+             pre: obj_new(), $
+             post: obj_new() $
            }
 end

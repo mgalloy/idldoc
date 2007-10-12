@@ -122,6 +122,33 @@
             </dl>
           [% END %]
           
+          [% IF has_others %]
+          <h3>Other attributes</h3>
+
+            <table class="attribute small">
+              [% IF has_bugs %]
+              <tr>
+                <td class="name">Bugs:</td>
+                <td>[% bugs %]</td>
+              </tr>          
+              [% END %]
+
+              [% IF has_pre %]
+              <tr>
+                <td class="name">Pre-condition:</td>
+                <td>[% pre %]</td>
+              </tr>          
+              [% END %]
+
+              [% IF has_post %]
+              <tr>
+                <td class="name">Post-condition:</td>
+                <td>[% post %]</td>
+              </tr>          
+              [% END %]                            
+            </table>
+          [% END %]
+          
           [% IF statistics %]
           <h3>Statistics</h3>
 
