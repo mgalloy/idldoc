@@ -44,11 +44,31 @@
       
       <h2>Attributes</h2>
 
-      <table class="attribute smaller">
+      <table class="attribute small">
+        <tr>
+          <td class="name">Directories:</td>
+          <td>[% n_dirs %]</td>
+        </tr>
+
+        <tr>
+          <td class="name">.pro files:</td>
+          <td>[% n_pro_files %]</td>
+        </tr>
+        
+        <tr>
+          <td class="name">.sav files:</td>
+          <td>[% n_sav_files %]</td>
+        </tr>
+        
+        <tr>
+          <td class="name">Routines:</td>
+          <td>[% n_routines %]</td>
+        </tr>    
+        
         <tr>
           <td class="name">Lines:</td>
           <td>[% n_lines %]</td>
-        </tr>
+        </tr>                            
       </table>   
       
       [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]  	

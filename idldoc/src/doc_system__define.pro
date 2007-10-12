@@ -63,6 +63,16 @@ function doc_system::getVariable, name, found=found
     'n_idldoc_files': return, self.idldocFiles->count()
     'idldoc_files': return, self.idldocFiles->get(/all)
 
+    'n_routines': begin
+        if (self.proFiles->count() eq 0) then return, '0'
+        
+        nRoutines = 0L
+        proFiles = self.proFiles->get(/all)
+        for f = 0L, n_elements(proFiles) - 1L do begin
+          proFiles[f]->getProperty, n_routines=fileRoutines
+          nRoutines += fileRoutines
+        endfor        
+      end
     'n_lines': begin
         if (self.proFiles->count() eq 0) then return, '0'
         
@@ -436,6 +446,8 @@ pro doc_system::generateOutput
   indexTemplate = self->getTemplate('index')
   indexTemplate->reset
   indexTemplate->process, self, filepath('index.html', root=self.output)
+  
+  self->print, strtrim(self.nWarnings, 2) + ' warnings generated'
 end
 
 

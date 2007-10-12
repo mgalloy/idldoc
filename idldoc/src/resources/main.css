@@ -44,7 +44,7 @@ code { font-family: Monaco; "Courier New", Courier, monospace; }
 code.listing { white-space: pre; display: block; padding: 0.5em 3em 0.5em 3em; }
 .syntax { margin-left: 1.5em; text-indent: -1.5em; }
 .var { font-style: italic; } 
-.argument { white-space: nowrap; } /* this does not work in safari */
+.argument { } /* white-space: nowrap; does not work in Safari (and sometimes not even in Firefox) */
 
 dl.routine-summary dt { margin-bottom: 0.25em; }
 dl.routine-summary dd { margin-bottom: 0.5em; margin-left: 2em; }
