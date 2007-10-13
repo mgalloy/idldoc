@@ -11,18 +11,10 @@
       frameset#nav_frames { border-right: 1px dotted #CCCCCC; }
     </style>
 
-    <script type="text/javascript" language="JavaScript">
-      function load_frame() {
-        regex = /\?(.*)/;
-        r = regex.exec(window.document.location);
-        window.frames[2].document.location = r[1];
-      }
-    </script>
-
     <link rel="shortcut icon" href="./idldoc-resources/idldoc.ico"/>
   </head>
 
-  <frameset onload="load_frame();" cols="20%,80%" border="1">
+  <frameset cols="20%,80%" border="1">
     [% IF just_files %]
     <frame id="nav_frames" src="all-files.html" name="dir_frame"/>
     [% ELSE %]
