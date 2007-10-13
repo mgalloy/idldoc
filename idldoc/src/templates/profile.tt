@@ -174,7 +174,7 @@
       <div id="attributes">
         <h2>File attributes</h2>
         	
-        <table class="attribute smaller">
+        <table class="attribute small">
           <tr>
             <td class="name">Modifcation date:</td>
             <td>[% modification_time %]</td>

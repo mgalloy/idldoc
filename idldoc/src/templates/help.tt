@@ -40,6 +40,16 @@
     		<h2>Commenting your code</h2>
     	
     		<p>IDLdoc now accepts three different styles of commenting: the traditional IDL provided comment template, IDLdoc style, copied verbatim, or a restructured text style. The style to use can be specified with the format_style keyword to IDLdoc (for a global default) or on each individual file with a docformat comment. Furthermore, the markup styles for comments on files, routines, parameters, and other miscellaneous places are: restructured text or verbatim. The markup styles are specified via the markup_style keyword to IDLdoc or using the docformat comment.</p>
+    		
+    		<h3>IDLdoc format</h3>
+    		
+    		<p>Tags must be the first non-whitespace character on the line. For tags with arguments, all arguments must be on the first line.</p>
+    		
+    		<h3>IDL format</h3>
+    		
+    		<h3>Restructured text format</h3>
+    		
+    		<p>Tags must be the first non-whitespace character on the line. For tags with arguments, all arguments must be on the first line. Indentation is significant.</p>
     	</div>
     	
     	<div id="customizing">  
