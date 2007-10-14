@@ -178,11 +178,18 @@ function doctreeprofile::getVariable, name, found=found
 end
 
 
-function doctreeroutine::isVisible
+;+
+; Uses file hidden/private attributes and system wide user/developer level to
+; determine if this file should be visible.
+;
+; :Returns: boolean
+;-
+function doctreeprofile::isVisible
   compile_opt strictarr
-
+  
   if (self.hidden) then return, 0B
   
+  ; if creating user-level docs and private then not visible
   self.system->getProperty, user=user
   if (self.private && user) then return, 0B
   

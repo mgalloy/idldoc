@@ -181,11 +181,22 @@ function doctreeroutine::getVariable, name, found=found
 end
 
 
+;+
+; Uses file hidden/private attributes, system wide user/developer level, and
+; the status of the containing file to determine if this routine should be 
+; visible.
+;
+; :Returns: boolean
+;-
 function doctreeroutine::isVisible
   compile_opt strictarr
 
+  ; each routine in a not-visible file is not visible
+  if (~self.file->isVisible()) then return, 0B
+  
   if (self.hidden) then return, 0B
   
+  ; if creating user-level docs and private then not visible
   self.system->getProperty, user=user
   if (self.private && user) then return, 0B
   
