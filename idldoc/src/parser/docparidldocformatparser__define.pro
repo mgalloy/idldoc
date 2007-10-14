@@ -174,10 +174,10 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
   case strlowcase(tag) of
     'property':
     
-    'hidden':
-    'private':
+    'hidden': file->setProperty, is_hidden=1B
+    'private': file->setProperty, is_private=1B
     
-    'examples':
+    'examples': file->setProperty, examples=markupParser->parse(self->_removeTag(lines))
     
     'author': file->setProperty, author=markupParser->parse(self->_removeTag(lines))
     'copyright': file->setProperty, copyright=markupParser->parse(self->_removeTag(lines))

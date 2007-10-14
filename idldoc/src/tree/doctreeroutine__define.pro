@@ -181,6 +181,18 @@ function doctreeroutine::getVariable, name, found=found
 end
 
 
+function doctreeroutine::isVisible
+  compile_opt strictarr
+
+  if (self.hidden) then return, 0B
+  
+  self.system->getProperty, user=user
+  if (self.private && user) then return, 0B
+  
+  return, 1B
+end
+
+
 ;+
 ; Add a parameter to the list of parameters for this routine.
 ; 

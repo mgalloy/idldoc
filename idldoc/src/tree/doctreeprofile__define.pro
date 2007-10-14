@@ -44,11 +44,16 @@ end
 ; Set properties.
 ;-
 pro doctreeprofile::setProperty, has_main_level=hasMainLevel, $
+                                 is_hidden=isHidden, is_private=isPrivate, $
                                  is_batch=isBatch, comments=comments, $
                                  modification_time=mTime, n_lines=nLines, $ 
                                  format=format, markup=markup, $
+                                 examples=examples, $
                                  author=author, copyright=copyright, history=history                                 
   compile_opt strictarr
+  
+  if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
+  if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
   
   if (n_elements(hasMainLevel) gt 0) then self.hasMainLevel = hasMainLevel
   if (n_elements(isBatch) gt 0) then self.isBatch = isBatch
@@ -64,6 +69,8 @@ pro doctreeprofile::setProperty, has_main_level=hasMainLevel, $
   if (n_elements(markup) gt 0) then self.markup = markup
   if (n_elements(nLines) gt 0) then self.nLines = nLines
   if (n_elements(mTime) gt 0) then self.modificationTime = mTime
+  
+  if (n_elements(examples) gt 0) then self.examples = examples
   
   ; "author info" attributes
   if (n_elements(author) gt 0) then begin
@@ -113,7 +120,10 @@ function doctreeprofile::getVariable, name, found=found
     'n_lines': return, mg_int_format(self.nLines)
     'format': return, self.format
     'markup': return, self.markup
-    
+
+    'has_examples': return, obj_valid(self.examples)
+    'examples': return, self.system->processComments(self.examples) 
+        
     'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)       
     'comments_first_line': begin
@@ -165,6 +175,18 @@ function doctreeprofile::getVariable, name, found=found
         return, -1L
       end
   endcase
+end
+
+
+function doctreeroutine::isVisible
+  compile_opt strictarr
+
+  if (self.hidden) then return, 0B
+  
+  self.system->getProperty, user=user
+  if (self.private && user) then return, 0B
+  
+  return, 1B
 end
 
 
@@ -290,6 +312,11 @@ pro doctreeprofile__define
              comments: obj_new(), $
              
              routines: obj_new(), $
+             
+             isHidden: 0B, $
+             isPrivate: 0B, $
+             
+             examples: obj_new(), $
              
              hasAuthorInfo: 0B, $
              author: obj_new(), $

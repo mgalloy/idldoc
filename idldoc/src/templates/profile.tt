@@ -45,6 +45,12 @@
       </div>
       [% END %]
 
+      [% IF has_examples %]
+      <h2>Examples</h2>
+      
+      <div class="small">[% examples %]</div>      
+      [% END %]
+      
       [% IF is_class %][% SCOPE class %]
       <h2>Class description</h2>
       
