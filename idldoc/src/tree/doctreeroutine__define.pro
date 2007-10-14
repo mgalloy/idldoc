@@ -44,7 +44,8 @@ pro doctreeroutine::setProperty, name=name, $
                                  is_private=isPrivate, $
                                  comments=comments, $
                                  returns=returns, $
-                                 bugs=bugs, pre=pre, post=post
+                                 bugs=bugs, pre=pre, post=post, $
+                                 author=author, copyright=copyright, history=history
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then self.name = name
@@ -57,6 +58,22 @@ pro doctreeroutine::setProperty, name=name, $
   
   if (n_elements(comments) gt 0) then self.comments = comments
   if (n_elements(returns) gt 0) then self.returns = returns  
+  
+  ; "author info" attributes
+  if (n_elements(author) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.author = author
+  endif
+
+  if (n_elements(copyright) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.copyright = copyright
+  endif
+  
+  if (n_elements(history) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.history = history
+  endif
   
   ; "other" attributes
   if (n_elements(bugs) gt 0) then begin
@@ -120,6 +137,17 @@ function doctreeroutine::getVariable, name, found=found
       
     'has_returns': return, obj_valid(self.returns)
     'returns': return, self.system->processComments(self.returns)
+    
+    'has_author_info': return, self.hasAuthorInfo
+    
+    'has_author': return, obj_valid(self.author)
+    'author': return, self.system->processComments(self.author)
+
+    'has_copyright': return, obj_valid(self.copyright)
+    'copyright': return, self.system->processComments(self.copyright)
+    
+    'has_history': return, obj_valid(self.history)
+    'history': return, self.system->processComments(self.history)
     
     'has_others': return, self.hasOthers
     
@@ -295,10 +323,15 @@ pro doctreeroutine__define
              
              comments: obj_new(), $
              returns: obj_new(), $
-             
+
+             hasAuthorInfo: 0B, $
+             author: obj_new(), $
+             copyright: obj_new(), $
+             history: obj_new(), $
+                          
              hasOthers: 0B, $
              bugs: obj_new(), $
              pre: obj_new(), $
-             post: obj_new() $
+             post: obj_new() $             
            }
 end

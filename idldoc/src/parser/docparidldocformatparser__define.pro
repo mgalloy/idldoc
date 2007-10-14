@@ -47,7 +47,7 @@ pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
     attribute = strmid(headerLine, starts[1], lengths[1])
     if (starts[0] ge 0) then begin
       equalPos = strpos(attribute, '=')
-      if (equalPos eq -1L) then begin
+      if (equalPos eq -1L) then begin   ; boolean attributes
         case strlowcase(attribute) of
           'in': arg->setProperty, is_input=1
           'out': arg->setProperty, is_output=1
@@ -62,7 +62,7 @@ pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
                   + argname + ' in ' + routineName 
             end
         endcase
-      endif else begin
+      endif else begin   ; attributes with name-value
         attributeName = strmid(attribute, 0, equalPos)
         attributeValue = strmid(attribute, equalPos + 1L)
         case strlowcase(attributeName) of
@@ -88,6 +88,13 @@ pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
 end
 
 
+;+
+; Removes tag from first line.
+;
+; :Returns: strarr
+; :Params:
+;    `lines` : in, required, type=strarr
+;-
 function docparidldocformatparser::_removeTag, lines
   compile_opt strictarr
   
@@ -122,10 +129,10 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
   ; here are all the tags
   case strlowcase(tag) of
     'abstract': routine->setProperty, is_abstract=1
-    'author':
+    'author': routine->setProperty, author=markupParser->parse(self->_removeTag(lines))
     'bugs': routine->setProperty, bugs=markupParser->parse(self->_removeTag(lines))      
     'categories':
-    'copyright':
+    'copyright': routine->setProperty, copyright=markupParser->parse(self->_removeTag(lines))
     'customer_id':
     'examples':
     'field':
@@ -135,7 +142,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
       end
     'hidden': routine->setProperty, is_hidden=1
     'hidden_file':
-    'history':
+    'history': routine->setProperty, history=markupParser->parse(self->_removeTag(lines))
     'inherits':
     'keyword': self->_handleArgumentTag, tag, lines, routine=routine, markup_parser=markupParser
     'obsolete':
@@ -207,7 +214,7 @@ pro docparidldocformatparser::parseFileComments, lines, file=file, $
   ; get free text comment for routine
   ; go through each tag
   
-  ; tags: properties
+  ; tags: properties, author, copyright, history
 end
 
 
