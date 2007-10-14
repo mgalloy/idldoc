@@ -133,7 +133,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'categories':
     'copyright': routine->setProperty, copyright=markupParser->parse(self->_removeTag(lines))
     'customer_id':
-    'examples':
+    'examples': routine->setProperty, examples=markupParser->parse(self->_removeTag(lines))
     'field':
     'file_comments': begin
         routine->getProperty, file=file
@@ -173,6 +173,12 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
   
   case strlowcase(tag) of
     'property':
+    
+    'hidden':
+    'private':
+    
+    'examples':
+    
     'author': file->setProperty, author=markupParser->parse(self->_removeTag(lines))
     'copyright': file->setProperty, copyright=markupParser->parse(self->_removeTag(lines))
     'history': file->setProperty, history=markupParser->parse(self->_removeTag(lines))

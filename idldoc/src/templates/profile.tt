@@ -149,6 +149,11 @@
             </dl>
           [% END %]
           
+          [% IF has_examples %]
+          <h3>Examples</h3>
+          <div>[% examples %]</div>
+          [% END %]
+          
           [% IF has_author_info %]
           <h3>Author information</h3>
 

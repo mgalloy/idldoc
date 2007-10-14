@@ -44,6 +44,7 @@ pro doctreeroutine::setProperty, name=name, $
                                  is_private=isPrivate, $
                                  comments=comments, $
                                  returns=returns, $
+                                 examples=examples, $
                                  bugs=bugs, pre=pre, post=post, $
                                  author=author, copyright=copyright, history=history
   compile_opt strictarr
@@ -58,6 +59,7 @@ pro doctreeroutine::setProperty, name=name, $
   
   if (n_elements(comments) gt 0) then self.comments = comments
   if (n_elements(returns) gt 0) then self.returns = returns  
+  if (n_elements(examples) gt 0) then self.examples = examples
   
   ; "author info" attributes
   if (n_elements(author) gt 0) then begin
@@ -137,6 +139,9 @@ function doctreeroutine::getVariable, name, found=found
       
     'has_returns': return, obj_valid(self.returns)
     'returns': return, self.system->processComments(self.returns)
+
+    'has_examples': return, obj_valid(self.examples)
+    'examples': return, self.system->processComments(self.examples)
     
     'has_author_info': return, self.hasAuthorInfo
     
@@ -325,6 +330,8 @@ pro doctreeroutine__define
              comments: obj_new(), $
              returns: obj_new(), $
 
+             examples: obj_new(), $
+             
              hasAuthorInfo: 0B, $
              author: obj_new(), $
              copyright: obj_new(), $
