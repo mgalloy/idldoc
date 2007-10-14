@@ -266,6 +266,7 @@ pro doctreeroutine::cleanup
   
   obj_destroy, [self.parameters, self.keywords, self.comments]
   obj_destroy, [self.returns, self.bugs]
+  obj_destroy, [self.author, self.copyright, self.history]
 end
 
 

@@ -46,7 +46,8 @@ end
 pro doctreeprofile::setProperty, has_main_level=hasMainLevel, $
                                  is_batch=isBatch, comments=comments, $
                                  modification_time=mTime, n_lines=nLines, $ 
-                                 format=format, markup=markup                                 
+                                 format=format, markup=markup, $
+                                 author=author, copyright=copyright, history=history                                 
   compile_opt strictarr
   
   if (n_elements(hasMainLevel) gt 0) then self.hasMainLevel = hasMainLevel
@@ -63,6 +64,22 @@ pro doctreeprofile::setProperty, has_main_level=hasMainLevel, $
   if (n_elements(markup) gt 0) then self.markup = markup
   if (n_elements(nLines) gt 0) then self.nLines = nLines
   if (n_elements(mTime) gt 0) then self.modificationTime = mTime
+  
+  ; "author info" attributes
+  if (n_elements(author) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.author = author
+  endif
+
+  if (n_elements(copyright) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.copyright = copyright
+  endif
+  
+  if (n_elements(history) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.history = history
+  endif  
 end
 
 
@@ -127,6 +144,17 @@ function doctreeprofile::getVariable, name, found=found
           
     'n_routines' : return, self.routines->count()
     'routines' : return, self.routines->get(/all)
+
+    'has_author_info': return, self.hasAuthorInfo
+    
+    'has_author': return, obj_valid(self.author)
+    'author': return, self.system->processComments(self.author)
+
+    'has_copyright': return, obj_valid(self.copyright)
+    'copyright': return, self.system->processComments(self.copyright)
+    
+    'has_history': return, obj_valid(self.history)
+    'history': return, self.system->processComments(self.history)
     
     else: begin
         ; search in the system object if the variable is not found here
@@ -188,6 +216,7 @@ pro doctreeprofile::cleanup
   compile_opt strictarr
   
   obj_destroy, self.routines
+  obj_destroy, [self.author, self.copyright, self.history]
 end
 
 
@@ -260,6 +289,11 @@ pro doctreeprofile__define
              
              comments: obj_new(), $
              
-             routines: obj_new() $
+             routines: obj_new(), $
+             
+             hasAuthorInfo: 0B, $
+             author: obj_new(), $
+             copyright: obj_new(), $
+             history: obj_new() $
            }
 end

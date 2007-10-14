@@ -68,7 +68,34 @@
       <h3>Fields</h3>
       
       [% END %][% END %]
-            
+      
+      [% IF has_author_info %]
+      <h2>Author information</h2>
+
+        <table class="attribute small">
+          [% IF has_author %]
+          <tr>
+            <td class="name">Author:</td>
+            <td>[% author %]</td>
+          </tr>          
+          [% END %]
+          
+          [% IF has_copyright %]
+          <tr>
+            <td class="name">Copyright:</td>
+            <td>[% copyright %]</td>
+          </tr>          
+          [% END %]
+          
+          [% IF has_history %]
+          <tr>
+            <td class="name">History:</td>
+            <td>[% history %]</td>
+          </tr>          
+          [% END %]
+        </table>          
+      [% END %]
+                  
       [% IF n_routines gt 1 %]
       <div>
         <h2>Routines</h2>
@@ -82,7 +109,7 @@
       </div>
       [% END %]
       
-    	
+              	
     	[% IF n_routines gt 0 %]
     	<div id="routine-details">
     	  [% IF n_routines gt 1 %]<h2>Routine details</h2>[% END %]

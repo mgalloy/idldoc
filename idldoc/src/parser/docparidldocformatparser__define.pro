@@ -126,7 +126,6 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
   
   ; TODO: finish this
   
-  ; here are all the tags
   case strlowcase(tag) of
     'abstract': routine->setProperty, is_abstract=1
     'author': routine->setProperty, author=markupParser->parse(self->_removeTag(lines))
@@ -161,6 +160,23 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
         routine->getProperty, name=name
         self.system->warning, 'unknown tag ' + tag + ' in routine ' + name
       end
+  endcase
+end
+
+
+pro docparidldocformatparser::_handleFileTag, tag, lines, $
+                                              file=file, $
+                                              markup_parser=markupParser
+  compile_opt strictarr
+  
+  ; TODO: finish this
+  
+  case strlowcase(tag) of
+    'property':
+    'author': file->setProperty, author=markupParser->parse(self->_removeTag(lines))
+    'copyright': file->setProperty, copyright=markupParser->parse(self->_removeTag(lines))
+    'history': file->setProperty, history=markupParser->parse(self->_removeTag(lines))
+    else:
   endcase
 end
 
@@ -208,13 +224,26 @@ pro docparidldocformatparser::parseFileComments, lines, file=file, $
                                                  markup_parser=markupParser                          
   compile_opt strictarr
   
-  ; TODO: implement this
+  ; find @ symbols that are the first non-whitespace character on the line
+  tagLocations = where(stregex(lines, '^[[:space:]]*@') ne -1, nTags)
   
-  ; look for @'s (but not escaped with \'s)
-  ; get free text comment for routine
+  ; parse normal comments
+  tagsStart = nTags gt 0 ? tagLocations[0] : n_elements(lines)
+  if (tagsStart ne 0) then begin
+    comments = markupParser->parse(lines[0:tagsStart - 1L])
+    file->setProperty, comments=comments
+  endif
+
   ; go through each tag
-  
-  ; tags: properties, author, copyright, history
+  for t = 0L, nTags - 1L do begin
+    tagStart = tagLocations[t]
+    tag = strmid(stregex(lines[tagStart], '@[[:alpha:]_]+', /extract), 1)
+    tagEnd = t eq nTags - 1L $
+               ? n_elements(lines) - 1L $
+               : tagLocations[t + 1L] - 1L
+    self->_handleFileTag, tag, lines[tagStart:tagEnd], $
+                          file=file, markup_parser=markupParser
+  endfor
 end
 
 

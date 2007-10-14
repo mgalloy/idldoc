@@ -180,10 +180,8 @@ pro docparprofileparser::_parseFileComments, file, comments, $
                                              format=format, markup=markup
   compile_opt strictarr
   
-  ; TODO: lookup correct format and markup parsers (using verbatim as a default
-  ; now)
-  formatParser = self.system->getParser('verbatimformat')
-  markupParser = self.system->getParser('verbatimmarkup')
+  formatParser = self.system->getParser(format + 'format')
+  markupParser = self.system->getParser(markup + 'markup')
   
   ; call format parser's "parse" method
   formatParser->parseFileComments, comments, file=file, markup_parser=markupParser
