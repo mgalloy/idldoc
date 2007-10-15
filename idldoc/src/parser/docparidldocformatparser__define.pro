@@ -157,7 +157,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
         file->setProperty, is_private=1B
       end
     'requires':
-    'restrictions':
+    'restrictions': routine->setProperty, restrictions=markupParser->parse(self->_removeTag(lines))
     'returns': routine->setProperty, returns=markupParser->parse(self->_removeTag(lines))
     'todo': routine->setProperty, todo=markupParser->parse(self->_removeTag(lines))
     'uses':

@@ -49,7 +49,8 @@ pro doctreeroutine::setProperty, name=name, $
                                  bugs=bugs, pre=pre, post=post, $
                                  customer_id=customerId, $
                                  author=author, copyright=copyright, $
-                                 history=history, todo=todo
+                                 history=history, todo=todo, $
+                                 restrictions=restrictions
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then self.name = name
@@ -105,7 +106,12 @@ pro doctreeroutine::setProperty, name=name, $
   if (n_elements(todo) gt 0) then begin
     self.hasOthers = 1B
     self.todo = todo
-  endif   
+  endif
+  
+  if (n_elements(restrictions) gt 0) then begin
+    self.hasOthers = 1B
+    self.restrictions = restrictions
+  endif        
 end
 
 
@@ -187,7 +193,10 @@ function doctreeroutine::getVariable, name, found=found
 
     'has_todo': return, obj_valid(self.todo)
     'todo': return, self.system->processComments(self.todo)
-                    
+
+    'has_restrictions': return, obj_valid(self.restrictions)
+    'restrictions': return, self.system->processComments(self.restrictions)
+                        
     'n_parameters': return, self.parameters->count()
     'parameters': return, self.parameters->get(/all)
     'n_keywords': return, self.keywords->count()
@@ -317,7 +326,8 @@ pro doctreeroutine::cleanup
   
   obj_destroy, [self.parameters, self.keywords, self.comments]
   obj_destroy, [self.returns, self.bugs]
-  obj_destroy, [self.author, self.copyright, self.history]
+  obj_destroy, [self.author, self.copyright, self.history, self.todo]
+  obj_destroy, [self.restrictions]
 end
 
 
@@ -389,6 +399,7 @@ pro doctreeroutine__define
              pre: obj_new(), $
              post: obj_new(), $             
              customerId: obj_new(), $
-             todo: obj_new() $             
+             todo: obj_new(), $
+             restrictions: obj_new() $             
            }
 end

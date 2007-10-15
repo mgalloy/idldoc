@@ -197,7 +197,14 @@
                 <td>[% todo %]</td>
               </tr>          
               [% END %]
-                          
+
+              [% IF has_restrictions %]
+              <tr>
+                <td class="name">Restrictions:</td>
+                <td>[% restrictions %]</td>
+              </tr>          
+              [% END %]
+                                        
               [% IF has_bugs %]
               <tr>
                 <td class="name">Bugs:</td>
