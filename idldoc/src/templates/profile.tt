@@ -122,7 +122,7 @@
         
         [% FOREACH r IN routines %][% SCOPE r %]
         <div class="routine-details" id="[% name %]">
-        	<h2 class="routine-name"><a href="#root" class="top">top</a>[% name %]</h2>
+        	<h2 class="routine-name"><a href="#root" class="top">top</a>[% name %]<span class="routine-attributes">[% IF is_private %]private [% END %][% IF is_obsolete %]obsolete [% END %][% IF is_abstract %]abstract [% END %]</span></h2>
         	
           <p class="syntax"><code>[% IF is_function %]<span class="var">result</span> = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %]<a href="#[% id %]">[% name %]</a>[% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %]<a href="#[% id %]">[% name %]</a>[% IF ~is_boolean %]=<span class="var">[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</span>[% END %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></p>
           
@@ -190,7 +190,14 @@
           [% IF has_others %]
           <h3>Other attributes</h3>
 
-            <table class="attribute small">
+            <table class="attribute small">                            
+              [% IF has_todo %]
+              <tr>
+                <td class="name">Todo:</td>
+                <td>[% todo %]</td>
+              </tr>          
+              [% END %]
+                          
               [% IF has_bugs %]
               <tr>
                 <td class="name">Bugs:</td>
@@ -210,7 +217,14 @@
                 <td class="name">Post-condition:</td>
                 <td>[% post %]</td>
               </tr>          
-              [% END %]                            
+              [% END %]     
+
+              [% IF has_customer_id %]
+              <tr>
+                <td class="name">Customer ID:</td>
+                <td>[% customer_id %]</td>
+              </tr>          
+              [% END %]                                     
             </table>
           [% END %]
           

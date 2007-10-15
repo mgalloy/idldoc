@@ -127,12 +127,12 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
   ; TODO: finish this
   
   case strlowcase(tag) of
-    'abstract': routine->setProperty, is_abstract=1
+    'abstract': routine->setProperty, is_abstract=1B
     'author': routine->setProperty, author=markupParser->parse(self->_removeTag(lines))
     'bugs': routine->setProperty, bugs=markupParser->parse(self->_removeTag(lines))      
     'categories':
     'copyright': routine->setProperty, copyright=markupParser->parse(self->_removeTag(lines))
-    'customer_id':
+    'customer_id': routine->setProperty, customer_id=markupParser->parse(self->_removeTag(lines))
     'examples': routine->setProperty, examples=markupParser->parse(self->_removeTag(lines))
     'field':
     'file_comments': begin
@@ -140,20 +140,26 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
         file->setProperty, comments=markupParser->parse(self->_removeTag(lines))
       end
     'hidden': routine->setProperty, is_hidden=1
-    'hidden_file':
+    'hidden_file': begin
+        routine->getProperty, file=file
+        file->setProperty, is_hidden=1B
+      end
     'history': routine->setProperty, history=markupParser->parse(self->_removeTag(lines))
     'inherits':
     'keyword': self->_handleArgumentTag, tag, lines, routine=routine, markup_parser=markupParser
-    'obsolete':
+    'obsolete': routine->setProperty, is_obsolete=1B
     'param': self->_handleArgumentTag, tag, lines, routine=routine, markup_parser=markupParser
     'post': routine->setProperty, post=markupParser->parse(self->_removeTag(lines))
     'pre': routine->setProperty, pre=markupParser->parse(self->_removeTag(lines))
-    'private': routine->setProperty, is_private=1
-    'private_file':
+    'private': routine->setProperty, is_private=1B
+    'private_file': begin
+        routine->getProperty, file=file
+        file->setProperty, is_private=1B
+      end
     'requires':
     'restrictions':
     'returns': routine->setProperty, returns=markupParser->parse(self->_removeTag(lines))
-    'todo':
+    'todo': routine->setProperty, todo=markupParser->parse(self->_removeTag(lines))
     'uses':
     'version':
     else: begin
@@ -169,9 +175,8 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
                                               markup_parser=markupParser
   compile_opt strictarr
   
-  ; TODO: finish this
-  
   case strlowcase(tag) of
+    ; TODO: finish this
     'property':
     
     'hidden': file->setProperty, is_hidden=1B
@@ -188,7 +193,8 @@ end
 
 
 ;+
-; Handles parsing of a comment block using IDLdoc syntax. 
+; Handles parsing of a comment block associated with a routine using IDLdoc 
+; syntax. 
 ;
 ; :Params:
 ;    `lines` : in, required, type=strarr
@@ -226,6 +232,18 @@ pro docparidldocformatparser::parseRoutineComments, lines, routine=routine, $
 end
 
 
+;+
+; Handles parsing of a comment block associated with a file using IDLdoc syntax. 
+;
+; :Params:
+;    `lines` : in, required, type=strarr
+;       all lines of the comment block
+; :Keywords:
+;    `file` : in, required, type=object
+;       file tree object 
+;    `markup_parser` : in, required, type=object
+;       markup parser object
+;-
 pro docparidldocformatparser::parseFileComments, lines, file=file, $
                                                  markup_parser=markupParser                          
   compile_opt strictarr
@@ -253,6 +271,18 @@ pro docparidldocformatparser::parseFileComments, lines, file=file, $
 end
 
 
+;+
+; Handles parsing of a comment block in the overview file using IDLdoc syntax. 
+;
+; :Params:
+;    `lines` : in, required, type=strarr
+;       all lines of the comment block
+; :Keywords:
+;    `system` : in, required, type=object
+;       system object 
+;    `markup_parser` : in, required, type=object
+;       markup parser object
+;-
 pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
                                                      markup_parser=markupParser
   compile_opt strictarr

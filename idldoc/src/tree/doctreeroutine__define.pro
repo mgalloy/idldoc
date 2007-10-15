@@ -39,6 +39,7 @@ end
 pro doctreeroutine::setProperty, name=name, $
                                  is_Function=isFunction, $
                                  is_method=isMethod, $
+                                 is_obsolete=isObsolete, $
                                  is_abstract=isAbstract, $
                                  is_hidden=isHidden, $
                                  is_private=isPrivate, $
@@ -46,16 +47,19 @@ pro doctreeroutine::setProperty, name=name, $
                                  returns=returns, $
                                  examples=examples, $
                                  bugs=bugs, pre=pre, post=post, $
-                                 author=author, copyright=copyright, history=history
+                                 customer_id=customerId, $
+                                 author=author, copyright=copyright, $
+                                 history=history, todo=todo
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then self.name = name
   
   if (n_elements(isFunction) gt 0) then self.isFunction = isFunction
-  if (n_elements(isMethod) gt 0) then self.isMethod = isMethod
-  if (n_elements(isAbstract) gt 0) then self.isAbstract = isAbstract
+  if (n_elements(isMethod) gt 0) then self.isMethod = isMethod  
   if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
   if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
+  if (n_elements(isObsolete) gt 0) then self.isObsolete = isObsolete
+  if (n_elements(isAbstract) gt 0) then self.isAbstract = isAbstract
   
   if (n_elements(comments) gt 0) then self.comments = comments
   if (n_elements(returns) gt 0) then self.returns = returns  
@@ -77,7 +81,7 @@ pro doctreeroutine::setProperty, name=name, $
     self.history = history
   endif
   
-  ; "other" attributes
+  ; "other" attributes  
   if (n_elements(bugs) gt 0) then begin
     self.hasOthers = 1B
     self.bugs = bugs
@@ -92,6 +96,16 @@ pro doctreeroutine::setProperty, name=name, $
     self.hasOthers = 1B
     self.post = post
   endif     
+  
+  if (n_elements(customerId) gt 0) then begin
+    self.hasOthers = 1B
+    self.customerId = customerId
+  endif 
+  
+  if (n_elements(todo) gt 0) then begin
+    self.hasOthers = 1B
+    self.todo = todo
+  endif   
 end
 
 
@@ -115,6 +129,9 @@ function doctreeroutine::getVariable, name, found=found
     'name': return, self.name
 
     'is_function': return, self.isFunction
+    'is_private': return, self.isPrivate
+    'is_abstract': return, self.isAbstract      
+    'is_obsolete': return, self.isObsolete
     
     'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)
@@ -164,7 +181,13 @@ function doctreeroutine::getVariable, name, found=found
     
     'has_post': return, obj_valid(self.post)
     'post': return, self.system->processComments(self.post)
-            
+      
+    'has_customer_id': return, obj_valid(self.customerId)
+    'customer_id': return, self.system->processComments(self.customerId)
+
+    'has_todo': return, obj_valid(self.todo)
+    'todo': return, self.system->processComments(self.todo)
+                    
     'n_parameters': return, self.parameters->count()
     'parameters': return, self.parameters->get(/all)
     'n_keywords': return, self.keywords->count()
@@ -344,6 +367,7 @@ pro doctreeroutine__define
              isFunction: 0B, $
              isMethod: 0B, $
              isAbstract: 0B, $
+             isObsolete: 0B, $
              isHidden: 0B, $
              isPrivate: 0B, $
              
@@ -363,6 +387,8 @@ pro doctreeroutine__define
              hasOthers: 0B, $
              bugs: obj_new(), $
              pre: obj_new(), $
-             post: obj_new() $             
+             post: obj_new(), $             
+             customerId: obj_new(), $
+             todo: obj_new() $             
            }
 end
