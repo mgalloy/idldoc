@@ -24,7 +24,8 @@
 ;-
 pro doctreeprofile::getProperty, basename=basename, $
                                  has_main_level=hasMainLevel, $
-                                 is_batch=isBatch, comments=comments, $
+                                 is_batch=isBatch, is_class=isClass, $
+                                 comments=comments, $
                                  n_routines=nRoutines, routines=routines, $
                                  n_lines=nLines, directory=directory
   compile_opt strictarr
@@ -32,7 +33,8 @@ pro doctreeprofile::getProperty, basename=basename, $
   if (arg_present(basename)) then basename = self.basename
   if (arg_present(directory)) then directory = self.directory
   if (arg_present(hasMainLevel)) then hasMainLevel = self.hasMainLevel
-  if (arg_present(isBatch)) then isBatch = self.isBatch  
+  if (arg_present(isBatch)) then isBatch = self.isBatch 
+  if (arg_present(isClass)) then isClass = self.isClass   
   if (arg_present(comments)) then comments = self.comments
   if (arg_present(nRoutines)) then nRoutines = self.routines->count()
   if (arg_present(routines)) then routines = self.routines

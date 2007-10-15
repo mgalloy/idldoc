@@ -25,6 +25,9 @@ pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
                                                   markup_parser=markupParser
   compile_opt strictarr
   
+  ; TODO: split this into two methods (one to parse and one to handle param or
+  ;       keyword specific attributes)
+  
   routine->getProperty, name=routineName
   
   headerLine = lines[0]
@@ -185,14 +188,39 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
 end
 
 
+;+
+; Handles one tag.
+; 
+; :Params:
+;    `tag` : in, required, type=string
+;       rst tag, i.e. returns, params, keywords, etc.
+;    `lines` : in, required, type=strarr
+;       lines of raw text for that tag
+; :Keywords:
+;    `file` : in, required, type=object
+;       file tree object 
+;    `markup_parser` : in, required, type=object
+;       markup parser object
+;-
 pro docparidldocformatparser::_handleFileTag, tag, lines, $
                                               file=file, $
                                               markup_parser=markupParser
   compile_opt strictarr
   
   case strlowcase(tag) of
-    ; TODO: finish this
-    'property':
+    'property': begin
+        file->getProperty, is_class=isClass
+        if (~isClass) then begin
+          self.system->warning, 'property not allowed non-class definition file'
+        endif
+        
+        ; TODO: finish this
+        ; create property object? lookup property object?
+        ;   should all possible properties be created (i.e. from getProperty, 
+        ;   setProperty, and init methods)?  
+        ; get attributes to set is_get, is_set, is_init
+        ; set comments           
+      end
     
     'hidden': file->setProperty, is_hidden=1B
     'private': file->setProperty, is_private=1B
@@ -202,7 +230,10 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
     'author': file->setProperty, author=markupParser->parse(self->_removeTag(lines))
     'copyright': file->setProperty, copyright=markupParser->parse(self->_removeTag(lines))
     'history': file->setProperty, history=markupParser->parse(self->_removeTag(lines))
-    else:
+    else: begin
+        file->getProperty, name=name
+        self.system->warning, 'unknown tag ' + tag + ' in file ' + name
+      end
   endcase
 end
 
