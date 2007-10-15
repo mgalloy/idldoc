@@ -5,6 +5,21 @@
 ;-
 
 
+;+
+; Handles a tag with attributes (i.e. {} enclosed arguments like in param or 
+; keyword).
+; 
+; :Params:
+;    `tag` : in, required, type=string
+;       rst tag, i.e. returns, params, keywords, etc.
+;    `lines` : in, required, type=strarr
+;       lines of raw text for that tag
+; :Keywords:
+;    `routine` : in, required, type=object
+;       routine tree object 
+;    `markup_parser` : in, required, type=object
+;       markup parser object
+;-
 pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
                                                   routine=routine, $
                                                   markup_parser=markupParser
@@ -58,8 +73,8 @@ pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
           'obsolete': arg->setProperty, is_obsolete=1
           else: begin
               self.system->warning, $
-                'unknown argument attribute ' + attributeName + ' for argument ' $
-                  + argname + ' in ' + routineName 
+                'unknown argument attribute ' + attributeName $
+                  + ' for argument ' + argname + ' in ' + routineName 
             end
         endcase
       endif else begin   ; attributes with name-value
@@ -70,8 +85,8 @@ pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
           'default': arg->setProperty, default_value=attributeValue
           else: begin
               self.system->warning, $
-                'unknown argument attribute ' + attributeName + ' for argument' $
-                  + argname + ' in ' + routineName           
+                'unknown argument attribute ' + attributeName $
+                  + ' for argument' + argname + ' in ' + routineName           
             end
         endcase
       endelse
