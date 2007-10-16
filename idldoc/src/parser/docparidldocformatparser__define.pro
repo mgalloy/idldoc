@@ -231,8 +231,8 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
     'copyright': file->setProperty, copyright=markupParser->parse(self->_removeTag(lines))
     'history': file->setProperty, history=markupParser->parse(self->_removeTag(lines))
     else: begin
-        file->getProperty, name=name
-        self.system->warning, 'unknown tag ' + tag + ' in file ' + name
+        file->getProperty, basename=basename
+        self.system->warning, 'unknown tag ' + tag + ' in file ' + basename
       end
   endcase
 end
