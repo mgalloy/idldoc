@@ -97,15 +97,20 @@ end
 ; Create a DOCtreeProperty class.
 ;
 ; :Returns: 1 if successful, 0 for failure
+; :Params:
+;    `name` : in, required, type=string
+;       name of the property
+;
 ; :Keywords:
 ;    `class` : in, required, type=object
 ;       class object
 ;    `system` : in, required, type=object
 ;       system object
 ;-
-function doctreeproperty::init, class=class, system=system
+function doctreeproperty::init, name, class=class, system=system
   compile_opt strictarr
 
+  self.name = name
   self.class = class
   self.system = system
   

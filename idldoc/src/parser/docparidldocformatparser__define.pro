@@ -258,7 +258,7 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
   
   case strlowcase(tag) of
     'property': begin
-        file->getProperty, is_class=isClass
+        file->getProperty, is_class=isClass, class=class
         if (~isClass) then begin
           self.system->warning, 'property not allowed non-class definition file'
         endif
@@ -275,6 +275,11 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
         ;   setProperty, and init methods)?  
         ; get attributes to set is_get, is_set, is_init
         ; set comments  
+        property = obj_new('DOCtreeProperty', propertyName, $
+                                              system=self.system, class=class)
+        property->setProperty, comments=markupParser->parse(comments)
+        
+        class->addProperty, property
       end
     
     'hidden': file->setProperty, is_hidden=1B

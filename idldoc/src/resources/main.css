@@ -26,9 +26,9 @@ div#file_comments { margin-top: 1em; }
 
 div.routine-details { border: 1px dotted #C0C0C0; margin-top: 1em; padding: 1em; }
 div.routine-details span.routine-attributes { font-size: 70%; margin-left: 3em; color: #384806; }
-div.routine-details dt { color: #900000; margin-left: 2em; }
-div.routine-details dt span { color: #384806; margin-left: 2em; }
-div.routine-details dd { margin: 0.5em 2em 1em 4em; }
+div.details dt { color: #900000; margin-left: 2em; }
+div.details dt span { color: #384806; margin-left: 2em; }
+div.details dd { margin: 0.5em 2em 1em 4em; }
 a.top { 
 	font-family: Verdana, Helvetica, sans-serif; 
 	font-size: 8pt; 

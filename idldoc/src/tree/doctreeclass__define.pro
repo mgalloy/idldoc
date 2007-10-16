@@ -26,11 +26,19 @@ function doctreeclass::getVariable, name, found=found
         proUrl = self.proFile->getVariable('local_url')
         return, dirUrl + proUrl
       end
+      
     'n_parents': return, self.parents->count()
     'parents': return, self.parents->get(/all)
           
     'n_ancestors': return, self.ancestors->count()
     'ancestors': return, self.ancestors->get(/all)
+
+    'n_fields': return, self.fields->count()
+    'fields': return, self.fields->get(/all)
+
+    'n_properties': return, self.properties->count()
+    'properties': return, self.properties->get(/all)
+            
     else: begin
         ; search in the system object if the variable is not found here
         var = self.proFile->getVariable(name, found=found)
@@ -76,10 +84,11 @@ pro doctreeclass::setProperty, pro_file=proFile, classname=classname
 end
 
 
-pro doctreeclass::getProperty, ancestors=ancestors
+pro doctreeclass::getProperty, ancestors=ancestors, classname=classname
   compile_opt strictarr
 
   if (arg_present(ancestors)) then ancestors = self.ancestors
+  if (arg_present(classname)) then classname = self.classname
 end
 
 
@@ -115,10 +124,24 @@ pro doctreeclass::findParents
 end
 
 
+pro doctreeclass::addProperty, property
+  compile_opt strictarr
+  
+  self.properties->add, property
+end
+
+
 pro doctreeclass::findFields
   compile_opt strictarr
   
   ; TODO: create structure to find fields (and then run them past ancestors)
+end
+
+
+pro doctreeclass::cleanup
+  compile_opt strictarr
+  
+  obj_destroy, [self.fields, self.properties]
 end
 
 
@@ -135,6 +158,7 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
 
   self.parents = obj_new('MGcoArrayList', type=11)
   self.ancestors = obj_new('MGcoArrayList', type=11)
+  self.properties = obj_new('MGcoArrayList', type=11)
   
   self->findParents
   self->findFields
@@ -155,6 +179,7 @@ pro doctreeclass__define
              
              parents: obj_new(), $
              ancestors: obj_new(), $
-             fields: obj_new() $
+             fields: obj_new(), $
+             properties: obj_new() $
            }
 end
