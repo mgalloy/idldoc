@@ -22,7 +22,7 @@ dist:
 	
 	mkdir idldoc-$(VERSION)
 	
-	idl build_idldoc
+	idl -IDL_STARTUP "" build_idldoc
 	mv idldoc.sav idldoc-$(VERSION)/
 	
 	svn export docs idldoc-$(VERSION)/docs/
