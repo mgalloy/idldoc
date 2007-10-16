@@ -50,13 +50,16 @@
 .compile src/textmarkup/mgtmtag__define
 .compile src/textmarkup/mgtmtext__define
 
-.compile src/tree/doctreedirectory__define
-.compile src/tree/doctreeprofile__define
-.compile src/tree/doctreesavfile__define
-.compile src/tree/doctreeidldocfile__define
-.compile src/tree/doctreeroutine__define
 .compile src/tree/doctreeargument__define
+.compile src/tree/doctreeclass__define
+.compile src/tree/doctreedirectory__define
+.compile src/tree/doctreeidldocfile__define
 .compile src/tree/doctreeindex__define
+.compile src/tree/doctreeprofile__define
+.compile src/tree/doctreeproperty__define
+.compile src/tree/doctreeroutine__define
+.compile src/tree/doctreesavfile__define
+.compile src/tree/doctreesavvar__define
 
 .compile src/util/mg_int_format
 .compile src/util/mg_is_int
