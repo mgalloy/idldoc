@@ -283,9 +283,11 @@ pro doc_system::loadTemplates
                'categories', 'search', $
                'dir-overview', 'savefile', 'profile', 'source', 'idldocfile']
   for t = 0L, n_elements(templates) - 1L do begin
-    templateFilename = filepath(templates[t] + '.tt', $
-                                subdir=['templates'], $
-                                root=self.sourceLocation) 
+    dir = self.templateLocation eq '' $
+      ? filepath('', subdir='templates', root=self.sourceLocation) $
+      : self.templateLocation
+    templateFilename = filepath(self.templatePrefix + templates[t] + '.tt', $
+                                root=dir) 
     self.templates->put, templates[t], $
                          obj_new('MGffTemplate', templateFilename)
   endfor
@@ -610,7 +612,9 @@ function doc_system::init, root=root, output=output, $
                            user=user, statistics=statistics, $
                            format_style=formatStyle, markup_style=markupStyle, $
                            comment_style=commentStyle, $
-                           preformat=preformat, browse_routines=browseRoutines                           
+                           preformat=preformat, browse_routines=browseRoutines, $
+                           template_prefix=templatePrefix, $
+                           template_location=templateLocation                          
   compile_opt strictarr
   
   self.version = idldoc_version()
@@ -656,7 +660,10 @@ function doc_system::init, root=root, output=output, $
   self.preformat = keyword_set(preformat)
   self.assistant = keyword_set(assistant)
   self.embed = keyword_set(embed)
-    
+  
+  self.templatePrefix = n_elements(templatePrefix) gt 0 ? templatePrefix : ''
+  self.templateLocation = n_elements(templateLocation) gt 0 ? templateLocation : ''
+  
   ; test output directory for write permission
   outputError = self->testOutput()
   if (outputError ne 0L) then self->error, 'unable to write to ' + self.output
@@ -790,6 +797,8 @@ pro doc_system__define
              assistant: 0B, $
              embed: 0B, $
              
+             templatePrefix: '', $
+             templateLocation: '', $
              currentTemplate: '', $
              
              index: obj_new(), $

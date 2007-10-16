@@ -76,6 +76,8 @@ pro idldoc, root=root, $
             comment_style=commentStyle, $
             preformat=preformat, $
             browse_routines=browseRoutines, $
+            template_prefix=templatePrefix, $
+            template_location=templateLocation, $
             error=error
   compile_opt strictarr
 
@@ -112,7 +114,9 @@ pro idldoc, root=root, $
                    markup_style=markupStyle, $
                    comment_style=commentStyle, $
                    preformat=preformat, $
-                   browse_routines=browseRoutines)
+                   browse_routines=browseRoutines, $
+                   template_prefix=templatePrefix, $
+                   template_location=templateLocation)
   
   obj_destroy, system
 end
