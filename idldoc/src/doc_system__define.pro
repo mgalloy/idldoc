@@ -294,6 +294,14 @@ pro doc_system::loadTemplates
 end
 
 
+;+
+; Convert a parse tree into a string array using the current comment style.
+;
+; :Returns: strarr
+; :Params:
+;    `tree` : in, required, type=object
+;       parse tree object
+;-
 function doc_system::processComments, tree
   compile_opt strictarr
   
@@ -602,6 +610,11 @@ end
 ;       no longer used
 ;    `browse_routines` : in, optional, type=boolean, obsolete
 ;       no longer used
+;
+;    `template_prefix` : in, optional, type=string
+;       prefix for template's names
+;    `template_location` : in, optional, type=string
+;       directory to find templates in
 ;-
 function doc_system::init, root=root, output=output, $
                            quiet=quiet, silent=silent, n_warnings=nWarnings, $

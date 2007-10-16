@@ -53,6 +53,11 @@
 ;    `browse_routines` : in, optional, type=boolean, obsolete
 ;       no longer used
 ;
+;    `template_prefix` : in, optional, type=string
+;       prefix for template's names
+;    `template_location` : in, optional, type=string
+;       directory to find templates in
+;
 ;    `error` : out, optional, type=long
 ;       error code from run; 0 indicates no error
 ;-
