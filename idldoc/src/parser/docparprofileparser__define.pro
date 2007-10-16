@@ -387,7 +387,7 @@ function docparprofileparser::parse, filename, found=found, directory=directory
   ; get the contents of the file
   lines = self->_readFile(filename, empty=empty, n_lines=nLines, $
                           modification_time=mTime)
-  file->setProperty, n_lines=nLines, modification_time=mTime
+  file->setProperty, n_lines=nLines, modification_time=mTime, code=lines
   
   ; if the file is empty, no parsing needs to be done
   if (empty) then begin

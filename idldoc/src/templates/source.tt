@@ -29,6 +29,8 @@
   </head>
     
   <body onload="setTitle();" id="root">
-  
+    <div class="content">
+      <code class="source">[% code %]</code>
+    </div>
   </body>
 </html>  

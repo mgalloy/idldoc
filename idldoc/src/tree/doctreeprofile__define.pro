@@ -45,7 +45,7 @@ end
 ;+
 ; Set properties.
 ;-
-pro doctreeprofile::setProperty, has_main_level=hasMainLevel, $
+pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
                                  is_hidden=isHidden, is_private=isPrivate, $
                                  is_batch=isBatch, comments=comments, $
                                  modification_time=mTime, n_lines=nLines, $ 
@@ -54,6 +54,7 @@ pro doctreeprofile::setProperty, has_main_level=hasMainLevel, $
                                  author=author, copyright=copyright, history=history                                 
   compile_opt strictarr
   
+  if (n_elements(code) gt 0) then *self.code = code
   if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
   if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
   
@@ -112,6 +113,7 @@ function doctreeprofile::getVariable, name, found=found
     'basename': return, self.basename
     'local_url': return, file_basename(self.basename, '.pro') + '.html'
     'source_url': return, file_basename(self.basename, '.pro') + '-code.html'
+    'code': return, *self.code
     
     'is_batch': return, self.isBatch
     'has_main_level': return, self.hasMainLevel
@@ -248,6 +250,7 @@ pro doctreeprofile::cleanup
   
   obj_destroy, self.routines
   obj_destroy, [self.author, self.copyright, self.history]
+  ptr_free, self.code
 end
 
 
@@ -266,6 +269,8 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   self.basename = basename
   self.directory = directory
   self.system = system
+  
+  self.code = ptr_new(/allocate_heap)
   
   self.isClass = strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
   if (self.isClass) then begin  
@@ -308,6 +313,8 @@ pro doctreeprofile__define
              directory: obj_new(), $
              
              basename: '', $
+             code: ptr_new(), $
+             
              hasMainLevel: 0B, $
              isBatch: 0B, $
              isClass: 0B, $

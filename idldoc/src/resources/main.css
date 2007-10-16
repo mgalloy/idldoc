@@ -43,6 +43,7 @@ a.top {
 /* code styles */
 code { font-family: Monaco; "Courier New", Courier, monospace; }
 code.listing { white-space: pre; display: block; padding: 0.5em 3em 0.5em 3em; }
+code.source { white-space: pre; display: block; font-size: 90%; }
 .syntax { margin-left: 1.5em; text-indent: -1.5em; }
 .var { font-style: italic; } 
 .argument { } /* white-space: nowrap; does not work in Safari (and sometimes not even in Firefox) */
