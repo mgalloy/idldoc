@@ -4,6 +4,7 @@
 ; Parses .idldoc files.
 ;-
 
+
 ;+
 ; Parse the given .idldoc file.
 ; 
@@ -11,11 +12,15 @@
 ; :Params:
 ;    `filename` : in, required, type=string
 ;       absolute path to .pro file to be parsed
+;
 ; :Keywords:
 ;    `found` : out, optional, type=boolean
 ;       returns 1 if filename found, 0 otherwise
+;    `directory` : in, required, type=object
+;       directory tree object
 ;-
-function docparidldocfileparser::parse, filename, found=found, directory=directory
+function docparidldocfileparser::parse, filename, found=found, $
+                                        directory=directory
   compile_opt strictarr
 
   file = obj_new('DOCtreeIDLdocFile', $
@@ -23,10 +28,9 @@ function docparidldocfileparser::parse, filename, found=found, directory=directo
                  directory=directory, $
                  system=self.system)
 
-  ; TODO: lookup docformat string at beginning of file? at least use defaults 
-  ; stored in self.format and self.markup instead of these hard-coded parsers
-  formatParser = self.system->getParser('verbatimformat')
-  markupParser = self.system->getParser('verbatimmarkup')
+  self.system->getProperty, format=format, markup=markup
+  formatParser = self.system->getParser(format + 'format')
+  markupParser = self.system->getParser(markup + 'markup')
     
   nLines = file_lines(filename)
   if (nLines gt 0) then begin
@@ -48,17 +52,13 @@ end
 ; Create an idldoc file parser.
 ;
 ; :Keywords:
-;    `format` : in, optional, type=string, default=idldoc
-;       format of comments: IDLdoc, IDL, or rst
-;    `markup` : in, optional, type=string, default=verbatim
-;       style of markup: verbatim or rst
+;    `system` : in, required, type=object
+;       system object
 ;-
-function docparidldocfileparser::init, system=system, format=format, markup=markup
+function docparidldocfileparser::init, system=system
   compile_opt strictarr
   
   self.system = system
-  self.format = n_elements(format) eq 0 ? 'idldoc' : format
-  self.markup = n_elements(markup) eq 0 ? 'verbatim' : markup
   
   return, 1
 end
@@ -74,8 +74,6 @@ pro docparidldocfileparser__define
   compile_opt strictarr
   
 	define = { DOCparIDLdocFileParser, $
-	           system: obj_new(), $
-             format: '', $
-             markup: '' $
+	           system: obj_new() $
            }
 end
