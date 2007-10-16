@@ -6,12 +6,115 @@
 
 
 ;+
+; Removes leading blank lines from string arrays.
+;
+; :Params:
+;    lines : in, out, required, type=strarr
+;       line from which to remove leading blank lines
+;-
+pro docparidldocformatparser::_removeSpace, lines
+  compile_opt strictarr
+
+  ; line is all space
+  re = '^[[:space:]]*$'
+  
+  ; stop at first line that is not all space
+  i = 0
+  while (i lt n_elements(lines) && stregex(lines[i], re, /boolean) eq 1) do i++
+  
+  ; return empty string if no lines left
+  lines = i lt n_elements(lines) ? lines[i:*] : ''
+end
+
+
+;+
+; Parse the lines from a tag.
+; 
+; :Params:
+;    `lines` : in, out, required, type=strarr
+;
+; :Keywords: 
+;    has_argument : in, optional, type=boolean
+;    has_attributes : in, optional, type=boolean
+;    tag : out, optional, type=string
+;    argument : out, optional, type=string
+;    n_attributes : out, optional, type=long
+;    attributes : out, optional, type=strarr
+;-
+function docparidldocformatparser::_parseTag, lines, $
+                                         has_argument=hasArgument, $
+                                         tag=tag, argument=argument, $
+                                         n_attributes=nAttributes, $
+                                         attribute_names=attributeNames, $
+                                         attribute_values=attributeValues
+  compile_opt strictarr
+  
+  myLines = lines
+  
+  ; find tag
+  re = '^[[:space:]]*@([[:alpha:]_]+)'
+  tagStart = stregex(myLines[0], re, length=tagLength, /subexpr)
+  if (tagStart[0] lt 0) then begin
+    self.system->warning, 'invalid syntax: ' + myLines[0]
+    return, ''
+  endif
+  tag = strmid(myLines[0], tagStart[1], tagLength[1])
+  myLines[0] = strmid(myLines[0], tagStart[1] + tagLength[1])
+  
+  if (~keyword_set(hasArgument)) then return, myLines
+  
+  ; find argument
+  
+  self->_removeSpace, myLines
+  
+  re = '^[[:space:]]*([[:alnum:]_$]+)'
+  argStart = stregex(myLines[0], re, length=argLength, /subexpr)
+  ; if argStart[0] eq -1 then ERROR
+  argument = strmid(myLines[0], argStart[1], argLength[1])
+  myLines[0] = strmid(myLines[0], argStart[1] + argLength[1])
+  
+  ; find attributes
+
+  attributeNamesList = obj_new('MGcoArrayList', type=7)
+  attributeValuesList = obj_new('MGcoArrayList', type=7)
+  
+  re = '^[[:space:]]*{([^}]*)}.*'
+  starts = 0
+  while (starts[0] ge 0) do begin
+    self->_removeSpace, myLines
+    starts = stregex(myLines[0], re, /subexpr, length=lengths)
+    attribute = strmid(myLines[0], starts[1], lengths[1])
+    myLines[0] = strmid(myLines[0], starts[1] + lengths[1] + 1L)
+    if (starts[0] ge 0) then begin
+      equalPos = strpos(attribute, '=')
+      if (equalPos ge 0) then begin
+        attributeNamesList->add, strmid(attribute, 0L, equalPos)
+        attributeValuesList->add, strmid(attribute, equalPos + 1L)
+      endif else begin
+        attributeNamesList->add, attribute
+        attributeValuesList->add, ''
+      endelse
+    endif
+  endwhile
+  
+  ; return attribute information
+  nAttributes = attributeNamesList->count()
+  if (nAttributes gt 0) then begin
+    attributeNames = attributeNamesList->get(/all)
+    attributeValues = attributeValuesList->get(/all)    
+  endif
+  
+  obj_destroy, [attributeNamesList, attributeValuesList]
+  
+  return, myLines
+end
+
+
+;+
 ; Handles a tag with attributes (i.e. {} enclosed arguments like in param or 
 ; keyword).
 ; 
 ; :Params:
-;    `tag` : in, required, type=string
-;       rst tag, i.e. returns, params, keywords, etc.
 ;    `lines` : in, required, type=strarr
 ;       lines of raw text for that tag
 ; :Keywords:
@@ -20,106 +123,52 @@
 ;    `markup_parser` : in, required, type=object
 ;       markup parser object
 ;-
-pro docparidldocformatparser::_handleArgumentTag, tag, lines, $
+pro docparidldocformatparser::_handleArgumentTag, lines, $
                                                   routine=routine, $
                                                   markup_parser=markupParser
   compile_opt strictarr
   
-  ; TODO: split this into two methods (one to parse and one to handle param or
-  ;       keyword specific attributes)
-  
-  routine->getProperty, name=routineName
-  
-  headerLine = lines[0]
-  re = '^[[:space:]]*@[[:alpha:]_]+[[:space:]]+([[:alnum:]_$]+)'
-  starts = stregex(headerLine, re, /subexpr, length=lengths)
-  tokens = strmid(headerLine, starts, lengths)
-  
-  if (tokens[0] eq '') then begin
-    self.system->warning, 'invalid syntax: ' + lines[0]
-    return
-  endif
-  
-  argname = tokens[1]
+  lines = self->_parseTag(lines, /has_argument, $
+                          tag=tag, argument=argument, $
+                          n_attributes=nAttributes, $
+                          attribute_names=attributeNames, $
+                          attribute_values=attributeValues) 
   
   case strlowcase(tag) of
-    'param': arg = routine->getParameter(argname, found=found)
-    'keyword': arg = routine->getKeyword(argname, found=found)
+    'param': arg = routine->getParameter(argument, found=found)
+    'keyword': arg = routine->getKeyword(argument, found=found)
     else:   ; shouldn't happen
   endcase
   
+  routine->getProperty, name=routineName
   if (~found) then begin
-    self.system->warning, strlowcase(tag) + ' ' + argname + ' not found in ' + routineName
+    self.system->warning, strlowcase(tag) + ' ' + argument $
+                            + ' not found in ' + routineName
     return
   endif
 
-  attrStart = starts[1] + lengths[1]
-  
-  headerLine = strmid(headerLine, attrStart)
- 
-  re = '^[[:space:]]*{([^}]*)}.*'
-  
-  starts = 0
-  while (starts[0] ge 0) do begin
-    starts = stregex(headerLine, re, /subexpr, length=lengths)
-    attribute = strmid(headerLine, starts[1], lengths[1])
-    if (starts[0] ge 0) then begin
-      equalPos = strpos(attribute, '=')
-      if (equalPos eq -1L) then begin   ; boolean attributes
-        case strlowcase(attribute) of
-          'in': arg->setProperty, is_input=1
-          'out': arg->setProperty, is_output=1
-          'optional': arg->setProperty, is_optional=1
-          'required': arg->setProperty, is_required=1
-          'private': arg->setProperty, is_private=1
-          'hidden': arg->setProperty, is_hidden=1
-          'obsolete': arg->setProperty, is_obsolete=1
-          else: begin
-              self.system->warning, $
-                'unknown argument attribute ' + attributeName $
-                  + ' for argument ' + argname + ' in ' + routineName 
-            end
-        endcase
-      endif else begin   ; attributes with name-value
-        attributeName = strmid(attribute, 0, equalPos)
-        attributeValue = strmid(attribute, equalPos + 1L)
-        case strlowcase(attributeName) of
-          'type': arg->setProperty, type=attributeValue
-          'default': arg->setProperty, default_value=attributeValue
-          else: begin
-              self.system->warning, $
-                'unknown argument attribute ' + attributeName $
-                  + ' for argument' + argname + ' in ' + routineName           
-            end
-        endcase
-      endelse
-      
-      headerLine = strmid(headerLine, starts[1] + lengths[1] + 1L)
-    endif
-  endwhile
-   
-  ; put back what's left of headerLine
-  lines[0] = headerLine
+  for i = 0L, nAttributes - 1L do begin
+    case strlowcase(attributeNames[i]) of
+      'in': arg->setProperty, is_input=1
+      'out': arg->setProperty, is_output=1
+      'optional': arg->setProperty, is_optional=1
+      'required': arg->setProperty, is_required=1
+      'private': arg->setProperty, is_private=1
+      'hidden': arg->setProperty, is_hidden=1
+      'obsolete': arg->setProperty, is_obsolete=1
+
+      'type': arg->setProperty, type=attributeValues[i]
+      'default': arg->setProperty, default_value=attributeValues[i]
+      else: begin
+          self.system->warning, $
+            'unknown argument attribute ' + attributeNames[i] $
+              + ' for argument' + argument + ' in ' + routineName           
+        end
+    endcase
+  endfor
   
   comments = markupParser->parse(lines)
   arg->setProperty, comments=comments
-end
-
-
-;+
-; Removes tag from first line.
-;
-; :Returns: strarr
-; :Params:
-;    `lines` : in, required, type=strarr
-;-
-function docparidldocformatparser::_removeTag, lines
-  compile_opt strictarr
-  
-  re = '^[[:space:]]*@[[:alpha:]_]+[[:space:]]+'
-  start = stregex(lines[0], re, length=length)
-  lines[0] = strmid(lines[0], start + length)
-  return, lines
 end
 
 
@@ -146,38 +195,38 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
   
   case strlowcase(tag) of
     'abstract': routine->setProperty, is_abstract=1B
-    'author': routine->setProperty, author=markupParser->parse(self->_removeTag(lines))
-    'bugs': routine->setProperty, bugs=markupParser->parse(self->_removeTag(lines))      
+    'author': routine->setProperty, author=markupParser->parse(self->_parseTag(lines))
+    'bugs': routine->setProperty, bugs=markupParser->parse(self->parseTag(lines))      
     'categories':
-    'copyright': routine->setProperty, copyright=markupParser->parse(self->_removeTag(lines))
-    'customer_id': routine->setProperty, customer_id=markupParser->parse(self->_removeTag(lines))
-    'examples': routine->setProperty, examples=markupParser->parse(self->_removeTag(lines))
-    'field':
+    'copyright': routine->setProperty, copyright=markupParser->parse(self->_parseTag(lines))
+    'customer_id': routine->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))
+    'examples': routine->setProperty, examples=markupParser->parse(self->_parseTag(lines))
+    'field': 
     'file_comments': begin
         routine->getProperty, file=file
-        file->setProperty, comments=markupParser->parse(self->_removeTag(lines))
+        file->setProperty, comments=markupParser->parse(self->_parseTag(lines))
       end
     'hidden': routine->setProperty, is_hidden=1
     'hidden_file': begin
         routine->getProperty, file=file
         file->setProperty, is_hidden=1B
       end
-    'history': routine->setProperty, history=markupParser->parse(self->_removeTag(lines))
+    'history': routine->setProperty, history=markupParser->parse(self->_parseTag(lines))
     'inherits':
-    'keyword': self->_handleArgumentTag, tag, lines, routine=routine, markup_parser=markupParser
+    'keyword': self->_handleArgumentTag, lines, routine=routine, markup_parser=markupParser
     'obsolete': routine->setProperty, is_obsolete=1B
-    'param': self->_handleArgumentTag, tag, lines, routine=routine, markup_parser=markupParser
-    'post': routine->setProperty, post=markupParser->parse(self->_removeTag(lines))
-    'pre': routine->setProperty, pre=markupParser->parse(self->_removeTag(lines))
+    'param': self->_handleArgumentTag, lines, routine=routine, markup_parser=markupParser
+    'post': routine->setProperty, post=markupParser->parse(self->_parseTag(lines))
+    'pre': routine->setProperty, pre=markupParser->parse(self->_parseTag(lines))
     'private': routine->setProperty, is_private=1B
     'private_file': begin
         routine->getProperty, file=file
         file->setProperty, is_private=1B
       end
     'requires':
-    'restrictions': routine->setProperty, restrictions=markupParser->parse(self->_removeTag(lines))
-    'returns': routine->setProperty, returns=markupParser->parse(self->_removeTag(lines))
-    'todo': routine->setProperty, todo=markupParser->parse(self->_removeTag(lines))
+    'restrictions': routine->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))
+    'returns': routine->setProperty, returns=markupParser->parse(self->_parseTag(lines))
+    'todo': routine->setProperty, todo=markupParser->parse(self->_parseTag(lines))
     'uses':
     'version':
     else: begin
@@ -213,23 +262,29 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
         if (~isClass) then begin
           self.system->warning, 'property not allowed non-class definition file'
         endif
-        
-        ; TODO: finish this
+   
+        comments = self->_parseTag(lines, /has_argument, $
+                                   argument=propertyName, $
+                                   n_attributes=nAttributes, $
+                                   attribute_names=attributeNames, $
+                                   attribute_values=attributeValues)     
+                                    
+        ; TODO: ready to add property
         ; create property object? lookup property object?
         ;   should all possible properties be created (i.e. from getProperty, 
         ;   setProperty, and init methods)?  
         ; get attributes to set is_get, is_set, is_init
-        ; set comments           
+        ; set comments  
       end
     
     'hidden': file->setProperty, is_hidden=1B
     'private': file->setProperty, is_private=1B
     
-    'examples': file->setProperty, examples=markupParser->parse(self->_removeTag(lines))
+    'examples': file->setProperty, examples=markupParser->parse(self->_parseTag(lines))
     
-    'author': file->setProperty, author=markupParser->parse(self->_removeTag(lines))
-    'copyright': file->setProperty, copyright=markupParser->parse(self->_removeTag(lines))
-    'history': file->setProperty, history=markupParser->parse(self->_removeTag(lines))
+    'author': file->setProperty, author=markupParser->parse(self->_parseTag(lines))
+    'copyright': file->setProperty, copyright=markupParser->parse(self->_parseTag(lines))
+    'history': file->setProperty, history=markupParser->parse(self->_parseTag(lines))
     else: begin
         file->getProperty, basename=basename
         self.system->warning, 'unknown tag ' + tag + ' in file ' + basename
@@ -350,7 +405,7 @@ pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
     tagEnd = t eq nTags - 1L $
                ? n_elements(lines) - 1L $
                : tagLocations[t + 1L] - 1L
-    tagLines = self->_removeTag(lines[tagStart:tagEnd])
+    tagLines = self->_parseTag(lines[tagStart:tagEnd])
     
     case strlowcase(tag) of
       'dir': begin
