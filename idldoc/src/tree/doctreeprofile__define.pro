@@ -51,7 +51,8 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
                                  modification_time=mTime, n_lines=nLines, $ 
                                  format=format, markup=markup, $
                                  examples=examples, $
-                                 author=author, copyright=copyright, history=history                                 
+                                 author=author, copyright=copyright, $
+                                 history=history, version=version                                 
   compile_opt strictarr
   
   if (n_elements(code) gt 0) then *self.code = code
@@ -90,6 +91,11 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
     self.hasAuthorInfo = 1B
     self.history = history
   endif  
+
+  if (n_elements(version) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.version = version
+  endif    
 end
 
 
@@ -169,7 +175,10 @@ function doctreeprofile::getVariable, name, found=found
     
     'has_history': return, obj_valid(self.history)
     'history': return, self.system->processComments(self.history)
-    
+
+    'has_version': return, obj_valid(self.version)
+    'version': return, self.system->processComments(self.version)
+        
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
@@ -337,6 +346,7 @@ pro doctreeprofile__define
              hasAuthorInfo: 0B, $
              author: obj_new(), $
              copyright: obj_new(), $
-             history: obj_new() $
+             history: obj_new(), $
+             version: obj_new() $
            }
 end

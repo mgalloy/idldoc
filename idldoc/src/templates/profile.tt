@@ -99,6 +99,13 @@
             <td>[% history %]</td>
           </tr>          
           [% END %]
+
+          [% IF has_version %]
+          <tr>
+            <td class="name">Version:</td>
+            <td>[% version %]</td>
+          </tr>          
+          [% END %]          
         </table>          
       [% END %]
                   
@@ -184,6 +191,13 @@
                 <td>[% history %]</td>
               </tr>          
               [% END %]
+
+              [% IF has_version %]
+              <tr>
+                <td class="name">Version:</td>
+                <td>[% version %]</td>
+              </tr>          
+              [% END %]              
             </table>          
           [% END %]
           

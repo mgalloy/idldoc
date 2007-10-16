@@ -42,11 +42,11 @@ end
 ;    attributes : out, optional, type=strarr
 ;-
 function docparidldocformatparser::_parseTag, lines, $
-                                         has_argument=hasArgument, $
-                                         tag=tag, argument=argument, $
-                                         n_attributes=nAttributes, $
-                                         attribute_names=attributeNames, $
-                                         attribute_values=attributeValues
+                                              has_argument=hasArgument, $
+                                              tag=tag, argument=argument, $
+                                              n_attributes=nAttributes, $
+                                              attribute_names=attributeNames, $
+                                              attribute_values=attributeValues
   compile_opt strictarr
   
   myLines = lines
@@ -228,7 +228,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'returns': routine->setProperty, returns=markupParser->parse(self->_parseTag(lines))
     'todo': routine->setProperty, todo=markupParser->parse(self->_parseTag(lines))
     'uses':
-    'version':
+    'version': routine->setProperty, version=markupParser->parse(self->_parseTag(lines))
     else: begin
         routine->getProperty, name=name
         self.system->warning, 'unknown tag ' + tag + ' in routine ' + name
@@ -285,6 +285,7 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
     'author': file->setProperty, author=markupParser->parse(self->_parseTag(lines))
     'copyright': file->setProperty, copyright=markupParser->parse(self->_parseTag(lines))
     'history': file->setProperty, history=markupParser->parse(self->_parseTag(lines))
+    'version': file->setProperty, version=markupParser->parse(self->_parseTag(lines))
     else: begin
         file->getProperty, basename=basename
         self.system->warning, 'unknown tag ' + tag + ' in file ' + basename

@@ -49,7 +49,9 @@ pro doctreeroutine::setProperty, name=name, $
                                  bugs=bugs, pre=pre, post=post, $
                                  customer_id=customerId, $
                                  author=author, copyright=copyright, $
-                                 history=history, todo=todo, $
+                                 history=history, $
+                                 version=version, $
+                                 todo=todo, $
                                  restrictions=restrictions
   compile_opt strictarr
   
@@ -81,7 +83,12 @@ pro doctreeroutine::setProperty, name=name, $
     self.hasAuthorInfo = 1B
     self.history = history
   endif
-  
+
+  if (n_elements(version) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.version = version
+  endif
+    
   ; "other" attributes  
   if (n_elements(bugs) gt 0) then begin
     self.hasOthers = 1B
@@ -176,7 +183,10 @@ function doctreeroutine::getVariable, name, found=found
     
     'has_history': return, obj_valid(self.history)
     'history': return, self.system->processComments(self.history)
-    
+
+    'has_version': return, obj_valid(self.version)
+    'version': return, self.system->processComments(self.version)
+        
     'has_others': return, self.hasOthers
     
     'has_bugs': return, obj_valid(self.bugs)
@@ -393,6 +403,7 @@ pro doctreeroutine__define
              author: obj_new(), $
              copyright: obj_new(), $
              history: obj_new(), $
+             version: obj_new(), $
                           
              hasOthers: 0B, $
              bugs: obj_new(), $
