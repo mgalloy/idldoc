@@ -17,11 +17,14 @@
 ; :Params:
 ;    `filename` : in, required, type=string
 ;       filename of .pro file to read
+;
 ; :Keywords:
 ;    `empty` : out, optional, type=boolean
 ;       returns whether the file was empty
 ;    `n_lines` : out, optional, type=long
 ;       number of lines in the file
+;    `modification_time` : out, optional, type=string
+;       modification time of the file
 ;-
 function docparprofileparser::_readFile, filename, empty=empty, $
                                          n_lines=nLines, modification_time=mTime
@@ -45,6 +48,15 @@ function docparprofileparser::_readFile, filename, empty=empty, $
 end
 
 
+;+
+; Strips the end-of-line comments from a line.
+;
+; :Returns: string
+;
+; :Params:
+;    `line` : in, required, type=string
+;       line of code
+;-
 function docparprofileparser::_stripComments, line
   compile_opt strictarr
 
@@ -176,6 +188,21 @@ pro docparprofileparser::_parseRoutineComments, routine, comments, $
 end
 
 
+;+
+; Parse comments associated with a file.
+;
+; :Params:
+;    `file` : in, required, type=object
+;       file tree object
+;    `comments` : in, required, type=strarr
+;       comments to parse
+;
+; :Keywords:
+;    `format` : in, required, type=string
+;       format type: idldoc, idl, rst
+;    `markup` : in, required, type=string
+;       markup type: verbatim, rst
+;-
 pro docparprofileparser::_parseFileComments, file, comments, $
                                              format=format, markup=markup
   compile_opt strictarr
@@ -370,6 +397,8 @@ end
 ; :Keywords:
 ;    `found` : out, optional, type=boolean
 ;       returns 1 if filename found, 0 otherwise
+;    `directory` : in, required, type=object
+;       directory tree object
 ;-
 function docparprofileparser::parse, filename, found=found, directory=directory
   compile_opt strictarr
@@ -416,6 +445,8 @@ end
 ; Create a file parser.
 ;
 ; :Keywords:
+;    `system` : in, required, type=object
+;       system object
 ;    `format` : in, optional, type=string, default=idldoc
 ;       format of comments: IDLdoc, IDL, or rst
 ;    `markup` : in, optional, type=string, default=verbatim
