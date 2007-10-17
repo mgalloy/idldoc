@@ -34,7 +34,7 @@ function doctreeclass::getVariable, name, found=found
     'ancestors': return, self.ancestors->get(/all)
 
     'n_fields': return, self.fields->count()
-    'fields': return, self.fields->get(/all)
+    'fields': return, self.fields->values()
 
     'n_properties': return, self.properties->count()
     'properties': return, self.properties->values()
@@ -124,6 +124,19 @@ pro doctreeclass::findParents
 end
 
 
+function doctreeclass::addField, fieldName
+  compile_opt strictarr
+  
+  field = self.fields->get(strlowcase(fieldName), found=found)
+  if (~found) then begin
+    field = obj_new('DOCtreeField', fieldName, $
+                    class=self, system=self.system)
+    self.fields->put, strlowcase(fieldName), field
+  endif
+  return, field
+end
+
+
 function doctreeclass::addProperty, propertyName
   compile_opt strictarr
   
@@ -147,6 +160,7 @@ end
 pro doctreeclass::cleanup
   compile_opt strictarr
   
+  if (self.fields->count() gt 0) then obj_destroy, self.fields->values()
   obj_destroy, self.fields
   if (self.properties->count() gt 0) then obj_destroy, self.properties->values()
   obj_destroy, self.properties
@@ -166,6 +180,8 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
 
   self.parents = obj_new('MGcoArrayList', type=11)
   self.ancestors = obj_new('MGcoArrayList', type=11)
+  
+  self.fields = obj_new('MGcoHashtable', key_type=7, value_type=11)
   self.properties = obj_new('MGcoHashtable', key_type=7, value_type=11)
   
   self->findParents

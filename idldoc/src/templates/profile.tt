@@ -83,7 +83,7 @@
         </div>    
       [% END %]
       
-      [% IF n_fields gt 0 && ~user %]
+      [% IF n_fields gt 0 %]
       <h3>Fields</h3>
       	<div class="details">
 	        <dl>

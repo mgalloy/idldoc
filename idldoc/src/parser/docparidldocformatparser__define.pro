@@ -201,7 +201,22 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'copyright': routine->setProperty, copyright=markupParser->parse(self->_parseTag(lines))
     'customer_id': routine->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))
     'examples': routine->setProperty, examples=markupParser->parse(self->_parseTag(lines))
-    'field': 
+    'field': begin
+        routine->getProperty, file=file
+        file->getProperty, is_class=isClass, class=class
+        if (~isClass) then begin
+          self.system->warning, 'field not allowed non-class definition file'
+        endif
+   
+        comments = self->_parseTag(lines, /has_argument, $
+                                   argument=propertyName, $
+                                   n_attributes=nAttributes, $
+                                   attribute_names=attributeNames, $
+                                   attribute_values=attributeValues)                                        
+        
+        field = class->addField(propertyName)
+        field->setProperty, comments=markupParser->parse(comments)
+      end
     'file_comments': begin
         routine->getProperty, file=file
         file->setProperty, comments=markupParser->parse(self->_parseTag(lines))
@@ -282,6 +297,7 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
     'copyright': file->setProperty, copyright=markupParser->parse(self->_parseTag(lines))
     'history': file->setProperty, history=markupParser->parse(self->_parseTag(lines))
     'version': file->setProperty, version=markupParser->parse(self->_parseTag(lines))
+    
     else: begin
         file->getProperty, basename=basename
         self.system->warning, 'unknown tag ' + tag + ' in file ' + basename

@@ -73,7 +73,7 @@ function doctreeproperty::getVariable, name, found=found
     'comments': return, self.system->processComments(self.comments) 
     
     else: begin
-        var = self.file->getVariable(name, found=found)
+        var = self.class->getVariable(name, found=found)
         if (found) then return, var
         
         found = 0B

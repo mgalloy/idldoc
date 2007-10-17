@@ -40,14 +40,17 @@ function doctreefield::getVariable, name, found=found
   found = 1B
   case name of
     'name': return, self.name
-    'type': return, self.type
+    'type': return, self.type      
     
     'comments': return, self.system->processComments(self.comments)  
         
-    else : begin
-      found = 0B
-      return, -1L
-    end    
+    else: begin
+        var = self.class->getVariable(name, found=found)
+        if (found) then return, var
+            
+        found = 0B
+        return, -1L
+      end    
   endcase
 end
 
