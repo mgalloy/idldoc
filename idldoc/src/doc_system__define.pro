@@ -1,6 +1,5 @@
 ; docformat = 'rst'
 
-
 ;+
 ; This class represents the entire IDLdoc run. All information/settings for the
 ; run are stored (or at least accessible from) here.
@@ -46,6 +45,7 @@ function doc_system::getVariable, name, found=found
     
     'preformat': return, self.preformat
     'embed': return, self.embed
+    'nonavbar': return, self.nonavbar
     
     'has_overview_comments': return, obj_valid(self.overviewComments)
     'overview_comments': return, self->processComments(self.overviewComments)
@@ -63,6 +63,19 @@ function doc_system::getVariable, name, found=found
     'n_idldoc_files': return, self.idldocFiles->count()
     'idldoc_files': return, self.idldocFiles->get(/all)
 
+    'css_location': return, filepath('main.css', $
+                                     subdir='resources', $
+                                     root=self.sourceLocation)
+    'print_css_location': return, filepath('main-print.css', $
+                                           subdir='resources', $
+                                           root=self.sourceLocation)
+    'listing_css_location': return, filepath('listing.css', $
+                                             subdir='resources', $
+                                             root=self.sourceLocation)
+    'print_listing_css_location': return, filepath('listing-print.css', $
+                                                   subdir='resources', $
+                                                   root=self.sourceLocation)
+                                         
     'n_routines': begin
         if (self.proFiles->count() eq 0) then return, '0'
         
@@ -683,6 +696,9 @@ function doc_system::init, root=root, output=output, $
   self.assistant = keyword_set(assistant)
   self.embed = keyword_set(embed)
   
+  self.nonavbar = keyword_set(nonavbar)
+  self.logFile = n_elements(logFile) gt 0 ? logFile : ''
+  
   self.templatePrefix = n_elements(templatePrefix) gt 0 ? templatePrefix : ''
   self.templateLocation = n_elements(templateLocation) gt 0 ? templateLocation : ''
   
@@ -818,6 +834,9 @@ pro doc_system__define
              preformat: 0B, $             
              assistant: 0B, $
              embed: 0B, $
+             nonavbar: 0B, $
+             
+             logFile: '', $
              
              templatePrefix: '', $
              templateLocation: '', $

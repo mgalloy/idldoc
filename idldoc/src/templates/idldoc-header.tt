@@ -3,6 +3,7 @@
   <h2>[% subtitle %]</h2>
 </div>
 
+[% IF ~nonavbar %]
 <table class="navbar smaller" cellspacing="0">
   <tr>
     <td [% IF current_template eq 'overview' %]class="selected"[% END %]>
@@ -61,4 +62,6 @@
 
 [% IF current_template eq 'overview' %]
 <p class="localnavbar smallest"><a href="" target="_top">single page</a> | <a href="[% relative_root %]index.html" target="_top">use frames</a> &nbsp;&nbsp;&nbsp; <a href="#directories">directories</a> &nbsp;&nbsp;&nbsp; <a href="#statistics">project statistics</a> </p>
+[% END %]
+
 [% END %]

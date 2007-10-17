@@ -4,10 +4,10 @@
 
     [% IF embed %]
     <style type="text/css" media="all">
-         [% INCLUDE css_location %]
+      [% INCLUDE css_location %]
     </style>
     <style type="text/css" media="print">
-         [% INCLUDE print_css_location %]
+      [% INCLUDE print_css_location %]
     </style>
     [% ELSE %]
     <link rel="stylesheet" type="text/css" media="all" 
