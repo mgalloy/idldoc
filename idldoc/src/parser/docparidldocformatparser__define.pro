@@ -267,19 +267,10 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
                                    argument=propertyName, $
                                    n_attributes=nAttributes, $
                                    attribute_names=attributeNames, $
-                                   attribute_values=attributeValues)     
-                                    
-        ; TODO: ready to add property
-        ; create property object? lookup property object?
-        ;   should all possible properties be created (i.e. from getProperty, 
-        ;   setProperty, and init methods)?  
-        ; get attributes to set is_get, is_set, is_init
-        ; set comments  
-        property = obj_new('DOCtreeProperty', propertyName, $
-                                              system=self.system, class=class)
-        property->setProperty, comments=markupParser->parse(comments)
+                                   attribute_values=attributeValues)                                        
         
-        class->addProperty, property
+        property = class->addProperty(propertyName)
+        property->setProperty, comments=markupParser->parse(comments)
       end
     
     'hidden': file->setProperty, is_hidden=1B

@@ -256,7 +256,6 @@ end
 pro doctreeroutine::addParameter, param
   compile_opt strictarr
   
-  param->getProperty, name=n
   self.parameters->add, param
 end
 
@@ -286,6 +285,29 @@ pro doctreeroutine::addKeyword, keyword
   compile_opt strictarr
   
   self.keywords->add, keyword
+
+  ; special for properties
+  self.file->getProperty, is_class=isClass, class=class
+  if (self.isMethod && isClass) then begin
+  
+    keyword->getProperty, name=propertyName
+    if (strlowcase(propertyName) eq '_extra' or strlowcase(propertyName) eq '_ref_extra') then return
+    case 1 of
+      strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'getproperty': begin
+          property = class->addProperty(propertyName)
+          property->setProperty, is_get=1B
+        end
+      strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'setproperty': begin
+          property = class->addProperty(propertyName)
+          property->setProperty, is_set=1B
+        end
+      strlowcase(strmid(self.name, 3, /reverse_offset)) eq 'init': begin
+          property = class->addProperty(propertyName)
+          property->setProperty, is_init=1B
+        end
+      else:   ; just a normal keyword
+    endcase
+  endif  
 end
 
 

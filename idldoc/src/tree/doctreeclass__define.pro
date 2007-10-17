@@ -37,7 +37,7 @@ function doctreeclass::getVariable, name, found=found
     'fields': return, self.fields->get(/all)
 
     'n_properties': return, self.properties->count()
-    'properties': return, self.properties->get(/all)
+    'properties': return, self.properties->values()
             
     else: begin
         ; search in the system object if the variable is not found here
@@ -124,10 +124,16 @@ pro doctreeclass::findParents
 end
 
 
-pro doctreeclass::addProperty, property
+function doctreeclass::addProperty, propertyName
   compile_opt strictarr
   
-  self.properties->add, property
+  property = self.properties->get(strlowcase(propertyName), found=found)
+  if (~found) then begin
+    property = obj_new('DOCtreeProperty', propertyName, $
+                       class=self, system=self.system)
+    self.properties->put, strlowcase(propertyName), property
+  endif
+  return, property
 end
 
 
@@ -141,7 +147,9 @@ end
 pro doctreeclass::cleanup
   compile_opt strictarr
   
-  obj_destroy, [self.fields, self.properties]
+  obj_destroy, self.fields
+  if (self.properties->count() gt 0) then obj_destroy, self.properties->values()
+  obj_destroy, self.properties
 end
 
 
@@ -158,7 +166,7 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
 
   self.parents = obj_new('MGcoArrayList', type=11)
   self.ancestors = obj_new('MGcoArrayList', type=11)
-  self.properties = obj_new('MGcoArrayList', type=11)
+  self.properties = obj_new('MGcoHashtable', key_type=7, value_type=11)
   
   self->findParents
   self->findFields
