@@ -209,13 +209,18 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
         endif
    
         comments = self->_parseTag(lines, /has_argument, $
-                                   argument=propertyName, $
+                                   argument=fieldName, $
                                    n_attributes=nAttributes, $
                                    attribute_names=attributeNames, $
                                    attribute_values=attributeValues)                                        
         
-        field = class->addField(propertyName)
-        field->setProperty, comments=markupParser->parse(comments)
+        field = class->addField(fieldName, /get_only)
+        if (obj_valid(field)) then begin        
+          field->setProperty, name=fieldName, $
+                              comments=markupParser->parse(comments)
+        endif else begin
+          self.system->warning, 'invalid field ' + fieldName
+        endelse
       end
     'file_comments': begin
         routine->getProperty, file=file

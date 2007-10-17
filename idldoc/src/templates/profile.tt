@@ -93,6 +93,12 @@
 	          [% END %][% END %]
 	        </dl>        	
       	</div>
+      	
+      	[% IF n_ancestors gt 0 %]
+      	[% FOREACH a IN ancestors %]
+      	  <p class="small">Fields in [% IF a->hasUrl() %]<a href="[% relative_root %][% a->getUrl() %]">[% END %][% a->getClassname() %][% IF a->hasUrl() %]</a>[% END %]: [% strjoin(a->getFieldNames(), ', ') %]</p>
+      	[% END %]
+      	[% END %]
       [% END %]
       
       [% END %][% END %]

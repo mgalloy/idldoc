@@ -58,9 +58,10 @@ end
 ;+
 ; Get properties of the field.
 ;-
-pro doctreefield::getProperty
+pro doctreefield::getProperty, name=name
   compile_opt strictarr
   
+  if (arg_present(name)) then name = self.name
 end
 
 

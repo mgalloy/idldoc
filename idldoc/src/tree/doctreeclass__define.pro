@@ -35,7 +35,8 @@ function doctreeclass::getVariable, name, found=found
 
     'n_fields': return, self.fields->count()
     'fields': return, self.fields->values()
-
+    'field_names': return, self->getFieldNames()
+    
     'n_properties': return, self.properties->count()
     'properties': return, self.properties->values()
             
@@ -50,6 +51,12 @@ function doctreeclass::getVariable, name, found=found
   endcase
 end
 
+
+;+
+; Easy to use accessor for classname.
+;
+; :Returns: string
+;-
 function doctreeclass::getClassname
   compile_opt strictarr
   
@@ -57,6 +64,11 @@ function doctreeclass::getClassname
 end
 
 
+;+
+; Easy to use accessor for whether the class has an URL.
+; 
+; :Returns: boolean
+;-
 function doctreeclass::hasUrl
   compile_opt strictarr
   
@@ -64,6 +76,11 @@ function doctreeclass::hasUrl
 end
 
 
+;+
+; Easy to use accessor for URL.
+;
+; :Returns: string
+;-
 function doctreeclass::getUrl
   compile_opt strictarr
   
@@ -76,6 +93,28 @@ function doctreeclass::getUrl
 end
 
 
+;+
+; Easy to use accessor for URL.
+;
+; :Returns: strarr or string
+;-
+function doctreeclass::getFieldNames
+  compile_opt strictarr
+  
+  nFields = self.fields->count()
+  if (nFields eq 0) then return, ''
+  
+  fieldNames = strarr(nFields)
+  fields = self.fields->values()
+  for f = 0L, nFields - 1L do begin
+    fields[f]->getProperty, name=name
+    fieldNames[f] = name
+  endfor
+  
+  return, fieldNames
+end
+
+        
 pro doctreeclass::setProperty, pro_file=proFile, classname=classname
   compile_opt strictarr
   
@@ -103,16 +142,20 @@ pro doctreeclass::findParents
   compile_opt strictarr
   
   s = create_struct(name=self.classname)
+    
   parents = obj_class(self.classname, /superclass)
-  if (n_elements(parents) eq 1 && parents eq '') then return
+  nParents = parents[0] eq '' ? 0 : n_elements(parents)  
   
-  for i = 0L, n_elements(parents) - 1L do begin
+  parentFieldNameList = obj_new('MGcoArrayList', type=7)
+  
+  for i = 0L, nParents - 1L do begin
     p = self.classes->get(strlowcase(parents[i]), found=found)
     if (~found) then begin
       p = obj_new('DOCtreeClass', parents[i], system=self.system)
       self.classes->put, strlowcase(parents[i]), p
     endif
-    
+
+    parentFieldNameList->add, p.fields->keys()    
     self.parents->add, p
     self.ancestors->add, p
     
@@ -121,14 +164,29 @@ pro doctreeclass::findParents
       self.ancestors->add, ancestors->get(/all)
     endif
   endfor
+  
+  parentFieldNames = parentFieldNameList->get(/all, count=nParentFieldNames)
+  fieldNames = tag_names(s)
+
+  for f = 0L, n_tags(s) - 1L do begin  
+    if (nParentFieldNames ne 0) then begin
+      ind = where(strlowcase(fieldNames[f]) eq parentFieldNames, nMatches)
+    endif
+    if (nParentFieldNames eq 0 || nMatches eq 0) then begin
+      field = self->addField(fieldNames[f])
+      field->setProperty, type=doc_variable_declaration(s.(f))
+    endif
+  endfor  
+  
+  obj_destroy, parentFieldNameList
 end
 
 
-function doctreeclass::addField, fieldName
+function doctreeclass::addField, fieldName, get_only=getOnly
   compile_opt strictarr
   
   field = self.fields->get(strlowcase(fieldName), found=found)
-  if (~found) then begin
+  if (~found && ~keyword_set(getOnly)) then begin
     field = obj_new('DOCtreeField', fieldName, $
                     class=self, system=self.system)
     self.fields->put, strlowcase(fieldName), field
@@ -150,13 +208,9 @@ function doctreeclass::addProperty, propertyName
 end
 
 
-pro doctreeclass::findFields
-  compile_opt strictarr
-  
-  ; TODO: create structure to find fields (and then run them past ancestors)
-end
-
-
+;+
+; Free resources.
+;-
 pro doctreeclass::cleanup
   compile_opt strictarr
   
@@ -185,7 +239,6 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
   self.properties = obj_new('MGcoHashtable', key_type=7, value_type=11)
   
   self->findParents
-  self->findFields
   
   return, 1
 end
