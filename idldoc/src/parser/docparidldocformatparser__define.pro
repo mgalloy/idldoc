@@ -35,11 +35,11 @@ end
 ;
 ; :Keywords: 
 ;    has_argument : in, optional, type=boolean
-;    has_attributes : in, optional, type=boolean
 ;    tag : out, optional, type=string
 ;    argument : out, optional, type=string
 ;    n_attributes : out, optional, type=long
-;    attributes : out, optional, type=strarr
+;    attributes_names : out, optional, type=strarr
+;    attributes_values : out, optional, type=strarr
 ;-
 function docparidldocformatparser::_parseTag, lines, $
                                               has_argument=hasArgument, $
@@ -117,6 +117,7 @@ end
 ; :Params:
 ;    `lines` : in, required, type=strarr
 ;       lines of raw text for that tag
+;
 ; :Keywords:
 ;    `routine` : in, required, type=object
 ;       routine tree object 
@@ -180,6 +181,7 @@ end
 ;       rst tag, i.e. returns, params, keywords, etc.
 ;    `lines` : in, required, type=strarr
 ;       lines of raw text for that tag
+;
 ; :Keywords:
 ;    `routine` : in, required, type=object
 ;       routine tree object 
@@ -197,7 +199,16 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'abstract': routine->setProperty, is_abstract=1B
     'author': routine->setProperty, author=markupParser->parse(self->_parseTag(lines))
     'bugs': routine->setProperty, bugs=markupParser->parse(self->parseTag(lines))      
-    'categories':
+    'categories': begin
+        comments = self->_parseTag(lines)
+        categories = strtrim(strsplit(strjoin(comments), ',', /extract), 2)
+        for i = 0L, n_elements(categories) - 1L do begin
+          if (categories[i] ne '') then begin
+            routine->addCategory, categories[i]
+            ; TODO: add to global registry as well
+          endif
+        endfor
+      end
     'copyright': routine->setProperty, copyright=markupParser->parse(self->_parseTag(lines))
     'customer_id': routine->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))
     'examples': routine->setProperty, examples=markupParser->parse(self->_parseTag(lines))
@@ -232,7 +243,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
         file->setProperty, is_hidden=1B
       end
     'history': routine->setProperty, history=markupParser->parse(self->_parseTag(lines))
-    'inherits':
+    'inherits':   ; not used any more
     'keyword': self->_handleArgumentTag, lines, routine=routine, markup_parser=markupParser
     'obsolete': routine->setProperty, is_obsolete=1B
     'param': self->_handleArgumentTag, lines, routine=routine, markup_parser=markupParser

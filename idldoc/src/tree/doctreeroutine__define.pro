@@ -170,6 +170,9 @@ function doctreeroutine::getVariable, name, found=found
     'has_returns': return, obj_valid(self.returns)
     'returns': return, self.system->processComments(self.returns)
 
+    'has_categories': return, self.categories->count() gt 0
+    'categories': return, self.categories->get(/all)
+    
     'has_examples': return, obj_valid(self.examples)
     'examples': return, self.system->processComments(self.examples)
     
@@ -325,6 +328,13 @@ function doctreeroutine::getKeyword, name, found=found
 end
 
 
+pro doctreeroutine::addCategory, name
+  compile_opt strictarr
+
+  self.categories->add, name
+end
+
+
 ;+
 ; Mark first and last arguments of a routine. Needs to be called after parsing
 ; the routine, but before the output is started.
@@ -356,6 +366,7 @@ end
 pro doctreeroutine::cleanup
   compile_opt strictarr
   
+  obj_destroy, self.categories
   obj_destroy, [self.parameters, self.keywords, self.comments]
   obj_destroy, [self.returns, self.bugs]
   obj_destroy, [self.author, self.copyright, self.history, self.todo]
@@ -378,6 +389,8 @@ function doctreeroutine::init, file, system=system
   
   self.file = file
   self.system = system
+  
+  self.categories = obj_new('MGcoArrayList', type=7)
   
   self.parameters = obj_new('MGcoArrayList', type=11)
   self.keywords = obj_new('MGcoArrayList', type=11)
@@ -419,6 +432,7 @@ pro doctreeroutine__define
              comments: obj_new(), $
              returns: obj_new(), $
 
+             categories: obj_new(), $
              examples: obj_new(), $
              
              hasAuthorInfo: 0B, $

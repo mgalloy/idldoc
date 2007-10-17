@@ -63,12 +63,20 @@
         </ul>
         
         [% IF n_ancestors gt n_parents %]      
-        <p class="smaller">All ancestors:
+        <p class="small">All ancestor classes:
       		[% FOREACH a IN ancestors %]
       		[% IF a->hasUrl() %]<a href="[% relative_root %][% a->getUrl() %]">[% END %][% a->getClassname() %][% IF a->hasUrl() %]</a>[% END %]
       		[% END %]
       	</p>
       	[% END %]
+      [% END %]
+      
+      [% IF n_children gt 0 %]
+        <p class="small">Subclasses: 
+          [% FOREACH c IN children %]
+          [% IF c->hasUrl() %]<a href="[% relative_root %][% c->getUrl() %]">[% END %][% c->getClassname() %][% IF c->hasUrl() %]</a>[% END %]
+          [% END %]
+        </p>      
       [% END %]
       
       [% IF n_properties gt 0 %]
@@ -158,6 +166,9 @@
         [% FOREACH r IN routines %][% SCOPE r %]
         <div class="routine-details details" id="[% name %]">
         	<h2 class="routine-name"><a href="#root" class="top">top</a>[% name %]<span class="routine-attributes">[% IF is_private %]private [% END %][% IF is_obsolete %]obsolete [% END %][% IF is_abstract %]abstract [% END %]</span></h2>
+        	[% IF has_categories %]
+        	<p class="small categories">[% strjoin(categories, ', ') %]</p>
+        	[% END %]
         	
           <p class="syntax"><code>[% IF is_function %]<span class="var">result</span> = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %]<a href="#[% id %]">[% name %]</a>[% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %]<a href="#[% id %]">[% name %]</a>[% IF ~is_boolean %]=<span class="var">[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</span>[% END %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></p>
           

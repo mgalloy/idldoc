@@ -33,6 +33,9 @@ function doctreeclass::getVariable, name, found=found
     'n_ancestors': return, self.ancestors->count()
     'ancestors': return, self.ancestors->get(/all)
 
+    'n_children': return, self.children->count()
+    'children': return, self.children->get(/all)
+    
     'n_fields': return, self.fields->count()
     'fields': return, self.fields->values()
     'field_names': return, self->getFieldNames()
@@ -131,10 +134,10 @@ pro doctreeclass::getProperty, ancestors=ancestors, classname=classname
 end
 
 
-pro doctreeclass::cleanup
+pro doctreeclass::addChild, child
   compile_opt strictarr
-
-  obj_destroy, self.fields
+  
+  self.children->add, child
 end
 
 
@@ -155,7 +158,10 @@ pro doctreeclass::findParents
       self.classes->put, strlowcase(parents[i]), p
     endif
 
-    parentFieldNameList->add, p.fields->keys()    
+    parentFieldNameList->add, p.fields->keys()
+
+    ; connect classes
+    p->addChild, self
     self.parents->add, p
     self.ancestors->add, p
     
@@ -234,6 +240,7 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
 
   self.parents = obj_new('MGcoArrayList', type=11)
   self.ancestors = obj_new('MGcoArrayList', type=11)
+  self.children = obj_new('MGcoArrayList', type=11)
   
   self.fields = obj_new('MGcoHashtable', key_type=7, value_type=11)
   self.properties = obj_new('MGcoHashtable', key_type=7, value_type=11)
@@ -254,8 +261,10 @@ pro doctreeclass__define
              
              classname: '', $
              
-             parents: obj_new(), $
+             parents: obj_new(), $             
              ancestors: obj_new(), $
+             children: obj_new(), $
+             
              fields: obj_new(), $
              properties: obj_new() $
            }
