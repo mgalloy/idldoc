@@ -162,7 +162,7 @@ pro doc_system::error, msg
   compile_opt strictarr
   on_error, 2
   
-  message, msg, /noname
+  message, 'IDLDOC: ' + msg, /noname
 end
 
 
@@ -176,7 +176,7 @@ end
 pro doc_system::warning, msg
   compile_opt strictarr
   
-  if (~self.silent) then message, msg, /informational
+  if (~self.silent) then message, 'IDLDOC: '+ msg, /informational, /noname
   ++self.nWarnings
 end
 
