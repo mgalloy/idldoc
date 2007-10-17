@@ -30,7 +30,16 @@
 function docparrstmarkupparser::parse, lines
   compile_opt strictarr
   
-  ; TODO: implement this
+  ; TODO: below is just the verbatim parser, replace with real parser
+  
+  tree = obj_new('MGtmTag')
+  
+  for l = 0L, n_elements(lines) - 1L do begin
+    tree->addChild, obj_new('MGtmText', text=lines[l])
+    tree->addChild, obj_new('MGtmTag', type='newline')
+  endfor
+  
+  return, tree  
 end
 
 
