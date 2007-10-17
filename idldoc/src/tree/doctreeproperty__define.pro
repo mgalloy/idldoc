@@ -5,19 +5,19 @@
 ; methods.
 ;
 ; :Properties:
-;    `is_get` : set
+;    is_get 
 ;       boolean indicating whether the property can be retrieved with the 
 ;       getProprty method
-;    `is_set` : set
+;    is_set 
 ;       boolean indicating whether the property can be set with the setProperty
 ;       method
-;    `is_init` : set
+;    is_init
 ;       boolean indicating whether the property can be set in the init method
-;    `comments` : set
+;    comments
 ;       parse tree object; comments about the property
-;    `class` : init
+;    class 
 ;       class object
-;    `system` : init
+;    system
 ;       system object
 ;-
 
