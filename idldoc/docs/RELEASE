@@ -4,7 +4,10 @@ Release notes
 IDLdoc 3.0
 
 * Complete rewrite, open source
-* File level comments
+* File level comments and tags
 * Pluggable templates (use TEMPLATE_PREFIX, TEMPLATE_LOCATION keywords)
-* New keywords: format_style, markup_style, comment_style
-* Requires: IDL 6.1
+* New keywords: format_style, markup_style, comment_style; set on an IDLdoc 
+  run or on an file-by-file basis.
+* Uses "requires" tag on routines to find the highest version of IDL required
+  by a project.
+* Requires IDL 6.1.
