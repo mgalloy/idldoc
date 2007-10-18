@@ -48,6 +48,19 @@
     		<h2>Statistics</h2>
     	</div>
     	
+    	[% IF requires_version ne '' %]
+    	<div id="requires">
+    	  <h2>Requires</h2>
+    	  
+    	  <p>Routines that require IDL [% requires_version %]:</p>
+    	  <ul>
+    	  [% FOREACH r in requires_routines %][% SCOPE r %]
+    	    <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>
+    	  [% END %][% END %]
+    	  </ul>
+    	</div>
+    	[% END %]
+    	
     	[% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
 		</div>    
 

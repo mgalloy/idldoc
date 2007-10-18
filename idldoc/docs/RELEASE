@@ -7,3 +7,4 @@ IDLdoc 3.0
 * File level comments
 * Pluggable templates (use TEMPLATE_PREFIX, TEMPLATE_LOCATION keywords)
 * New keywords: format_style, markup_style, comment_style
+* Requires: IDL 6.1

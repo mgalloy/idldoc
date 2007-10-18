@@ -254,7 +254,18 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
       end
     'requires': begin        
         requires = self->_parseTag(lines)
-        ; TODO: also parse argments to get an IDL version
+        
+        ; look for an IDL version
+        for i = 0L, n_elements(requires) - 1L do begin
+          version = stregex(lines[i], '[[:digit:].]+', /extract)
+          if (version ne '') then break
+        endfor
+         
+        ; if you have a real version then check in with system
+        if (version ne '') then begin
+          self.system->checkRequiredVersion, version, routine
+        endif
+        
         routine->setProperty, requires=markupParser->parse(requires)
       end
     'restrictions': routine->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))

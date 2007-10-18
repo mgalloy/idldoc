@@ -101,6 +101,8 @@ function doc_system::getVariable, name, found=found
         
         return, mg_int_format(nLines)
       end
+    'requires_version': return, self.requiresVersion
+    'requires_routines': return, self.requiresRoutines->get(/all)
     
     'current_template': return, self.currentTemplate
                                     
@@ -502,6 +504,32 @@ end
 
 
 ;+
+; Compare given version to the current highest version. Keeps track of the 
+; routines that have the highest version.
+;
+; :Params:
+;    version : in, required, type=string
+;       required version
+;    routine : in, required, type=object
+;       routine tree object
+;-
+pro doc_system::checkRequiredVersion, version, routine
+  compile_opt strictarr
+  
+  case mg_cmp_version(version, self.requiresVersion) of
+    -1: ; don't do anything if version is not at least equal to requires version
+     0: self.requiresRoutines->add, routine
+     1: begin
+        self.requiresRoutines->remove, /all
+        self.requiresRoutines->add, routine
+        self.requiresVersion = version       
+      end
+    else:   ; should not happen
+  endcase
+end
+
+
+;+
 ; Determine if the output directory can be written to.
 ;
 ; :Returns: error code (0 indicates no error)
@@ -713,6 +741,8 @@ function doc_system::init, root=root, output=output, $
   self.savFiles = obj_new('MGcoArrayList', type=11)
   self.idldocFiles = obj_new('MGcoArrayList', type=11)
   
+  self.requiresRoutines = obj_new('MGcoArrayList', type=11)
+  
   ; copy resources
   self->copyResources
   
@@ -847,6 +877,9 @@ pro doc_system__define
              
              proFiles: obj_new(), $
              savFiles: obj_new(), $
-             idldocFiles: obj_new() $                 
+             idldocFiles: obj_new(), $
+             
+             requiresVersion: '', $
+             requiresRoutines: obj_new() $                              
            }
 end

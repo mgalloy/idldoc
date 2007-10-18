@@ -71,7 +71,14 @@
         <tr>
           <td class="name">Lines:</td>
           <td>[% n_lines %]</td>
-        </tr>                            
+        </tr>
+          
+        [% IF requires_version ne '' %]
+        <tr>
+          <td class="name">Required IDL version:</td>
+          <td>[% requires_version %]</td>
+        </tr>                          
+        [% END %]            
       </table>   
       
       [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]  	

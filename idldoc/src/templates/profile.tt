@@ -337,11 +337,13 @@
             <td class="name">Lines:</td>
             <td>[% n_lines %]</td>
           </tr>
-                            
+               
+          [% IF format ne '' || markup ne '' %]             
           <tr>
             <td class="name">Docformat:</td>
             <td>[% format %][% IF format ne '' %] [% END %][% markup %]</td>
           </tr>
+          [% END %]
         </table> 
       </div>
       

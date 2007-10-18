@@ -54,7 +54,7 @@
 [% END %]
 
 [% IF current_template eq 'warnings' %]
-<p class="localnavbar smallest"><a href="" target="_top">single page</a> | <a href="[% relative_root %]index.html" target="_top">use frames</a> &nbsp;&nbsp;&nbsp; <a href="#todo">todo</a> &nbsp;&nbsp;&nbsp; <a href="#bugs">bugs</a> &nbsp;&nbsp;&nbsp; <a href="#undocumented">undocumented</a> &nbsp;&nbsp;&nbsp; <a href="#obsolete">obsolete</a> &nbsp;&nbsp;&nbsp; <a href="#statistics">statistics</a></p>
+<p class="localnavbar smallest"><a href="" target="_top">single page</a> | <a href="[% relative_root %]index.html" target="_top">use frames</a> &nbsp;&nbsp;&nbsp; <a href="#todo">todo</a> &nbsp;&nbsp;&nbsp; <a href="#bugs">bugs</a> &nbsp;&nbsp;&nbsp; <a href="#undocumented">undocumented</a> &nbsp;&nbsp;&nbsp; <a href="#obsolete">obsolete</a> &nbsp;&nbsp;&nbsp; <a href="#statistics">statistics</a> [% IF requires_version ne '' %]&nbsp;&nbsp;&nbsp; <a href="#requires">requires</a>[% END %]</p>
 [% END %]
 
 [% IF current_template eq 'help' %]
