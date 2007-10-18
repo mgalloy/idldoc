@@ -108,14 +108,14 @@ function doc_system::getVariable, name, found=found
         dir = self.templateLocation eq '' $
           ? filepath('', subdir='templates', root=self.sourceLocation) $
           : self.templateLocation      
-        return, filepath(self.templatePrefix + 'idldoc-header.tt', $
+        return, filepath(self.templatePrefix + 'header.tt', $
                          root=dir)
       end   
     'idldoc_footer_location' : begin
         dir = self.templateLocation eq '' $
           ? filepath('', subdir='templates', root=self.sourceLocation) $
           : self.templateLocation      
-        return, filepath(self.templatePrefix + 'idldoc-footer.tt', $
+        return, filepath(self.templatePrefix + 'footer.tt', $
                          root=dir)
       end   
     else: begin
