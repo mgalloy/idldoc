@@ -305,7 +305,9 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     
     if (strmid(command, 0, 1) eq ';') then continue
     
-    tokens = strsplit(self->_stripComments(command), /extract, count=nTokens)
+    ; token delimiters are: space, tab, and comma
+    delims = ' ' + string(9B) + ','
+    tokens = strsplit(self->_stripComments(command), delims, /extract, count=nTokens)
     if (nTokens eq 0) then begin
       if (justFinishedComment eq 2 && ~headerContinued && currentComments->count() gt 0) then begin
         self->_parseFileComments, file, currentComments->get(/all), $

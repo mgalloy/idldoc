@@ -88,6 +88,7 @@ pro idldoc, root=root, $
 
   ; TODO: make sure to turn debug off before releasing
   debug = 1B
+  origPath = !path
   
   if (~keyword_set(debug) || arg_present(error)) then begin
     error = 0L
@@ -95,6 +96,7 @@ pro idldoc, root=root, $
     if (error ne 0L) then begin
       catch, /cancel
       message, !error_state.msg, /informational
+      !path = origPath
       return
     endif
   endif
@@ -123,5 +125,6 @@ pro idldoc, root=root, $
                    template_prefix=templatePrefix, $
                    template_location=templateLocation)
   
+  !path = origPath
   obj_destroy, system
 end

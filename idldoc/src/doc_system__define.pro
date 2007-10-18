@@ -686,6 +686,10 @@ function doc_system::init, root=root, output=output, $
   if (n_elements(root) gt 0) then begin
     self.root = file_search(root, /mark_directory, /test_directory)
     if (self.root eq '') then self->error, 'ROOT directory does not exist'
+    
+    ; temporarily add project to the path
+    rootDirs = file_expand_path(file_search(self.root, '*', /test_directory))
+    !path += path_sep(/search_path) + strjoin(rootDirs, path_sep(/search_path))
   endif else begin
     self->error, 'ROOT keyword must be defined'
   endelse
@@ -694,7 +698,7 @@ function doc_system::init, root=root, output=output, $
   if (n_elements(output) gt 0) then begin
     if (~file_test(output)) then begin
       self->makeDirectory, output, error=error
-      if (error ne 0L) then self->error, 'can not create output directory'
+      if (error ne 0L) then self->error, 'cannot create output directory'
     endif
     self.output = file_search(output, /mark_directory, /test_directory)
   endif else begin

@@ -460,6 +460,9 @@ pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
           endif
           
           dirName = strmid(tagLines[0], argStart[1], argLength[1])
+          if (strmid(dirName, 1, /reverse_offset) ne path_sep()) then begin
+            dirName += path_sep()
+          endif
           tagLines[0] = strmid(tagLines[0], argStart[1] + argLength[1])
           
           system->getProperty, directories=directories

@@ -141,10 +141,31 @@ pro doctreeclass::addChild, child
 end
 
 
+function doctreeclass::_createClass, classname, error=error
+  compile_opt strictarr
+  
+  error = 0L
+  catch, error
+  if (error ne 0L) then begin
+    catch, /cancel
+    error = 1L
+    return, -1L
+  endif
+  
+  s = create_struct(name=classname)
+  return, s
+end
+
+
 pro doctreeclass::findParents
   compile_opt strictarr
   
-  s = create_struct(name=self.classname)
+  s = self->_createClass(self.classname, error=error)
+  if (error ne 0L) then begin
+    self.system->warning, 'cannot find definition for class ' + self.classname $
+                            + ' in path'
+    return
+  endif
     
   parents = obj_class(self.classname, /superclass)
   nParents = parents[0] eq '' ? 0 : n_elements(parents)  
