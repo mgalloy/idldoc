@@ -1,0 +1,9 @@
+Release notes
+-------------
+
+IDLdoc 3.0
+
+* Complete rewrite, open source
+* File level comments
+* Pluggable templates (use TEMPLATE_PREFIX, TEMPLATE_LOCATION keywords)
+* New keywords: format_style, markup_style, comment_style
