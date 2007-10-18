@@ -53,7 +53,8 @@ pro doctreeroutine::setProperty, name=name, $
                                  version=version, $
                                  todo=todo, $
                                  restrictions=restrictions, $
-                                 uses=uses
+                                 uses=uses, $
+                                 requires=requires
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then self.name = name
@@ -125,6 +126,11 @@ pro doctreeroutine::setProperty, name=name, $
     self.hasOthers = 1B
     self.uses = uses
   endif  
+  
+  if (n_elements(requires) gt 0) then begin
+    self.hasOthers = 1B
+    self.requires = requires
+  endif    
 end
 
 
@@ -219,6 +225,9 @@ function doctreeroutine::getVariable, name, found=found
     'has_uses': return, obj_valid(self.uses)
     'uses': return, self.system->processComments(self.uses)
                             
+    'has_requires': return, obj_valid(self.requires)
+    'requires': return, self.system->processComments(self.requires)
+    
     'n_parameters': return, self.parameters->count()
     'parameters': return, self.parameters->get(/all)
     'n_keywords': return, self.keywords->count()
@@ -378,7 +387,7 @@ pro doctreeroutine::cleanup
   obj_destroy, [self.parameters, self.keywords, self.comments]
   obj_destroy, [self.returns, self.bugs]
   obj_destroy, [self.author, self.copyright, self.history, self.todo]
-  obj_destroy, [self.categories, self.restrictions, self.uses]
+  obj_destroy, [self.categories, self.restrictions, self.uses, self.requires]
 end
 
 
@@ -453,7 +462,8 @@ pro doctreeroutine__define
              bugs: obj_new(), $
              pre: obj_new(), $
              post: obj_new(), $     
-             uses: obj_new(), $        
+             uses: obj_new(), $       
+             requires: obj_new(), $ 
              customerId: obj_new(), $
              todo: obj_new(), $
              restrictions: obj_new() $             

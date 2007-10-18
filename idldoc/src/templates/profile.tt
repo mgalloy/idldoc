@@ -258,6 +258,13 @@
               </tr>          
               [% END %]
 
+              [% IF has_requires %]
+              <tr>
+                <td class="name">Requires:</td>
+                <td>[% requires %]</td>
+              </tr>          
+              [% END %]
+              
               [% IF has_uses %]
               <tr>
                 <td class="name">Uses:</td>

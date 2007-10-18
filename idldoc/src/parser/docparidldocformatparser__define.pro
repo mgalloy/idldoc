@@ -193,8 +193,6 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
                                                  markup_parser=markupParser
   compile_opt strictarr
   
-  ; TODO: finish this
-  
   case strlowcase(tag) of
     'abstract': routine->setProperty, is_abstract=1B
     'author': routine->setProperty, author=markupParser->parse(self->_parseTag(lines))
@@ -254,7 +252,11 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
         routine->getProperty, file=file
         file->setProperty, is_private=1B
       end
-    'requires':
+    'requires': begin        
+        requires = self->_parseTag(lines)
+        ; TODO: also parse argments to get an IDL version
+        routine->setProperty, requires=markupParser->parse(requires)
+      end
     'restrictions': routine->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))
     'returns': routine->setProperty, returns=markupParser->parse(self->_parseTag(lines))
     'todo': routine->setProperty, todo=markupParser->parse(self->_parseTag(lines))
