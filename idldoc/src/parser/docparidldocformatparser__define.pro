@@ -258,7 +258,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'restrictions': routine->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))
     'returns': routine->setProperty, returns=markupParser->parse(self->_parseTag(lines))
     'todo': routine->setProperty, todo=markupParser->parse(self->_parseTag(lines))
-    'uses':
+    'uses': routine->setProperty, uses=markupParser->parse(self->_parseTag(lines))
     'version': routine->setProperty, version=markupParser->parse(self->_parseTag(lines))
     else: begin
         routine->getProperty, name=name

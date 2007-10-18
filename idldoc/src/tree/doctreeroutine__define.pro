@@ -52,7 +52,8 @@ pro doctreeroutine::setProperty, name=name, $
                                  history=history, $
                                  version=version, $
                                  todo=todo, $
-                                 restrictions=restrictions
+                                 restrictions=restrictions, $
+                                 uses=uses
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then self.name = name
@@ -118,7 +119,12 @@ pro doctreeroutine::setProperty, name=name, $
   if (n_elements(restrictions) gt 0) then begin
     self.hasOthers = 1B
     self.restrictions = restrictions
-  endif        
+  endif  
+       
+  if (n_elements(uses) gt 0) then begin
+    self.hasOthers = 1B
+    self.uses = uses
+  endif  
 end
 
 
@@ -209,7 +215,10 @@ function doctreeroutine::getVariable, name, found=found
 
     'has_restrictions': return, obj_valid(self.restrictions)
     'restrictions': return, self.system->processComments(self.restrictions)
-                        
+
+    'has_uses': return, obj_valid(self.uses)
+    'uses': return, self.system->processComments(self.uses)
+                            
     'n_parameters': return, self.parameters->count()
     'parameters': return, self.parameters->get(/all)
     'n_keywords': return, self.keywords->count()
@@ -366,11 +375,10 @@ end
 pro doctreeroutine::cleanup
   compile_opt strictarr
   
-  obj_destroy, self.categories
   obj_destroy, [self.parameters, self.keywords, self.comments]
   obj_destroy, [self.returns, self.bugs]
   obj_destroy, [self.author, self.copyright, self.history, self.todo]
-  obj_destroy, [self.restrictions]
+  obj_destroy, [self.categories, self.restrictions, self.uses]
 end
 
 
@@ -444,7 +452,8 @@ pro doctreeroutine__define
              hasOthers: 0B, $
              bugs: obj_new(), $
              pre: obj_new(), $
-             post: obj_new(), $             
+             post: obj_new(), $     
+             uses: obj_new(), $        
              customerId: obj_new(), $
              todo: obj_new(), $
              restrictions: obj_new() $             

@@ -257,7 +257,14 @@
                 <td>[% restrictions %]</td>
               </tr>          
               [% END %]
-                                        
+
+              [% IF has_uses %]
+              <tr>
+                <td class="name">Uses:</td>
+                <td>[% uses %]</td>
+              </tr>          
+              [% END %]
+                                                      
               [% IF has_bugs %]
               <tr>
                 <td class="name">Bugs:</td>
