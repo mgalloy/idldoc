@@ -85,6 +85,21 @@ function doc_system::getVariable, name, found=found
         return, categories[sort(categories)]
       end
     
+    'index_empty': return, self.index->count() eq 0
+    'index_first_letters': begin
+        if (self.index->count() eq 0) then return, -1L
+        
+        index = self.index->get(/all)
+        firstLetters = strmid(index.name, 0, 1)
+        sind = sort(firstLetters)
+        uind = uniq(firstLetters, sind)
+        
+        return, firstLetters[uind] 
+      end
+    'index_type': return, 'unknown'
+    'index_name': return, 'unknown'
+    'index_url': return, ''
+    
     'n_routines': begin
         if (self.proFiles->count() eq 0) then return, '0'
         
@@ -402,8 +417,9 @@ pro doc_system::generateOutput
   compile_opt strictarr
   
   ; first, organize the pro/sav/idldoc files
-  entries = self.index->values(count=nEntries)
-  names = self.index->keys()
+  index = self.index->get(/all, count=nEntries)
+  entries = index.item
+  names = index.name
   
   if (nEntries gt 0) then begin
     ind = where(obj_isa(entries, 'DOCtreeProFile'), nProFiles)
@@ -510,7 +526,28 @@ end
 pro doc_system::createIndexEntry, name, value
   compile_opt strictarr
   
-  self.index->put, name, value
+  self.index->add, { name: strlowcase(name), item: value }
+end
+
+
+;+
+; Return the items which begin with the given letter.
+;
+; :Returns: objarr
+; :Params:
+;    letter : in, required, type=string
+;       first letter of items to return
+;-
+function doc_system::getIndexEntries, letter
+  compile_opt strictarr
+    
+  entries = self.index->get(/all)
+  ind = where(strmid(entries.name, 0, 1) eq letter, count)
+  
+  entries = entries[ind]
+  
+  ind = sort(strlowcase(entries.name))
+  return, (entries.item)[ind]
 end
 
 
@@ -798,7 +835,7 @@ function doc_system::init, root=root, output=output, $
   outputError = self->testOutput()
   if (outputError ne 0L) then self->error, 'unable to write to ' + self.output
   
-  self.index = obj_new('MGcoHashTable', key_type=7, value_type=11)
+  self.index = obj_new('MGcoArrayList', example={name:'', item: obj_new() })
   self.classes = obj_new('MGcoHashTable', key_type=7, value_type=11)
   self.categories = obj_new('MGcoHashTable', key_type=7, value_type=11)
   

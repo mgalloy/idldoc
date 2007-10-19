@@ -177,8 +177,12 @@ function doctreeargument::init, routine, name=name, is_keyword=isKeyword, $
   
   self.system = system
   self.routine = routine
+  
   if (n_elements(name) gt 0) then self.name = name
+  
   self.isKeyword = keyword_set(isKeyword)
+  
+  ;self.system->createIndexEntry, self.name, self
   
   return, 1
 end

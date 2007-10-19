@@ -35,6 +35,7 @@ function doctreesavfile::getVariable, name, found=found
         return, contents.date
       end
     'modification_time': return, self.modificationTime
+
     'size': return, self.size
     'filename':
     'description': 
@@ -69,6 +70,13 @@ function doctreesavfile::getVariable, name, found=found
     'structure_definitions': return, self.structureDefinitions->get(/all)
     'pointers': return, self.pointers->get(/all)
     'objects': return, self.objects->get(/all)
+    
+    'index_name': return, self.basename
+    'index_type': return, '.sav file in ' + self->getVariable('location')
+    'index_url': begin
+        return, self.directory->getVariable('url') + self->getVariable('local_url')
+      end
+    
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)

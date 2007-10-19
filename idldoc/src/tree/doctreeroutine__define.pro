@@ -57,7 +57,10 @@ pro doctreeroutine::setProperty, name=name, $
                                  requires=requires
   compile_opt strictarr
   
-  if (n_elements(name) gt 0) then self.name = name
+  if (n_elements(name) gt 0) then begin
+    self.name = name
+    self.system->createIndexEntry, self.name, self
+  endif
   
   if (n_elements(isFunction) gt 0) then self.isFunction = isFunction
   if (n_elements(isMethod) gt 0) then self.isMethod = isMethod  
@@ -232,6 +235,17 @@ function doctreeroutine::getVariable, name, found=found
     'parameters': return, self.parameters->get(/all)
     'n_keywords': return, self.keywords->count()
     'keywords': return, self.keywords->get(/all)
+    
+    'index_name': return, self.name
+    'index_type': begin
+        self.file->getProperty, basename=basename
+        return, 'routine in ' + basename
+      end
+    'index_url': begin
+        self.file->getProperty, directory=directory
+        return, directory->getVariable('url') + self.file->getVariable('local_url') + '#' + self.name
+      end
+        
     else: begin
         ; search in the system object if the variable is not found here
         var = self.file->getVariable(name, found=found)

@@ -44,6 +44,13 @@ function doctreefield::getVariable, name, found=found
     
     'comments': return, self.system->processComments(self.comments)  
         
+    'index_name': return, self.name
+    'index_type': begin
+        self.class->getProperty, classname=classname
+        return, 'field in class ' + classname
+      end     
+    'index_url': return, self.class->getVariable('url')
+                
     else: begin
         var = self.class->getVariable(name, found=found)
         if (found) then return, var
@@ -101,6 +108,8 @@ function doctreefield::init, name, class=class, system=system
   self.name = name
   self.class = class
   self.system = system
+  
+  self.system->createIndexEntry, self.name, self
   
   return, 1
 end

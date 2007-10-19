@@ -30,6 +30,18 @@
     
     	<h2>Index</h2>
     	
+    	<p>[% FOREACH letter IN index_first_letters %]<a href="#[% letter %]">[% letter %]</a> &nbsp;&nbsp;&nbsp; [% END %]</p>
+    	
+    	[% FOREACH letter IN index_first_letters %]
+    	<h3 id="[% letter %]">[% letter %]</h3>    	
+    	  <dl>
+    	  [% FOREACH item IN system->getIndexEntries(letter) %][% SCOPE item %]
+    	    <dt><a href="[% index_url %]">[% index_name %]</a><dt>
+    	    <dd>[% index_type %]</dd>
+    	  [% END %][% END %]
+    	  </dl>
+    	[% END %]
+    	
     	[% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
 		</div>    
 

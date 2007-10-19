@@ -226,7 +226,7 @@
       
         <table class="attribute smaller">
           <tr>
-            <td class="name">Modifcation date:</td>
+            <td class="name">Modification date:</td>
             <td>[% modification_time %]</td>
           </tr>
 

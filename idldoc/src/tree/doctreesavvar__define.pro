@@ -23,6 +23,14 @@ function doctreesavvar::getVariable, name, found=found
     'thumbnail_url': begin
         return, self.savFile->getVariable('url') + self.localThumbnailUrl
       end
+      
+    'index_name': return, self.name
+    'index_type': return, 'variable in .sav file ' + self.savFile->getVariable('basename')
+    'index_url': begin
+        self.savFile->getProperty, directory=directory
+        return, directory->getVariable('url') + self.savFile->getVariable('local_url')
+      end
+          
     else: begin
         ; search in the system object if the variable is not found here
         var = self.savFile->getVariable(name, found=found)
@@ -57,6 +65,8 @@ function doctreesavvar::init, name, data, savFile, system=system
   self.name = name
   self.savFile = savFile
   self.system = system
+  
+  self.system->createIndexEntry, self.name, self
   
   im = doc_thumbnail(data, valid=valid)
   self.hasThumbnail = valid

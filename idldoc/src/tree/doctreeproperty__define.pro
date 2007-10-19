@@ -70,8 +70,14 @@ function doctreeproperty::getVariable, name, found=found
     'is_init': return, self.isInit
     
     'has_comments': return, obj_valid(self.comments)
-    'comments': return, self.system->processComments(self.comments) 
-    
+    'comments': return, self.system->processComments(self.comments)
+     
+    'index_name': return, self.name
+    'index_type': begin
+        self.class->getProperty, classname=classname
+        return, 'property in class ' + classname
+      end
+        
     else: begin
         var = self.class->getVariable(name, found=found)
         if (found) then return, var
@@ -113,6 +119,8 @@ function doctreeproperty::init, name, class=class, system=system
   self.name = name
   self.class = class
   self.system = system
+  
+  self.system->createIndexEntry, self.name, self
   
   return, 1
 end

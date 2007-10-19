@@ -60,6 +60,10 @@ function doctreedirectory::getVariable, name, found=found
     'n_idldoc_files' : return, self.idldocFiles->count()
     'idldoc_files' : return, self.idldocFiles->get(/all)
     
+    'index_name': return, self.location
+    'index_type': return, 'directory'
+    'index_url': return, self.url + 'dir-overview.html'
+    
     else: begin
         ; search in the system object if the variable is not found here
         var = self.system->getVariable(name, found=found)
@@ -152,6 +156,8 @@ function doctreedirectory::init, location=location, files=files, system=system
   
   self.location = location
   self.system = system
+  
+  self.system->createIndexEntry, self.location, self
   
   self.proFiles = obj_new('MGcoArrayList', type=11)
   self.savFiles = obj_new('MGcoArrayList', type=11)

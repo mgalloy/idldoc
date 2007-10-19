@@ -43,6 +43,10 @@ function doctreeclass::getVariable, name, found=found
     'n_properties': return, self.properties->count()
     'properties': return, self.properties->values()
             
+    'index_name': return, self.classname
+    'index_type': return, 'class'
+    'index_url': return, self->getVariable('url')
+    
     else: begin
         ; search in the system object if the variable is not found here
         var = self.proFile->getVariable(name, found=found)
@@ -288,6 +292,8 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
   self.classname = classname
   if (n_elements(proFile) gt 0) then self.proFile = proFile
   self.system = system
+  
+  self.system->createIndexEntry, self.classname, self
   
   self.system->getProperty, classes=classes
   self.classes = classes

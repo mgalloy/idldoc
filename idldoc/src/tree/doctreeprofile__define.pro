@@ -180,7 +180,14 @@ function doctreeprofile::getVariable, name, found=found
 
     'has_version': return, obj_valid(self.version)
     'version': return, self.system->processComments(self.version)
-        
+
+    'index_name': return, self.basename
+    'index_type': return, '.pro file in ' + self.directory->getVariable('location')      
+    'index_url': begin
+        self.directory->getProperty, url=dirUrl
+        return, dirUrl + file_basename(self.basename, '.pro') + '.html'
+      end
+            
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
