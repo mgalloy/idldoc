@@ -1,7 +1,7 @@
 ; docformat = 'rst'
 
 ;+
-; Handles parsing of IDLdoc syntax comment blocks.
+; Handles parsing of IDLdoc format comment blocks.
 ;-
 
 
@@ -35,11 +35,19 @@ end
 ;
 ; :Keywords: 
 ;    has_argument : in, optional, type=boolean
+;       set to indicate that this tag has an argument
 ;    tag : out, optional, type=string
+;       set to a named variable to return the name of the tag
 ;    argument : out, optional, type=string
+;       set to a named variable to return the argument
 ;    n_attributes : out, optional, type=long
+;       set to a named variable to return the number of attributes in curly 
+;       braces
 ;    attributes_names : out, optional, type=strarr
+;       set to a named variable to return an array of attribute names
 ;    attributes_values : out, optional, type=strarr
+;       set to a named variable to return an array of attribute values (value
+;       will be '' if the attribute has no value)
 ;-
 function docparidldocformatparser::_parseTag, lines, $
                                               has_argument=hasArgument, $
@@ -174,7 +182,7 @@ end
 
 
 ;+
-; Handles one tag.
+; Handles one tag in a routine's comments.
 ; 
 ; :Params:
 ;    `tag` : in, required, type=string
@@ -203,7 +211,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
         for i = 0L, n_elements(categories) - 1L do begin
           if (categories[i] ne '') then begin
             routine->addCategory, categories[i]
-            ; TODO: add to global registry as well
+            self.system->createCategoryEntry, categories[i], routine
           endif
         endfor
       end
@@ -282,13 +290,14 @@ end
 
 
 ;+
-; Handles one tag.
+; Handles one tag in a file's comments.
 ; 
 ; :Params:
 ;    `tag` : in, required, type=string
 ;       rst tag, i.e. returns, params, keywords, etc.
 ;    `lines` : in, required, type=strarr
 ;       lines of raw text for that tag
+;
 ; :Keywords:
 ;    `file` : in, required, type=object
 ;       file tree object 
@@ -376,11 +385,12 @@ end
 
 
 ;+
-; Handles parsing of a comment block associated with a file using IDLdoc syntax. 
+; Handles parsing of a comment block associated with a file. 
 ;
 ; :Params:
 ;    `lines` : in, required, type=strarr
 ;       all lines of the comment block
+;
 ; :Keywords:
 ;    `file` : in, required, type=object
 ;       file tree object 
@@ -420,6 +430,7 @@ end
 ; :Params:
 ;    `lines` : in, required, type=strarr
 ;       all lines of the comment block
+;
 ; :Keywords:
 ;    `system` : in, required, type=object
 ;       system object 

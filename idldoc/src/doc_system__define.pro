@@ -36,6 +36,8 @@ function doc_system::getVariable, name, found=found
   
   found = 1B
   case strlowcase(name) of
+    'system': return, self
+    
     'version': return, self.version
     'date': return, systime()
     'title': return, self.title
@@ -76,7 +78,13 @@ function doc_system::getVariable, name, found=found
     'print_listing_css_location': return, filepath('listing-print.css', $
                                                    subdir='resources', $
                                                    root=self.sourceLocation)
-                                         
+
+    'n_categories': return, self.categories->count()
+    'categories': begin
+        categories = self.categories->keys()
+        return, categories[sort(categories)]
+      end
+    
     'n_routines': begin
         if (self.proFiles->count() eq 0) then return, '0'
         
@@ -507,6 +515,49 @@ end
 
 
 ;+
+; Add a routine to a given category.
+;
+; :Params:
+;    name : in, required, type=string
+;       category name
+;    routine : in, required, type=object
+;       routine tree object
+;-
+pro doc_system::createCategoryEntry, name, routine
+  compile_opt strictarr
+  
+  lname = strlowcase(name)
+  categoryList = self.categories->get(lname, found=found)
+  
+  if (~found) then begin
+    categoryList = obj_new('MGcoArrayList', type=11)
+    self.categories->put, lname, categoryList
+  endif
+  
+  categoryList->add, routine
+end
+
+
+;+
+; Return the routines in a given category.
+;
+; :Returns: strarr
+; :Params:
+;    name : in, required, type=string
+;       category name
+;-
+function doc_system::getCategoryEntries, name
+  compile_opt strictarr
+
+  lname = strlowcase(name)
+  categoryList = self.categories->get(lname, found=found)
+  if (~found) then return, ''
+  
+  return, categoryList->get(/all)
+end
+
+
+;+
 ; Compare given version to the current highest version. Keeps track of the 
 ; routines that have the highest version.
 ;
@@ -602,6 +653,10 @@ pro doc_system::cleanup
   obj_destroy, self.classes
   
   obj_destroy, self.directories
+  
+  categoryLists = self.categories->values(count=nCategories)
+  if (nCategories gt 0) then obj_destroy, categoryLists
+  obj_destroy, self.categories
   
   obj_destroy, self.templates->values()
   obj_destroy, self.templates
@@ -745,6 +800,7 @@ function doc_system::init, root=root, output=output, $
   
   self.index = obj_new('MGcoHashTable', key_type=7, value_type=11)
   self.classes = obj_new('MGcoHashTable', key_type=7, value_type=11)
+  self.categories = obj_new('MGcoHashTable', key_type=7, value_type=11)
   
   self.proFiles = obj_new('MGcoArrayList', type=11)
   self.savFiles = obj_new('MGcoArrayList', type=11)
@@ -884,6 +940,7 @@ pro doc_system__define
              
              index: obj_new(), $
              classes: obj_new(), $ 
+             categories: obj_new(), $
              
              proFiles: obj_new(), $
              savFiles: obj_new(), $

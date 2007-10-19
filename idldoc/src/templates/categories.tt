@@ -30,6 +30,17 @@
     
     	<h2>Categories</h2>
     	
+    	[% IF n_categories gt 0 %]
+    	  [% FOREACH c IN categories %]
+    	    <h3>[% c %]</h3>   
+    	    <ul>
+    	    [% FOREACH r IN system->getCategoryEntries(c) %][% SCOPE r %]
+    	      <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>
+    	    [% END %][% END %]
+    	    </ul> 	    
+    	  [% END %]
+    	[% END %]
+    	
     	[% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
     </div>    
 
