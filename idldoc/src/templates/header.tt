@@ -16,9 +16,11 @@
     
     <td [% IF current_template eq 'profile' || current_template eq 'savefile' %]class="selected"[% END %]>File</td>
     
+    [% IF ~nosource %]
     <td [% IF current_template eq 'source' %]class="selected"[% END %]>
       [% IF current_template eq 'profile' %]<a href="[% source_url %]">Source</a>[% ELSE %]Source[% END %]      
     </td>
+    [% END %]
     
     <td [% IF current_template eq 'idldocfile' %]class="selected"[% END %]>Etc</td>
     

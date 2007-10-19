@@ -244,6 +244,9 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   proFileTemplate->reset
   proFileTemplate->process, self, outputFilename  
   
+  self.system->getProperty, nosource=nosource
+  if (nosource) then return
+  
   sourceTemplate = self.system->getTemplate('source')
   
   outputFilename = outputDir + file_basename(self.basename, '.pro') + '-code.html'

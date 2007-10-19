@@ -46,6 +46,7 @@ function doc_system::getVariable, name, found=found
     'preformat': return, self.preformat
     'embed': return, self.embed
     'nonavbar': return, self.nonavbar
+    'nosource': return, self.nosource
     
     'has_overview_comments': return, obj_valid(self.overviewComments)
     'overview_comments': return, self->processComments(self.overviewComments)
@@ -134,7 +135,8 @@ end
 pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              format=format, markup=markup, $
                              comment_style=commentStyle, overview=overview, $
-                             directories=directories
+                             directories=directories, $
+                             nosource=nosource
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
@@ -145,6 +147,7 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(commentStyle)) then commentStyle = self.commentStyle
   if (arg_present(overview)) then overview = self.overview
   if (arg_present(directories)) then directories = self.directories
+  if (arg_present(nosource)) then nosource = self.nosource  
 end
 
 
@@ -672,6 +675,7 @@ function doc_system::init, root=root, output=output, $
                            assistant=assistant, embed=embed, overview=overview, $
                            footer=footer, title=title, subtitle=subtitle, $
                            nonavbar=nonavbar, $
+                           nosource=nosource, $
                            user=user, statistics=statistics, $
                            format_style=formatStyle, markup_style=markupStyle, $
                            comment_style=commentStyle, $
@@ -729,6 +733,7 @@ function doc_system::init, root=root, output=output, $
   self.embed = keyword_set(embed)
   
   self.nonavbar = keyword_set(nonavbar)
+  self.nosource = keyword_set(nosource)
   self.logFile = n_elements(logFile) gt 0 ? logFile : ''
   
   self.templatePrefix = n_elements(templatePrefix) gt 0 ? templatePrefix : ''
@@ -869,6 +874,7 @@ pro doc_system__define
              assistant: 0B, $
              embed: 0B, $
              nonavbar: 0B, $
+             nosource: 0B, $
              
              logFile: '', $
              

@@ -10,4 +10,6 @@ IDLdoc 3.0
   run or on an file-by-file basis.
 * Uses "requires" tag on routines to find the highest version of IDL required
   by a project.
+* Source link available even if OUTPUT keyword used (NOSOURCE keyword to turn 
+  off)
 * Requires IDL 6.1.
