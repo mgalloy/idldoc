@@ -97,7 +97,19 @@ end
 
 
 ;+
-; Easy to use accessor for URL.
+; Easy to use accessor for number of fields.
+;
+; :Returns: strarr or string
+;-
+function doctreeclass::getFieldCount
+  compile_opt strictarr
+  
+  return, self.fields->count()
+end
+
+
+;+
+; Easy to use accessor for field names.
 ;
 ; :Returns: strarr or string
 ;-
@@ -115,6 +127,28 @@ function doctreeclass::getFieldNames
   endfor
   
   return, fieldNames
+end
+
+
+;+
+; Easy to use accessor for field types.
+;
+; :Returns: strarr or string
+;-
+function doctreeclass::getFieldTypes
+  compile_opt strictarr
+  
+  nFields = self.fields->count()
+  if (nFields eq 0) then return, ''
+  
+  fieldTypes = strarr(nFields)
+  fields = self.fields->values()
+  for f = 0L, nFields - 1L do begin
+    fields[f]->getProperty, type=type
+    fieldTypes[f] = type
+  endfor
+  
+  return, fieldTypes
 end
 
         
