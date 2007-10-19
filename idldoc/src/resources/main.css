@@ -56,7 +56,7 @@ dl.routine-summary dd { margin-bottom: 0.5em; margin-left: 2em; }
 ul li { list-style-type: none; }
 table { empty-cells: show; }
 
-p.indented { margin-left: 2em; text-indent: -2em; }
+p.indent { margin-left: 2em; }
 
 /* An attribute table is a vertical list of name-value pairs. */
 table.box { 

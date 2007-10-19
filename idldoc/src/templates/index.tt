@@ -8,7 +8,7 @@
     <title>[% title %]</title>
 
     <style type="text/css" media="all">
-      frameset#nav_frames { border-right: 1px dotted #CCCCCC; }
+      frameset#nav_frames { border-right: 1px solid #AAAAAA; }
     </style>
 
     <link rel="shortcut icon" href="./idldoc-resources/idldoc.ico"/>

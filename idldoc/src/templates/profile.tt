@@ -106,7 +106,8 @@
       [% IF n_ancestors gt 0 %]
       [% FOREACH a IN ancestors %]
       	[% IF a->getFieldCount() %]
-      	<p class="indented small">Fields in [% IF a->hasUrl() %]<a href="[% relative_root %][% a->getUrl() %]">[% END %][% a->getClassname() %][% IF a->hasUrl() %]</a>[% END %]: [% strjoin(a->getFieldNames() + ': <code>' + a->getFieldTypes() + '</code>', ', ') %]</p>
+      	<h4>Fields in [% IF a->hasUrl() %]<a href="[% relative_root %][% a->getUrl() %]">[% END %][% a->getClassname() %][% IF a->hasUrl() %]</a>[% END %]</h4>
+      	<p class="indent small">[% strjoin(a->getFieldNames() + ': <code>' + a->getFieldTypes() + '</code>', ', ') %]</p>
       	[% END %]
       [% END %]
       [% END %]
