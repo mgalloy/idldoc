@@ -94,7 +94,7 @@ function doc_system::getVariable, name, found=found
         sind = sort(firstLetters)
         uind = uniq(firstLetters, sind)
         
-        return, firstLetters[uind] 
+        return, strupcase(firstLetters[uind]) 
       end
     'index_type': return, 'unknown'
     'index_name': return, 'unknown'
@@ -542,7 +542,7 @@ function doc_system::getIndexEntries, letter
   compile_opt strictarr
     
   entries = self.index->get(/all)
-  ind = where(strmid(entries.name, 0, 1) eq letter, count)
+  ind = where(strmid(entries.name, 0, 1) eq strlowcase(letter), count)
   
   entries = entries[ind]
   
