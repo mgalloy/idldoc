@@ -84,6 +84,10 @@ function doc_system::getVariable, name, found=found
         categories = self.categories->keys()
         return, categories[sort(categories)]
       end
+    'n_todos': return, self.todos->count()
+    'todos': return, self.todos->get(/all)
+    'n_obsolete': return, self.obsolete->count()
+    'obsolete': return, self.obsolete->get(/all)
     
     'index_empty': return, self.index->count() eq 0
     'index_first_letters': begin
@@ -595,6 +599,34 @@ end
 
 
 ;+
+; Remember that the given routine has a todo attached to it.
+;
+; :Params:
+;    routine : in, required, type=object
+;       routine tree object which has an attached todo tag
+;-
+pro doc_system::createTodoEntry, routine
+  compile_opt strictarr
+  
+  self.todos->add, routine
+end
+
+
+;+
+; Remember that the given routine has is obsolete.
+;
+; :Params:
+;    routine : in, required, type=object
+;       routine tree object which is obsolete
+;-
+pro doc_system::createObsoleteEntry, routine
+  compile_opt strictarr
+  
+  self.obsolete->add, routine
+end
+
+
+;+
 ; Compare given version to the current highest version. Keeps track of the 
 ; routines that have the highest version.
 ;
@@ -694,6 +726,8 @@ pro doc_system::cleanup
   categoryLists = self.categories->values(count=nCategories)
   if (nCategories gt 0) then obj_destroy, categoryLists
   obj_destroy, self.categories
+  
+  obj_destroy, [self.todos, self.obsolete]
   
   obj_destroy, self.templates->values()
   obj_destroy, self.templates
@@ -838,6 +872,8 @@ function doc_system::init, root=root, output=output, $
   self.index = obj_new('MGcoArrayList', example={name:'', item: obj_new() })
   self.classes = obj_new('MGcoHashTable', key_type=7, value_type=11)
   self.categories = obj_new('MGcoHashTable', key_type=7, value_type=11)
+  self.todos = obj_new('MGcoArrayList', type=11)
+  self.obsolete = obj_new('MGcoArrayList', type=11)
   
   self.proFiles = obj_new('MGcoArrayList', type=11)
   self.savFiles = obj_new('MGcoArrayList', type=11)
@@ -978,6 +1014,8 @@ pro doc_system__define
              index: obj_new(), $
              classes: obj_new(), $ 
              categories: obj_new(), $
+             todos: obj_new(), $
+             obsolete: obj_new(), $
              
              proFiles: obj_new(), $
              savFiles: obj_new(), $

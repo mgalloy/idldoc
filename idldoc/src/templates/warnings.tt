@@ -28,9 +28,17 @@
     
     <div class="content">
     
+      [% IF n_todos gt 0 %]
     	<div id="todos">
     		<h2>Todos</h2>
+    		
+    		<ul>
+    		[% FOREACH r IN todos %][% SCOPE r %]
+          <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>    		
+    		[% END %][% END %]
+    		</ul>
     	</div>
+    	[% END %]
     	
     	<div id="bugs">
     		<h2>Bugs</h2>
@@ -40,13 +48,23 @@
     		<h2>Undocumented</h2>    		
     	</div>
     	
+    	[% IF n_obsolete gt 0 %]
     	<div id="obsolete">
     		<h2>Obsolete</h2>
+
+        <ul>
+        [% FOREACH r IN obsolete %][% SCOPE r %]
+          <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>        
+        [% END %][% END %]
+        </ul>    		
     	</div>
+    	[% END %]
     	
+    	[% IF statistics %]
     	<div id="statistics">
     		<h2>Statistics</h2>
     	</div>
+    	[% END %]
     	
     	[% IF requires_version ne '' %]
     	<div id="requires">

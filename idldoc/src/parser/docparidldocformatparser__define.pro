@@ -251,7 +251,10 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'history': routine->setProperty, history=markupParser->parse(self->_parseTag(lines))
     'inherits':   ; not used any more
     'keyword': self->_handleArgumentTag, lines, routine=routine, markup_parser=markupParser
-    'obsolete': routine->setProperty, is_obsolete=1B
+    'obsolete': begin
+        routine->setProperty, is_obsolete=1B
+        self.system->createObsoleteEntry, routine
+      end
     'param': self->_handleArgumentTag, lines, routine=routine, markup_parser=markupParser
     'post': routine->setProperty, post=markupParser->parse(self->_parseTag(lines))
     'pre': routine->setProperty, pre=markupParser->parse(self->_parseTag(lines))
@@ -278,7 +281,10 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
       end
     'restrictions': routine->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))
     'returns': routine->setProperty, returns=markupParser->parse(self->_parseTag(lines))
-    'todo': routine->setProperty, todo=markupParser->parse(self->_parseTag(lines))
+    'todo': begin
+        routine->setProperty, todo=markupParser->parse(self->_parseTag(lines))
+        self.system->createTodoEntry, routine
+      end
     'uses': routine->setProperty, uses=markupParser->parse(self->_parseTag(lines))
     'version': routine->setProperty, version=markupParser->parse(self->_parseTag(lines))
     else: begin
