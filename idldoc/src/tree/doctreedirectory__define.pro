@@ -77,6 +77,20 @@ end
 
 
 ;+
+; Do any analysis necessary on information gathered during the "parseTree"
+; phase.
+;-
+pro doctreedirectory::process
+  compile_opt strictarr
+  
+  for f = 0L, self.proFiles->count() - 1L do begin
+    file = self.proFiles->get(position=f)
+    file->process
+  endfor  
+end
+
+
+;+
 ; Generate all the output for the directory.
 ;
 ; :Params: 

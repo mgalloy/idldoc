@@ -245,6 +245,52 @@ end
 
 
 ;+
+; Do any analysis necessary on information gathered during the "parseTree"
+; phase.
+;-
+pro doc_system::process
+  compile_opt strictarr
+  
+  ; first, organize the pro/sav/idldoc files
+  index = self.index->get(/all, count=nEntries)
+  entries = index.item
+  names = index.name
+  
+  if (nEntries gt 0) then begin
+    ind = where(obj_isa(entries, 'DOCtreeProFile'), nProFiles)
+    if (nProFiles gt 0) then begin
+      proFiles = entries[ind]
+      proFileNames = names[ind]
+      sind = sort(proFileNames)
+      self.proFiles->add, proFiles[sind]      
+    endif
+      
+    ind = where(obj_isa(entries, 'DOCtreeSavFile'), nSavFiles)
+    if (nSavFiles gt 0) then begin
+      savFiles = entries[ind]
+      savFileNames = names[ind]
+      sind = sort(savFileNames)
+      self.savFiles->add, savFiles[sind]
+    endif
+    
+    ind = where(obj_isa(entries, 'DOCtreeIDLdocFile'), nIDLdocFiles)
+    if (nIDLdocFiles gt 0) then begin
+      idldocFiles = entries[ind]
+      idldocFileNames = names[ind]
+      sind = sort(idldocFileNames)
+      self.idldocFiles->add, idldocFiles[sind]
+    endif    
+  endif  
+  
+  ; generate files per directory
+  for d = 0L, self.directories->count() - 1L do begin
+    directory = self.directories->get(position=d)
+    directory->process
+  endfor  
+end
+
+
+;+
 ; Build the tree of directories, files, routines, and parameters.
 ;-
 pro doc_system::parseTree
@@ -424,37 +470,6 @@ end
 pro doc_system::generateOutput
   compile_opt strictarr
   
-  ; first, organize the pro/sav/idldoc files
-  index = self.index->get(/all, count=nEntries)
-  entries = index.item
-  names = index.name
-  
-  if (nEntries gt 0) then begin
-    ind = where(obj_isa(entries, 'DOCtreeProFile'), nProFiles)
-    if (nProFiles gt 0) then begin
-      proFiles = entries[ind]
-      proFileNames = names[ind]
-      sind = sort(proFileNames)
-      self.proFiles->add, proFiles[sind]
-    endif
-      
-    ind = where(obj_isa(entries, 'DOCtreeSavFile'), nSavFiles)
-    if (nSavFiles gt 0) then begin
-      savFiles = entries[ind]
-      savFileNames = names[ind]
-      sind = sort(savFileNames)
-      self.savFiles->add, savFiles[sind]
-    endif
-    
-    ind = where(obj_isa(entries, 'DOCtreeIDLdocFile'), nIDLdocFiles)
-    if (nIDLdocFiles gt 0) then begin
-      idldocFiles = entries[ind]
-      idldocFileNames = names[ind]
-      sind = sort(idldocFileNames)
-      self.idldocFiles->add, idldocFiles[sind]
-    endif    
-  endif
-        
   ; generate files per directory
   for d = 0L, self.directories->count() - 1L do begin
     directory = self.directories->get(position=d)
@@ -641,6 +656,20 @@ pro doc_system::createBugEntry, routine
   compile_opt strictarr
   
   self.bugs->add, routine
+end
+
+
+;+
+; Remember that the given routine is not fully documented.
+;
+; :Params:
+;    routine : in, required, type=object
+;       routine tree object which is missing documentation
+;-
+pro doc_system::createDocumentationEntry, routine
+  compile_opt strictarr
+  
+  self.undocumented->add, routine
 end
 
 
@@ -917,7 +946,10 @@ function doc_system::init, root=root, output=output, $
   
   ; parse tree of directories, files, routines, parameters 
   self->parseTree
-    
+  
+  ; do any processing that might be necessary on the tree (analysis, etc.)  
+  self->process
+  
   ; generate output for directories, files (of various kinds), index, etc.
   self->generateOutput
   

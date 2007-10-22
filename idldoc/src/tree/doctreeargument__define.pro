@@ -102,7 +102,7 @@ pro doctreeargument::getProperty, routine=routine, name=name, $
     is_first=isFirst, is_last=isLast, is_keyword=isKeyword, is_optional=isOptional, $
     is_required=isRequired, is_input=isInput, is_output=isOutput, $
     type=type, default_value=defaultValue, is_hidden=isHidden, $
-    is_private=isPrivate, comments=comments  
+    is_private=isPrivate, comments=comments, documented=documented  
   compile_opt strictarr
   
   if (arg_present(routine)) then routine = self.routine
@@ -119,6 +119,7 @@ pro doctreeargument::getProperty, routine=routine, name=name, $
   if (arg_present(isHidden)) then isHidden = self.isHidden      
   if (arg_present(isPrivate)) then isPrivate = self.isPrivate      
   if (arg_present(comments)) then comments = self.comments
+  if (arg_present(documented)) then documented = self.documented
 end
 
 
@@ -141,15 +142,51 @@ pro doctreeargument::setProperty, is_keyword=isKeyword, $
   if (n_elements(isFirst) gt 0) then self.isFirst = isFirst
   if (n_elements(isLast) gt 0) then self.isLast = isLast  
   if (n_elements(isKeyword) gt 0) then self.isKeyword = isKeyword
-  if (n_elements(isOptional) gt 0) then self.isOptional = isOptional
-  if (n_elements(isRequired) gt 0) then self.isRequired = isRequired
-  if (n_elements(isInput) gt 0) then self.isInput = isInput
-  if (n_elements(isOutput) gt 0) then self.isOutput = isOutput
-  if (n_elements(type) gt 0) then self.type = type
-  if (n_elements(defaultValue) gt 0) then self.defaultValue = defaultValue
-  if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
-  if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
-  if (n_elements(comments) gt 0) then self.comments = comments
+  
+  if (n_elements(isOptional) gt 0) then begin
+    self.isOptional = isOptional
+    self.documented = 1B
+  endif
+  
+  if (n_elements(isRequired) gt 0) then begin
+    self.isRequired = isRequired
+    self.documented = 1B
+  endif
+  
+  if (n_elements(isInput) gt 0) then begin
+    self.isInput = isInput
+    self.documented = 1B
+  endif
+  
+  if (n_elements(isOutput) gt 0) then begin
+    self.isOutput = isOutput
+    self.documented = 1B
+  endif
+  
+  if (n_elements(type) gt 0) then begin
+    self.type = type
+    self.documented = 1B
+  endif
+  
+  if (n_elements(defaultValue) gt 0) then begin
+    self.defaultValue = defaultValue
+    self.documented = 1B
+  endif
+  
+  if (n_elements(isHidden) gt 0) then begin
+    self.isHidden = isHidden
+    self.documented = 1B
+  endif
+  
+  if (n_elements(isPrivate) gt 0) then begin
+    self.isPrivate = isPrivate
+    self.documented = 1B
+  endif
+  
+  if (n_elements(comments) gt 0) then begin
+    self.comments = comments
+    self.documented = 1B
+  endif
 end
 
 
@@ -227,6 +264,7 @@ pro doctreeargument__define
              defaultValue: '', $
              isHidden: 0B, $
              isPrivate: 0B, $
-             comments: obj_new() $
+             comments: obj_new(), $
+             documented: 0B $
            }
 end

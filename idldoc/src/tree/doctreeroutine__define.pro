@@ -21,7 +21,8 @@
 ;-
 pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
                                  is_method=isMethod, parameters=parameters, $
-                                 keywords=keywords
+                                 keywords=keywords, undocumented=undocumented, $
+                                 partially_documented=partiallyDocumented
   compile_opt strictarr
   
   if (arg_present(file)) then file = self.file
@@ -30,6 +31,49 @@ pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
   if (arg_present(isMethod)) then isMethod = self.isMethod
   if (arg_present(parameters)) then parameters = self.parameters
   if (arg_present(keywords)) then keywords = self.keywords
+  
+  if (arg_present(undocumented)) then undocumented = self.undocumented
+  if (arg_present(partiallyDocumented)) then begin
+    partiallyDocumented = self.partiallyDocumented
+  endif
+end
+
+
+pro doctreeroutine::checkDocumentation
+  compile_opt strictarr
+ 
+  fullyDocumented = 1B
+  partiallyDocumented = 0B
+  
+  fullyDocumented and= obj_valid(self.comments)
+  partiallyDocumented or= obj_valid(self.comments)  
+  
+  ; check return value
+  if (self.isFunction) then begin
+    fullyDocumented and= obj_valid(self.returns)
+    partiallyDocumented or= obj_valid(self.returns)
+  endif
+  
+  ; check each param
+  for p = 0L, self.parameters->count() - 1L do begin
+    param = self.parameters->get(position=p)
+    param->getProperty, documented=paramDocumented
+    
+    fullyDocumented and= paramDocumented
+    partiallyDocumented or= paramDocumented
+  endfor
+  
+  ; check each keyword
+  for k = 0L, self.keywords->count() - 1L do begin
+    keyword = self.keywords->get(position=k)
+    keyword->getProperty, documented=keywordDocumented
+    
+    fullyDocumented and= keywordDocumented
+    partiallyDocumented or=keywordDocumented
+  endfor    
+
+  self.documentationLevel = partiallyDocumented + fullyDocumented
+  if (~fullyDocumented) then self.system->createDocumentationEntry, self
 end
 
 
@@ -246,6 +290,8 @@ function doctreeroutine::getVariable, name, found=found
         return, directory->getVariable('url') + self.file->getVariable('local_url') + '#' + self.name
       end
         
+    'documentation_level': return, self.documentationLevel
+    
     else: begin
         ; search in the system object if the variable is not found here
         var = self.file->getVariable(name, found=found)
@@ -480,6 +526,8 @@ pro doctreeroutine__define
              requires: obj_new(), $ 
              customerId: obj_new(), $
              todo: obj_new(), $
-             restrictions: obj_new() $             
+             restrictions: obj_new(), $        
+             
+             documentationLevel: 0L $ 
            }
 end

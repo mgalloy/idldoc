@@ -233,15 +233,25 @@ pro doctreeprofile::addRoutine, routine
 end
 
 
+;+
+; Do any analysis necessary on information gathered during the "parseTree"
+; phase.
+;-
+pro doctreeprofile::process
+  compile_opt strictarr
+  
+  for r = 0L, self.routines->count() - 1L do begin
+    routine = self.routines->get(position=r)
+    routine->markArguments
+    routine->checkDocumentation
+  endfor
+end
+
+
 pro doctreeprofile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
   self.system->print, '  Generating output for ' + self.basename + '...'
-
-  for r = 0L, self.routines->count() - 1L do begin
-    routine = self.routines->get(position=r)
-    routine->markArguments
-  endfor
 
   proFileTemplate = self.system->getTemplate('profile')
   
