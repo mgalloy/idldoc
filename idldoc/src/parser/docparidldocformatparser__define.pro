@@ -204,7 +204,10 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
   case strlowcase(tag) of
     'abstract': routine->setProperty, is_abstract=1B
     'author': routine->setProperty, author=markupParser->parse(self->_parseTag(lines))
-    'bugs': routine->setProperty, bugs=markupParser->parse(self->_parseTag(lines))      
+    'bugs': begin
+        routine->setProperty, bugs=markupParser->parse(self->_parseTag(lines))
+        self.system->createBugEntry, routine
+      end      
     'categories': begin
         comments = self->_parseTag(lines)
         categories = strtrim(strsplit(strjoin(comments), ',', /extract), 2)

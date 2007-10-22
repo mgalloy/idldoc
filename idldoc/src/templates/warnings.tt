@@ -40,13 +40,29 @@
     	</div>
     	[% END %]
     	
+    	[% IF n_bugs gt 0 %]
     	<div id="bugs">
     		<h2>Bugs</h2>
+    		
+        <ul>
+        [% FOREACH r IN bugs %][% SCOPE r %]
+          <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>        
+        [% END %][% END %]
+        </ul>    
     	</div>
+    	[% END %]
     	
+    	[% IF n_undocumented gt 0 %]
     	<div id="undocumented">	
-    		<h2>Undocumented</h2>    		
+    		<h2>Undocumented</h2>   
+    		
+        <ul>
+        [% FOREACH r IN undocumented %][% SCOPE r %]
+          <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>        
+        [% END %][% END %]
+        </ul>    		
     	</div>
+    	[% END %]
     	
     	[% IF n_obsolete gt 0 %]
     	<div id="obsolete">
@@ -63,6 +79,8 @@
     	[% IF statistics %]
     	<div id="statistics">
     		<h2>Statistics</h2>
+    		
+    		<p>This section is not yet included in the output.</p>
     	</div>
     	[% END %]
     	

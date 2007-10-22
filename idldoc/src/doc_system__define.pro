@@ -88,6 +88,10 @@ function doc_system::getVariable, name, found=found
     'todos': return, self.todos->get(/all)
     'n_obsolete': return, self.obsolete->count()
     'obsolete': return, self.obsolete->get(/all)
+    'n_undocumented': return, self.undocumented->count()
+    'undocumented': return, self.undocumented->get(/all)
+    'n_bugs': return, self.bugs->count()
+    'bugs': return, self.bugs->get(/all)
     
     'index_empty': return, self.index->count() eq 0
     'index_first_letters': begin
@@ -613,7 +617,7 @@ end
 
 
 ;+
-; Remember that the given routine has is obsolete.
+; Remember that the given routine is obsolete.
 ;
 ; :Params:
 ;    routine : in, required, type=object
@@ -623,6 +627,20 @@ pro doc_system::createObsoleteEntry, routine
   compile_opt strictarr
   
   self.obsolete->add, routine
+end
+
+
+;+
+; Remember that the given routine has a bug.
+;
+; :Params:
+;    routine : in, required, type=object
+;       routine tree object which is obsolete
+;-
+pro doc_system::createBugEntry, routine
+  compile_opt strictarr
+  
+  self.bugs->add, routine
 end
 
 
@@ -727,7 +745,7 @@ pro doc_system::cleanup
   if (nCategories gt 0) then obj_destroy, categoryLists
   obj_destroy, self.categories
   
-  obj_destroy, [self.todos, self.obsolete]
+  obj_destroy, [self.todos, self.obsolete, self.undocumented, self.bugs]
   
   obj_destroy, self.templates->values()
   obj_destroy, self.templates
@@ -874,6 +892,8 @@ function doc_system::init, root=root, output=output, $
   self.categories = obj_new('MGcoHashTable', key_type=7, value_type=11)
   self.todos = obj_new('MGcoArrayList', type=11)
   self.obsolete = obj_new('MGcoArrayList', type=11)
+  self.undocumented = obj_new('MGcoArrayList', type=11)
+  self.bugs = obj_new('MGcoArrayList', type=11)
   
   self.proFiles = obj_new('MGcoArrayList', type=11)
   self.savFiles = obj_new('MGcoArrayList', type=11)
@@ -1016,6 +1036,8 @@ pro doc_system__define
              categories: obj_new(), $
              todos: obj_new(), $
              obsolete: obj_new(), $
+             undocumented: obj_new(), $
+             bugs: obj_new(), $
              
              proFiles: obj_new(), $
              savFiles: obj_new(), $
