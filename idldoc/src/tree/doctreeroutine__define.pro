@@ -112,8 +112,16 @@ pro doctreeroutine::setProperty, name=name, $
   if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
   if (n_elements(isObsolete) gt 0) then self.isObsolete = isObsolete
   if (n_elements(isAbstract) gt 0) then self.isAbstract = isAbstract
-  
-  if (n_elements(comments) gt 0) then self.comments = comments
+
+  if (n_elements(comments) gt 0) then begin
+    if (obj_valid(self.comments)) then begin
+      parent = obj_new('MGtmTag')
+      parent->addChild, self.comments
+      parent->addChild, comments
+      self.comments = parent
+    endif else self.comments = comments
+  endif
+
   if (n_elements(returns) gt 0) then self.returns = returns  
   if (n_elements(examples) gt 0) then self.examples = examples
   

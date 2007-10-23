@@ -274,6 +274,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
   
   insideComment = 0B
   justFinishedComment = 0L   ; 0, 1 (in header), 2 (just finished)
+  justFinishedHeader = 0B
   headerContinued = 0B
   codeLevel = 0L
   currentComments = obj_new('MGcoArrayList', type=7)
@@ -293,13 +294,16 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       continue
     endif    
     
-    if (strmid(command, 0, 1) eq ';' && codeLevel eq 0L && insideComment) then begin
+    if (strmid(command, 0, 1) eq ';' && insideComment) then begin
       currentComments->add, strmid(command, 2)
       continue
     endif
     
-    if (strmid(command, 0, 2) eq ';+') then begin
+    if (strmid(command, 0, 2) eq ';+' $
+          && ((codeLevel eq 0L) $
+            || (codeLevel eq 1L && justFinishedHeader eq 1B))) then begin
       insideComment = 1B
+      justFinishedHeader = 0B
       continue
     endif
     
@@ -344,6 +348,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
                                      format=format, markup=markup
         
         currentComments->remove, /all
+        justFinishedHeader = 1B
       endif      
     endif
     
@@ -368,7 +373,15 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
                                      format=format, markup=markup
         
         currentComments->remove, /all
+        justFinishedHeader = 1B
       endif
+    endif
+    
+    ; "interior" comment
+    if (~headerContinued && justFinishedComment eq 2 && codeLevel eq 1 && currentComments->count() gt 0) then begin
+      self->_parseRoutineComments, routine, currentComments->get(/all), $
+                                   format=format, markup=markup  
+      currentComments->remove, /all  
     endif
     
     justFinishedComment--
