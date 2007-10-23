@@ -10,9 +10,11 @@ function docrtcommentstyles_ut::test_basic
           output=filepath('commentstyles-docs', root=self.root), $
           title='Testing differing comment styles', $
           subtitle='Basic test', $
-          /silent, n_warnings=nWarnings, error=error
+          /silent, n_warnings=nWarnings, error=error, $
+          log_file=filepath('idldoc.log', subdir='commentstyles-docs', root=self.root)
           
   assert, error eq 0, 'failed with error ' + !error_state.msg
+  assert, nWarnings eq 0, 'failed with warnings'
   
   return, 1
 end

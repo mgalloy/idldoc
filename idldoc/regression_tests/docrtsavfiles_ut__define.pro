@@ -10,9 +10,11 @@ function docrtsavfiles_ut::test_basic
           output=filepath('savfiles-docs', root=self.root), $
           title='Testing save files', $
           subtitle='Basic test', $
-          /silent, n_warnings=nWarnings, error=error
+          /silent, n_warnings=nWarnings, error=error, $
+          log_file=filepath('idldoc.log', subdir='savfiles-docs', root=self.root)
           
   assert, error eq 0, 'failed with error ' + !error_state.msg
+  assert, nWarnings eq 0, 'failed with warnings'
   
   return, 1
 end
