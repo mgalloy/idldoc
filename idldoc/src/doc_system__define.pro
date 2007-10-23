@@ -210,7 +210,10 @@ end
 pro doc_system::error, msg
   compile_opt strictarr
   on_error, 2
-  
+
+  if (self.logFile ne '') then printf, self.logLun, 'IDLDOC: ' + msg
+
+    
   message, 'IDLDOC: ' + msg, /noname
 end
 
@@ -224,6 +227,8 @@ end
 ;-
 pro doc_system::warning, msg
   compile_opt strictarr
+  
+  if (self.logFile ne '') then printf, self.logLun, 'IDLDOC: ' + msg
   
   if (~self.silent) then message, 'IDLDOC: '+ msg, /informational, /noname
   ++self.nWarnings
@@ -239,6 +244,8 @@ end
 ;-
 pro doc_system::print, msg
   compile_opt strictarr
+  
+  if (self.logFile ne '') then printf, self.logLun, msg
   
   if (~self.quiet && ~self.silent) then print, msg
 end
@@ -762,6 +769,8 @@ end
 pro doc_system::cleanup
   compile_opt strictarr
   
+  if (self.logLun ne '') then free_lun, self.logLun
+  
   obj_destroy, [self.index, self.proFiles, self.savFiles, self.idldocFiles]
   
   classes = self.classes->values(count=nClasses)
@@ -907,8 +916,13 @@ function doc_system::init, root=root, output=output, $
   
   self.nonavbar = keyword_set(nonavbar)
   self.nosource = keyword_set(nosource)
-  self.logFile = n_elements(logFile) gt 0 ? logFile : ''
   
+  self.logFile = n_elements(logFile) gt 0 ? logFile : ''
+  if (self.logFile ne '') then begin
+    openw, lun, self.logFile, /get_lun
+    self.logLun = lun
+  endif
+    
   self.templatePrefix = n_elements(templatePrefix) gt 0 ? templatePrefix : ''
   self.templateLocation = n_elements(templateLocation) gt 0 ? templateLocation : ''
   
@@ -931,6 +945,7 @@ function doc_system::init, root=root, output=output, $
   self.requiresRoutines = obj_new('MGcoArrayList', type=11)
   
   ; copy resources
+  self->print, 'Copying resources...'
   self->copyResources
   
   ; initialize some data structures
@@ -1058,6 +1073,7 @@ pro doc_system__define
              nosource: 0B, $
              
              logFile: '', $
+             logLun: 0L, $
              
              templatePrefix: '', $
              templateLocation: '', $
