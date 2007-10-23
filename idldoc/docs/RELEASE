@@ -3,13 +3,48 @@ Release notes
 
 IDLdoc 3.0
 
-* Complete rewrite, open source
-* File level comments and tags
-* Pluggable templates (use TEMPLATE_PREFIX, TEMPLATE_LOCATION keywords)
-* New keywords: format_style, markup_style, comment_style; set on an IDLdoc 
-  run or on an file-by-file basis.
+* IDLdoc 3.0 is completely rewritten from scatch. It is released under a 
+  BSD-style open source license (see COPYING file for legal details). Feel 
+  free to make modifications to the source code. If you add something cool 
+  that you think others would be interested, please send me a patch!
+  
+* Comments inside ;+/;- that are not immediately before or after a routine
+  header are considered file level comments. (The file_comments tag is still
+  used, but is no longer needed.) There are also file-level tags now:
+  "hidden," "private", "author", "copyright", "history", "version",
+  "examples", and "property".
+  
+* Routine comments can be before or *after* the routine header.
+
+* It is now feasible to create your own library of templates for output. The
+  TEMPLATE_PREFIX keyword specifies a prefix before the template names. The
+  TEMPLATE_LOCATION keyword specifies a directory for the templates to use.
+  The easiest way to get started with this is to copy the provided templates
+  to a new location, specify that location with the TEMPLATE_LOCATION keyword,
+  and start modifying those templates. 
+  
+  Also the COMMENT_STYLE keyword specifies a classname of the class to handle
+  outputting other types of comments besides HTML (i.e. LaTeX, rst, etc.).
+
+* The style of the documentation can be changed with the FORMAT_STYLE and
+  MARKUP_STYLE keywords for an IDLdoc run. These styles can also be changed on
+  a file-by-file basis with a docformat comment on the first line of the file
+  like::
+  
+      ; docformat = 'rst'
+  
 * Uses "requires" tag on routines to find the highest version of IDL required
-  by a project.
-* Source link available even if OUTPUT keyword used (NOSOURCE keyword to turn 
-  off)
-* Requires IDL 6.1.
+  by a project. Simply put the IDL version required as the first match to the
+  regular expression::
+ 
+      [[:digit].]+
+ 
+  IDLdoc will automatically find it and compare it to other versions
+  required. The warnings page will display the highest version required and
+  list all the routines that require that version.
+  
+* The source link is always available (in IDLdoc 2.0 it was only active if the
+  OUTPUT keyword was not used). There is a NOSOURCE keyword to explicitly
+  disable this if required.
+  
+* Requires IDL 6.1. All platforms supported by IDL are supported by IDLdoc.
