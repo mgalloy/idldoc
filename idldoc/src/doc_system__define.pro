@@ -23,6 +23,7 @@
 ; Get variables for use with templates.
 ;
 ; :Returns: variable
+;
 ; :Params:
 ;    `name` : in, required, type=string
 ;       name of variable
@@ -167,7 +168,7 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              format=format, markup=markup, $
                              comment_style=commentStyle, overview=overview, $
                              directories=directories, $
-                             nosource=nosource
+                             nosource=nosource, user=user
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
@@ -179,9 +180,13 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(overview)) then overview = self.overview
   if (arg_present(directories)) then directories = self.directories
   if (arg_present(nosource)) then nosource = self.nosource  
+  if (arg_present(user)) then user = self.user
 end
 
 
+;+
+; Set properties of the system.
+;-
 pro doc_system::setProperty, overview_comments=overviewComments
   compile_opt strictarr
 
@@ -287,13 +292,15 @@ pro doc_system::process
       sind = sort(idldocFileNames)
       self.idldocFiles->add, idldocFiles[sind]
     endif    
-  endif  
+  endif    
   
   ; generate files per directory
   for d = 0L, self.directories->count() - 1L do begin
     directory = self.directories->get(position=d)
     directory->process
-  endfor  
+  endfor 
+  
+  self->processIndex 
 end
 
 
@@ -557,6 +564,25 @@ pro doc_system::createIndexEntry, name, value
   compile_opt strictarr
   
   self.index->add, { name: strlowcase(name), item: value }
+end
+
+
+pro doc_system::processIndex
+  compile_opt strictarr
+
+  entries = self.index->get(/all, count=nEntries)
+    
+  for i = 0L, nEntries - 1L do begin
+    case obj_class(entries[i].item) of
+      'DOCTREEROUTINE': begin
+          if (~entries[i].item->isVisible()) then self.index->remove, position=i
+        end
+      'DOCTREEPROFILE': begin
+          if (~entries[i].item->isVisible()) then self.index->remove, position=i
+        end
+      else:  ; only files and routines can be not visible
+    endcase
+  endfor
 end
 
 

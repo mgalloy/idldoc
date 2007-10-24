@@ -210,7 +210,9 @@ function doctreeroutine::getVariable, name, found=found
 
     'is_function': return, self.isFunction
     'is_private': return, self.isPrivate
-    'is_abstract': return, self.isAbstract      
+    'is_abstract': return, self.isAbstract  
+    'is_private': return, self.isPrivate   
+    'is_visible': return, self->isVisible() 
     'is_obsolete': return, self.isObsolete
     
     'has_comments': return, obj_valid(self.comments)
@@ -324,12 +326,12 @@ function doctreeroutine::isVisible
 
   ; each routine in a not-visible file is not visible
   if (~self.file->isVisible()) then return, 0B
-  
-  if (self.hidden) then return, 0B
+    
+  if (self.isHidden) then return, 0B
   
   ; if creating user-level docs and private then not visible
   self.system->getProperty, user=user
-  if (self.private && user) then return, 0B
+  if (self.isPrivate && user) then return, 0B  
   
   return, 1B
 end

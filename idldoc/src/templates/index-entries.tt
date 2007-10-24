@@ -37,7 +37,7 @@
     	  <dl>
     	  [% FOREACH item IN system->getIndexEntries(letter) %][% SCOPE item %]
     	    <dt><a href="[% index_url %]">[% index_name %]</a><dt>
-    	    <dd>[% index_type %]</dd>
+    	    <dd class="small">[% index_type %]</dd>
     	  [% END %][% END %]
     	  </dl>
     	[% END %]

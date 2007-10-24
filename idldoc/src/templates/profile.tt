@@ -38,6 +38,7 @@
       
       [% IF is_batch %]<span class="file_attribute small">batch file</span>[% END %]
       [% IF has_main_level %]<span class="file_attribute small">includes main-level program</span>[% END %]
+			[% IF is_private %]<span class="file_attribute small">private</span>[% END %]
 			
       [% IF has_comments %]
       <div id="file_comments">
@@ -147,13 +148,13 @@
           [% END %]          
         </table>          
       [% END %]
-                  
-      [% IF n_routines gt 1 %]
+                        
+      [% IF n_visible_routines gt 1 %]
       <div>
         <h2>Routines</h2>
       
         <dl class="routine-summary">
-          [% FOREACH r IN routines %][% SCOPE r %]
+          [% FOREACH r IN visible_routines %][% SCOPE r %]
             <dt class="syntax"><a href="#[% name %]"><code>[% IF is_function %]<span class="var">result</span> = [% END %][% name %][% IF is_function %]([% END %][% IF n_parameters gt 0 %][% FOREACH p IN parameters %][% SCOPE p %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% name %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF n_keywords gt 0 %][% FOREACH k IN keywords %][% SCOPE k %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %][% name %][% IF ~is_boolean %]=<span class="var">[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</span>[% END %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></a></dt>
             <dd class="small">[% comments_first_line %]</dd>
           [% END %][% END %]
@@ -162,11 +163,11 @@
       [% END %]
       
               	
-    	[% IF n_routines gt 0 %]
+    	[% IF n_visible_routines gt 0 %]
     	<div id="routine-details">
-    	  [% IF n_routines gt 1 %]<h2>Routine details</h2>[% END %]
+    	  [% IF n_visible_routines gt 1 %]<h2>Routine details</h2>[% END %]
         
-        [% FOREACH r IN routines %][% SCOPE r %]
+        [% FOREACH r IN visible_routines %][% SCOPE r %]
         <div class="routine-details details" id="[% name %]">
         	<h2 class="routine-name"><a href="#root" class="top">top</a>[% name %]<span class="routine-attributes">[% IF is_private %]private [% END %][% IF is_obsolete %]obsolete [% END %][% IF is_abstract %]abstract [% END %]</span></h2>
         	[% IF has_categories %]

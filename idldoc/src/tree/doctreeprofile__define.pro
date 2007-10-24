@@ -127,6 +127,7 @@ function doctreeprofile::getVariable, name, found=found
     'has_main_level': return, self.hasMainLevel
     'is_class': return, self.isClass
     'class': return, self.class
+    'is_private': return, self.isPrivate
     
     'modification_time': return, self.modificationTime
     'n_lines': return, mg_int_format(self.nLines)
@@ -143,7 +144,7 @@ function doctreeprofile::getVariable, name, found=found
         ; first line of the routine's comments
         if (~obj_valid(self.comments)) then begin
           if (self.routines->count() eq 1) then begin
-            routine = self.routines->get(position=0)
+            routine = self.routines->get(position=0L)
             return, routine->getVariable('comments_first_line', found=found)
           endif else return, ''
         endif
@@ -151,22 +152,44 @@ function doctreeprofile::getVariable, name, found=found
         comments = self.system->processComments(self.comments)             
         
         nLines = n_elements(comments)
-        line = 0
+        line = 0L
         while (line lt nLines) do begin
           pos = stregex(comments[line], '\.( |$)')
-          if (pos ne -1) then break
+          if (pos ne -1L) then break
           line++
         endwhile  
         
-        if (pos eq -1) then return, comments[0:line-1]
-        if (line eq 0) then return, strmid(comments[line], 0, pos + 1)
+        if (pos eq -1L) then return, comments[0L:line-1L]
+        if (line eq 0L) then return, strmid(comments[line], 0L, pos + 1L)
         
-        return, [comments[0:line-1], strmid(comments[line], 0, pos + 1)]
+        return, [comments[0L:line-1L], strmid(comments[line], 0L, pos + 1L)]
       end
           
     'n_routines' : return, self.routines->count()
     'routines' : return, self.routines->get(/all)
-
+    'n_visible_routines': begin
+        nVisible = 0L
+        for r = 0L, self.routines->count() - 1L do begin
+          routine = self.routines->get(position=r)          
+          nVisible += routine->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_routines': begin        
+        routines = self.routines->get(/all, count=nRoutines)
+        if (nRoutines eq 0L) then return, -1L
+        
+        isVisibleRoutines = bytarr(nRoutines)
+        for r = 0L, nRoutines - 1L do begin
+          isVisibleRoutines[r] = routines[r]->isVisible()
+        endfor
+        
+        ind = where(isVisibleRoutines eq 1B, nVisibleRoutines)
+        if (nVisibleRoutines eq 0L) then return, -1L
+        
+        return, routines[ind]
+      end
+    
     'has_author_info': return, self.hasAuthorInfo
     
     'has_author': return, obj_valid(self.author)
@@ -182,7 +205,9 @@ function doctreeprofile::getVariable, name, found=found
     'version': return, self.system->processComments(self.version)
 
     'index_name': return, self.basename
-    'index_type': return, '.pro file in ' + self.directory->getVariable('location')      
+    'index_type': begin
+        return, '.pro file in ' + self.directory->getVariable('location') + ' directory'
+      end      
     'index_url': begin
         self.directory->getProperty, url=dirUrl
         return, dirUrl + file_basename(self.basename, '.pro') + '.html'
@@ -209,11 +234,11 @@ end
 function doctreeprofile::isVisible
   compile_opt strictarr
   
-  if (self.hidden) then return, 0B
+  if (self.isHidden) then return, 0B
   
   ; if creating user-level docs and private then not visible
   self.system->getProperty, user=user
-  if (self.private && user) then return, 0B
+  if (self.isPrivate && user) then return, 0B
   
   return, 1B
 end
