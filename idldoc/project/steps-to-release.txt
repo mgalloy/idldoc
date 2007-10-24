@@ -1,0 +1,16 @@
+Steps to release IDLdoc
+-----------------------
+
+#. Make sure all unit and regression tests pass. 
+
+#. Update RELEASE file.
+
+#. Update version in Makefile.
+
+#. Do a "make dist".
+
+#. Commit changes to version.
+
+#. Copy trunk to tags in repository. Use tag of the format: IDLDOC_3_0.
+
+#. Upload .zip file to michaelgalloy.com and ittvis.com, announce release.
