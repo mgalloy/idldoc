@@ -156,26 +156,59 @@
       				    
     	</div>
     	
+    	
     	<div id="commenting">
     		<h2>Commenting your code</h2>
     	
-    		<p>IDLdoc now accepts three different styles of commenting: the traditional IDL provided comment template, IDLdoc style, copied verbatim, or a restructured text style. The style to use can be specified with the format_style keyword to IDLdoc (for a global default) or on each individual file with a docformat comment. Furthermore, the markup styles for comments on files, routines, parameters, and other miscellaneous places are: restructured text or verbatim. The markup styles are specified via the markup_style keyword to IDLdoc or using the docformat comment.</p>
+    	  <p>Parsing of comments is handled by two different parsers: the format parser and the markup parser. The format parser breaks down the comment block into sections (i.e. finds the tags), handles attributes of tags that allow them, and then hands off the parsing of text comments to the markup parser (i.e. the description of a file, routine, parameter or other text in tags).</p>
+    	  
+    	  <p>IDLdoc now accepts three different styles of commenting: IDLdoc style (the only style available in IDLdoc 2.0), the traditional IDL provided comment template, or a new restructured text style. The style to use can be specified with the FORMAT_STYLE keyword to IDLdoc (as a global setting for the run) or on each individual file with a "docformat" comment. Furthermore, a markup style which specifies how to parse comment blocks can also be set. The two markup styles are: verbatim (the only markup style in IDLdoc 2.0) or a restructured text style. The markup styles are specified via the MARKUP_STYLE keyword to IDLdoc or using a "docformat" comment.</p> 
+    		
+    	  <p>For example, for the below file sets it format parser to be "idldoc" and its markup parser to be "verbatim": <code class="listing">; docformat = 'idldoc verbatim'
+
+;+
+; Comments here are for the file. They are parsed using the verbatim 
+; markup style (i.e. they are just copied into the output). The tags 
+; below are parsed by the comment style parser, the idldoc format 
+; parser in this case, but the contents of the tags are then handed off
+; to the markup parser.
+;
+; @author Michael Galloy (this text is also parsed by the markup parser)
+;-
+
+;+
+; These are some comments about my routine. Comments here are parsed by 
+; the markup parser.
+;
+; @returns status code (this is parsed by the markup parser)
+;-
+function my_routine
+  return, 1
+end</code></p>
+
+        <p>Each format parser is discussed in its own section below.</p>
+        
     		
     		<h3>IDLdoc format</h3>
     		
     		<p>Tags must be the first non-whitespace character on the line. For tags with arguments, all arguments must be on the first line.</p>
     		
+    		
     		<h3>IDL format</h3>
+    		
     		
     		<h3>Restructured text format</h3>
     		
     		<p>Tags must be the first non-whitespace character on the line. For tags with arguments, all arguments must be on the first line. Indentation is significant.</p>
     	</div>
     	
+    	
     	<div id="customizing">  
     		<h2>Producing customized output</h2>
     	
-    		<p>IDLdoc uses text file templates to create its output. These can be customized to produce any kind of text output: HTML, LaTeX, DocBook, restructured text, etc. The templates are located in the "templates" directory of the distribution.</p>
+    		<p>IDLdoc uses text file templates to create its output. These can be customized to produce any kind of text output: HTML, LaTeX, DocBook, restructured text, etc. The templates are located in the "templates" directory of the distribution. But instead of modifying them directly IDLdoc provides a mechanism to provide a location to your own sets of templates with the TEMPLATE_PREFIX and TEMPLATE_LOCATION keywords.</p>
+    		
+    		<p>To produce output of a different style than HTML, use the COMMENT_STYLE keyword to specify a type of output (html, rst, and latex are provided). Other styles can be created as well.</p>
     	</div>
 
       [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
