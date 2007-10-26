@@ -55,7 +55,7 @@ dl.routine-summary dd { margin-bottom: 0.5em; margin-left: 2em; }
 /* general styles */
 ul li { list-style-type: none; }
 table { empty-cells: show; }
-dd { margin-bottom: 0.25em; }
+dd { margin-bottom: 0.35em; }
 
 p.indent { margin-left: 2em; }
 

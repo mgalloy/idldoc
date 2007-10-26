@@ -35,11 +35,11 @@
   	<div class="content">
   		<h1>Directory: [% location %]</h1>
   		
-  		[% IF n_pro_files gt 0 %]
+  		[% IF n_visible_pro_files gt 0 %]
   		<h3>.pro files</h3>
   		
   		  <dl class="file_listing">
-  			 [% FOREACH f IN pro_files %][% SCOPE f %]
+  			 [% FOREACH f IN visible_pro_files %][% SCOPE f %]
   			 <dt class="filename"><a href="[% local_url %]">[% basename %]</a></dt>
   			 <dd class="smaller">[% comments_first_line %]</dd>	
   			 [% END %][% END %]

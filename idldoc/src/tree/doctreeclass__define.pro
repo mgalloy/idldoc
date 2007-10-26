@@ -179,6 +179,16 @@ pro doctreeclass::addChild, child
 end
 
 
+;+
+; Classes are visible if their files are visible.
+;-
+function doctreeclass::isVisible
+  compile_opt strictarr
+  
+  return, self.proFile->isVisible()
+end
+
+
 function doctreeclass::_createClass, classname, error=error
   compile_opt strictarr
   

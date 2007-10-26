@@ -51,6 +51,16 @@ end
 
 
 ;+
+; All sav variables are visible.
+;-
+function doctreesavvar::isVisible
+  compile_opt strictarr
+  
+  return, 1B
+end
+
+
+;+
 ; Free resources.
 ;-
 pro doctreesavvar::cleanup

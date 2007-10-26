@@ -55,7 +55,7 @@
 
         <tr>
           <td class="name">.pro files:</td>
-          <td>[% n_pro_files %]</td>
+          <td>[% n_visible_pro_files %]</td>
         </tr>
         
         <tr>

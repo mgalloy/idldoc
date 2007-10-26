@@ -228,6 +228,16 @@ pro doctreesavfile::setProperty
 end
 
 
+;+
+; All .sav files are visible.
+;-
+function doctreesavfile::isVisible
+  compile_opt strictarr
+  
+  return, 1B
+end
+
+
 pro doctreesavfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   on_error, 2

@@ -55,6 +55,28 @@ function doctreedirectory::getVariable, name, found=found
     'overview_comments': return, self.system->processComments(self.overviewComments)  
     'n_pro_files' : return, self.proFiles->count()
     'pro_files' : return, self.proFiles->get(/all)
+    'n_visible_pro_files': begin
+        nVisible = 0L
+        for f = 0L, self.proFiles->count() - 1L do begin
+          file = self.proFiles->get(position=f)          
+          nVisible += file->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_pro_files': begin        
+        files = self.proFiles->get(/all, count=nFiles)
+        if (nFiles eq 0L) then return, -1L
+        
+        isVisibleFiles = bytarr(nFiles)
+        for f = 0L, nFiles - 1L do begin
+          isVisibleFiles[f] = files[f]->isVisible()
+        endfor
+        
+        ind = where(isVisibleFiles eq 1B, nVisibleFiles)
+        if (nVisibleFiles eq 0L) then return, -1L
+        
+        return, files[ind]
+      end
     'n_sav_files' : return, self.savFiles->count()
     'sav_files' : return, self.savFiles->get(/all)
     'n_idldoc_files' : return, self.idldocFiles->count()
@@ -73,6 +95,16 @@ function doctreedirectory::getVariable, name, found=found
         return, -1L
       end
   endcase
+end
+
+
+;+
+; Directories are always visible.
+;-
+function doctreedirectory::isVisible
+  compile_opt strictarr
+  
+  return, 1B
 end
 
 

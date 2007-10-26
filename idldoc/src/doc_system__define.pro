@@ -62,6 +62,28 @@ function doc_system::getVariable, name, found=found
     'dirs': return, self.directories->get(/all)    
     'n_pro_files': return, self.proFiles->count()
     'pro_files': return, self.proFiles->get(/all)
+    'n_visible_pro_files': begin
+        nVisible = 0L
+        for f = 0L, self.proFiles->count() - 1L do begin
+          file = self.proFiles->get(position=r)          
+          nVisible += file->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_pro_files': begin        
+        files = self.proFiles->get(/all, count=nFiles)
+        if (nFiles eq 0L) then return, -1L
+        
+        isVisibleFiles = bytarr(nFiles)
+        for f = 0L, nFiles - 1L do begin
+          isVisibleFiles[f] = files[f]->isVisible()
+        endfor
+        
+        ind = where(isVisibleFiles eq 1B, nVisibleFiles)
+        if (nVisibleFiles eq 0L) then return, -1L
+        
+        return, files[ind]
+      end
     'n_sav_files': return, self.savFiles->count()
     'sav_files': return, self.savFiles->get(/all)
     'n_idldoc_files': return, self.idldocFiles->count()
@@ -128,8 +150,10 @@ function doc_system::getVariable, name, found=found
         
         proFiles = self.proFiles->get(/all)
         for f = 0L, n_elements(proFiles) - 1L do begin
-          proFiles[f]->getProperty, n_lines=fileLines
-          nLines += fileLines
+          if (proFiles[f]->isVisible()) then begin
+            proFiles[f]->getProperty, n_lines=fileLines          
+            nLines += fileLines
+          endif
         endfor
         
         return, mg_int_format(nLines)
@@ -567,22 +591,25 @@ pro doc_system::createIndexEntry, name, value
 end
 
 
+;+
+; Remove items that are not visible from the index.
+;-
 pro doc_system::processIndex
   compile_opt strictarr
 
   entries = self.index->get(/all, count=nEntries)
     
+  isVisibleEntries = bytarr(nEntries)
+  
   for i = 0L, nEntries - 1L do begin
-    case obj_class(entries[i].item) of
-      'DOCTREEROUTINE': begin
-          if (~entries[i].item->isVisible()) then self.index->remove, position=i
-        end
-      'DOCTREEPROFILE': begin
-          if (~entries[i].item->isVisible()) then self.index->remove, position=i
-        end
-      else:  ; only files and routines can be not visible
-    endcase
+    isVisibleEntries[i] = entries[i].item->isVisible()
   endfor
+  
+  ind = where(isVisibleEntries, nVisibleEntries)
+  self.index->remove, /all
+  if (nVisibleEntries gt 0) then begin
+    self.index->add, entries[ind]
+  endif
 end
 
 
@@ -601,7 +628,7 @@ function doc_system::getIndexEntries, letter
   ind = where(strmid(entries.name, 0, 1) eq strlowcase(letter), count)
   
   entries = entries[ind]
-  
+    
   ind = sort(strlowcase(entries.name))
   return, (entries.item)[ind]
 end

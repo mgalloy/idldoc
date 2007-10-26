@@ -90,6 +90,16 @@ end
 
 
 ;+
+; Properties are visible if their class is visible.
+;-
+function doctreeproperty::isVisible
+  compile_opt strictarr
+  
+  return, self.class->isVisible()
+end
+
+
+;+
 ; Free up resources.
 ;-
 pro doctreeproperty::cleanup

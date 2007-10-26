@@ -92,6 +92,16 @@ end
 
 
 ;+
+; .idldoc files are always visible.
+;-
+function doctreeidldocfile::isVisible
+  compile_opt strictarr
+  
+  return, 1B
+end
+
+
+;+
 ; Generate the output for the .idldoc file.
 ; 
 ; :Params:

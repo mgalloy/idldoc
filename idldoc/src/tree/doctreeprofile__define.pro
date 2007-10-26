@@ -276,6 +276,9 @@ end
 pro doctreeprofile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
+  ; don't produce output if not visible
+  if (~self->isVisible()) then return
+  
   self.system->print, '  Generating output for ' + self.basename + '...'
 
   proFileTemplate = self.system->getTemplate('profile')

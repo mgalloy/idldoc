@@ -86,6 +86,16 @@ end
 
 
 ;+
+; Fields are visible if their class is visible.
+;-
+function doctreefield::isVisible
+  compile_opt strictarr
+  
+  return, self.class->isVisible()
+end
+
+
+;+
 ; Free resources.
 ;-
 pro doctreefield::cleanup

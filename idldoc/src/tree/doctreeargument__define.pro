@@ -191,6 +191,26 @@ end
 
 
 ;+
+; Arguments are visible if their routine is visible and they don't have hidden 
+; or private (with system variable user) set.
+;-
+function doctreeargument::isVisible
+  compile_opt strictarr
+
+  ; each argument in a not-visible routine is not visible
+  if (~self.routine->isVisible()) then return, 0B
+    
+  if (self.isHidden) then return, 0B
+  
+  ; if creating user-level docs and private then not visible
+  self.system->getProperty, user=user
+  if (self.isPrivate && user) then return, 0B  
+  
+  return, 1B  
+end
+
+
+;+
 ; Free resources lower in the hierarchy.
 ;-
 pro doctreeargument::cleanup

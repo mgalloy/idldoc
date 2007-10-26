@@ -287,8 +287,52 @@ function doctreeroutine::getVariable, name, found=found
     
     'n_parameters': return, self.parameters->count()
     'parameters': return, self.parameters->get(/all)
+    'n_visible_parameters': begin
+        nVisible = 0L
+        for p = 0L, self.parameters->count() - 1L do begin
+          parameter = self.parameters->get(position=p)          
+          nVisible += parameter->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_parameters': begin        
+        parameters = self.parameters->get(/all, count=nParameters)
+        if (nParameters eq 0L) then return, -1L
+        
+        isVisibleParameters = bytarr(nParameters)
+        for p = 0L, nParameters - 1L do begin
+          isVisibleParameters[p] = parameters[p]->isVisible()
+        endfor
+        
+        ind = where(isVisibleParameters eq 1B, nVisibleParameters)
+        if (nVisibleParameters eq 0L) then return, -1L
+        
+        return, parameters[ind]
+      end 
     'n_keywords': return, self.keywords->count()
     'keywords': return, self.keywords->get(/all)
+    'n_visible_keywords': begin
+        nVisible = 0L
+        for k = 0L, self.keywords->count() - 1L do begin
+          keyword = self.keywords->get(position=k)          
+          nVisible += keyword->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_keywords': begin        
+        keywords = self.keywords->get(/all, count=nKeywords)
+        if (nKeywords eq 0L) then return, -1L
+        
+        isVisibleKeywords = bytarr(nKeywords)
+        for k = 0L, nKeywords - 1L do begin
+          isVisibleKeywords[k] = keywords[k]->isVisible()
+        endfor
+        
+        ind = where(isVisibleKeywords eq 1B, nVisibleKeywords)
+        if (nVisibleKeywords eq 0L) then return, -1L
+        
+        return, keywords[ind]
+      end
     
     'index_name': return, self.name
     'index_type': begin

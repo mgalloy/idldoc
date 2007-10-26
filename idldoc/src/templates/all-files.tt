@@ -25,10 +25,10 @@
   <body>
     <h1>All files</h1>
   
-  	[% IF n_pro_files gt 0 %]
-    <h1>.pro files &nbsp;&nbsp; <span>[% n_pro_files %] files</span></h1>
+  	[% IF n_visible_pro_files gt 0 %]
+    <h1>.pro files &nbsp;&nbsp; <span>[% n_visible_pro_files %] files</span></h1>
     	<ul>
-    		[% FOREACH f IN pro_files %]
+    		[% FOREACH f IN visible_pro_files %]
     		  <li>[% SCOPE f %]<a href="[% location %][% local_url %]" target="main_frame">[% basename %]</a>[% END %]</li>
     		[% END %]
     	</ul>
