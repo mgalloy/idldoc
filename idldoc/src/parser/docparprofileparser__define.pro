@@ -57,9 +57,10 @@ end
 ;    `line` : in, required, type=string
 ;       line of code
 ;-
-function docparprofileparser::_stripComments, line
+function docparprofileparser::_stripComments, line, comments=comments
   compile_opt strictarr
 
+  comments = ''
   if (strpos(line, ';') lt 0) then return, line
   
   bline = byte(line)
@@ -85,6 +86,7 @@ function docparprofileparser::_stripComments, line
           inside = 1B
         end
       bSemi: begin
+          comments = strmid(line, i)
           return, strmid(line, 0, i)
         end
       else:  ; ignore

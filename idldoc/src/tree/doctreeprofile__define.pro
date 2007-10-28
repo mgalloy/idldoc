@@ -57,7 +57,24 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
                                  history=history, version=version                                 
   compile_opt strictarr
   
-  if (n_elements(code) gt 0) then *self.code = code
+  if (n_elements(code) gt 0) then begin
+    ; translate strarr to parse tree, also mark comments
+    
+    proFileParser = self.system->getParser('profile')
+    self.code = obj_new('MGtmTag')
+      
+    for l = 0L, n_elements(code) - 1L do begin
+      regularLines = proFileParser->_stripComments(code[l], comments=commentsLines)
+      
+      self.code->addChild, obj_new('MGtmText', text=regularLines)
+      
+      commentsNode = obj_new('MGtmTag', type='comments')
+      self.code->addChild, commentsNode
+      commentsNode->addChild, obj_new('MGtmText', text=commentsLines)
+      self.code->addChild, obj_new('MGtmTag', type='newline')
+    endfor  
+  endif
+  
   if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
   if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
   
@@ -121,7 +138,7 @@ function doctreeprofile::getVariable, name, found=found
     'basename': return, self.basename
     'local_url': return, file_basename(self.basename, '.pro') + '.html'
     'source_url': return, file_basename(self.basename, '.pro') + '-code.html'
-    'code': return, *self.code
+    'code': return, self.system->processComments(self.code)
     
     'is_batch': return, self.isBatch
     'has_main_level': return, self.hasMainLevel
@@ -309,7 +326,7 @@ pro doctreeprofile::cleanup
   
   obj_destroy, self.routines
   obj_destroy, [self.author, self.copyright, self.history]
-  ptr_free, self.code
+  obj_destroy, self.code
 end
 
 
@@ -328,8 +345,6 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   self.basename = basename
   self.directory = directory
   self.system = system
-  
-  self.code = ptr_new(/allocate_heap)
   
   self.isClass = strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
   if (self.isClass) then begin  
@@ -372,7 +387,7 @@ pro doctreeprofile__define
              directory: obj_new(), $
              
              basename: '', $
-             code: ptr_new(), $
+             code: obj_new(), $
              
              hasMainLevel: 0B, $
              isBatch: 0B, $
