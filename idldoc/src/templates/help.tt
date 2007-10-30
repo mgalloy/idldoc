@@ -191,7 +191,10 @@ end</code></p>
     		
     		<h3>IDLdoc format</h3>
     		
-    		<p>Tags must be the first non-whitespace character on the line. For tags with arguments, all arguments must be on the first line.</p>
+    		<p>Tags are prefixed with an "@" sign. Tag names are case-insensitive. They must be the first non-whitespace character after the comment symbol ";" on a line. Arguments follow the tags after whitespace. Attributes are enclosed curly braces "{}".</p>
+    		
+    		<p>For example, a tag with no arguments appears like: <code class="listing">; @abstract</code> Tags with an argument: <code class="listing">; @returns string/strarr</code> Tags with attributes appear like: <code class="listing">; @param x {in}{required}{type=fltarr} independent variable
+; @param y {in}{required}{type=fltarr} dependent variable</code></p>
     		
     		
     		<h3>IDL format</h3>
@@ -199,7 +202,137 @@ end</code></p>
     		
     		<h3>Restructured text format</h3>
     		
-    		<p>Tags must be the first non-whitespace character on the line. For tags with arguments, all arguments must be on the first line. Indentation is significant.</p>
+    		<p>Tags must be the first non-whitespace character on the line. Tag names are case-insensitive. For tags with arguments, the arguments/attributes must be on the same line. Indentation is significant; for tags with multiple arguments, each argument must be consistently indented at least two spaces. Attributes are separated from the argument by a ":" and from each other with commas. Comments for the argument must be further consistently indented at least two more spaces.</p>
+    		
+    		<p>Tags with no arguments: <code class="listing">; :Abstract:</code> or with an argument <code class="listing">; :Returns: string/strarr</code> or arguments with attributes: <code class="listing">; :Params:
+;    x : in, required, type=fltarr 
+;       independent variable
+;    y : in, required, type=fltarr
+;       dependent variable</code></p>
+      </div>
+      
+      <div id="tags">
+        <h2>Tags</h2>
+      
+        <p>Tags describe a particular aspect of the file or routine they are associated with.</p>
+        
+        <p>Slight differences across formats.</p>
+        
+        
+        <h3>File tags</h3>
+
+        <p>The following tags are available in file comments (i.e. comment headers not immediately preceeding/following a routine header).</p>
+        
+        <table class="small">
+          <thead>
+            <tr>
+              <td class="name">Tag name</td>
+              <td class="name">Arguments</td>
+              <td class="name">Attributes</td>
+              <td class="name">Description</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name">author</td>
+              <td>comments</tz>
+              <td>none</td>
+              <td>Specifies the author of the file.</td>
+            </tr>
+
+            <tr>
+              <td class="name">copyright</td>
+              <td>comments</tz>
+              <td>none</td>
+              <td>Specifies the copyright information for the file.</td>
+            </tr>
+
+            <tr>
+              <td class="name">examples</td>
+              <td>comments</tz>
+              <td>none</td>
+              <td>Specifies examples of usage.</td>
+            </tr>                        
+            
+            <tr>
+              <td class="name">hidden</td>
+              <td>none</tz>
+              <td>none</td>
+              <td>If present, indicates the file is not to be shown in the documentation.</td>
+            </tr>                        
+
+            <tr>
+              <td class="name">history</td>
+              <td>comments</tz>
+              <td>none</td>
+              <td>Lists the history for the file.</td>
+            </tr>                        
+
+            <tr>
+              <td class="name">private</td>
+              <td>none</tz>
+              <td>none</td>
+              <td>If present, indicates the file should not shown in user-level documentation (set with the USER keyword to IDLdoc).</td>
+            </tr>                        
+
+            <tr>
+              <td class="name">property</td>
+              <td>property name, comments</tz>
+              <td>none</td>
+              <td>Describes a property of a class (i.e. a keyword to getProperty, setProperty, or init).</td>
+            </tr>                        
+
+            <tr>
+              <td class="name">properties</td>
+              <td>property name, comments</tz>
+              <td>none</td>
+              <td>Describes properties of a class (i.e. a keyword to getProperty, setProperty, or init). rst only.</td>
+            </tr>
+            
+            <tr>
+              <td class="name">version</td>
+              <td>comments</tz>
+              <td>none</td>
+              <td>Specifies the version of the file.</td>
+            </tr>                        
+          </tbody>
+        </table>            
+        
+            
+        <h3>Routine tags</h3>
+        
+        <table class="small">
+          <thead>
+            <tr>
+              <td class="name">Tag name</td>
+              <td class="name">Arguments</td>
+              <td class="name">Attributes</td>
+              <td class="name">Description</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name">abstract</td>
+              <td>none</tz>
+              <td>none</td>
+              <td>If present, indicates the method is not implemented and present only to specify the interface to subclasses' implementations.</td>
+            </tr>
+
+            <tr>
+              <td class="name">author</td>
+              <td>comments</tz>
+              <td>none</td>
+              <td>Specifies the author of the routine.</td>
+            </tr>
+            
+            <tr>
+              <td class="name">returns</td>
+              <td>comments</tz>
+              <td>none</td>
+              <td>Specifies the return value of the function.</td>
+            </tr>            
+          </tbody>
+        </table>
     	</div>
     	
     	

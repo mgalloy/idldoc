@@ -60,7 +60,7 @@
 [% END %]
 
 [% IF current_template eq 'help' %]
-<p class="localnavbar smallest"><a href="" target="_top">single page</a> | <a href="[% relative_root %]index.html" target="_top">use frames</a> &nbsp;&nbsp;&nbsp; <a href="#calling">calling</a> &nbsp;&nbsp;&nbsp; <a href="#commenting">commenting</a> &nbsp;&nbsp;&nbsp; <a href="#customizing">customizing</a></p>
+<p class="localnavbar smallest"><a href="" target="_top">single page</a> | <a href="[% relative_root %]index.html" target="_top">use frames</a> &nbsp;&nbsp;&nbsp; <a href="#calling">calling</a> &nbsp;&nbsp;&nbsp; <a href="#commenting">commenting</a> &nbsp;&nbsp;&nbsp; <a href="#tags">tags</a> &nbsp;&nbsp;&nbsp; <a href="#customizing">customizing</a></p>
 [% END %]
 
 [% IF current_template eq 'overview' %]
