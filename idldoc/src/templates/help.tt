@@ -235,63 +235,63 @@ end</code></p>
           <tbody>
             <tr>
               <td class="name">author</td>
-              <td>comments</tz>
+              <td>comments</td>
               <td>none</td>
               <td>Specifies the author of the file.</td>
             </tr>
 
             <tr>
               <td class="name">copyright</td>
-              <td>comments</tz>
+              <td>comments</td>
               <td>none</td>
               <td>Specifies the copyright information for the file.</td>
             </tr>
 
             <tr>
               <td class="name">examples</td>
-              <td>comments</tz>
+              <td>comments</td>
               <td>none</td>
               <td>Specifies examples of usage.</td>
             </tr>                        
             
             <tr>
               <td class="name">hidden</td>
-              <td>none</tz>
+              <td>none</td>
               <td>none</td>
               <td>If present, indicates the file is not to be shown in the documentation.</td>
             </tr>                        
 
             <tr>
               <td class="name">history</td>
-              <td>comments</tz>
+              <td>comments</td>
               <td>none</td>
               <td>Lists the history for the file.</td>
             </tr>                        
 
             <tr>
               <td class="name">private</td>
-              <td>none</tz>
+              <td>none</td>
               <td>none</td>
               <td>If present, indicates the file should not shown in user-level documentation (set with the USER keyword to IDLdoc).</td>
             </tr>                        
 
             <tr>
               <td class="name">property</td>
-              <td>property name, comments</tz>
+              <td>property name, comments</td>
               <td>none</td>
               <td>Describes a property of a class (i.e. a keyword to getProperty, setProperty, or init).</td>
             </tr>                        
 
             <tr>
               <td class="name">properties</td>
-              <td>property name, comments</tz>
+              <td>property name, comments</td>
               <td>none</td>
               <td>Describes properties of a class (i.e. a keyword to getProperty, setProperty, or init). rst only.</td>
             </tr>
             
             <tr>
               <td class="name">version</td>
-              <td>comments</tz>
+              <td>comments</td>
               <td>none</td>
               <td>Specifies the version of the file.</td>
             </tr>                        
@@ -313,26 +313,90 @@ end</code></p>
           <tbody>
             <tr>
               <td class="name">abstract</td>
-              <td>none</tz>
+              <td>none</td>
               <td>none</td>
               <td>If present, indicates the method is not implemented and present only to specify the interface to subclasses' implementations.</td>
             </tr>
 
             <tr>
               <td class="name">author</td>
-              <td>comments</tz>
+              <td>comments</td>
               <td>none</td>
               <td>Specifies the author of the routine.</td>
             </tr>
             
             <tr>
               <td class="name">returns</td>
-              <td>comments</tz>
+              <td>comments</td>
               <td>none</td>
               <td>Specifies the return value of the function.</td>
             </tr>            
           </tbody>
         </table>
+
+
+        <h3>Attributes</h3>
+        
+        <p>Attributes for tags that allow them.</p>
+        
+        <table class="small">
+          <thead>
+            <tr>
+              <td class="name">Attribute name</td>
+              <td class="name">Syntax</td>
+              <td class="name">Description</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name">in</td>
+              <td><code>in</code></td>
+              <td>Indicates the parameter is an input.</td>
+            </tr>
+
+            <tr>
+              <td class="name">out</td>
+              <td><code>out</code></td>
+              <td>Indicates the parameter is an output.</td>
+            </tr>
+
+            <tr>
+              <td class="name">optional</td>
+              <td><code>optional</code></td>
+              <td>Indicates argument is optional.</td>
+            </tr>
+
+            <tr>
+              <td class="name">private</td>
+              <td><code>private</code></td>
+              <td>Indicates argument is not shown if IDLdoc is run in user mode (USER keyword to IDLdoc is set).</td>
+            </tr>
+
+            <tr>
+              <td class="name">hidden</td>
+              <td><code>hidden</code></td>
+              <td>Indicates the argument is not to be shown.</td>
+            </tr>
+
+            <tr>
+              <td class="name">required</td>
+              <td><code>in</code></td>
+              <td>Indicates argument is required.</td>
+            </tr>
+
+            <tr>
+              <td class="name">type</td>
+              <td><code>type=comments</code></td>
+              <td>IDL data type of the argument.</td>
+            </tr>
+
+            <tr>
+              <td class="name">default</td>
+              <td><code>default=comments</code></td>
+              <td>Default value of the argument.</td>
+            </tr>
+          </tbody>
+        </table>        
     	</div>
     	
     	
