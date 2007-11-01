@@ -8,17 +8,17 @@
 ;    Michael Galloy
 ;
 ; :Properties:
-;    `root` : get
+;    root
 ;       the directory containing the code to document
-;    `output` : get
+;    output
 ;       the directory to which to output the documentation
-;    `classes` : get
+;    classes
 ;       hash table (classname -> DOCtreeClass) containing all class definitions
-;    `format` : get
+;    format
 ;       format style
-;    `markup` : get
+;    markup
 ;       markup style
-;    `overview_comments` : set
+;    overview_comments
 ;       comment tree
 ;-
 
