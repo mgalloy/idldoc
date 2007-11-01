@@ -16,7 +16,7 @@
 ;       set to indicate that this tag has an argument
 ;    tag : out, optional, type=string
 ;       set to a named variable to return the name of the tag
-;    argument : out, optional, type=string
+;    arguments : out, optional, type=string
 ;       set to a named variable to return the argument
 ;    n_attributes : out, optional, type=long
 ;       set to a named variable to return the number of attributes in curly 
@@ -28,15 +28,26 @@
 ;       will be '' if the attribute has no value)
 ;-
 function docparrstformatparser::_parseTag, lines, $
-                                              has_argument=hasArgument, $
-                                              tag=tag, argument=argument, $
-                                              n_attributes=nAttributes, $
-                                              attribute_names=attributeNames, $
-                                              attribute_values=attributeValues
+                                           has_argument=hasArgument, $
+                                           tag=tag, arguments=arguments, $
+                                           n_attributes=nAttributes, $
+                                           attribute_names=attributeNames, $
+                                           attribute_values=attributeValues
   ; TODO: implement this
   
-  ; this is the part where it knows how tag arguments, attributes, and comments
-  ; are formatted
+  ; TODO: what should the return value be? remember there could be multiple
+  ; values now
+  
+  ; This is the part where it knows how tag arguments, attributes, and comments
+  ; are formatted. Formats can look like:
+  ;
+  ; :Abstract:
+  ; :Returns: string/strarr
+  ; :Returns:
+  ;    string/strarr
+  ; :Keywords:
+  ;    key1 : in, out
+  ;       comments
   
   return, lines                                           
 end  
