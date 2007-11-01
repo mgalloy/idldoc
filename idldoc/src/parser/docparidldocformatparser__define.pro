@@ -411,7 +411,7 @@ pro docparidldocformatparser::parseFileComments, lines, file=file, $
   compile_opt strictarr
   
   ; find @ symbols that are the first non-whitespace character on the line
-  tagLocations = where(stregex(lines, '^[[:space:]]*@') ne -1, nTags)
+  tagLocations = where(stregex(lines, '^[[:space:]]*@') ne -1L, nTags)
   
   ; parse normal comments
   tagsStart = nTags gt 0 ? tagLocations[0] : n_elements(lines)

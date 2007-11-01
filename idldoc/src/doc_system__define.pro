@@ -4,6 +4,9 @@
 ; This class represents the entire IDLdoc run. All information/settings for the
 ; run are stored (or at least accessible from) here.
 ;
+; :Author:
+;    Michael Galloy
+;
 ; :Properties:
 ;    `root` : get
 ;       the directory containing the code to document
