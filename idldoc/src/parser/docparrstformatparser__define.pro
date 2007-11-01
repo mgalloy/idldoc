@@ -9,7 +9,7 @@
 ; Parse the lines from a tag; simply removes the tag and passes along the rest.
 ; 
 ; :Params:
-;    `lines` : in, out, required, type=strarr
+;    lines : in, out, required, type=strarr
 ;-
 function docparrstformatparser::_parseTag, lines
   compile_opt strictarr
@@ -26,15 +26,15 @@ end
 ; Handles one tag in a file's comments.
 ; 
 ; :Params:
-;    `tag` : in, required, type=string
+;    tag : in, required, type=string
 ;       rst tag, i.e. returns, params, keywords, etc.
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       lines of raw text for that tag
 ;
 ; :Keywords:
-;    `file` : in, required, type=object
+;    file : in, required, type=object
 ;       file tree object 
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparrstformatparser::_handleFileTag, tag, lines, $
@@ -109,15 +109,15 @@ end
 ; Handles one tag in a routine's comments.
 ; 
 ; :Params:
-;    `tag` : in, required, type=string
+;    tag : in, required, type=string
 ;       rst tag, i.e. returns, params, keywords, etc.
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       lines of raw text for that tag
 ;
 ; :Keywords:
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       routine tree object 
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
@@ -215,12 +215,12 @@ end
 ; Handles parsing of a comment block using rst syntax. 
 ;
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       all lines of the comment block
 ; :Keywords:
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       routine tree object 
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparrstformatparser::parseRoutineComments, lines, routine=routine,  $

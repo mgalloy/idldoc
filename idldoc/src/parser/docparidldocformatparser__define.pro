@@ -31,7 +31,7 @@ end
 ; Parse the lines from a tag.
 ; 
 ; :Params:
-;    `lines` : in, out, required, type=strarr
+;    lines : in, out, required, type=strarr
 ;
 ; :Keywords: 
 ;    has_argument : in, optional, type=boolean
@@ -123,13 +123,13 @@ end
 ; keyword).
 ; 
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       lines of raw text for that tag
 ;
 ; :Keywords:
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       routine tree object 
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparidldocformatparser::_handleArgumentTag, lines, $
@@ -185,15 +185,15 @@ end
 ; Handles one tag in a routine's comments.
 ; 
 ; :Params:
-;    `tag` : in, required, type=string
+;    tag : in, required, type=string
 ;       rst tag, i.e. returns, params, keywords, etc.
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       lines of raw text for that tag
 ;
 ; :Keywords:
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       routine tree object 
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
@@ -302,15 +302,15 @@ end
 ; Handles one tag in a file's comments.
 ; 
 ; :Params:
-;    `tag` : in, required, type=string
+;    tag : in, required, type=string
 ;       rst tag, i.e. returns, params, keywords, etc.
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       lines of raw text for that tag
 ;
 ; :Keywords:
-;    `file` : in, required, type=object
+;    file : in, required, type=object
 ;       file tree object 
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparidldocformatparser::_handleFileTag, tag, lines, $
@@ -358,12 +358,12 @@ end
 ; syntax. 
 ;
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       all lines of the comment block
 ; :Keywords:
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       routine tree object 
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparidldocformatparser::parseRoutineComments, lines, routine=routine, $
@@ -397,13 +397,13 @@ end
 ; Handles parsing of a comment block associated with a file. 
 ;
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       all lines of the comment block
 ;
 ; :Keywords:
-;    `file` : in, required, type=object
+;    file : in, required, type=object
 ;       file tree object 
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparidldocformatparser::parseFileComments, lines, file=file, $
@@ -437,13 +437,13 @@ end
 ; Handles parsing of a comment block in the overview file using IDLdoc syntax. 
 ;
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       all lines of the comment block
 ;
 ; :Keywords:
-;    `system` : in, required, type=object
+;    system : in, required, type=object
 ;       system object 
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
