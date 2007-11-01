@@ -216,7 +216,7 @@ end</code></p>
       
         <p>Tags describe a particular aspect of the file or routine they are associated with.</p>
         
-        <p>Slight differences across formats.</p>
+        <p>Slight differences across formats: singular/plural tags names vs individual/sections.</p>
         
         
         <h3>File tags</h3>
@@ -324,6 +324,139 @@ end</code></p>
               <td>none</td>
               <td>Specifies the author of the routine.</td>
             </tr>
+
+            <tr>
+              <td class="name">bugs</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies any issues found in the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">categories</td>
+              <td>list</td>
+              <td>none</td>
+              <td>Specifies a comma-separated list of category names.</td>
+            </tr>
+
+            <tr>
+              <td class="name">copyright</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies the copyright for the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">customer_id</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies a customer ID for the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">examples</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies examples of using the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">field</td>
+              <td>fieldname and comments</td>
+              <td>none</td>
+              <td>Specifies the name of the field followed by a description of the field.</td>
+            </tr>
+
+            <tr>
+              <td class="name">file_comments</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Equivalent to the main section in file-level comments.</td>
+            </tr>
+
+            <tr>
+              <td class="name">hidden</td>
+              <td>none</td>
+              <td>none</td>
+              <td>If present, indicate the routine should not be shown in the documentation.</td>
+            </tr>
+
+            <tr>
+              <td class="name">hidden_file</td>
+              <td>none</td>
+              <td>none</td>
+              <td>If present, indicates the file containing this routine should not be shown in the documentation.</td>
+            </tr>
+
+            <tr>
+              <td class="name">history</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies the history of the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">inherits</td>
+              <td>none</td>
+              <td>none</td>
+              <td>Not used.</td>
+            </tr>
+
+            <tr>
+              <td class="name">keyword</td>
+              <td>keyword name</td>
+              <td>see below</td>
+              <td>Documents a keyword of the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">obsolete</td>
+              <td>none</td>
+              <td>none</td>
+              <td>If present, indicates the routine is obsolete.</td>
+            </tr>
+
+            <tr>
+              <td class="name">param</td>
+              <td>param name</td>
+              <td>see below</td>
+              <td>Documents a positional parameter of the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">post</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies any post-conditions of the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">pre</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies any pre-conditions of the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">private</td>
+              <td>none</td>
+              <td>none</td>
+              <td>If present, indicates the routine should not shown in user-level documentation (set with the USER keyword to IDLdoc).</td>
+            </tr>
+
+            <tr>
+              <td class="name">private_file</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>If present, indicates the file containing this routine should not shown in user-level documentation (set with the USER keyword to IDLdoc).</td>
+            </tr>
+
+            <tr>
+              <td class="name">requires</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies the IDL version of the routine. IDLdoc finds the routines requiring the highest IDL version and reports them on the warnings page.</td>
+            </tr>
             
             <tr>
               <td class="name">returns</td>
@@ -331,13 +464,35 @@ end</code></p>
               <td>none</td>
               <td>Specifies the return value of the function.</td>
             </tr>            
+
+            <tr>
+              <td class="name">todo</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies any todo items left for the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">uses</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies any other routines, classes, etc. needed by the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">version</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>Specifies the version of the routine.</td>
+            </tr>
+
           </tbody>
         </table>
 
 
         <h3>Attributes</h3>
         
-        <p>Attributes for tags that allow them.</p>
+        <p>Attributes for tags that allow them (i.e. the "param" and "keyword" tags).</p>
         
         <table class="small">
           <thead>
