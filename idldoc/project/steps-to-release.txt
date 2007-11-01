@@ -1,9 +1,11 @@
 Steps to release IDLdoc
 -----------------------
 
+#. Set debug variable in IDLDOC routine to 0.
+
 #. Make sure all unit and regression tests pass. 
 
-#. Update RELEASE file.
+#. Update docs/RELEASE file.
 
 #. Update version in Makefile.
 
