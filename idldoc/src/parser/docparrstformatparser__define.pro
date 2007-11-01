@@ -77,7 +77,7 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
                                propertyNamesLength[1, propertyDefinitionLines[p]])
          property = class->addProperty(propertyName)         
          propertyDefinitionEnd = p eq nProperties - 1L $
-                                   ? n_elements(proplines) - 1L $
+                                   ? n_elements(propLines) - 1L $
                                    : propertyDefinitionLines[p + 1L] - 1L
          if (propertyDefinitionLines[p] + 1 le propertyDefinitionEnd) then begin
            comments = propLines[propertyDefinitionLines[p] + 1L:propertyDefinitionEnd] 
@@ -123,7 +123,6 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
                                               markup_parser=markupParser
   compile_opt strictarr
   
-  ; TODO: implement these tags
   case strlowcase(tag) of
     'abstract': routine->setProperty, is_abstract=1B
     'author': routine->setProperty, author=markupParser->parse(self->_parseTag(lines))
@@ -204,19 +203,15 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
         file->setProperty, is_hidden=1B
       end
     'history': routine->setProperty, history=markupParser->parse(self->_parseTag(lines))
-    'inherits':   ; not used any more
-    
-    ; TODO: implement this
-    'keywords':
-     
+    'inherits':   ; not used any more       
+    'keywords': self->_handleArgumentTag, lines, routine=routine, $
+                                          markup_parser=markupParser, /keyword     
     'obsolete': begin
         routine->setProperty, is_obsolete=1B
         self.system->createObsoleteEntry, routine
-      end
-      
-    ; TODO: implement this
-    'params':
-    
+      end          
+    'params': self->_handleArgumentTag, lines, routine=routine, $
+                                        markup_parser=markupParser    
     'post': routine->setProperty, post=markupParser->parse(self->_parseTag(lines))
     'pre': routine->setProperty, pre=markupParser->parse(self->_parseTag(lines))
     'private': routine->setProperty, is_private=1B
@@ -256,6 +251,83 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
 end
 
 
+
+;+
+; Handles a tag with attributes (i.e. {} enclosed arguments like in param or 
+; keyword).
+; 
+; :Params:
+;    lines : in, required, type=strarr
+;       lines of raw text for that tag
+;
+; :Keywords:
+;    routine : in, required, type=object
+;       routine tree object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;    keyword : in, optional, type=boolean
+;       set to indicate the tag is a keyword
+;-
+pro docparrstformatparser::_handleArgumentTag, lines, $
+                                                  routine=routine, $
+                                                  markup_parser=markupParser, $
+                                                  keyword=keyword
+  compile_opt strictarr
+  
+  ; find params/keywords
+  
+  ; find number of spaces that properties' names are indented
+  l = 1L
+  nameIndent = -1L
+  while (l lt n_elements(lines) && nameIndent eq -1L) do begin 
+    nameIndent = stregex(lines[1], '[[:alnum:]_$]')          
+  endwhile
+        
+  ; must indent property names
+  if (nameIndent lt 1) then begin
+    self.system->warning, 'invalid properties syntax'
+    return
+  endif              
+
+  ; find properties' names lines (ignore first line, first property starts 
+  ; on the line after :Properties:)        
+  paramLines = lines[1:*]
+  re = string(format='(%"^[ ]{%d}([[:alnum:]_$]+)")', nameIndent)        
+  paramNamesStart = stregex(paramLines, re, $
+                            /subexpr, length=paramNamesLength)
+  paramDefinitionLines = where(paramNamesStart[1, *] ne -1L, nParams)
+
+  routine->getProperty, name=routineName
+  tag = keyword_set(keyword) ? 'keyword' : 'param'
+  
+  ; add each property
+  for p = 0L, nParams - 1L do begin
+   paramName = strmid(paramLines[paramDefinitionLines[p]], $
+                      paramNamesStart[1, paramDefinitionLines[p]], $
+                      paramNamesLength[1, paramDefinitionLines[p]])
+   param = keyword_set(keyword) $
+             ? routine->getKeyword(paramName, found=found) $
+             : routine->getParameter(paramName, found=found)
+             
+   if (~found) then begin     
+     msg = string(format='(%"%s %s not found in %s")', tag, paramName, routineName)
+     self.system->warning, msg       
+     continue                      
+   endif         
+   
+   ; TODO: handle param attributes
+   
+   paramDefinitionEnd = p eq nParams - 1L $
+                          ? n_elements(paramLines) - 1L $
+                          : paramDefinitionLines[p + 1L] - 1L
+   if (paramDefinitionLines[p] + 1 le paramDefinitionEnd) then begin
+     comments = paramLines[paramDefinitionLines[p] + 1L:paramDefinitionEnd] 
+     param->setProperty, comments=markupParser->parse(comments)        
+   endif  
+  endfor                       
+end
+
+                                                  
 ;+
 ; Handles parsing of a comment block using rst syntax. 
 ;

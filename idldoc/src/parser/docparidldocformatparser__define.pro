@@ -175,9 +175,8 @@ pro docparidldocformatparser::_handleArgumentTag, lines, $
         end
     endcase
   endfor
-  
-  comments = markupParser->parse(lines)
-  arg->setProperty, comments=comments
+    
+  arg->setProperty, comments=markupParser->parse(lines)
 end
 
 
