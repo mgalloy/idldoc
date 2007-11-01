@@ -75,13 +75,12 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
          propertyName = strmid(propLines[propertyDefinitionLines[p]], $
                                propertyNamesStart[1, propertyDefinitionLines[p]], $
                                propertyNamesLength[1, propertyDefinitionLines[p]])
-         property = class->addProperty(propertyName)
-         print, format='(%"-- Adding property: %s")', propertyName
+         property = class->addProperty(propertyName)         
          propertyDefinitionEnd = p eq nProperties - 1L $
                                    ? n_elements(proplines) - 1L $
                                    : propertyDefinitionLines[p + 1L] - 1L
          if (propertyDefinitionLines[p] + 1 le propertyDefinitionEnd) then begin
-           comments = propLines[propertyDefinitionLines[p] + 1:propertyDefinitionEnd] 
+           comments = propLines[propertyDefinitionLines[p] + 1L:propertyDefinitionEnd] 
            property->setProperty, comments=markupParser->parse(comments)        
          endif  
         endfor                     
@@ -145,9 +144,55 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
     'copyright': routine->setProperty, copyright=markupParser->parse(self->_parseTag(lines))
     'customer_id': routine->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))
     'examples': routine->setProperty, examples=markupParser->parse(self->_parseTag(lines))
-    
-    ; TODO: implement this
-    'fields': 
+        
+    'fields': begin
+        routine->getProperty, file=file
+        file->getProperty, is_class=isClass, class=class
+        if (~isClass) then begin
+          self.system->warning, 'field not allowed non-class definition file'
+        endif
+                                          
+        ; find number of spaces that fields' names are indented
+        l = 1L
+        nameIndent = -1L
+        while (l lt n_elements(lines) && nameIndent eq -1L) do begin 
+          nameIndent = stregex(lines[1], '[[:alnum:]_$]')          
+        endwhile
+        
+        ; must indent fields names
+        if (nameIndent lt 1) then begin
+          self.system->warning, 'invalid fields syntax'
+          return
+        endif              
+
+        ; find fields' names lines (ignore first line, first field starts 
+        ; on the line after :Fields:)        
+        fieldLines = lines[1:*]
+        re = string(format='(%"^[ ]{%d}([[:alnum:]_$]+)")', nameIndent)        
+        fieldNamesStart = stregex(fieldLines, re, $
+                                  /subexpr, length=fieldNamesLength)
+        fieldDefinitionLines = where(fieldNamesStart[1, *] ne -1L, nFields)
+        
+        ; add each property
+        for f = 0L, nFields - 1L do begin
+         fieldName = strmid(fieldLines[fieldDefinitionLines[f]], $
+                            fieldNamesStart[1, fieldDefinitionLines[f]], $
+                            fieldNamesLength[1, fieldDefinitionLines[f]])
+         field = class->addField(fieldName, /get_only)
+         
+         fieldDefinitionEnd = f eq nFields - 1L $
+                                ? n_elements(fieldLines) - 1L $
+                                : fieldDefinitionLines[f + 1L] - 1L
+         if (fieldDefinitionLines[f] + 1L le fieldDefinitionEnd) then begin
+           if (obj_valid(field)) then begin
+             comments = fieldLines[fieldDefinitionLines[f] + 1L:fieldDefinitionEnd] 
+             field->setProperty, name=fieldName, comments=markupParser->parse(comments)
+           endif else begin
+             self.system->warning, 'invalid field ' + fieldName
+           endelse        
+         endif  
+        endfor             
+      end
     
     'file_comments': begin
         routine->getProperty, file=file
