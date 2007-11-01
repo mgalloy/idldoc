@@ -28,11 +28,11 @@
 ; :Returns: variable
 ;
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of variable
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
 function doc_system::getVariable, name, found=found
@@ -236,7 +236,7 @@ end
 ; Print error messages respecting /QUIET and /SILENT.
 ;
 ; :Params:
-;    `msg` : in, required, type=string
+;    msg : in, required, type=string
 ;       error message to print 
 ;-
 pro doc_system::error, msg
@@ -254,7 +254,7 @@ end
 ; Print warning messages respecting /QUIET and /SILENT.
 ;
 ; :Params:
-;    `msg` : in, required, type=string
+;    msg : in, required, type=string
 ;       warning message to print 
 ;-
 pro doc_system::warning, msg
@@ -271,7 +271,7 @@ end
 ; Print messages respecting /QUIET and /SILENT.
 ;
 ; :Params:
-;    `msg` : in, required, type=string
+;    msg : in, required, type=string
 ;       message to print 
 ;-
 pro doc_system::print, msg
@@ -401,11 +401,11 @@ end
 ; :Returns: template object or -1 if not found
 ;
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of template as used when loaded in loadTemplates
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       indicates if the template name was found and returned
 ;-
 function doc_system::getTemplate, name, found=found
@@ -444,7 +444,7 @@ end
 ;
 ; :Returns: strarr
 ; :Params:
-;    `tree` : in, required, type=object
+;    tree : in, required, type=object
 ;       parse tree object
 ;-
 function doc_system::processComments, tree
@@ -463,11 +463,11 @@ end
 ; :Returns: parser object or -1 if not found
 ;
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of parser as used when loaded in loadTemplates
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       indicates if the parser name was found and returned
 ;-
 function doc_system::getParser, name, found=found
@@ -582,9 +582,9 @@ end
 ; Enter the item in the index.
 ; 
 ; :Params:
-;    `name` : in, required, string
+;    name : in, required, string
 ;       name to register the entry under
-;    `value` : in, required, type=object
+;    value : in, required, type=object
 ;       tree object (i.e. directory, file, param)
 ;-
 pro doc_system::createIndexEntry, name, value
@@ -799,10 +799,10 @@ end
 ; Creates a directory.
 ;
 ; :Params:
-;    `dir` : in, required, type=string
+;    dir : in, required, type=string
 ;       directory to create
 ; :Keywords:
-;    `error` : out, optional, type=long
+;    error : out, optional, type=long
 ;       error code; 0 indicates no error
 ;-
 pro doc_system::makeDirectory, dir, error=error
@@ -853,58 +853,58 @@ end
 ; 
 ; :Returns: 1 for success, 0 for failure
 ; :Keywords:
-;    `root` : in, required, type=string
+;    root : in, required, type=string
 ;       root of directory hierarchy to document
-;    `output` : in, optional, type=string
+;    output : in, optional, type=string
 ;       directory to place output
 ;
-;    `quiet` : in, optional, type=boolean
+;    quiet : in, optional, type=boolean
 ;       if set, don't print info messages, only print warnings and errors
-;    `silent` : in, optional, type=boolean
+;    silent : in, optional, type=boolean
 ;       if set, don't print anything
-;    `n_warnings` : out, optional, type=long
+;    n_warnings : out, optional, type=long
 ;       set to a named variable to return the number of warnings for the run
-;    `log_file` : in, optional, type=string
+;    log_file : in, optional, type=string
 ;       if present, send messages to this filename instead of stdout
-;    `assistant` : in, optional, type=boolean
+;    assistant : in, optional, type=boolean
 ;       set to generate docs in IDL Assistant format
-;    `embed` : in, optional, type=boolean
+;    embed : in, optional, type=boolean
 ;       embed CSS stylesheet instead of linking to it (useful for documentation
 ;       where individual pages must stand by themselves)
-;    `overview` : in, optional, type=string
+;    overview : in, optional, type=string
 ;       filename of overview text and directory information
-;    `footer` : in, optional, type=string
+;    footer : in, optional, type=string
 ;       filename of file to insert into the bottom of each page of docs
-;    `title` : in, optional, type=string
+;    title : in, optional, type=string
 ;       title of docs
-;    `subtitle` : in, optional, type=string
+;    subtitle : in, optional, type=string
 ;       subtitle for docs
-;    `nonavbar` : in, optional, type=boolean
+;    nonavbar : in, optional, type=boolean
 ;       set to not display the navbar
 ;
-;    `user` : in, optional, type=boolean
+;    user : in, optional, type=boolean
 ;       set to generate user-level docs (private parameters, files are not
 ;       shown); the default is developer-level docs showing files and 
 ;       parameters
-;    `statistics` : in, optional, type=boolean
+;    statistics : in, optional, type=boolean
 ;       generate complexity statistics for routines
 ;
-;    `format_style` : in, optional, type=string, default='idldoc'
+;    format_style : in, optional, type=string, default='idldoc'
 ;       style to use to parse file and routine comments ("idl", "idldoc", 
 ;       "verbatim", or "rst")
-;    `markup_style` : in, optional, type=string, default='verbatim'
+;    markup_style : in, optional, type=string, default='verbatim'
 ;       markup used in comments ("rst" or "verbatim")
-;    `comment_style` : in, optional, type=string, default='html'
+;    comment_style : in, optional, type=string, default='html'
 ;       output format for comments ("html", "rst", or "latex")
 ;
-;    `preformat` : in, optional, type=boolean, obsolete
+;    preformat : in, optional, type=boolean, obsolete
 ;       no longer used
-;    `browse_routines` : in, optional, type=boolean, obsolete
+;    browse_routines : in, optional, type=boolean, obsolete
 ;       no longer used
 ;
-;    `template_prefix` : in, optional, type=string
+;    template_prefix : in, optional, type=string
 ;       prefix for template's names
-;    `template_location` : in, optional, type=string
+;    template_location : in, optional, type=string
 ;       directory to find templates in
 ;-
 function doc_system::init, root=root, output=output, $
@@ -1034,59 +1034,59 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    `version`
+;    version
 ;       IDLdoc version
-;    `root` 
+;    root 
 ;       root directory of hierarchy to document; full path ending with slash
-;    `output`
+;    output
 ;       directory to place output
-;    `nWarnings` 
+;    nWarnings 
 ;       number of warning messages printed
-;    `quiet`
+;    quiet
 ;       set to only print errors and warnings
-;    `silent`
+;    silent
 ;       don't print anything
-;    `sourceLocation`
+;    sourceLocation
 ;       directory containing the DOC_System__define.pro file
-;    `directories`
+;    directories
 ;       array list of directories in current run
-;    `templates`
+;    templates
 ;       hash table of template names to template objects
-;    `parsers`
+;    parsers
 ;       hash table of parser names to parser objects
-;    `overview`
+;    overview
 ;       filename of file to parse for overview comments and comments for
 ;       each directory
-;    `footer`
+;    footer
 ;       filename of file to include at the bottom of each main page
-;    `title`
+;    title
 ;       title of the documentation
-;    `subtitle`
+;    subtitle
 ;       subtitle of the documentation
-;    `user`
+;    user
 ;       set to generate user-level documentation (as opposed to developer-level
 ;       documentation)
-;    `statistics`
+;    statistics
 ;       set to generate statistics
-;    `format`
+;    format
 ;       style for parsing comments: 'idldoc', 'idl', 'rst', or 'verbatim'
-;    `markup`
+;    markup
 ;       style for comments body markup: 'rst' or 'verbatim'
-;    `preformat`
+;    preformat
 ;       set if comments should be formatted as given in the source
-;    `assistant`
+;    assistant
 ;       set to produce IDL Assistant output
-;    `embed`
+;    embed
 ;       set to embed CSS in the HTML output
-;    `currentTemplate`
+;    currentTemplate
 ;       most recently asked for template
-;    `index`
+;    index
 ;       hash table of names to tree objects
-;    `proFiles`
+;    proFiles
 ;       array list of .pro files in current run
-;    `savFiles`
+;    savFiles
 ;       array list of .sav files in current run
-;    `idldocFiles`
+;    idldocFiles
 ;       array list of .idldoc files in current run
 ;-
 pro doc_system__define
