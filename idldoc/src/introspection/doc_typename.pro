@@ -5,7 +5,7 @@
 ; 
 ; :Returns: string
 ; :Params: 
-;    `code` : in, required, type=int
+;    code : in, required, type=int
 ;       type code as given by the SIZE function
 ;-
 function doc_typename, code

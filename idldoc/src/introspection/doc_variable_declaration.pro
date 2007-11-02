@@ -5,7 +5,7 @@
 ; 
 ; :Returns: string
 ; :Params:
-;    `var` : in, required, type=any
+;    var : in, required, type=any
 ;       variable to find declaration statement for
 ;-
 function doc_variable_declaration, var
