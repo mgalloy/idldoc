@@ -4,61 +4,61 @@
 ; Generate documentation for IDL code.
 ;
 ; :Keywords:
-;    `root` : in, required, type=string
+;    root : in, required, type=string
 ;       root of directory hierarchy to document
-;    `output` : in, optional, type=string
+;    output : in, optional, type=string
 ;       directory to place output
 ;
-;    `quiet` : in, optional, type=boolean
+;    quiet : in, optional, type=boolean
 ;       if set, don't print info messages, only print warnings and errors
-;    `silent` : in, optional, type=boolean
+;    silent : in, optional, type=boolean
 ;       if set, don't print anything
-;    `n_warnings` : out, optional, type=long
+;    n_warnings : out, optional, type=long
 ;       set to a named variable to return the number of warnings for the run
-;    `log_file` : in, optional, type=string
+;    log_file : in, optional, type=string
 ;       if present, send messages to this filename instead of stdout
-;    `assistant` : in, optional, type=boolean
+;    assistant : in, optional, type=boolean
 ;       set to generate docs in IDL Assistant format
-;    `embed` : in, optional, type=boolean
+;    embed : in, optional, type=boolean
 ;       embed CSS stylesheet instead of linking to it (useful for documentation
 ;       where individual pages must stand by themselves)
-;    `overview` : in, optional, type=string
+;    overview : in, optional, type=string
 ;       filename of overview text and directory information
-;    `footer` : in, optional, type=string
+;    footer : in, optional, type=string
 ;       filename of file to insert into the bottom of each page of docs
-;    `title` : in, optional, type=string
+;    title : in, optional, type=string
 ;       title of docs
-;    `subtitle` : in, optional, type=string
+;    subtitle : in, optional, type=string
 ;       subtitle for docs
-;    `nonavbar` : in, optional, type=boolean
+;    nonavbar : in, optional, type=boolean
 ;       set to not display the navbar
 ;
-;    `user` : in, optional, type=boolean
+;    user : in, optional, type=boolean
 ;       set to generate user-level docs (private parameters, files are not
 ;       shown); the default is developer-level docs showing files and 
 ;       parameters
-;    `statistics` : in, optional, type=boolean
+;    statistics : in, optional, type=boolean
 ;       generate complexity statistics for routines
 ;
-;    `format_style` : in, optional, type=string, default='idldoc'
+;    format_style : in, optional, type=string, default='idldoc'
 ;       style to use to parse file and routine comments ("idl", "idldoc", 
 ;       "verbatim", or "rst")
-;    `markup_style` : in, optional, type=string, default='verbatim'
+;    markup_style : in, optional, type=string, default='verbatim'
 ;       markup used in comments ("rst" or "verbatim")
-;    `comment_style` : in, optional, type=string, default='html'
+;    comment_style : in, optional, type=string, default='html'
 ;       output format for comments ("html", "rst", or "latex")
 ;
-;    `preformat` : in, optional, type=boolean, obsolete
+;    preformat : in, optional, type=boolean, obsolete
 ;       no longer used
-;    `browse_routines` : in, optional, type=boolean, obsolete
+;    browse_routines : in, optional, type=boolean, obsolete
 ;       no longer used
 ;
-;    `template_prefix` : in, optional, type=string
+;    template_prefix : in, optional, type=string
 ;       prefix for template's names
-;    `template_location` : in, optional, type=string
+;    template_location : in, optional, type=string
 ;       directory to find templates in
 ;
-;    `error` : out, optional, type=long
+;    error : out, optional, type=long
 ;       error code from run; 0 indicates no error
 ;-
 pro idldoc, root=root, $
