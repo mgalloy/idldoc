@@ -185,7 +185,7 @@ end
 function doctreeclass::isVisible
   compile_opt strictarr
   
-  return, self.proFile->isVisible()
+  return, obj_valid(self.proFile) ? self.proFile->isVisible() : 1B
 end
 
 
