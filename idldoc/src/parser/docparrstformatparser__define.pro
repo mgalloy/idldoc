@@ -315,7 +315,14 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
      continue                      
    endif         
    
-   ; TODO: handle param attributes
+   headerLine = paramLines[paramDefinitionLines[p]]
+   colonPos = strpos(headerLine, ':')
+   if (colonPos ne -1L) then begin
+     attributes = strsplit(strmid(headerLine, colonPos + 1L), ',', /extract)
+     for a = 0L, n_elements(attributes) - 1L do begin
+      self->_handleAttribute, param, strtrim(attributes[a], 2), routine=routine
+     endfor
+   endif
    
    paramDefinitionEnd = p eq nParams - 1L $
                           ? n_elements(paramLines) - 1L $
@@ -327,6 +334,37 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
   endfor                       
 end
 
+
+;+
+; 
+;-
+pro docparrstformatparser::_handleAttribute, param, attribute, routine=routine
+  compile_opt strictarr
+  
+  param->getProperty, name=paramName
+  routine->getProperty, name=routineName  
+  
+  result = strsplit(attribute, '=', /extract)
+  attributeName = result[0]
+  attributeValue = (n_elements(result) gt 1) ? result[1] : ''
+  case attributeName of
+    'in': param->setProperty, is_input=1
+    'out': param->setProperty, is_output=1
+    'optional': param->setProperty, is_optional=1
+    'required': param->setProperty, is_required=1
+    'private': param->setProperty, is_private=1
+    'hidden': param->setProperty, is_hidden=1
+    'obsolete': param->setProperty, is_obsolete=1
+
+    'type': param->setProperty, type=attributeValue
+    'default': param->setProperty, default_value=attributeValue
+    else: begin
+        self.system->warning, $
+          'unknown argument attribute ' + attributeName $
+            + ' for argument' + paramName + ' in ' + routineName           
+      end
+  endcase  
+end
                                                   
 ;+
 ; Handles parsing of a comment block using rst syntax. 

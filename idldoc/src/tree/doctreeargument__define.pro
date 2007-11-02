@@ -75,6 +75,7 @@ function doctreeargument::getVariable, name, found=found
     'default_value': return, self.defaultValue
     'is_hidden': return, self.isHidden
     'is_private': return, self.isPrivate
+    'is_obsolete': return, self.isObsolete
     
     'prefix': begin
       self.routine->getProperty, is_function=isFunction
@@ -102,7 +103,8 @@ pro doctreeargument::getProperty, routine=routine, name=name, $
     is_first=isFirst, is_last=isLast, is_keyword=isKeyword, is_optional=isOptional, $
     is_required=isRequired, is_input=isInput, is_output=isOutput, $
     type=type, default_value=defaultValue, is_hidden=isHidden, $
-    is_private=isPrivate, comments=comments, documented=documented  
+    is_private=isPrivate, is_obsolete=isObsolete, $
+    comments=comments, documented=documented  
   compile_opt strictarr
   
   if (arg_present(routine)) then routine = self.routine
@@ -118,6 +120,7 @@ pro doctreeargument::getProperty, routine=routine, name=name, $
   if (arg_present(defaultValue)) then defaultValue = self.defaultValue      
   if (arg_present(isHidden)) then isHidden = self.isHidden      
   if (arg_present(isPrivate)) then isPrivate = self.isPrivate      
+  if (arg_present(isObsolete)) then isObsolete = self.isObsolete      
   if (arg_present(comments)) then comments = self.comments
   if (arg_present(documented)) then documented = self.documented
 end
@@ -136,6 +139,7 @@ pro doctreeargument::setProperty, is_keyword=isKeyword, $
                                   default_value=defaultValue, $
                                   is_hidden=isHidden, $
                                   is_private=isPrivate, $
+                                  is_obsolete=isObsolete, $
                                   comments=comments
   compile_opt strictarr
   
@@ -182,7 +186,12 @@ pro doctreeargument::setProperty, is_keyword=isKeyword, $
     self.isPrivate = isPrivate
     self.documented = 1B
   endif
-  
+
+  if (n_elements(isObsolete) gt 0) then begin
+    self.isObsolete = isObsolete
+    self.documented = 1B
+  endif
+    
   if (n_elements(comments) gt 0) then begin
     self.comments = comments
     self.documented = 1B
@@ -284,6 +293,7 @@ pro doctreeargument__define
              defaultValue: '', $
              isHidden: 0B, $
              isPrivate: 0B, $
+             isObsolete: 0B, $
              comments: obj_new(), $
              documented: 0B $
            }

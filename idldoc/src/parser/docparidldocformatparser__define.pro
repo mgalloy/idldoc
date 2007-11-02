@@ -43,9 +43,9 @@ end
 ;    n_attributes : out, optional, type=long
 ;       set to a named variable to return the number of attributes in curly 
 ;       braces
-;    attributes_names : out, optional, type=strarr
+;    attribute_names : out, optional, type=strarr
 ;       set to a named variable to return an array of attribute names
-;    attributes_values : out, optional, type=strarr
+;    attribute_values : out, optional, type=strarr
 ;       set to a named variable to return an array of attribute values (value
 ;       will be '' if the attribute has no value)
 ;-
