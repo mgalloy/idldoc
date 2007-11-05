@@ -7,6 +7,7 @@
 
 
 pro docparidlformatparser::_handleArguments, lines, routine=routine, $
+                                             markup_parser=markupParser, $
                                              keyword=keyword, $
                                              optional=optional, $
                                              input=input, $
@@ -16,13 +17,14 @@ pro docparidlformatparser::_handleArguments, lines, routine=routine, $
   argLines = lines
     
   ; find lines specifying argument names
-  argPos = stregex(argLines, '^[[:space:]]*([[:alnum:]_$]+):[[:space:]]+', $
+  argPos = stregex(argLines, '^[[:space:]]*([[:alnum:]_$]+):', $
                    /subexpr, length=argLen)
   
   ; only interested in subexpression
   argPos = argPos[1, *]
   argLen = argLen[1, *]
   args = where(argPos ne -1L, nArgs)
+  argEnds = [args[1:*] - 1L, n_elements(argPos) - 1L]
   
   for a = 0L, nArgs - 1L do begin
     argumentName = strmid(argLines[args[a]], argPos[args[a]], argLen[args[a]])
@@ -43,6 +45,9 @@ pro docparidlformatparser::_handleArguments, lines, routine=routine, $
     if (keyword_set(input)) then arg->setProperty, is_input=1B
     
     ; set comments for the argument
+    comments = lines[args[a]:argEnds[a]]
+    comments[0] = strmid(comments[0], argPos[args[a]] + argLen[args[a]] + 2L)
+    arg->setProperty, comments=markupParser->parse(comments)
   endfor
 end
 
@@ -80,11 +85,12 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
         endfor   
       end
     'calling sequence':   ; ignore, not used    
-    'inputs': self->_handleArguments, lines, routine=routine, /input, tag='input'
-    'optional inputs': self->_handleArguments, lines, routine=routine, /input, /optional, tag='optional input'
-    'keyword parameters': self->_handleArguments, lines, routine=routine, /input, /keyword, /optional, tag='keyword' 
+    'inputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, tag='input'
+    'optional inputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, /optional, tag='optional input'
+    'keyword parameters': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, /keyword, /optional, tag='keyword' 
     'outputs': routine->setProperty, returns=markupParser->parse(lines)      
-    'optional outputs': self->_handleArguments, lines, routine=routine, tag='optional output'
+    'optional outputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, tag='optional output'
+    ; TODO: implement
     'common blocks':
     'side effects': routine->setProperty, comments=markupParser->parse(lines)
     'restrictions': routine->setProperty, comments=markupParser->parse(lines)

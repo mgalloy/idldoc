@@ -27,7 +27,7 @@
 ;   array = CONGRID(array, x, y, z)
 ;
 ; INPUTS:
-;       array:  A 1, 2, or 3 dimensional array to resize.
+;       arr:    A 1, 2, or 3 dimensional array to resize.
 ;               Data Type : Any type except string or structure.
 ;
 ;       x:      The new X dimension of the resized array.
