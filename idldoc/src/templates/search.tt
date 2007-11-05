@@ -30,7 +30,14 @@
     
     	<h2>Search</h2>
  
-    	[% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
+ 				<form name="basicForm" action="javascript:basicsearch() //">
+ 					<input class="text" name="basicText" size="50"/> &nbsp; <input name="send" type="submit" value="Search" />
+ 				</form>
+ 
+    	
+    	<h2>Advanced search</h2>
+    
+    	[% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]    		
     </div>    
 
     [% INCLUDE_TEMPLATE idldoc_footer_location %]
