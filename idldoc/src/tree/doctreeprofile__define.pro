@@ -372,6 +372,8 @@ end
 
 
 ;+
+; Define instance variables.
+;
 ; :Fields:
 ;    directory
 ;       directory tree object
