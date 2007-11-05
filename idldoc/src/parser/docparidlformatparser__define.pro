@@ -24,7 +24,9 @@ pro docparidlformatparser::_handleArguments, lines, routine=routine, $
   argPos = argPos[1, *]
   argLen = argLen[1, *]
   args = where(argPos ne -1L, nArgs)
-  argEnds = [args[1:*] - 1L, n_elements(argPos) - 1L]
+  if (nArgs lt 1) then return
+  
+  argEnds = nArgs eq 1 ? n_elements(argPos) - 1L : [args[1:*] - 1L, n_elements(argPos) - 1L]
   
   for a = 0L, nArgs - 1L do begin
     argumentName = strmid(argLines[args[a]], argPos[args[a]], argLen[args[a]])
@@ -101,6 +103,7 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
         dummy = stregex(lines, '^[[:space:]]*[^[:space:]]', length=lengths)
         lengths--   ; remove non-space character
         ind = where(lengths gt 0, nActualLines)
+        if (nActualLines eq 0) then return
         indent = min(lengths[ind])
         
         exLines = strmid(lines, indent)
@@ -159,13 +162,15 @@ pro docparidlformatparser::parseRoutineComments, lines, routine=routine, $
   
   tagStarts = where(tagLocations, nTags)
   if (nTags eq 0) then return
-  tagEnds = [tagStarts[1:*] - 1L, n_elements(lines) - 1L]
+  tagEnds = nTags eq 1 ? n_elements(lines) - 1L : [tagStarts[1:*] - 1L, n_elements(lines) - 1L]
   for t = 0L, nTags - 1L do begin
     tag = strtrim(lines[tagStarts[t]], 2)
     tag = strmid(tag, 0, strlen(tag) - 1L)
     
-    self->_handleRoutineTag, tag, lines[tagStarts[t] + 1L:tagEnds[t]], $
-                             routine=routine, markup_parser=markupParser    
+    if (tagStarts[t] + 1L lt tagEnds[t]) then begin
+      self->_handleRoutineTag, tag, lines[tagStarts[t] + 1L:tagEnds[t]], $
+                               routine=routine, markup_parser=markupParser
+    endif  
   endfor  
 end
 
