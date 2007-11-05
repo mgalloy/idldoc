@@ -199,6 +199,97 @@ end</code></p>
     		
     		<h3>IDL format</h3>
     		
+    		<p>The standard IDL format is given below. The individual headers are described in the "Headers in IDL format" section. <code class="listing">;+
+; NAME:
+;	ROUTINE_NAME
+;
+; PURPOSE:
+;	Tell what your routine does here.  I like to start with the words:
+;	"This function (or procedure) ..."
+;	Try to use the active, present tense.
+;
+; CATEGORY:
+;	Put a category (or categories) here.  For example:
+;	Widgets.
+;
+; CALLING SEQUENCE:
+;	Write the calling sequence here. Include only positional parameters
+;	(i.e., NO KEYWORDS). For procedures, use the form:
+;
+;	ROUTINE_NAME, Parameter1, Parameter2, Foobar
+;
+;	Note that the routine name is ALL CAPS and arguments have Initial
+;	Caps.  For functions, use the form:
+; 
+;	Result = FUNCTION_NAME(Parameter1, Parameter2, Foobar)
+;
+;	Always use the "Result = " part to begin. This makes it super-obvious
+;	to the user that this routine is a function!
+;
+; INPUTS:
+;	Parm1:	Describe the positional input parameters here. Note again
+;		that positional parameters are shown with Initial Caps.
+;
+; OPTIONAL INPUTS:
+;	Parm2:	Describe optional inputs here. If you don't have any, just
+;		delete this section.
+;	
+; KEYWORD PARAMETERS:
+;	KEY1:	Document keyword parameters like this. Note that the keyword
+;		is shown in ALL CAPS!
+;
+;	KEY2:	Yet another keyword. Try to use the active, present tense
+;		when describing your keywords.  For example, if this keyword
+;		is just a set or unset flag, say something like:
+;		"Set this keyword to use foobar subfloatation. The default
+;		 is foobar superfloatation."
+;
+; OUTPUTS:
+;	Describe any outputs here.  For example, "This function returns the
+;	foobar superflimpt version of the input array."  This is where you
+;	should also document the return value for functions.
+;
+; OPTIONAL OUTPUTS:
+;	Describe optional outputs here.  If the routine doesn't have any, 
+;	just delete this section.
+;
+; COMMON BLOCKS:
+;	BLOCK1:	Describe any common blocks here. If there are no COMMON
+;		blocks, just delete this entry.
+;
+; SIDE EFFECTS:
+;	Describe "side effects" here.  There aren't any?  Well, just delete
+;	this entry.
+;
+; RESTRICTIONS:
+;	Describe any "restrictions" here.  Delete this section if there are
+;	no important restrictions.
+;
+; PROCEDURE:
+;	You can describe the foobar superfloatation method being used here.
+;	You might not need this section for your routine.
+;
+; EXAMPLE:
+;	Please provide a simple example here. An example from the
+;	DIALOG_PICKFILE documentation is shown below. Please try to
+;	include examples that do not rely on variables or data files
+;	that are not defined in the example code. Your example should
+;	execute properly if typed in at the IDL command line with no
+;	other preparation. 
+;
+;       Create a DIALOG_PICKFILE dialog that lets users select only
+;       files with the extension `pro'. Use the `Select File to Read'
+;       title and store the name of the selected file in the variable
+;       file. Enter:
+;
+;       file = DIALOG_PICKFILE(/READ, FILTER = '*.pro') 
+;
+; MODIFICATION HISTORY:
+; 	Written by:	Your name here, Date.
+;	July, 1994	Any additional mods get described here.  Remember to
+;			change the stuff above if you add a new keyword or
+;			something!
+;-</code></p>
     		
     		<h3>Restructured text format</h3>
     		
@@ -212,7 +303,7 @@ end</code></p>
       </div>
       
       <div id="tags">
-        <h2>Tags</h2>
+        <h2>Tags for IDLdoc and rst formats</h2>
       
         <p>Tags describe a particular aspect of the file or routine they are associated with.</p>
         
@@ -279,14 +370,14 @@ end</code></p>
               <td class="name">property</td>
               <td>property name, comments</td>
               <td>none</td>
-              <td>Describes a property of a class (i.e. a keyword to getProperty, setProperty, or init).</td>
+              <td>Describes a property of a class (i.e. a keyword to getProperty, setProperty, or init). IDLdoc format only.</td>
             </tr>                        
 
             <tr>
               <td class="name">properties</td>
               <td>property name, comments</td>
               <td>none</td>
-              <td>Describes properties of a class (i.e. a keyword to getProperty, setProperty, or init). rst only.</td>
+              <td>Describes properties of a class (i.e. a keyword to getProperty, setProperty, or init). rst format only.</td>
             </tr>
             
             <tr>
@@ -364,9 +455,16 @@ end</code></p>
               <td class="name">field</td>
               <td>fieldname and comments</td>
               <td>none</td>
-              <td>Specifies the name of the field followed by a description of the field.</td>
+              <td>Specifies the name of the field followed by a description of the field. IDLdoc format only.</td>
             </tr>
 
+            <tr>
+              <td class="name">fields</td>
+              <td>fieldname and comments</td>
+              <td>none</td>
+              <td>Specifies the names of the field followed by a description of the field. rst format only.</td>
+            </tr>
+            
             <tr>
               <td class="name">file_comments</td>
               <td>comments</td>
@@ -406,9 +504,16 @@ end</code></p>
               <td class="name">keyword</td>
               <td>keyword name</td>
               <td>see below</td>
-              <td>Documents a keyword of the routine.</td>
+              <td>Documents a keyword of the routine. IDLdoc format only.</td>
             </tr>
 
+            <tr>
+              <td class="name">keywords</td>
+              <td>keyword name</td>
+              <td>see below</td>
+              <td>Documents keywords of the routine. rst format only.</td>
+            </tr>
+            
             <tr>
               <td class="name">obsolete</td>
               <td>none</td>
@@ -420,9 +525,16 @@ end</code></p>
               <td class="name">param</td>
               <td>param name</td>
               <td>see below</td>
-              <td>Documents a positional parameter of the routine.</td>
+              <td>Documents a positional parameter of the routine. IDLdoc format only.</td>
             </tr>
 
+            <tr>
+              <td class="name">params</td>
+              <td>param name</td>
+              <td>see below</td>
+              <td>Documents positional parameters of the routine. rst format only.</td>
+            </tr>
+            
             <tr>
               <td class="name">post</td>
               <td>comments</td>
@@ -551,7 +663,100 @@ end</code></p>
               <td>Default value of the argument.</td>
             </tr>
           </tbody>
-        </table>        
+        </table>      
+        
+        
+        <h2>Headers in IDL format</h2>
+
+        <table class="small">
+          <thead>
+            <tr>
+              <td class="name">Header name</td>
+              <td class="name">Description</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name">NAME</td>
+              <td>Name of the routine. Not used by IDLdoc.</td>
+            </tr>
+
+            <tr>
+              <td class="name">PURPOSE</td>
+              <td>Main description of the routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">CATEGORY</td>
+              <td>List of comma or period separated categories.</td>
+            </tr>
+
+            <tr>
+              <td class="name">CALLING SEQUENCE</td>
+              <td>Calling syntax for the routine. Not used by IDLdoc.</td>
+            </tr>
+
+            <tr>
+              <td class="name">INPUTS</td>
+              <td>List positional input parameters here. List as: <code class="listing">Param1: describe param1 here
+                
+Param2: describe param2 here</code></td>
+            </tr>
+
+            <tr>
+              <td class="name">OPTIONAL INPUTS</td>
+              <td>List optional input parameters here. <code class="listing">Param3: describe param3 here</code></td>
+            </tr>
+
+            <tr>
+              <td class="name">KEYWORD PARAMETERS</td>
+              <td>Document the keyword parameters here. List them as: <code class="listing">KEY1: key1 description
+                
+KEY2: key2 description</code></td>
+            </tr>
+
+            <tr>
+              <td class="name">OUTPUTS</td>
+              <td>Document the return value.</td>
+            </tr>
+
+            <tr>
+              <td class="name">OPTIONAL OUTPUTS</td>
+              <td>Describe the optional outputs here.</td>
+            </tr>
+
+            <tr>
+              <td class="name">COMMON BLOCKS</td>
+              <td>List common blocks, as in: <code class="listing">BLOCK1: description.</code></td>
+            </tr>
+
+            <tr>
+              <td class="name">SIDE EFFECTS</td>
+              <td>Describe side effects here.</td>
+            </tr>
+
+            <tr>
+              <td class="name">RESTRICTIONS</td>
+              <td>Describe restrictions.</td>
+            </tr>
+
+            <tr>
+              <td class="name">PROCEDURE</td>
+              <td>Describe/cite any algorithms being used in this routine.</td>
+            </tr>
+
+            <tr>
+              <td class="name">EXAMPLE</td>
+              <td>List a simple example.</td>
+            </tr>
+
+            <tr>
+              <td class="name">MODIFICATION HISTORY</td>
+              <td>List history of modifications to the routine: <code class="listing">Written by: author name
+July 1994 Describe modifications done on this date </code></td>
+            </tr>
+          </tbody>
+        </table>            
     	</div>
     	
     	

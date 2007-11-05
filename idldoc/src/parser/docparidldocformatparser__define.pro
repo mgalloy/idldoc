@@ -170,8 +170,8 @@ pro docparidldocformatparser::_handleArgumentTag, lines, $
       'default': arg->setProperty, default_value=attributeValues[i]
       else: begin
           self.system->warning, $
-            'unknown argument attribute ' + attributeNames[i] $
-              + ' for argument' + argument + ' in ' + routineName           
+            'unknown argument attribute "' + attributeNames[i] $
+              + '" for argument' + argument + ' in ' + routineName           
         end
     endcase
   endfor
@@ -291,7 +291,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'version': routine->setProperty, version=markupParser->parse(self->_parseTag(lines))
     else: begin
         routine->getProperty, name=name
-        self.system->warning, 'unknown tag ' + tag + ' in routine ' + name
+        self.system->warning, 'unknown tag "' + tag + '" in routine ' + name
       end
   endcase
 end
@@ -346,7 +346,7 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
     
     else: begin
         file->getProperty, basename=basename
-        self.system->warning, 'unknown tag ' + tag + ' in file ' + basename
+        self.system->warning, 'unknown tag "' + tag + '" in file ' + basename
       end
   endcase
 end
@@ -459,6 +459,8 @@ pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
     system->setProperty, overview_comments=comments
   endif
 
+  system->getProperty, directories=directories
+
   ; go through each tag
   for t = 0L, nTags - 1L do begin
     tagStart = tagLocations[t]
@@ -484,8 +486,7 @@ pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
           endif
           
           tagLines[0] = strmid(tagLines[0], argStart[1] + argLength[1])
-          
-          system->getProperty, directories=directories
+                    
           for d = 0L, directories->count() - 1L do begin
             dir = directories->get(position=d)
             dir->getProperty, location=location
@@ -498,7 +499,7 @@ pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
         end
       else: begin
           system->getProperty, overview=overview
-          system->warning, 'unknown tag ' + tag + ' in overview file ' + overview
+          system->warning, 'unknown tag "' + tag + '" in overview file ' + overview
         end
     endcase
   endfor

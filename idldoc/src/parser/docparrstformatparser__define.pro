@@ -53,7 +53,7 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
         l = 1L
         nameIndent = -1L
         while (l lt n_elements(lines) && nameIndent eq -1L) do begin 
-          nameIndent = stregex(lines[1], '[[:alnum:]_$]')          
+          nameIndent = stregex(lines[l++], '[[:alnum:]_$]')          
         endwhile
         
         ; must indent property names
@@ -72,17 +72,17 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
         
         ; add each property
         for p = 0L, nProperties - 1L do begin
-         propertyName = strmid(propLines[propertyDefinitionLines[p]], $
-                               propertyNamesStart[1, propertyDefinitionLines[p]], $
+          propertyName = strmid(propLines[propertyDefinitionLines[p]], $
+                                propertyNamesStart[1, propertyDefinitionLines[p]], $
                                propertyNamesLength[1, propertyDefinitionLines[p]])
-         property = class->addProperty(propertyName)         
-         propertyDefinitionEnd = p eq nProperties - 1L $
-                                   ? n_elements(propLines) - 1L $
-                                   : propertyDefinitionLines[p + 1L] - 1L
-         if (propertyDefinitionLines[p] + 1 le propertyDefinitionEnd) then begin
-           comments = propLines[propertyDefinitionLines[p] + 1L:propertyDefinitionEnd] 
-           property->setProperty, comments=markupParser->parse(comments)        
-         endif  
+          property = class->addProperty(propertyName)         
+          propertyDefinitionEnd = p eq nProperties - 1L $
+                                    ? n_elements(propLines) - 1L $
+                                    : propertyDefinitionLines[p + 1L] - 1L
+          if (propertyDefinitionLines[p] + 1 le propertyDefinitionEnd) then begin
+            comments = propLines[propertyDefinitionLines[p] + 1L:propertyDefinitionEnd] 
+            property->setProperty, comments=markupParser->parse(comments)        
+          endif  
         endfor                     
       end
     
@@ -98,7 +98,7 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
     
     else: begin
         file->getProperty, basename=basename
-        self.system->warning, 'unknown tag ' + tag + ' in file ' + basename
+        self.system->warning, 'unknown tag "' + tag + '" in file ' + basename
       end
   endcase
 end
@@ -155,7 +155,7 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
         l = 1L
         nameIndent = -1L
         while (l lt n_elements(lines) && nameIndent eq -1L) do begin 
-          nameIndent = stregex(lines[1], '[[:alnum:]_$]')          
+          nameIndent = stregex(lines[l++], '[[:alnum:]_$]')          
         endwhile
         
         ; must indent fields names
@@ -172,7 +172,7 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
                                   /subexpr, length=fieldNamesLength)
         fieldDefinitionLines = where(fieldNamesStart[1, *] ne -1L, nFields)
         
-        ; add each property
+        ; add each field
         for f = 0L, nFields - 1L do begin
          fieldName = strmid(fieldLines[fieldDefinitionLines[f]], $
                             fieldNamesStart[1, fieldDefinitionLines[f]], $
@@ -245,7 +245,7 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
     'version': routine->setProperty, version=markupParser->parse(self->_parseTag(lines))
     else: begin
         routine->getProperty, name=name
-        self.system->warning, 'unknown tag ' + tag + ' in routine ' + name
+        self.system->warning, 'unknown tag "' + tag + '" in routine ' + name
       end
   endcase
 end
@@ -280,7 +280,7 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
   l = 1L
   nameIndent = -1L
   while (l lt n_elements(lines) && nameIndent eq -1L) do begin 
-    nameIndent = stregex(lines[1], '[[:alnum:]_$]')          
+    nameIndent = stregex(lines[l++], '[[:alnum:]_$]')          
   endwhile
         
   ; must indent property names
@@ -336,7 +336,17 @@ end
 
 
 ;+
+; Handle parameter/keyword attributes.
 ; 
+; :Params:
+;    param : in, required, type=object
+;       argument tree object
+;    attribute : in, required, type=string
+;       attribute name and, optionally, value i.e. "in" or "type=string"
+;
+; :Keywords:
+;    routine : in, required, type=object
+;       routine tree object
 ;-
 pro docparrstformatparser::_handleAttribute, param, attribute, routine=routine
   compile_opt strictarr
@@ -347,6 +357,7 @@ pro docparrstformatparser::_handleAttribute, param, attribute, routine=routine
   result = strsplit(attribute, '=', /extract)
   attributeName = result[0]
   attributeValue = (n_elements(result) gt 1) ? result[1] : ''
+  
   case attributeName of
     'in': param->setProperty, is_input=1
     'out': param->setProperty, is_output=1
@@ -360,8 +371,8 @@ pro docparrstformatparser::_handleAttribute, param, attribute, routine=routine
     'default': param->setProperty, default_value=attributeValue
     else: begin
         self.system->warning, $
-          'unknown argument attribute ' + attributeName $
-            + ' for argument' + paramName + ' in ' + routineName           
+          'unknown argument attribute "' + attributeName $
+            + '" for argument ' + paramName + ' in ' + routineName           
       end
   endcase  
 end
@@ -437,6 +448,19 @@ pro docparrstformatparser::parseFileComments, lines, file=file,  $
 end
 
 
+;+
+; Handles parsing of a comment block in the overview file using IDLdoc syntax. 
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
+;    system : in, required, type=object
+;       system object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
 pro docparrstformatparser::parseOverviewComments, lines, system=system, $
                                                   markup_parser=markupParser
   compile_opt strictarr
@@ -466,11 +490,63 @@ pro docparrstformatparser::parseOverviewComments, lines, system=system, $
     
     case strlowcase(tag) of
       'dirs': begin
-          ; TODO: implement this tag
+          system->getProperty, directories=directories
+          
+          ; find number of spaces that directories' names are indented
+          l = 1L
+          nameIndent = -1L
+          while (l lt n_elements(lines) && nameIndent eq -1L) do begin 
+            nameIndent = stregex(lines[l++], '[[:alnum:]_$]')          
+          endwhile
+  
+          ; must indent directories' names
+          if (nameIndent lt 1) then begin
+            self.system->warning, 'invalid directories syntax'
+            return
+          endif
+          
+          ; find directories' names lines (ignore first line, first directory 
+          ; starts on the line after :Dirs:)        
+          dirLines = lines[1:*]
+          re = string(format='(%"^[ ]{%d}([[:alnum:]._$\-\/]+)")', nameIndent)        
+          dirNamesStart = stregex(dirLines, re, $
+                                  /subexpr, length=dirNamesLength)
+          dirDefinitionLines = where(dirNamesStart[1, *] ne -1L, nDirs)                  
+        
+          ; add each property
+          for d = 0L, nDirs - 1L do begin
+            dirName = strmid(dirLines[dirDefinitionLines[d]], $
+                             dirNamesStart[1, dirDefinitionLines[d]], $
+                             dirNamesLength[1, dirDefinitionLines[d]])    
+
+            if (strmid(dirName, 0, /reverse_offset) ne path_sep()) then begin
+              dirName += path_sep()
+            endif                                                                  
+            
+            dd = 0L
+            done = 0B
+            while (dd lt directories->count() && ~done) do begin
+              dir = directories->get(position=dd)
+              dir->getProperty, location=location
+              
+              if (dirName eq location) then begin
+
+                dirDefinitionEnd = d eq nDirs - 1L $
+                                     ? n_elements(dirLines) - 1L $
+                                     : dirDefinitionLines[d + 1L] - 1L
+                if (dirDefinitionLines[d] + 1L le dirDefinitionEnd) then begin
+                  comments = dirLines[dirDefinitionLines[d] + 1L:dirDefinitionEnd] 
+                  dir->setProperty, overview_comments=markupParser->parse(comments)        
+                endif                            
+                done = 1B
+              endif
+              dd++
+            endwhile
+          endfor                      
         end
       else: begin
           system->getProperty, overview=overview
-          system->warning, 'unknown tag ' + tag + ' in overview file ' + overview
+          system->warning, 'unknown tag "' + tag + '" in overview file ' + overview
         end
     endcase
   endfor

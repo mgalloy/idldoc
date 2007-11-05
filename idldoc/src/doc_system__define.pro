@@ -582,7 +582,7 @@ end
 ; Enter the item in the index.
 ; 
 ; :Params:
-;    name : in, required, string
+;    name : in, required, type=string
 ;       name to register the entry under
 ;    value : in, required, type=object
 ;       tree object (i.e. directory, file, param)

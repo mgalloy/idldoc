@@ -11,7 +11,7 @@
 ; :Returns: bytarr(3, m, n) or -1L
 ; :Params:
 ;    data : in, required, type=numeric array
-
+;
 ; :Keywords:
 ;    valid : out, optional, type=boolean
 ;       set to a named variable to get status of visualization; if no valid 
