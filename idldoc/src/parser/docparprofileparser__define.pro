@@ -476,12 +476,6 @@ end
 
 ;+
 ; Define instance variables.
-;
-; :Fields:
-;    format
-;       format of the comments
-;    markup
-;       markup style of the comments
 ;-
 pro docparprofileparser__define
   compile_opt strictarr

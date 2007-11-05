@@ -293,7 +293,7 @@ end</code></p>
     		
     		<h3>Restructured text format</h3>
     		
-    		<p>Tags must be the first non-whitespace character on the line. Tag names are case-insensitive. For tags with arguments, the arguments/attributes must be on the same line. Indentation is significant; for tags with multiple arguments, each argument must be consistently indented at least two spaces. Attributes are separated from the argument by a ":" and from each other with commas. Comments for the argument must be further consistently indented at least two more spaces.</p>
+    		<p>Tags must be the first non-whitespace character on the line. Tag names are case-insensitive. For tags with arguments, the arguments/attributes must be on the same line. Indentation is significant (spaces only&mdash;no tabs!); for tags with multiple arguments, each argument must be consistently indented at least two spaces. Attributes are separated from the argument by a ":" and from each other with commas. Comments for the argument must be further consistently indented at least two more spaces.</p>
     		
     		<p>Tags with no arguments: <code class="listing">; :Abstract:</code> or with an argument <code class="listing">; :Returns: string/strarr</code> or arguments with attributes: <code class="listing">; :Params:
 ;    x : in, required, type=fltarr 
