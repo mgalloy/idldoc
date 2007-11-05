@@ -5,6 +5,16 @@
 ;-
 
 
+
+pro docparidlformatparser::_handleArguments, lines, routine=routine, $
+                                             keyword=keyword, $
+                                             optional=optional, $
+                                             input=input 
+  compile_opt strictarr
+  
+end
+
+
 ;+
 ; Handles one tag in a routine's comments.
 ; 
@@ -37,18 +47,12 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
           endif
         endfor   
       end
-    'calling sequence':   ; ignore, not used
-    ; TODO: finish implementing
-    'inputs':
-    ; TODO: finish implementing
-    'optional inputs':
-    ; TODO: finish implementing
-    'keyword parameters':
-    ; TODO: finish implementing
-    'output':
-    ; TODO: finish implementing
-    'optional outputs':
-    ; TODO: finish implementing
+    'calling sequence':   ; ignore, not used    
+    'inputs': self->_handleArguments, lines, routine=routine, /input
+    'optional inputs': self->_handleArguments, lines, routine=routine, /input, /optional
+    'keyword parameters': self->_handleArguments, lines, routine=routine, /input, /keyword, /optional
+    'outputs': routine->setProperty, returns=markupParser->parse(lines)      
+    'optional outputs': self->_handleArguments, lines, routine=routine
     'common blocks':
     'side effects': routine->setProperty, comments=markupParser->parse(lines)
     'restrictions': routine->setProperty, comments=markupParser->parse(lines)
@@ -76,6 +80,10 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
     'modification history': begin
         ; TODO: handle author and history tags here
       end
+    else: begin
+        routine->getProperty, name=name
+        self.system->warning, 'unknown tag "' + tag + '" in routine ' + name
+      end
   endcase
 end
 
@@ -102,7 +110,7 @@ pro docparidlformatparser::parseRoutineComments, lines, routine=routine, $
   ; look for section names
   sectionNames = ['name', 'purpose', 'category', 'calling sequence', $
                   'inputs', 'optional inputs', 'keyword parameters', $
-                  'output', 'optional outputs', 'common blocks', $
+                  'outputs', 'optional outputs', 'common blocks', $
                   'side effects', 'restrictions', 'procedure', 'example', $
                   'modification history'] + ':'
   
@@ -117,6 +125,7 @@ pro docparidlformatparser::parseRoutineComments, lines, routine=routine, $
   for t = 0L, nTags - 1L do begin
     tag = strtrim(lines[tagStarts[t]], 2)
     tag = strmid(tag, 0, strlen(tag) - 1L)
+    
     self->_handleRoutineTag, tag, lines[tagStarts[t] + 1L:tagEnds[t]], $
                              routine=routine, markup_parser=markupParser    
   endfor  
