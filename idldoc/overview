@@ -19,22 +19,32 @@
    ./ 
       Main-level programs such as IDLdoc itself, the system object, and the 
       version function.
-   collection/ 
+      
+   collection 
       Collection classes (imported from mg library).
-   dist_tools/ 
+      
+   dist_tools 
       Routines for handling distributing applications (imported from mg library).
-   introspection/ 
+      
+   introspection 
       Routines for providing information about an IDL variable.
-   math/ 
+      
+   math
       Misc computational routines (imported from mg library).
-   parser/ 
+      
+   parser 
       Parser classes for parsing files, formats, and comments.
-   templating/ 
+      
+   templating 
       Template class and helpers (imported from mg library).
-   textmarkup/ 
+      
+   textmarkup
       Classes to convert a markup tree to a particular markup language (imported 
       from mg library).
-   tree/ 
+      
+   tree
       Classes representing IDL constructs: directories, files, routines, etc.
-   util/ 
+      
+   util 
       Utility classes (formating integers, etc).
+      
