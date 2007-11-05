@@ -4,17 +4,17 @@
 ; This class represents a information about .pro file.
 ; 
 ; :Properties:
-;    `basename` : get, set, type=string
+;    basename : get, set, type=string
 ;       basename of filename
-;    `has_main_level` : get, set, type=boolean
+;    has_main_level : get, set, type=boolean
 ;       true if the file has a main-level program at the end
-;    `is_batch` : get, set, type=boolean
+;    is_batch : get, set, type=boolean
 ;       true if the file is a batch file
-;    `comments` : get, set, type=object
+;    comments : get, set, type=object
 ;       text tree hierarchy for file level comments
-;    `n_routines` : get, type=integer
+;    n_routines : get, type=integer
 ;       number of routines in the file
-;    `routines` : get, type=object
+;    routines : get, type=object
 ;       list object containing routine objects in file
 ;-
 
@@ -123,11 +123,11 @@ end
 ;
 ; :Returns: variable
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of variable
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreeprofile::getVariable, name, found=found
@@ -265,7 +265,7 @@ end
 ; Add a routine to the list of routines in the file.
 ; 
 ; :Params:
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       routine object
 ;-
 pro doctreeprofile::addRoutine, routine
@@ -335,8 +335,8 @@ end
 ;
 ; :Returns: 1 for success, 0 for failure
 ; :Keywords:
-;    `basename` : in, required, type=string
-;    `directory` : in, required, type=object
+;    basename : in, required, type=string
+;    directory : in, required, type=object
 ;-
 function doctreeprofile::init, basename=basename, directory=directory, $
                                system=system
@@ -373,11 +373,16 @@ end
 
 ;+
 ; :Fields:
-;    `directory` directory tree object
-;    `basename` basename of file
-;    `hasMainLevel` true if the file has a main level program at the end
-;    `isBatch` true if the file is a batch file
-;    `routines` list of routine objects
+;    directory
+;       directory tree object
+;    basename
+;       basename of file
+;    hasMainLevel
+;       true if the file has a main level program at the end
+;    isBatch
+;       true if the file is a batch file
+;    routines 
+;       list of routine objects
 ;-
 pro doctreeprofile__define
   compile_opt strictarr
