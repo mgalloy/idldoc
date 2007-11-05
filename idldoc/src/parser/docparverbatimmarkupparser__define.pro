@@ -15,10 +15,10 @@
 ;    `lines` : in, required, type=strarr
 ;       lines to be parsed
 ;-
-function docparverbatimmarkupparser::parse, lines
+function docparverbatimmarkupparser::parse, lines, top=top
   compile_opt strictarr
   
-  tree = obj_new('MGtmTag')
+  tree = obj_new('MGtmTag', type=n_elements(top) gt 0 ? top : 'paragraph')
   
   for l = 0L, n_elements(lines) - 1L do begin
     tree->addChild, obj_new('MGtmText', text=lines[l])

@@ -15,15 +15,15 @@
 ; :Returns: strarr or -1L if empty file
 ;
 ; :Params:
-;    `filename` : in, required, type=string
+;    filename : in, required, type=string
 ;       filename of .pro file to read
 ;
 ; :Keywords:
-;    `empty` : out, optional, type=boolean
+;    empty : out, optional, type=boolean
 ;       returns whether the file was empty
-;    `n_lines` : out, optional, type=long
+;    n_lines : out, optional, type=long
 ;       number of lines in the file
-;    `modification_time` : out, optional, type=string
+;    modification_time : out, optional, type=string
 ;       modification time of the file
 ;-
 function docparprofileparser::_readFile, filename, empty=empty, $
@@ -54,7 +54,7 @@ end
 ; :Returns: string
 ;
 ; :Params:
-;    `line` : in, required, type=string
+;    line : in, required, type=string
 ;       line of code
 ;-
 function docparprofileparser::_stripComments, line, comments=comments
@@ -103,13 +103,13 @@ end
 ; :Returns: 1B if docformat found, 0 if not
 ;
 ; :Params:
-;    `line` : in, required, type=string
+;    line : in, required, type=string
 ;       first line of a .pro file
 ;
 ; :Keywords:
-;    `format`: out, optional, type=string
+;    format : out, optional, type=string
 ;       format string: either idldoc, idl, or rst
-;    `markup` : out, optional, type=string 
+;    markup : out, optional, type=string 
 ;       markup string: either verbatim or rst; defaults to rst if format is
 ;       rst or verbatim if markup is specified but not rst 
 ;-
@@ -167,15 +167,15 @@ end
 ; Parse comments for a routine and update the information for the routine.
 ; 
 ; :Params:
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       routine tree object
-;    `comments` : in, required, type=strarr
+;    comments : in, required, type=strarr
 ;       comments to parse
 ;
 ; :Keywords:
-;    `format` : in, required, type=string
+;    format : in, required, type=string
 ;       format type: idldoc, idl, rst
-;    `markup` : in, required, type=string
+;    markup : in, required, type=string
 ;       markup type: verbatim, rst
 ;-
 pro docparprofileparser::_parseRoutineComments, routine, comments, $
@@ -194,15 +194,15 @@ end
 ; Parse comments associated with a file.
 ;
 ; :Params:
-;    `file` : in, required, type=object
+;    file : in, required, type=object
 ;       file tree object
-;    `comments` : in, required, type=strarr
+;    comments : in, required, type=strarr
 ;       comments to parse
 ;
 ; :Keywords:
-;    `format` : in, required, type=string
+;    format : in, required, type=string
 ;       format type: idldoc, idl, rst
-;    `markup` : in, required, type=string
+;    markup : in, required, type=string
 ;       markup type: verbatim, rst
 ;-
 pro docparprofileparser::_parseFileComments, file, comments, $
@@ -221,13 +221,13 @@ end
 ; Parse arguments/keywords of the routine header. 
 ; 
 ; :Params:
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       routine tree object
-;    `cmd` : in, required, type=string
+;    cmd : in, required, type=string
 ;       header line (comments stripped already)
 ;
 ; :Keywords:
-;    `first_line` : in, optional, type=boolean
+;    first_line : in, optional, type=boolean
 ;       set if this is the first line of the routine header
 ;-
 pro docparprofileparser::_parseHeader, routine, cmd, first_line=firstLine
@@ -260,15 +260,15 @@ end
 ; Parse the lines of a .pro file, ripping out comments.
 ;
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       text of .pro file
-;    `file` : in, required, type=object
+;    file : in, required, type=object
 ;       file tree object
 ;
 ; :Keywords:
-;    `format` : in, required, type=string, default=self.format
+;    format : in, required, type=string, default=system's format
 ;       format of comments 
-;    `markup` : in, required, type=string, default=self.markup
+;    markup : in, required, type=string, default=system's markup
 ;       markup format for comments
 ;-
 pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
@@ -408,13 +408,13 @@ end
 ; 
 ; :Returns: file tree object
 ; :Params:
-;    `filename` : in, required, type=string
+;    filename : in, required, type=string
 ;       absolute path to .pro file to be parsed
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       returns 1 if filename found, 0 otherwise
-;    `directory` : in, required, type=object
+;    directory : in, required, type=object
 ;       directory tree object
 ;-
 function docparprofileparser::parse, filename, found=found, directory=directory
@@ -446,8 +446,8 @@ function docparprofileparser::parse, filename, found=found, directory=directory
                                           format=format, $ 
                                           markup=markup)
   if (~foundFormat) then begin
-    format = self.format
-    markup = self.markup
+    self.system->getProperty, format=format
+    self.system->getProperty, markup=markup
   endif else file->setProperty, format=format, markup=markup
   
   ; parse lines of file
@@ -462,19 +462,13 @@ end
 ; Create a file parser.
 ;
 ; :Keywords:
-;    `system` : in, required, type=object
+;    system : in, required, type=object
 ;       system object
-;    `format` : in, optional, type=string, default=idldoc
-;       format of comments: IDLdoc, IDL, or rst
-;    `markup` : in, optional, type=string, default=verbatim
-;       style of markup: verbatim or rst
 ;-
-function docparprofileparser::init, system=system, format=format, markup=markup
+function docparprofileparser::init, system=system
   compile_opt strictarr
   
   self.system = system
-  self.format = n_elements(format) eq 0 ? 'idldoc' : format
-  self.markup = n_elements(markup) eq 0 ? 'verbatim' : markup
   
   return, 1
 end
@@ -484,17 +478,15 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    `format`
+;    format
 ;       format of the comments
-;    `markup` 
+;    markup
 ;       markup style of the comments
 ;-
 pro docparprofileparser__define
   compile_opt strictarr
   
   define = { DOCparProFileParser, $
-             system: obj_new(), $
-             format: '', $
-             markup: '' $
+             system: obj_new() $
            }
 end

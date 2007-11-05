@@ -492,7 +492,8 @@ pro doc_system::loadParsers
   self.parsers->put, 'verbatimformat', obj_new('DOCparVerbatimFormatParser', system=self)
   self.parsers->put, 'rstformat', obj_new('DOCparRSTFormatParser', system=self)
   self.parsers->put, 'idldocformat', obj_new('DOCparIDLdocFormatParser', system=self)
-  self.parsers->put, 'idlformat', obj_new('DOCparIDLFormatParser', system=self)
+  self.parsers->put, 'idlformat', $
+                     obj_new('DOCparIDLFormatParser', system=self)
   
   ; markup parsers
   self.parsers->put, 'verbatimmarkup', obj_new('DOCparVerbatimMarkupParser', system=self)
