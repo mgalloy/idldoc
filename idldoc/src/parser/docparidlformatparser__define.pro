@@ -53,10 +53,24 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
     'side effects': routine->setProperty, comments=markupParser->parse(lines)
     'restrictions': routine->setProperty, comments=markupParser->parse(lines)
     'procedure': routine->setProperty, comments=markupParser->parse(lines)
-    'example': begin
-        ; TODO: probably should remove indent (what to do about tabs vs spaces?)
+    'example': begin        
         verbatimParser = self.system->getParser('verbatimmarkup')
-        examples = verbatimParser->parse(lines, top='listing')
+                
+        dummy = stregex(lines, '^[[:space:]]*[^[:space:]]', length=lengths)
+        lengths--   ; remove non-space character
+        ind = where(lengths gt 0, nActualLines)
+        indent = min(lengths[ind])
+        
+        exLines = strmid(lines, indent)
+        
+        ; remove trailing blank lines
+        l = n_elements(exLines) - 1L
+        while (l gt 0 && strtrim(exLines[l], 2) eq '') do begin
+          exLines = exLines[0L:l-1L]
+          l--
+        endwhile
+        
+        examples = verbatimParser->parse(exLines, top='listing')
         routine->setProperty, examples=examples
       end
     'modification history': begin
@@ -130,10 +144,11 @@ end
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
-pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
+pro docparidlformatparser::parseOverviewComments, lines, system=system, $
                                                      markup_parser=markupParser
   compile_opt strictarr
 
+  ; TODO: implement this
 end
 
 
