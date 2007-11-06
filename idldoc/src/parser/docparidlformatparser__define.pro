@@ -70,15 +70,15 @@ end
 ;       markup parser object
 ;-
 pro docparidlformatparser::_handleFileTag, tag, lines, $
-                                              file=file,  $
-                                              markup_parser=markupParser
+                                           file=file,  $
+                                           markup_parser=markupParser
   compile_opt strictarr
   
   ; TODO: get correct routine and add comments to it
   case strlowcase(tag) of
     ; TODO: might use this to find correct routine
     'name':
-    'purpose': routine->setProperty, comments=markupParser->parse(lines)
+    'purpose': file->setProperty, comments=markupParser->parse(lines)
     'category': 
     'calling sequence':   ; ignore, not used    
     'inputs': 
