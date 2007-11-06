@@ -45,7 +45,7 @@ a.top {
 code { font-family: Monaco; "Courier New", Courier, monospace; }
 code.listing { white-space: pre; display: block; padding: 0.5em 3em 0.5em 3em; font-size: 90%; }
 code.source { white-space: pre; display: block; font-size: 90%; }
-code.source span.comments { font-style: italic; color: #408080; }
+code.source span.comments { color: #408080; }
 .syntax { margin-top: 1em; margin-left: 1.5em; text-indent: -1.5em; }
 .var { font-style: italic; } 
 .argument { } /* white-space: nowrap; does not work in Safari (and sometimes not even in Firefox) */

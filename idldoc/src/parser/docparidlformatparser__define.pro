@@ -55,6 +55,75 @@ end
 
 
 ;+
+; Handles one tag in a file's comments.
+; 
+; :Params:
+;    tag : in, required, type=string
+;       rst tag, i.e. returns, params, keywords, etc.
+;    lines : in, required, type=strarr
+;       lines of raw text for that tag
+;
+; :Keywords:
+;    file : in, required, type=object
+;       routine file object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
+pro docparidlformatparser::_handleFileTag, tag, lines, $
+                                              file=file,  $
+                                              markup_parser=markupParser
+  compile_opt strictarr
+  
+  ; TODO: get correct routine and add comments to it
+  case strlowcase(tag) of
+    ; TODO: might use this to find correct routine
+    'name':
+    'purpose': routine->setProperty, comments=markupParser->parse(lines)
+    'category': 
+    'calling sequence':   ; ignore, not used    
+    'inputs': 
+    'optional inputs': 
+    'keyword parameters': 
+    'outputs':       
+    'optional outputs': 
+    'common blocks':
+    'side effects': file->setProperty, comments=markupParser->parse(lines)
+    'restrictions': file->setProperty, comments=markupParser->parse(lines)
+    'procedure': file->setProperty, comments=markupParser->parse(lines)
+    'example': begin        
+        verbatimParser = self.system->getParser('verbatimmarkup')
+                
+        dummy = stregex(lines, '^[[:space:]]*[^[:space:]]', length=lengths)
+        lengths--   ; remove non-space character
+        ind = where(lengths gt 0, nActualLines)
+        if (nActualLines eq 0) then return
+        indent = min(lengths[ind])
+        
+        exLines = strmid(lines, indent)
+        
+        ; remove trailing blank lines
+        l = n_elements(exLines) - 1L
+        while (l gt 0 && strtrim(exLines[l], 2) eq '') do begin
+          exLines = exLines[0L:l-1L]
+          l--
+        endwhile
+        
+        examples = verbatimParser->parse(exLines, top='listing')
+        file->setProperty, examples=examples
+      end
+    'modification history': begin
+        ; TODO: pull out author information
+        file->setProperty, history=markupParser->parse(lines)
+      end
+    else: begin
+        file->getProperty, basename=basename
+        self.system->warning, 'unknown tag "' + tag + '" in file ' + basename
+      end
+  endcase
+end
+
+
+;+
 ; Handles one tag in a routine's comments.
 ; 
 ; :Params:
@@ -92,8 +161,7 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
     'keyword parameters': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, /keyword, /optional, tag='keyword' 
     'outputs': routine->setProperty, returns=markupParser->parse(lines)      
     'optional outputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, tag='optional output'
-    ; TODO: implement
-    'common blocks':
+    'common blocks': routine->setProperty, comments=markupParser->parse(lines)
     'side effects': routine->setProperty, comments=markupParser->parse(lines)
     'restrictions': routine->setProperty, comments=markupParser->parse(lines)
     'procedure': routine->setProperty, comments=markupParser->parse(lines)
@@ -119,7 +187,8 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
         routine->setProperty, examples=examples
       end
     'modification history': begin
-        ; TODO: handle author and history tags here
+        ; TODO: pull out author information
+        routine->setProperty, history=markupParser->parse(lines)
       end
     else: begin
         routine->getProperty, name=name
@@ -175,11 +244,49 @@ pro docparidlformatparser::parseRoutineComments, lines, routine=routine, $
 end
 
 
+;+
+; Handles parsing of a comment block associated with a file. 
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
+;    file : in, required, type=object
+;       file tree object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
 pro docparidlformatparser::parseFileComments, lines, file=file, $
                                               markup_parser=markupParser
   compile_opt strictarr
   
-  ; TODO: implement this
+  if (n_elements(lines) eq 0) then return
+  
+  ; look for section names
+  sectionNames = ['name', 'purpose', 'category', 'calling sequence', $
+                  'inputs', 'optional inputs', 'keyword parameters', $
+                  'outputs', 'optional outputs', 'common blocks', $
+                  'side effects', 'restrictions', 'procedure', 'example', $
+                  'modification history'] + ':'
+  
+  tagLocations = bytarr(n_elements(lines))   
+  for s = 0L, n_elements(sectionNames) - 1L do begin
+    tagLocations or= strlowcase(strtrim(lines, 2)) eq sectionNames[s]
+  endfor  
+  
+  tagStarts = where(tagLocations, nTags)
+  if (nTags eq 0) then return
+  tagEnds = nTags eq 1 ? n_elements(lines) - 1L : [tagStarts[1:*] - 1L, n_elements(lines) - 1L]
+  for t = 0L, nTags - 1L do begin
+    tag = strtrim(lines[tagStarts[t]], 2)
+    tag = strmid(tag, 0, strlen(tag) - 1L)
+    
+    if (tagStarts[t] + 1L lt tagEnds[t]) then begin
+      self->_handleFileTag, tag, lines[tagStarts[t] + 1L:tagEnds[t]], $
+                            file=file, markup_parser=markupParser
+    endif  
+  endfor 
 end
 
 
