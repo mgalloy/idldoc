@@ -369,13 +369,13 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       if (firstToken eq 'function') then routine->setProperty, is_function=1B   
          
       self->_parseHeader, routine, command, /first_line
-            
+      
+      if (~headerContinued) then justFinishedHeader = 1B
       if (~headerContinued && currentComments->count() gt 0) then begin
         self->_parseRoutineComments, routine, currentComments->get(/all), $
                                      format=format, markup=markup
         
         currentComments->remove, /all
-        justFinishedHeader = 1B
       endif
     endif
     
