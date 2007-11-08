@@ -11,7 +11,7 @@ function docrtadapt_hist_equal_ut::test_basic
           title='Testing ADAPT_HIST_EQUAL docs in IDL standard library', $
           subtitle='Basic test', $
           format_style='idl', $
-          n_warnings=nWarnings, error=error, $
+          /silent, n_warnings=nWarnings, error=error, $
           log_file=filepath('idldoc.log', subdir='adapt_hist_equal-docs', root=self.root)
           
   assert, error eq 0, 'failed with error ' + !error_state.msg
