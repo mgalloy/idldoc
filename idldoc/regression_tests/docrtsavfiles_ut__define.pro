@@ -14,6 +14,9 @@ function docrtsavfiles_ut::test_basic
           log_file=filepath('idldoc.log', subdir='savfiles-docs', root=self.root)
           
   assert, error eq 0, 'failed with error ' + !error_state.msg
+  
+  mg_open_url, 'file://' + filepath('index.html', subdir='savfiles-docs', root=self.root)
+    
   assert, nWarnings eq 0, 'failed with warnings'
   
   return, 1

@@ -13,9 +13,12 @@ function docrtderiv_ut::test_basic
           subtitle='Basic test', $
           format_style='idl', $
           /silent, n_warnings=nWarnings, error=error, $
-          log_file=filepath('idldoc.log', subdir='congrid-docs', root=self.root)
+          log_file=filepath('idldoc.log', subdir='deriv-docs', root=self.root)
           
   assert, error eq 0, 'failed with error ' + !error_state.msg
+  
+  mg_open_url, 'file://' + filepath('index.html', subdir='deriv-docs', root=self.root)
+    
   assert, nWarnings eq 0, 'failed with warnings'
   
   return, 1
