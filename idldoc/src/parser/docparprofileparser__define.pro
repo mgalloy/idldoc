@@ -309,7 +309,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       continue
     endif
     
-    if (strmid(command, 0, 1) eq ';') then continue
+    if (strmid(command, 0, 1) eq ';' && insideComment) then continue
     
     ; token delimiters are: space, tab, and comma
     delims = ' ' + string(9B) + ','
