@@ -279,7 +279,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
   justFinishedHeader = 0B
   headerContinued = 0B
   codeLevel = 0L
-  currentComments = obj_new('MGcoArrayList', type=7)
+  currentComments = obj_new('MGcoArrayList', type=7, block_size=20)
   
   tokenizer = obj_new('DOCparProFileTokenizer', lines)
   

@@ -83,8 +83,8 @@ function docparidldocformatparser::_parseTag, lines, $
   
   ; find attributes
 
-  attributeNamesList = obj_new('MGcoArrayList', type=7)
-  attributeValuesList = obj_new('MGcoArrayList', type=7)
+  attributeNamesList = obj_new('MGcoArrayList', type=7, block_size=10)
+  attributeValuesList = obj_new('MGcoArrayList', type=7, block_size=10)
   
   re = '^[[:space:]]*{([^}]*)}.*'
   starts = 0

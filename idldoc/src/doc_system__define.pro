@@ -654,7 +654,7 @@ pro doc_system::createCategoryEntry, name, routine
   categoryList = self.categories->get(lname, found=found)
   
   if (~found) then begin
-    categoryList = obj_new('MGcoArrayList', type=11)
+    categoryList = obj_new('MGcoArrayList', type=11, block_size=20)
     self.categories->put, lname, categoryList
   endif
   
@@ -987,26 +987,27 @@ function doc_system::init, root=root, output=output, $
   outputError = self->testOutput()
   if (outputError ne 0L) then self->error, 'unable to write to ' + self.output
   
-  self.index = obj_new('MGcoArrayList', example={name:'', item: obj_new() })
+  self.index = obj_new('MGcoArrayList', example={name:'', item: obj_new() }, $
+                       block_size=100)
   self.classes = obj_new('MGcoHashTable', key_type=7, value_type=11)
   self.categories = obj_new('MGcoHashTable', key_type=7, value_type=11)
-  self.todos = obj_new('MGcoArrayList', type=11)
-  self.obsolete = obj_new('MGcoArrayList', type=11)
-  self.undocumented = obj_new('MGcoArrayList', type=11)
-  self.bugs = obj_new('MGcoArrayList', type=11)
+  self.todos = obj_new('MGcoArrayList', type=11, block_size=10)
+  self.obsolete = obj_new('MGcoArrayList', type=11, block_size=20)
+  self.undocumented = obj_new('MGcoArrayList', type=11, block_size=20)
+  self.bugs = obj_new('MGcoArrayList', type=11, block_size=20)
   
-  self.proFiles = obj_new('MGcoArrayList', type=11)
-  self.savFiles = obj_new('MGcoArrayList', type=11)
-  self.idldocFiles = obj_new('MGcoArrayList', type=11)
+  self.proFiles = obj_new('MGcoArrayList', type=11, block_size=20)
+  self.savFiles = obj_new('MGcoArrayList', type=11, block_size=20)
+  self.idldocFiles = obj_new('MGcoArrayList', type=11, block_size=20)
   
-  self.requiresRoutines = obj_new('MGcoArrayList', type=11)
+  self.requiresRoutines = obj_new('MGcoArrayList', type=11, block_size=20)
   
   ; copy resources
   self->print, 'Copying resources...'
   self->copyResources
   
   ; initialize some data structures
-  self.directories = obj_new('MGcoArrayList', type=11)
+  self.directories = obj_new('MGcoArrayList', type=11, block_size=8)
   
   ; load templates
   self.templates = obj_new('MGcoHashTable', key_type=7, value_type=11)

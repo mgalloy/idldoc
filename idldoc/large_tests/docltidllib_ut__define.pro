@@ -11,7 +11,7 @@ function docltidllib_ut::test_basic
           title='Testing IDL standard library', $
           subtitle='Basic test', $
           format_style='idl', $
-          /silent, n_warnings=nWarnings, error=error, $
+          n_warnings=nWarnings, error=error, $
           log_file=filepath('idldoc.log', subdir='lib-docs', root=self.root)
           
   assert, error eq 0, 'failed with error ' + !error_state.msg
