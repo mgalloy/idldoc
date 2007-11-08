@@ -14,7 +14,7 @@ IDLdoc 3.0
   "hidden," "private", "author", "copyright", "history", "version",
   "examples", and "property".
   
-* Routine comments can be before or *after* the routine header.
+* Routine comments can be immediately before or *after* the routine header.
 
 * It is now feasible to create your own library of templates for output. The
   TEMPLATE_PREFIX keyword specifies a prefix before the template names. The
@@ -33,6 +33,9 @@ IDLdoc 3.0
   
       ; docformat = 'rst'
   
+  Available with IDLdoc 3.0 are the default IDLdoc style, the IDL standard
+  template, and a new restructured text based style.
+  
 * Uses "requires" tag on routines to find the highest version of IDL required
   by a project. Simply put the IDL version required as the first match to the
   regular expression::
@@ -47,4 +50,4 @@ IDLdoc 3.0
   OUTPUT keyword was not used). There is a NOSOURCE keyword to explicitly
   disable this if required.
   
-* Requires IDL 6.1. All platforms supported by IDL are supported by IDLdoc.
+* Requires IDL 6.1. IDLdoc runs on all platforms supported by IDL.
