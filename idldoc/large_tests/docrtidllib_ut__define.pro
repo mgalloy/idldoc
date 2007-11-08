@@ -3,7 +3,7 @@
 ;+
 ; Basic IDL standard library run.
 ;-
-function docrtidllib_ut::test_basic
+function docltidllib_ut::test_basic
   compile_opt strictarr
 
   idldoc, root=filepath('lib'), $
@@ -24,8 +24,8 @@ end
 ;+
 ; Define instance variables.
 ;-
-pro docrtidllib_ut__define
+pro docltidllib_ut__define
   compile_opt strictarr
   
-  define = { DOCrtIDLLib_ut, inherits DOCrtTestCase }
+  define = { DOCltIDLLib_ut, inherits DOCltTestCase }
 end
