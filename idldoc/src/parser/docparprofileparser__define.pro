@@ -440,7 +440,8 @@ function docparprofileparser::parse, filename, found=found, directory=directory
   file = obj_new('DOCtreeProFile', $
                  basename=file_basename(filename), $
                  directory=directory, $
-                 system=self.system)
+                 system=self.system, $
+                 fullpath=filename)
   
   ; get the contents of the file
   lines = self->_readFile(filename, empty=empty, n_lines=nLines, $

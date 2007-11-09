@@ -138,6 +138,7 @@ function doctreeprofile::getVariable, name, found=found
     'basename': return, self.basename
     'local_url': return, file_basename(self.basename, '.pro') + '.html'
     'source_url': return, file_basename(self.basename, '.pro') + '-code.html'
+    'direct_source_url': return, file_basename(self.basename)
     'code': return, self.system->processComments(self.code)
     
     'is_batch': return, self.isBatch
@@ -309,12 +310,19 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   self.system->getProperty, nosource=nosource
   if (nosource) then return
   
+  ; chromocoded version of the source code
   sourceTemplate = self.system->getTemplate('source')
   
   outputFilename = outputDir + file_basename(self.basename, '.pro') + '-code.html'
   
   sourceTemplate->reset
   sourceTemplate->process, self, outputFilename    
+  
+  ; direct version of the source code
+  self.system, output=output, root=root
+  if (output ne root) then begin
+    file_copy, self.fullpath, outputDir + file_basename(self.basename)
+  endif
 end
 
 
@@ -334,17 +342,25 @@ end
 ; Create file tree object.
 ;
 ; :Returns: 1 for success, 0 for failure
+;
 ; :Keywords:
 ;    basename : in, required, type=string
+;       basename of the .pro file
 ;    directory : in, required, type=object
+;       directory tree object
+;    system : in, required, type=object
+;       system object
+;    fullpath : in, required, type=string
+;       full filename of the .pro file
 ;-
 function doctreeprofile::init, basename=basename, directory=directory, $
-                               system=system
+                               system=system, fullpath=fullpath
   compile_opt strictarr
   
   self.basename = basename
   self.directory = directory
   self.system = system
+  self.fullpath = fullpath
   
   self.isClass = strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
   if (self.isClass) then begin  
@@ -393,6 +409,7 @@ pro doctreeprofile__define
              system: obj_new(), $
              directory: obj_new(), $
              
+             fullpath: '', $
              basename: '', $
              code: obj_new(), $
              

@@ -6,7 +6,7 @@
 ;   
 ; :Returns: string
 ; :Params:
-;    `n` : in, required, type=integer
+;    n : in, required, type=integer
 ;       integer to format
 ;-
 function mg_int_format, n
