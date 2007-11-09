@@ -312,7 +312,7 @@
 		        <table class="attribute small">
 		          <tr>
 		            <td class="name">Lines:</td>
-		            <td></td>
+		            <td>[% n_lines %]</td>
 		          </tr> 
 
 		          <tr>

@@ -11,11 +11,13 @@
 ; comments.
 ; 
 ; :Returns: string
+;
 ; :Params:
-;    `line` : in, required, type=string
+;    line : in, required, type=string
 ;       line of IDL code
+;
 ; :Keywords:
-;    `empty` : out, optional, type=boolean
+;    empty : out, optional, type=boolean
 ;       true if there is no IDL statement on the line (only comments or 
 ;       whitespace)
 ;-
@@ -83,8 +85,12 @@ end
 ; Returns the next command.
 ;
 ; :Returns: string
+;
+; :Keywords:
+;    current_line_number : out, optional, type=long
+;       returns the line number of the current (possibly partial) returned line
 ;-
-function docparprofiletokenizer::next
+function docparprofiletokenizer::next, current_line_number=currentLineNumber
   compile_opt strictarr
   on_error, 2
   
@@ -95,6 +101,7 @@ function docparprofiletokenizer::next
   endif 
   
   self.currentLineIndex++
+  currentLineNumber = self.currentLineIndex
   
   ; no more commands left
   if (self.currentLineIndex ge self.nLines) then begin
@@ -134,8 +141,9 @@ end
 ; Create a tokenizer.
 ;
 ; :Returns: 1 for success, 0 for failure
+;
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       text of the .pro file
 ;-
 function docparprofiletokenizer::init, lines
@@ -156,12 +164,18 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    `plines` pointer to code strarr
-;    `nLines` number of lines held by pLines pointer
-;    `currentLineIndex` current line's index
-;    `currentLine` current line
-;    `nCommands` number of space delimited IDL commands on the current line
-;    `currentCommandIndex` index of the current command on the current line
+;    plines
+;       pointer to code strarr
+;    nLines
+;       number of lines held by pLines pointer
+;    currentLineIndex
+;       current line's index
+;    currentLine
+;       current line
+;    nCommands
+;       number of space delimited IDL commands on the current line
+;    currentCommandIndex
+;       index of the current command on the current line
 ;-
 pro docparprofiletokenizer__define
   compile_opt strictarr

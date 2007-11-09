@@ -9,8 +9,10 @@
 ; Create a line plot.
 ;
 ; :Returns: bytarr(3, m, n) or -1L
+;
 ; :Params:
 ;    data : in, required, type=numeric array
+;       data to visualize
 ;
 ; :Keywords:
 ;    valid : out, optional, type=boolean
@@ -64,10 +66,13 @@ end
 ; Create a contour plot.
 ;
 ; :Returns: bytarr(3, m, n) or -1L
+;
 ; :Params:
-;    `data` : in, required, type=numeric array
+;    data : in, required, type=numeric array
+;       data to visualize
+;
 ; :Keywords:
-;    `valid` : out, optional, type=boolean
+;    valid : out, optional, type=boolean
 ;       set to a named variable to get status of visualization; if no valid 
 ;       visualization type could be found, -1L is returned
 ;-
@@ -118,10 +123,13 @@ end
 ; Create a volume visualization.
 ;
 ; :Returns: bytarr(3, m, n) or -1L
+;
 ; :Params:
-;    `data` : in, required, type=numeric array
+;    data : in, required, type=numeric array
+;       date to visualize
+;
 ; :Keywords:
-;    `valid` : out, optional, type=boolean
+;    valid : out, optional, type=boolean
 ;       set to a named variable to get status of visualization; if no valid 
 ;       visualization type could be found, -1L is returned
 ;-
@@ -169,10 +177,13 @@ end
 ; Resize image to correct dimensions while preserving the aspect ratio.
 ;
 ; :Returns: bytarr(3, m, n) or -1L
+;
 ; :Params:
-;    `data` : in, required, type=numeric array
+;    data : in, required, type=numeric array
+;       data to visualize
+;
 ; :Keywords:
-;    `valid` : out, optional, type=boolean
+;    valid : out, optional, type=boolean
 ;       set to a named variable to get status of visualization; if no valid 
 ;       visualization type could be found, -1L is returned
 ;-
@@ -217,10 +228,13 @@ end
 ; visualization of the data and returns the result as a true color image.
 ;
 ; :Returns: bytarr(3, m, n) or -1L
+;
 ; :Params:
-;    `data` : in, required, type=numeric array
+;    data : in, required, type=numeric array
+;       data to visualize
+;
 ; :Keywords:
-;    `valid` : out, optional, type=boolean
+;    valid : out, optional, type=boolean
 ;       set to a named variable to get status of visualization; if no valid 
 ;       visualization type could be found, -1L is returned
 ;-

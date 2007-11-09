@@ -2,17 +2,17 @@
 
 ;+
 ; :Properties:
-;    `file` : get, type=object
+;    file : get, type=object
 ;       file tree object
-;    `name` : set, get, type=string
+;    name : set, get, type=string
 ;       name of the routine
-;    `is_function` : get, set, type=boolean
+;    is_function : get, set, type=boolean
 ;       1 if a function, 0 if not 
-;    `is_method` : get, set, type=boolean
+;    is_method : get, set, type=boolean
 ;       1 if a method, 0 if not
-;    `parameters` : get, type=object
+;    parameters : get, type=object
 ;       list object of positional parameter objects for routine
-;    `keywords` : get, type=object
+;    keywords : get, type=object
 ;       list object of keyword objects for routine
 ;-
 
@@ -98,7 +98,8 @@ pro doctreeroutine::setProperty, name=name, $
                                  todo=todo, $
                                  restrictions=restrictions, $
                                  uses=uses, $
-                                 requires=requires
+                                 requires=requires, $
+                                 n_lines=nLines
   compile_opt strictarr
   
   if (n_elements(name) gt 0) then begin
@@ -124,6 +125,7 @@ pro doctreeroutine::setProperty, name=name, $
 
   if (n_elements(returns) gt 0) then self.returns = returns  
   if (n_elements(examples) gt 0) then self.examples = examples
+  if (n_elements(nLines) gt 0) then self.nLines = nLines
   
   ; "author info" attributes
   if (n_elements(author) gt 0) then begin
@@ -193,12 +195,13 @@ end
 ; Get variables for use with templates.
 ;
 ; :Returns: variable
+;
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of variable
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreeroutine::getVariable, name, found=found
@@ -214,6 +217,8 @@ function doctreeroutine::getVariable, name, found=found
     'is_private': return, self.isPrivate   
     'is_visible': return, self->isVisible() 
     'is_obsolete': return, self.isObsolete
+    
+    'n_lines': return, self.nLines
     
     'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)
@@ -556,6 +561,7 @@ pro doctreeroutine__define
              isObsolete: 0B, $
              isHidden: 0B, $
              isPrivate: 0B, $
+             nLines: 0L, $
              
              parameters: obj_new(), $
              keywords: obj_new(), $

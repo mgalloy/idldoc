@@ -279,6 +279,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
   justFinishedHeader = 0B
   headerContinued = 0B
   codeLevel = 0L
+  routineLineStart = 0
   currentComments = obj_new('MGcoArrayList', type=7, block_size=20)
   
   tokenizer = obj_new('DOCparProFileTokenizer', lines)
@@ -288,7 +289,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
                  
   while (tokenizer->hasNext()) do begin
     ; determine if line has: ;+, ;-, pro/function, begin, end*
-    command = tokenizer->next()
+    command = tokenizer->next(current_line_number=currentLineNumber)
     
     if (strmid(command, 0, 2) eq ';-' && insideComment) then begin
       insideComment = 0B
@@ -334,7 +335,14 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     
     ; if firstToken is one of the end variants then codeLevel--
     ind = where(firstToken eq endVariants, nEndsFound)
-    if (nEndsFound gt 0) then codeLevel--
+    if (nEndsFound gt 0L) then begin
+      codeLevel--
+    
+      ; ending a routine, setting number of lines of the routine
+      if (codeLevel eq 0L) then begin
+        routine->setProperty, n_lines=currentLineNumber - routineLineStart + 1L
+      endif 
+    endif
     
     ; process keywords/params in continued header
     if (headerContinued) then begin
@@ -358,6 +366,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     if (firstToken eq 'pro' || firstToken eq 'function') then begin
       codeLevel++
       insideComment = 0B
+      routineLineStart = currentLineNumber
       
       if (lastToken eq '$') then headerContinued = 1B
       
@@ -476,6 +485,10 @@ end
 
 ;+
 ; Define instance variables.
+;
+; :Fields:
+;    system
+;       system object
 ;-
 pro docparprofileparser__define
   compile_opt strictarr

@@ -1,7 +1,9 @@
 ; docformat = 'rst'
 
 ;+
-; Generate documentation for IDL code.
+; Generate documentation for IDL code. This is a wrapper routine for the 
+; doc_system class; this routine only handles errors, saving/restoring !path, 
+; and creating the doc_system object.
 ;
 ; :Keywords:
 ;    root : in, required, type=string
@@ -32,7 +34,8 @@
 ;       subtitle for docs
 ;    nonavbar : in, optional, type=boolean
 ;       set to not display the navbar
-;
+;    nosource : in, optional, type=boolean
+;       set to not display the source code for .pro files
 ;    user : in, optional, type=boolean
 ;       set to generate user-level docs (private parameters, files are not
 ;       shown); the default is developer-level docs showing files and 
