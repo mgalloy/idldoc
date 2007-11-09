@@ -6,7 +6,7 @@
 ;
 ; :Returns: string
 ; :Keywords: 
-;    `full` : in, optional, type=boolean
+;    full : in, optional, type=boolean
 ;       set to return Subversion revision as well
 ;-
 function idldoc_version, full=full
