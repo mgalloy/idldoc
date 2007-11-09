@@ -340,7 +340,10 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     
       ; ending a routine, setting number of lines of the routine
       if (codeLevel eq 0L) then begin
-        routine->setProperty, n_lines=currentLineNumber - routineLineStart + 1L
+        if (obj_valid(routine)) then begin
+          nLines = currentLineNumber - routineLineStart + 1L
+          routine->setProperty, n_lines=nLines
+        endif
       endif 
     endif
     
