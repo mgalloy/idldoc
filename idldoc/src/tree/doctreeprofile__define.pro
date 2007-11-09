@@ -319,10 +319,8 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   sourceTemplate->process, self, outputFilename    
   
   ; direct version of the source code
-  self.system, output=output, root=root
-  if (output ne root) then begin
-    file_copy, self.fullpath, outputDir + file_basename(self.basename)
-  endif
+  file_copy, self.fullpath, outputDir + file_basename(self.basename), $
+             /allow_same, /overwrite
 end
 
 
