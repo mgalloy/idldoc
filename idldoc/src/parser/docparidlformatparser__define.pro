@@ -93,11 +93,9 @@ pro docparidlformatparser::_handleFileTag, tag, lines, $
     'example': begin        
         verbatimParser = self.system->getParser('verbatimmarkup')
                 
-        dummy = stregex(lines, '^[[:space:]]*[^[:space:]]', length=lengths)
+        dummy = stregex(lines, '^[ ]*[^ ]', length=lengths)
         lengths--   ; remove non-space character
-        ind = where(lengths gt 0, nActualLines)
-        if (nActualLines eq 0) then return
-        indent = min(lengths[ind])
+        indent = min(lengths) > 0
         
         exLines = strmid(lines, indent)
         
@@ -168,11 +166,9 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
     'example': begin        
         verbatimParser = self.system->getParser('verbatimmarkup')
                 
-        dummy = stregex(lines, '^[[:space:]]*[^[:space:]]', length=lengths)
+        dummy = stregex(lines, '^[ ]*[^ ]', length=lengths)
         lengths--   ; remove non-space character
-        ind = where(lengths gt 0, nActualLines)
-        if (nActualLines eq 0) then return
-        indent = min(lengths[ind])
+        indent = min(lengths) > 0
         
         exLines = strmid(lines, indent)
         
