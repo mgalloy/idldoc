@@ -298,7 +298,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     endif    
     
     if (strmid(command, 0, 1) eq ';' && insideComment) then begin
-      currentComments->add, strmid(command, 2)
+      currentComments->add, strmid(command, 1)
       continue
     endif
     
