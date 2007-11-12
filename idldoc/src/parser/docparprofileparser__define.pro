@@ -310,16 +310,21 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       continue
     endif
     
-    if (strmid(command, 0, 1) eq ';' && insideComment) then continue
-    
     ; token delimiters are: space, tab, and comma
     delims = ' ' + string(9B) + ','
     tokens = strsplit(self->_stripComments(command), delims, /extract, count=nTokens)
     if (nTokens eq 0) then begin
-      if (justFinishedComment eq 2 && ~headerContinued && currentComments->count() gt 0) then begin
-        self->_parseFileComments, file, currentComments->get(/all), $
-                                  format=format, markup=markup
-        currentComments->remove, /all
+      if (justFinishedComment eq 2 && currentComments->count() gt 0) then begin
+        if (~headerContinued && codeLevel eq 0) then begin
+          self->_parseFileComments, file, currentComments->get(/all), $
+                                    format=format, markup=markup
+          currentComments->remove, /all
+        endif
+        if (codeLevel gt 0) then begin
+          self->_parseRoutineComments, routine, currentComments->get(/all), $
+                                       format=format, markup=markup
+          currentComments->remove, /all        
+        endif
       endif
       
       continue          
