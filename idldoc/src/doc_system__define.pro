@@ -931,8 +931,12 @@ function doc_system::init, root=root, output=output, $
     if (self.root eq '') then self->error, 'ROOT directory does not exist'
     
     ; temporarily add project to the path
-    rootDirs = file_expand_path(file_search(self.root, '*', /test_directory))
+    rootDirs = file_search(self.root, '*', /test_directory, count=nRootDirs)
+    rootDirs = nRootDirs eq 0 ? self.root : [self.root, rootDirs]
+    rootDirs = file_expand_path(rootDirs) 
+    
     !path += path_sep(/search_path) + strjoin(rootDirs, path_sep(/search_path))
+    path_cache, /clear, /rebuild
   endif else begin
     self->error, 'ROOT keyword must be defined'
   endelse

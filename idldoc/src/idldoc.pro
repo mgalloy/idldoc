@@ -131,5 +131,6 @@ pro idldoc, root=root, $
                    template_location=templateLocation)
   
   !path = origPath
+  path_cache, /clear, /rebuild
   obj_destroy, system
 end
