@@ -66,12 +66,7 @@
 			    <tr>
 			      <td class="name">LOG_FILE</td>
 			      <td>if present, send messages to this filename instead of stdout</td>
-			    </tr>
-			    			    
-			    <tr>
-			      <td class="name">ASSISTANT</td>
-			      <td>set to generate docs in IDL Assistant format</td>
-			    </tr>
+			    </tr>			    			  
 
 			    <tr>
 			      <td class="name">EMBED</td>
@@ -142,7 +137,12 @@
 			      <td class="name">TEMPLATE_LOCATION</td>
 			      <td>set to directory to find templates in</td>
 			    </tr>
-			    			    			    
+
+			    <tr>
+			      <td class="name">ASSISTANT</td>
+			      <td>obsolete; no longer used</td>
+			    </tr>
+			    			    			    			    
 			    <tr>
 			      <td class="name">PREFORMAT</td>
 			      <td>obsolete; no longer used</td>
@@ -188,6 +188,7 @@ end</code></p>
 
         <p>Each format parser is discussed in its own section below.</p>
         
+        <p>It is recommended to use spaces instead of tabs to indent comments (though it is only required when using the rst parsers).</p>
     		
     		<h3>IDLdoc format</h3>
     		
