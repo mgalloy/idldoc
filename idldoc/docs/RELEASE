@@ -50,4 +50,9 @@ IDLdoc 3.0
   OUTPUT keyword was not used). There is a NOSOURCE keyword to explicitly
   disable this if required.
   
+* Ability to generate output for the IDL Assistant has not been reimplemented
+  since IDL has a new help system in IDL 7.0. For now, only HTML designed for
+  a normal browser is provided with IDLdoc (though with the TEMPLATE_* keywords,
+  users could now do these customizations themselves).
+
 * Requires IDL 6.1. IDLdoc runs on all platforms supported by IDL.

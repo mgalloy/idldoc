@@ -867,8 +867,6 @@ end
 ;       set to a named variable to return the number of warnings for the run
 ;    log_file : in, optional, type=string
 ;       if present, send messages to this filename instead of stdout
-;    assistant : in, optional, type=boolean
-;       set to generate docs in IDL Assistant format
 ;    embed : in, optional, type=boolean
 ;       embed CSS stylesheet instead of linking to it (useful for documentation
 ;       where individual pages must stand by themselves)
@@ -898,6 +896,8 @@ end
 ;    comment_style : in, optional, type=string, default='html'
 ;       output format for comments ("html", "rst", or "latex")
 ;
+;    assistant : in, optional, type=boolean, obsolete
+;       no longer used
 ;    preformat : in, optional, type=boolean, obsolete
 ;       no longer used
 ;    browse_routines : in, optional, type=boolean, obsolete
