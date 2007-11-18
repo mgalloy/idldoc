@@ -13,7 +13,7 @@
 ;
 ; :Returns: strarr
 ; :Keywords: 
-;    `count` : out, optional, type=long
+;    count : out, optional, type=long
 ;       number of first letters for items in the index
 ;-
 function doctreeindex::getFirstLetters, count=count
@@ -69,9 +69,11 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    `items` hash table of strings -> objects (index names to DOCtree* 
+;    items 
+;       hash table of strings -> objects (index names to DOCtree* 
 ;       objects)
-;    `letters` histogram of letter usage
+;    letters 
+;       histogram of letter usage
 ;-
 pro doctreeindex__define
   compile_opt strictarr
