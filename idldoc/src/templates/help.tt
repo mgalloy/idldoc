@@ -35,124 +35,126 @@
     		
     		<p>A typical call to IDLdoc is: <code class="listing">IDL> idldoc, root='~/projects/mylib', output='~/projects/mylib-docs'</code> This searches for .pro and .sav files in subdirectories of '~/projects/mylib' and places the output in '~/projects/mylib-docs'. The starting page for the output will be '~/projects/mylib-docs/index.html'.</p>
 
-				<p>There are quite a few keywords to IDLdoc to set various specifications for the output. Further customization can be done through the templates (described in the <a href="#customizing">"Producing customized output"</a> section).</p>
+			<p>There are quite a few keywords to IDLdoc to set various specifications for the output. Further customization can be done through the templates (described in the <a href="#customizing">"Producing customized output"</a> section).</p>
+			
+			<p>Note: IDLdoc 3.0 copies source code into the output directory, so placing the output directory in your !PATH can cause IDL to choose a (possibly outdated) copy in the docs over the correct source file. Either place your docs outside your !PATH or use the NOSOURCE keyword.</p>
 				
-				<table class="small">
-			    <tr>
-			      <td class="name">ROOT</td>
-			      <td>root of directory hierarchy to document</td>
-			    </tr>
+			<table class="small">
+		    <tr>
+		      <td class="name">ROOT</td>
+		      <td>root of directory hierarchy to document</td>
+		    </tr>
 
-			    <tr>
-			      <td class="name">OUTPUT</td>
-			      <td>directory to place output</td>
-			    </tr>
+		    <tr>
+		      <td class="name">OUTPUT</td>
+		      <td>directory to place output</td>
+		    </tr>
 
-			    <tr>
-			      <td class="name">QUIET</td>
-			      <td>if set, don't print info messages, only print warnings and errors</td>
-			    </tr>
+		    <tr>
+		      <td class="name">QUIET</td>
+		      <td>if set, don't print info messages, only print warnings and errors</td>
+		    </tr>
+	    
+		    <tr>
+		      <td class="name">N_WARNINGS</td>
+		      <td>set to a named variable to return the number of warnings for the</td>
+		    </tr>			    
+	    
+		    <tr>
+		      <td class="name">ERROR</td>
+		      <td>set to a named variable to return the error state of the IDLdoc call; 0 indicates no error, anything else is an error</td>
+		    </tr>
+	    
+		    <tr>
+		      <td class="name">LOG_FILE</td>
+		      <td>if present, send messages to this filename instead of stdout</td>
+		    </tr>			    			  
+
+		    <tr>
+		      <td class="name">EMBED</td>
+		      <td>embed CSS stylesheet instead of linking to it (useful for documentation where individual pages must stand by themselves)</td>
+		    </tr>
+	    
+		    <tr>
+		      <td class="name">OVERVIEW</td>
+		      <td>filename of overview text and directory information</td>
+		    </tr>
+
+		    <tr>
+		      <td class="name">FOOTER</td>
+		      <td>filename of file to insert into the bottom of each page of docs</td>
+		    </tr>
+
+		    <tr>
+		      <td class="name">TITLE</td>
+		      <td>title of docs</td>
+		    </tr>
+
+		    <tr>
+		      <td class="name">SUBTITLE</td>
+		      <td>subtitle for docs</td>
+		    </tr>
+
+		    <tr>
+		      <td class="name">NONAVBAR</td>
+		      <td>set to not display the navbar</td>
+		    </tr>
+
+		    <tr>
+		      <td class="name">NOSOURCE</td>
+		      <td>don't put source code into output</td>
+		    </tr>
+
+		    <tr>
+		      <td class="name">USER</td>
+		      <td>set to generate user-level docs (private parameters, files are not shown); the default is developer-level docs showing files and parameters</td>
+		    </tr>
+
+		    <tr>
+		      <td class="name">STATISTICS</td>
+		      <td>generate complexity statistics for routines</td>
+		    </tr>
+
+		    <tr>
+		      <td class="name">FORMAT_STYLE</td>
+		      <td>style to use to parse file and routine comments ("idl", "idldoc", "verbatim", or "rst"); default is "idldoc"</td>
+		    </tr>
+
+		    <tr>
+		      <td class="name">MARKUP_STYLE</td>
+		      <td>markup used in comments ("rst" or "verbatim"); default is "verbatim"</td>
+		    </tr>	
+	    
+		    <tr>
+		      <td class="name">COMMENT_STYLE</td>
+		      <td>output format for comments ("html", "rst", or "latex"); default is "html"</td>
+		    </tr>			    
+
+		    <tr>
+		      <td class="name">TEMPLATE_PREFIX</td>
+		      <td>prefix for template's names</td>
+		    </tr>
+	    
+		    <tr>
+		      <td class="name">TEMPLATE_LOCATION</td>
+		      <td>set to directory to find templates in</td>
+		    </tr>
+
+		    <tr>
+		      <td class="name">ASSISTANT</td>
+		      <td>obsolete; no longer used</td>
+		    </tr>
+	    			    			    			    
+		    <tr>
+		      <td class="name">PREFORMAT</td>
+		      <td>obsolete; no longer used</td>
+		    </tr>	
 			    
-			    <tr>
-			      <td class="name">N_WARNINGS</td>
-			      <td>set to a named variable to return the number of warnings for the</td>
-			    </tr>			    
-			    
-			    <tr>
-			      <td class="name">ERROR</td>
-			      <td>set to a named variable to return the error state of the IDLdoc call; 0 indicates no error, anything else is an error</td>
-			    </tr>
-			    
-			    <tr>
-			      <td class="name">LOG_FILE</td>
-			      <td>if present, send messages to this filename instead of stdout</td>
-			    </tr>			    			  
-
-			    <tr>
-			      <td class="name">EMBED</td>
-			      <td>embed CSS stylesheet instead of linking to it (useful for documentation where individual pages must stand by themselves)</td>
-			    </tr>
-			    
-			    <tr>
-			      <td class="name">OVERVIEW</td>
-			      <td>filename of overview text and directory information</td>
-			    </tr>
-
-			    <tr>
-			      <td class="name">FOOTER</td>
-			      <td>filename of file to insert into the bottom of each page of docs</td>
-			    </tr>
-
-			    <tr>
-			      <td class="name">TITLE</td>
-			      <td>title of docs</td>
-			    </tr>
-
-			    <tr>
-			      <td class="name">SUBTITLE</td>
-			      <td>subtitle for docs</td>
-			    </tr>
-
-			    <tr>
-			      <td class="name">NONAVBAR</td>
-			      <td>set to not display the navbar</td>
-			    </tr>
-
-			    <tr>
-			      <td class="name">NOSOURCE</td>
-			      <td>don't put source code into output</td>
-			    </tr>
-
-			    <tr>
-			      <td class="name">USER</td>
-			      <td>set to generate user-level docs (private parameters, files are not shown); the default is developer-level docs showing files and parameters</td>
-			    </tr>
-
-			    <tr>
-			      <td class="name">STATISTICS</td>
-			      <td>generate complexity statistics for routines</td>
-			    </tr>
-
-			    <tr>
-			      <td class="name">FORMAT_STYLE</td>
-			      <td>style to use to parse file and routine comments ("idl", "idldoc", "verbatim", or "rst"); default is "idldoc"</td>
-			    </tr>
-
-			    <tr>
-			      <td class="name">MARKUP_STYLE</td>
-			      <td>markup used in comments ("rst" or "verbatim"); default is "verbatim"</td>
-			    </tr>	
-			    
-			    <tr>
-			      <td class="name">COMMENT_STYLE</td>
-			      <td>output format for comments ("html", "rst", or "latex"); default is "html"</td>
-			    </tr>			    
-
-			    <tr>
-			      <td class="name">TEMPLATE_PREFIX</td>
-			      <td>prefix for template's names</td>
-			    </tr>
-			    
-			    <tr>
-			      <td class="name">TEMPLATE_LOCATION</td>
-			      <td>set to directory to find templates in</td>
-			    </tr>
-
-			    <tr>
-			      <td class="name">ASSISTANT</td>
-			      <td>obsolete; no longer used</td>
-			    </tr>
-			    			    			    			    
-			    <tr>
-			      <td class="name">PREFORMAT</td>
-			      <td>obsolete; no longer used</td>
-			    </tr>	
-			    
-			    <tr>
-			      <td class="name">BROWSE_ROUTINES</td>
-			      <td>obsolete; no longer used</td>
-			    </tr>			    		    		    
-        </table>
+		    <tr>
+		      <td class="name">BROWSE_ROUTINES</td>
+		      <td>obsolete; no longer used</td>
+		    </tr>			    		    		    
+      </table>
       				    
     	</div>
     	
