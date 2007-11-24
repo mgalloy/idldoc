@@ -24,13 +24,13 @@
 ;    object
 ;
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       lines to be parsed
 ;-
 function docparrstmarkupparser::parse, lines
   compile_opt strictarr
   
-  ; TODO: below is just the verbatim parser, replace with real parser
+  ; TODO: finish the implementation
   
   tree = obj_new('MGtmTag')
   
