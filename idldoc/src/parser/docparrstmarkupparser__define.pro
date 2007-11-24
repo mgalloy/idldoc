@@ -20,6 +20,13 @@
 ;+
 ; Takes a string array of rst style comments and return a parse tree.
 ;
+; Another paragraph::
+;
+;   IDL> a = 5
+;   IDL> print, a
+;
+; This more comments.
+;
 ; :Returns: 
 ;    object
 ;
@@ -32,11 +39,39 @@ function docparrstmarkupparser::parse, lines
   
   ; TODO: finish the implementation
   
+  indent = 0L
+  code = 0B
+  
   tree = obj_new('MGtmTag')
   
+  para = obj_new('MGtmTag', type='paragraph')
+  tree->addChild, para
+  
   for l = 0L, n_elements(lines) - 1L do begin
-    tree->addChild, obj_new('MGtmText', text=lines[l])
-    tree->addChild, obj_new('MGtmTag', type='newline')
+    cleanLine = strtrim(lines[l], 2)
+    dummy = stregex(lines[l], ' *[^[:space:]]', length=currentIndent)
+    
+    if (cleanLine eq '' && ~code) then begin
+      para = obj_new('MGtmTag', type='paragraph')
+      tree->addChild, para      
+    endif
+    
+    if (code && (currentIndent eq -1 || currentIndent gt indent)) then begin
+      listing->addChild, obj_new('MGtmText', text=strmid(lines[l], indent))
+      listing->addChild, obj_new('MGtmTag', type='newline')
+    endif else begin     
+      para->addChild, obj_new('MGtmText', text=lines[l])
+      para->addChild, obj_new('MGtmTag', type='newline')
+      code = 0B
+    endelse
+    
+    if (strmid(cleanLine, 1, /reverse_offset) eq '::') then begin
+      code = 1B
+      indent = currentIndent
+      
+      listing = obj_new('MGtmTag', type='listing')
+      para->addChild, listing
+    endif
   endfor
   
   return, tree  

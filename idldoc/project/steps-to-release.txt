@@ -4,6 +4,8 @@ Steps to release IDLdoc
 #. Go through bug database and mark *every* bug either fixed or postponed until
    the next release. 
 
+#. Check off on each TODO in the code.
+
 #. Set debug variable in IDLDOC routine to 0.
 
 #. Make sure all unit and regression tests pass. 
