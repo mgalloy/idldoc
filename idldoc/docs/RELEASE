@@ -16,6 +16,11 @@ IDLdoc 3.0
   
 * Routine comments can be immediately before or *after* the routine header.
 
+* Comments can now contain basic restructured text markup. Separating lines
+  of text with a blank line will create separate paragraphs. Ending a line with
+  two colons (::) and then indenting will format the indented section like a
+  block of code.
+
 * It is now feasible to create your own library of templates for output. The
   TEMPLATE_PREFIX keyword specifies a prefix before the template names. The
   TEMPLATE_LOCATION keyword specifies a directory for the templates to use.
