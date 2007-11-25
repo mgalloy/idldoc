@@ -20,13 +20,6 @@
 ;+
 ; Takes a string array of rst style comments and return a parse tree.
 ;
-; Another paragraph::
-;
-;   IDL> a = 5
-;   IDL> print, a
-;
-; This more comments.
-;
 ; :Returns: 
 ;    object
 ;

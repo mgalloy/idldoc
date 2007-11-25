@@ -5,9 +5,16 @@
 ; delimited with commas every three digits from the right.
 ;   
 ; :Returns: string
+;
 ; :Params:
 ;    n : in, required, type=integer
 ;       integer to format
+;
+; :Examples:
+;    For example::
+;
+;       IDL> print, mg_int_format(12345)
+;       12,345
 ;-
 function mg_int_format, n
   compile_opt strictarr

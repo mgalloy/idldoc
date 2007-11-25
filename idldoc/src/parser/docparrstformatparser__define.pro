@@ -493,10 +493,10 @@ pro docparrstformatparser::parseOverviewComments, lines, system=system, $
           system->getProperty, directories=directories
           
           ; find number of spaces that directories' names are indented
-          l = 1L
+          l = 0L
           nameIndent = -1L
-          while (l lt n_elements(lines) && nameIndent eq -1L) do begin 
-            nameIndent = stregex(lines[l++], '[[:alnum:]_$]')          
+          while (l lt n_elements(tagLines) && nameIndent eq -1L) do begin 
+            nameIndent = stregex(tagLines[l++], '[[:alnum:]_$./]')          
           endwhile
   
           ; must indent directories' names
@@ -507,7 +507,7 @@ pro docparrstformatparser::parseOverviewComments, lines, system=system, $
           
           ; find directories' names lines (ignore first line, first directory 
           ; starts on the line after :Dirs:)        
-          dirLines = lines[1:*]
+          dirLines = tagLines[0L:*]
           re = string(format='(%"^[ ]{%d}([[:alnum:]._$\-\/]+)")', nameIndent)        
           dirNamesStart = stregex(dirLines, re, $
                                   /subexpr, length=dirNamesLength)
