@@ -42,7 +42,7 @@ function doc_system::getVariable, name, found=found
   case strlowcase(name) of
     'system': return, self
     
-    'version': return, self.version
+    'idldoc_version': return, self.version
     'date': return, systime()
     'title': return, self.title
     'subtitle': return, self.subtitle

@@ -276,12 +276,56 @@ pro doctreeprofile::addRoutine, routine
 end
 
 
+pro doctreeprofile::_propertyCheck, methodname, propertyname, comments
+  compile_opt strictarr
+  
+  self.class->getProperty, classname=classname
+  
+  for r = 0L, self.routines->count() - 1L do begin
+    routine = self.routines->get(position=r)
+    routine->getProperty, name=name
+    if (strlowcase(name) eq strlowcase(classname + '::' + methodname)) then begin
+      routine->getProperty, keywords=keywords
+      for k = 0L, keywords->count() - 1L do begin
+        keyword = keywords->get(position=k)
+        keyword->getProperty, name=keywordname, comments=keywordComments
+        
+        if (strlowcase(propertyname) eq strlowcase(keywordname)) then begin
+          if (~obj_valid(keywordComments)) then begin
+            keyword->setProperty, comments=comments
+          endif
+        endif
+      endfor
+      break
+    endif
+  endfor
+end
+
+
 ;+
 ; Do any analysis necessary on information gathered during the "parseTree"
 ; phase.
 ;-
 pro doctreeprofile::process
   compile_opt strictarr
+  
+  if (self.isClass) then begin
+    ; if has properties, then place properties' comment into keyword comments
+    ; for getProperty, setProperty, and init if there are no comments there
+    ; already
+    
+    self.class->getProperty, properties=properties
+    propertyNames = properties->keys(count=nProperties)
+    for p = 0L, nProperties - 1L do begin
+      property = properties->get(propertyNames[p])
+      property->getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
+                             comments=comments
+      
+      if (isGet) then self->_propertyCheck, 'getProperty', propertyNames[p], comments
+      if (isSet) then self->_propertyCheck, 'setProperty', propertyNames[p], comments
+      if (isInit) then self->_propertyCheck, 'init', propertyNames[p], comments
+    endfor
+  endif
   
   for r = 0L, self.routines->count() - 1L do begin
     routine = self.routines->get(position=r)

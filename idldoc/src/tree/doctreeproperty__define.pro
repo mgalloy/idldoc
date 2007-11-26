@@ -25,9 +25,14 @@
 ;+
 ; Retrieve properties.
 ;-
-pro doctreeproperty::getProperty
+pro doctreeproperty::getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
+                                  comments=comments
   compile_opt strictarr
   
+  if (arg_present(isGet)) then isGet = self.isGet
+  if (arg_present(isSet)) then isSet = self.isSet
+  if (arg_present(isInit)) then isInit = self.isInit
+  if (arg_present(comments)) then comments = self.comments
 end
 
 

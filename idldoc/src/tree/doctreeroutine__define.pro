@@ -431,7 +431,7 @@ pro doctreeroutine::addKeyword, keyword
   if (self.isMethod && isClass) then begin
   
     keyword->getProperty, name=propertyName
-    if (strlowcase(propertyName) eq '_extra' or strlowcase(propertyName) eq '_ref_extra') then return
+    ;if (strlowcase(propertyName) eq '_extra' or strlowcase(propertyName) eq '_ref_extra') then return
     case 1 of
       strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'getproperty': begin
           property = class->addProperty(propertyName)

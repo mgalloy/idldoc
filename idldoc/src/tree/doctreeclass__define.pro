@@ -164,11 +164,13 @@ pro doctreeclass::setProperty, pro_file=proFile, classname=classname
 end
 
 
-pro doctreeclass::getProperty, ancestors=ancestors, classname=classname
+pro doctreeclass::getProperty, ancestors=ancestors, classname=classname, $
+                               properties=properties
   compile_opt strictarr
 
   if (arg_present(ancestors)) then ancestors = self.ancestors
   if (arg_present(classname)) then classname = self.classname
+  if (arg_present(properties)) then properties = self.properties
 end
 
 

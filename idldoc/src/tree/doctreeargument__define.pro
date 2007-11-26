@@ -4,32 +4,32 @@
 ; Argument class representing a positional parameter or keyword for a routine. 
 ; 
 ; :Properties:
-;    `routine` : get, type=object
+;    routine
 ;       DOCtreeRoutine object that contains this argument
-;    `name` : init, get, type=string
+;    name 
 ;       name of the routine
-;    `is_first` : get, set, type=boolean
+;    is_first
 ;       set to indicate that this argument is the first of its parent routine
-;    `is_keyword` : init, get, set, type=boolean
+;    is_keyword
 ;       set to indicate that this argument is a keyword
-;    `is_optional` : get, set, type=boolean
+;    is_optional
 ;       set to indicate that this argument is optional
-;    `is_required` : get, set, type=boolean
+;    is_required
 ;       set to indicate that this argument is required
-;    `is_input` : get, set, type=boolean
+;    is_input
 ;       set to indicate that this argument is an input
-;    `is_output` : get, set, type=boolean
+;    is_output
 ;       set to indicate that this arugment is an output
-;    `type` : get, set, type=string
+;    type
 ;       string indicating the IDL variable type of the argument
-;    `default_value` : get, set, type=string
+;    default_value
 ;       string indicating the default value if this argument is not present
-;    `is_hidden` : get, set, type=boolean
+;    is_hidden
 ;       set to indicate that this argument is hidden (hidden from users and
 ;       developers)
-;    `is_private` : get, set, type=boolean
+;    is_private
 ;       set to indicate that this argument is private (hidden from users)
-;    `comments` : get, set, type=strarr
+;    comments
 ;       text node hierarchy
 ;-
 
@@ -233,8 +233,9 @@ end
 ; Create an argument: positional parameter or keyword.
 ; 
 ; :Returns: 1 for success, 0 for failure
+;
 ; :Params: 
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       DOCtreeRoutine object
 ;-
 function doctreeargument::init, routine, name=name, is_keyword=isKeyword, $
@@ -258,22 +259,35 @@ end
 ; Define the instance variables.
 ;
 ; :Fields:
-;    `routine` DOCtreeRoutine object that contains this argument
-;    `name` name of the argument
-;    `isFirst` indicates that this argument is the first of its parent routine
-;    `isLast` indicates that this argument is the first of its parent routine
-;    `isKeyword` indicates that this argument is a keyword
-;    `isOptional` indicates that this argument is optional
-;    `isRequired` indicates that this argument is required
-;    `isInput` indicates that this argument is an input
-;    `isOutput` indicates that this arugment is an output
-;    `type` string indicating the IDL variable type of the argument
-;    `defaultValue` string indicating the default value if this argument is 
-;       not present
-;    `isHidden` indicates that this argument is hidden (hidden from users and
+;    routine 
+;       DOCtreeRoutine object that contains this argument
+;    name 
+;       name of the argument
+;    isFirst
+;       indicates that this argument is the first of its parent routine
+;    isLast
+;       indicates that this argument is the first of its parent routine
+;    isKeyword
+;       indicates that this argument is a keyword
+;    isOptional
+;       indicates that this argument is optional
+;    isRequired
+;       indicates that this argument is required
+;    isInput
+;       indicates that this argument is an input
+;    isOutput
+;       indicates that this arugment is an output
+;    type
+;       string indicating the IDL variable type of the argument
+;    defaultValue
+;       string indicating the default value if this argument is not present
+;    isHidden
+;       indicates that this argument is hidden (hidden from users and
 ;       developers)
-;    `isPrivate` indicates that this argument is private (hidden from users)
-;    `comments` text node hierarchy
+;    isPrivate
+;       indicates that this argument is private (hidden from users)
+;    comments
+;       text node hierarchy
 ;-
 pro doctreeargument__define
   compile_opt strictarr
