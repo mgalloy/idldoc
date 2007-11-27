@@ -1,0 +1,14 @@
+Known issues
+------------
+
+* Search is not implemented yet.
+
+* Complexity statistics are not implemented yet.
+
+* The ASSISTANT keyword is obsolete now (and probably will be for the release).
+  The IDL Assistant is only going to be around for a while longer, so it didn't
+  seem worth it to reimplement assistant formatted output.
+  
+* Defining two classes in one file can lead to name conflicts.
+
+* The help is not complete yet.
