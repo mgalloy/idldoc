@@ -42,7 +42,7 @@ a.top {
 .pre { white-space: pre; }
 
 /* code styles */
-code { font-family: Monaco; "Courier New", Courier, monospace; }
+code { font-family: Monaco, "Courier New", Courier, monospace; }
 code.listing { white-space: pre; display: block; padding: 0.5em 3em 0.5em 3em; font-size: 90%; }
 code.source { white-space: pre; display: block; font-size: 90%; }
 code.source span.comments { color: #408080; }

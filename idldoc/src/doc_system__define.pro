@@ -246,7 +246,7 @@ pro doc_system::error, msg
   if (self.logFile ne '') then printf, self.logLun, 'IDLDOC: ' + msg
 
     
-  message, 'IDLDOC: ' + msg, /noname
+  message, msg, /noname
 end
 
 
@@ -280,6 +280,25 @@ pro doc_system::print, msg
   if (self.logFile ne '') then printf, self.logLun, msg
   
   if (~self.quiet && ~self.silent) then print, msg
+end
+
+
+;+
+; Print basic help message.
+;-
+pro doc_system::printHelp
+  compile_opt strictarr
+  
+  msg = ['Calling syntax: ', $
+         '', $
+         '  IDL> idldoc, ROOT=root, OUTPUT=output', $
+         '', $
+         'where the ROOT keyword specifies a directory hierarchy to', $
+         'document and the OUTPUT keyword specifies an output location.', $
+         '', $
+         'See the help for more information about other keywords.']
+  
+  self->print, transpose(msg)
 end
 
 
@@ -920,10 +939,21 @@ function doc_system::init, root=root, output=output, $
                            comment_style=commentStyle, $
                            preformat=preformat, browse_routines=browseRoutines, $
                            template_prefix=templatePrefix, $
-                           template_location=templateLocation                          
+                           template_location=templateLocation, $
+                           help=help, version=version                      
   compile_opt strictarr
   
   self.version = idldoc_version()
+  
+  if (keyword_set(version)) then begin
+    self->print, 'IDLdoc ' + self.version
+    return, 0
+  endif
+  
+  if (keyword_set(help)) then begin
+    self->printHelp
+    return, 0
+  endif
   
   ; check root directory
   if (n_elements(root) gt 0) then begin

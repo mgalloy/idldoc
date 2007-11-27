@@ -63,6 +63,10 @@
 ;
 ;    error : out, optional, type=long
 ;       error code from run; 0 indicates no error
+;    help : in, optional, type=boolean
+;       if set, print out a help message instead of running IDLdoc
+;    version : in, optional, type=boolean
+;       if set, print the IDLdoc version instead of running IDLdoc
 ;-
 pro idldoc, root=root, $
             output=output, $
@@ -87,11 +91,13 @@ pro idldoc, root=root, $
             browse_routines=browseRoutines, $
             template_prefix=templatePrefix, $
             template_location=templateLocation, $
-            error=error
+            error=error, $
+            help=help, $
+            version=version
   compile_opt strictarr
 
   ; TODO: make sure to turn debug off before releasing
-  debug = 1B
+  debug = 0B
   origPath = !path
   
   if (~keyword_set(debug) || arg_present(error)) then begin
@@ -128,7 +134,9 @@ pro idldoc, root=root, $
                    preformat=preformat, $
                    browse_routines=browseRoutines, $
                    template_prefix=templatePrefix, $
-                   template_location=templateLocation)
+                   template_location=templateLocation, $
+                   help=help, $
+                   version=version)
   
   !path = origPath
   path_cache, /clear, /rebuild
