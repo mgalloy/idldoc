@@ -70,6 +70,7 @@ table.box {
   padding-bottom: 0.75em; 
 }
 table.attribute { padding-left: 0.75em; padding-right: 0.75em; }
+table td { vertical-align: top; }
 table.attribute p { margin: 0; }
 table td.name { font-style: normal; padding-right: 1.5em; }
 
