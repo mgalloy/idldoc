@@ -64,13 +64,27 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
     self.code = obj_new('MGtmTag')
       
     for l = 0L, n_elements(code) - 1L do begin
-      regularLines = proFileParser->_stripComments(code[l], comments=commentsLines)
+      line = code[l]
+      lessPos = strpos(line, '<')
+      while (lessPos ne -1) do begin
+        case lessPos of
+          0: line = '&lt;' + strmid(line, 1)
+          strlen(line) - 1L: line = strmid(line, 0, strlen(line) - 1L) + '&lt;'
+          else: line = strmid(line, 0L, lessPos) + '&lt;' + strmid(line, lessPos + 1L)
+        endcase
+        lessPos = strpos(line, '<')
+      endwhile
       
+      regularLines = proFileParser->_stripComments(line, comments=commentsLines)
+            
       self.code->addChild, obj_new('MGtmText', text=regularLines)
       
-      commentsNode = obj_new('MGtmTag', type='comments')
-      self.code->addChild, commentsNode
-      commentsNode->addChild, obj_new('MGtmText', text=commentsLines)
+      if (strlen(commentsLines) gt 0) then begin
+        commentsNode = obj_new('MGtmTag', type='comments')
+        self.code->addChild, commentsNode
+        commentsNode->addChild, obj_new('MGtmText', text=commentsLines)
+      endif
+      
       self.code->addChild, obj_new('MGtmTag', type='newline')
     endfor  
   endif

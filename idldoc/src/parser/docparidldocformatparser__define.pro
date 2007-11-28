@@ -225,6 +225,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
         file->getProperty, is_class=isClass, class=class
         if (~isClass) then begin
           self.system->warning, 'field not allowed non-class definition file'
+          break
         endif
    
         comments = self->_parseTag(lines, /has_argument, $
