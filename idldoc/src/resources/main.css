@@ -57,6 +57,7 @@ dl.routine-summary dd { margin-bottom: 0.5em; margin-left: 2em; }
 /* general styles */
 ul li { list-style-type: none; }
 table { empty-cells: show; }
+thead { color: #900000; }
 dd { margin-bottom: 0.35em; }
 input, textarea { background: #F3F6ED; border: #E1D6C6 1px solid; padding: 2px 1em 2px 1em; }
 input.text { background: #FFFFC0; }

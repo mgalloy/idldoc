@@ -42,7 +42,7 @@
 
 			<p>There are quite a few keywords to IDLdoc to set various specifications for the output. Further customization can be done through the templates (described in the <a href="#customizing">"Producing customized output"</a> section).</p>
 			
-			<p>Note: IDLdoc 3.0 copies source code into the output directory, so placing the output directory in your !PATH can cause IDL to choose a (possibly outdated) copy in the docs over the correct source file. Either place your docs outside your !PATH or use the NOSOURCE keyword.</p>
+			<p>Note: IDLdoc 3.0 copies source code into the output directory, so placing the output directory in your !PATH can cause IDL to choose a (possibly outdated) copy in the docs over the correct source file. It is recommended to either place your docs outside your !PATH or use the NOSOURCE keyword.</p>
 				
 			<table class="small">
 		    <tr>
@@ -612,7 +612,7 @@ end</code></p>
 
         <h3>Attributes</h3>
         
-        <p>Attributes for tags that allow them (i.e. the "param" and "keyword" tags).</p>
+        <p>Attributes for tags that allow them (i.e. the "param" and "keyword" tags). The rst format separates attributes with a comma. If you need to use a comma in the value of the the attributes, use quotation marks for grouping the the value together. For example: <code class=listing>vertices: in, required, type="fltarr(2, n)"</code></p>
         
         <table class="small">
           <thead>
@@ -765,6 +765,13 @@ July 1994 Describe modifications done on this date </code></td>
             </tr>
           </tbody>
         </table>            
+        
+        <h2>Markup styles</h2>
+        
+        <p>There are two markup styles that are used to format text (such as file/routine comments or the values of nearly any tag). The "verbatim" style simply copies exactly what is present. The "rst" style does two things: <ol>
+          <li>blank lines make paragraphs</li>
+          <li>ending a line with two colons ("::"), skipping a line, and indenting the next section makes a code listing section</li>
+          </ol> There will be more features in the future, but for now these are quite handy.</p>
     	</div>
     	
     	
