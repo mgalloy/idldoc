@@ -5,11 +5,11 @@
 ;
 ; :Returns: variable
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of variable
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreeclass::getVariable, name, found=found
@@ -272,16 +272,19 @@ function doctreeclass::addField, fieldName, get_only=getOnly
 end
 
 
-function doctreeclass::addProperty, propertyName
+;+
+; Adds the given property to this class.
+;
+; :Params:
+;    property : in, required, type=object
+;       property tree object to add
+;-
+pro doctreeclass::addProperty, property
   compile_opt strictarr
   
-  property = self.properties->get(strlowcase(propertyName), found=found)
-  if (~found) then begin
-    property = obj_new('DOCtreeProperty', propertyName, $
-                       class=self, system=self.system)
-    self.properties->put, strlowcase(propertyName), property
-  endif
-  return, property
+  property->setProperty, class=self
+  property->getProperty, name=propertyName
+  self.properties->put, strlowcase(propertyName), property
 end
 
 
@@ -298,6 +301,11 @@ pro doctreeclass::cleanup
 end
 
 
+;+
+; Create a class tree object.
+;
+; :Returns: 1 for success, 0 otherwise
+;-
 function doctreeclass::init, classname, pro_file=proFile, system=system
   compile_opt strictarr
   
@@ -324,6 +332,27 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
 end
 
 
+;+
+; Define instance variables.
+;
+; :Fields:
+;    system
+;       system tree object
+;    classes
+;       classes hashtable (classname -> class object) from system tree object
+;    proFile
+;       pro file which contains the class
+;    classname
+;       string classname of the class
+;    parents
+;       array list of parent classes
+;    ancestors
+;       array list of ancestor classes
+;    fields
+;       hash table of field tree classes
+;    properties
+;       hash table of property tree classes
+;-
 pro doctreeclass__define
   compile_opt strictarr
   

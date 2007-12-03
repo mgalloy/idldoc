@@ -44,10 +44,8 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
   
   case strlowcase(tag) of
     'properties': begin        
-        file->getProperty, is_class=isClass, class=class
-        if (~isClass) then begin
-          self.system->warning, 'property not allowed non-class definition file'
-        endif                              
+        ; there is no way to tell right now if this properties tag is allowed or
+        ; not, must check later
         
         ; find number of spaces that properties' names are indented
         l = 1L
@@ -75,7 +73,8 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
           propertyName = strmid(propLines[propertyDefinitionLines[p]], $
                                 propertyNamesStart[1, propertyDefinitionLines[p]], $
                                propertyNamesLength[1, propertyDefinitionLines[p]])
-          property = class->addProperty(propertyName)         
+          property = obj_new('DOCtreeProperty', propertyName, system=self.system)    
+          self.heldProperties->add, property    
           propertyDefinitionEnd = p eq nProperties - 1L $
                                     ? n_elements(propLines) - 1L $
                                     : propertyDefinitionLines[p + 1L] - 1L
@@ -145,10 +144,12 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
     'examples': routine->setProperty, examples=markupParser->parse(self->_parseTag(lines))
         
     'fields': begin
-        routine->getProperty, file=file
-        file->getProperty, is_class=isClass, class=class
-        if (~isClass) then begin
-          self.system->warning, 'field not allowed non-class definition file'
+        ; fields are only allowed in routine named "classname__define"
+        routine->getProperty, file=file, name=name
+        classname = strmid(name, 0, strlen(name) - 8)        
+        if (strlowcase(strmid(name, 7, /reverse_offset)) ne '__define') then begin
+          self.system->warning, 'field not allowed in non-class definition routine'
+          break
         endif
                                           
         ; find number of spaces that fields' names are indented
@@ -171,6 +172,9 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
         fieldNamesStart = stregex(fieldLines, re, $
                                   /subexpr, length=fieldNamesLength)
         fieldDefinitionLines = where(fieldNamesStart[1, *] ne -1L, nFields)
+        
+        ; get the class tree object
+        class = file->getClass(classname)
         
         ; add each field
         for f = 0L, nFields - 1L do begin

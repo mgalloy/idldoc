@@ -21,8 +21,10 @@
 ;-
 pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
                                  is_method=isMethod, parameters=parameters, $
-                                 keywords=keywords, undocumented=undocumented, $
+                                 keywords=keywords, classname=classname, $
+                                 undocumented=undocumented, $
                                  partially_documented=partiallyDocumented
+                                 
   compile_opt strictarr
   
   if (arg_present(file)) then file = self.file
@@ -31,6 +33,15 @@ pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
   if (arg_present(isMethod)) then isMethod = self.isMethod
   if (arg_present(parameters)) then parameters = self.parameters
   if (arg_present(keywords)) then keywords = self.keywords
+  if (arg_present(classname)) then begin
+    isDefine = strlowcase(strmid(self.name, 7, /reverse_offset)) eq '__define'
+    colonPos = strpos(self.name, ':')
+    case 1 of
+      isDefine: classname = strmid(self.name, 0, strlen(self.name) - 8)
+      colonPos ne -1: classname = strmid(self.name, 0, colonPos)
+      else: classname = ''
+    endcase
+  endif
   
   if (arg_present(undocumented)) then undocumented = self.undocumented
   if (arg_present(partiallyDocumented)) then begin
@@ -418,7 +429,7 @@ end
 ; Add a keyword to the list of keywords for this routine.
 ; 
 ; :Params:
-;    `keyword` : in, required, type=object
+;    keyword : in, required, type=object
 ;       argument tree object
 ;-
 pro doctreeroutine::addKeyword, keyword
@@ -427,26 +438,28 @@ pro doctreeroutine::addKeyword, keyword
   self.keywords->add, keyword
 
   ; special for properties
-  self.file->getProperty, is_class=isClass, class=class
-  if (self.isMethod && isClass) then begin
+  self.file->getProperty, has_class=hasClass
+  if (self.isMethod && hasClass) then begin
   
     keyword->getProperty, name=propertyName
-    ;if (strlowcase(propertyName) eq '_extra' or strlowcase(propertyName) eq '_ref_extra') then return
-    case 1 of
-      strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'getproperty': begin
-          property = class->addProperty(propertyName)
-          property->setProperty, is_get=1B
-        end
-      strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'setproperty': begin
-          property = class->addProperty(propertyName)
-          property->setProperty, is_set=1B
-        end
-      strlowcase(strmid(self.name, 3, /reverse_offset)) eq 'init': begin
-          property = class->addProperty(propertyName)
-          property->setProperty, is_init=1B
-        end
-      else:   ; just a normal keyword
-    endcase
+    
+    ; TODO: fix this
+    
+;    case 1 of
+;      strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'getproperty': begin
+;          property = class->addProperty(propertyName)
+;          property->setProperty, is_get=1B
+;        end
+;      strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'setproperty': begin
+;          property = class->addProperty(propertyName)
+;          property->setProperty, is_set=1B
+;        end
+;      strlowcase(strmid(self.name, 3, /reverse_offset)) eq 'init': begin
+;          property = class->addProperty(propertyName)
+;          property->setProperty, is_init=1B
+;        end
+;      else:   ; just a normal keyword
+;    endcase
   endif  
 end
 

@@ -274,6 +274,8 @@ end
 pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
   compile_opt strictarr, logical_predicate
   
+  formatParser = self.system->getParser(format + 'format')
+    
   insideComment = 0B
   justFinishedComment = 0L   ; 0, 1 (in header), 2 (just finished)
   justFinishedHeader = 0B
@@ -382,6 +384,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       file->addRoutine, routine
       
       routine->setProperty, name=(strsplit(tokens[1], ',', /extract))[0]
+      formatParser->checkForClass, routine
       if (strpos(tokens[1], '::') ne -1) then routine->setProperty, is_method=1B
       if (firstToken eq 'function') then routine->setProperty, is_function=1B   
          

@@ -25,7 +25,7 @@
 pro doctreeprofile::getProperty, basename=basename, $
                                  has_main_level=hasMainLevel, $
                                  is_batch=isBatch, $
-                                 is_class=isClass, class=class, $
+                                 has_class=hasClass, classes=classes, $
                                  comments=comments, $
                                  n_routines=nRoutines, routines=routines, $
                                  n_lines=nLines, directory=directory
@@ -35,8 +35,8 @@ pro doctreeprofile::getProperty, basename=basename, $
   if (arg_present(directory)) then directory = self.directory
   if (arg_present(hasMainLevel)) then hasMainLevel = self.hasMainLevel
   if (arg_present(isBatch)) then isBatch = self.isBatch 
-  if (arg_present(isClass)) then isClass = self.isClass   
-  if (arg_present(class)) then class = self.class  
+  if (arg_present(hasClass)) then hasClass = self.classes->count() gt 0   
+  if (arg_present(classes)) then classes = self.classes  
   if (arg_present(comments)) then comments = self.comments
   if (arg_present(nRoutines)) then nRoutines = self.routines->count()
   if (arg_present(routines)) then routines = self.routines
@@ -133,6 +133,43 @@ end
 
 
 ;+
+; Get a class of the given name if defined in the file or system already, create 
+; it if not.
+;
+; :Returns: class tree object
+;
+; :Params:
+;    classname : in, required, type=string
+;       classname of the class
+;-
+function doctreeprofile::getClass, classname
+  compile_opt strictarr
+  
+  ; first, check the file: if it's there, everything is set up already
+  for c = 0L, self.classes->count() - 1L do begin
+    class = self.classes->get(position=c)
+    class->getProperty, classname=checkClassname
+    if (strlowcase(classname) eq strlowcase(checkClassname)) then return, class
+  endfor
+
+  ; next, check the system for the class, it may have been referenced by 
+  ; another class in another file
+  self.system->getProperty, classes=classes
+  class = classes->get(strlowcase(classname), found=found)
+  if (found) then begin
+    class->setProperty, pro_file=self, classname=classname
+    self.classes->add, class
+    return, class
+  endif
+    
+  ; create the class if there is no record of it
+  class = obj_new('DOCtreeClass', classname, pro_file=self, system=self.system)
+  self.classes->add, class
+  return, class
+end
+
+
+;+
 ; Get variables for use with templates.
 ;
 ; :Returns: variable
@@ -157,8 +194,8 @@ function doctreeprofile::getVariable, name, found=found
     
     'is_batch': return, self.isBatch
     'has_main_level': return, self.hasMainLevel
-    'is_class': return, self.isClass
-    'class': return, self.class
+    'has_class': return, self.classes->count() gt 0
+    'classes': return, self.classes->get(/all)
     'is_private': return, self.isPrivate
     
     'modification_time': return, self.modificationTime
@@ -323,22 +360,24 @@ end
 pro doctreeprofile::process
   compile_opt strictarr
   
-  if (self.isClass) then begin
+  if (self.classes->count() gt 0) then begin
     ; if has properties, then place properties' comment into keyword comments
     ; for getProperty, setProperty, and init if there are no comments there
     ; already
     
-    self.class->getProperty, properties=properties
-    propertyNames = properties->keys(count=nProperties)
-    for p = 0L, nProperties - 1L do begin
-      property = properties->get(propertyNames[p])
-      property->getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
-                             comments=comments
-      
-      if (isGet) then self->_propertyCheck, 'getProperty', propertyNames[p], comments
-      if (isSet) then self->_propertyCheck, 'setProperty', propertyNames[p], comments
-      if (isInit) then self->_propertyCheck, 'init', propertyNames[p], comments
-    endfor
+    ; TODO: fix this up
+    
+;    self.class->getProperty, properties=properties
+;    propertyNames = properties->keys(count=nProperties)
+;    for p = 0L, nProperties - 1L do begin
+;      property = properties->get(propertyNames[p])
+;      property->getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
+;                             comments=comments
+;      
+;      if (isGet) then self->_propertyCheck, 'getProperty', propertyNames[p], comments
+;      if (isSet) then self->_propertyCheck, 'setProperty', propertyNames[p], comments
+;      if (isInit) then self->_propertyCheck, 'init', propertyNames[p], comments
+;    endfor
   endif
   
   for r = 0L, self.routines->count() - 1L do begin
@@ -389,6 +428,7 @@ pro doctreeprofile::cleanup
   compile_opt strictarr
   
   obj_destroy, self.routines
+  obj_destroy, self.classes
   obj_destroy, [self.author, self.copyright, self.history]
   obj_destroy, self.code
 end
@@ -418,21 +458,23 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   self.system = system
   self.fullpath = fullpath
   
-  self.isClass = strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
-  if (self.isClass) then begin  
-    classname = strmid(self.basename, 0, strlen(self.basename) - 12)
-    self.system->getProperty, classes=classes
-    class = classes->get(strlowcase(classname), found=found)
-    if (found) then begin
-      self.class = class
-      self.class->setProperty, pro_file=self, classname=classname
-    endif else begin
-      self.class = obj_new('DOCtreeClass', $
-                           classname, $
-                           pro_file=self, $
-                           system=self.system)
-    endelse
-  endif 
+  self.classes = obj_new('MGcoArrayList', type=11, block_size=3)
+  
+;  self.isClass = strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
+;  if (self.isClass) then begin  
+;    classname = strmid(self.basename, 0, strlen(self.basename) - 12)
+;    self.system->getProperty, classes=classes
+;    class = classes->get(strlowcase(classname), found=found)
+;    if (found) then begin
+;      self.class = class
+;      self.class->setProperty, pro_file=self, classname=classname
+;    endif else begin
+;      self.class = obj_new('DOCtreeClass', $
+;                           classname, $
+;                           pro_file=self, $
+;                           system=self.system)
+;    endelse
+;  endif 
   
   self.routines = obj_new('MGcoArrayList', type=11)
   
@@ -471,8 +513,8 @@ pro doctreeprofile__define
              
              hasMainLevel: 0B, $
              isBatch: 0B, $
-             isClass: 0B, $
-             class: obj_new(), $
+             
+             classes: obj_new(), $
              
              modificationTime: '', $
              nLines: 0L, $

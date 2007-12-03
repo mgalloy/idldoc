@@ -221,19 +221,25 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
     'customer_id': routine->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))
     'examples': routine->setProperty, examples=markupParser->parse(self->_parseTag(lines))
     'field': begin
-        routine->getProperty, file=file
-        file->getProperty, is_class=isClass, class=class
-        if (~isClass) then begin
-          self.system->warning, 'field not allowed non-class definition file'
+        ; fields are only allowed in routine named "classname__define"
+        routine->getProperty, file=file, name=name
+        classname = strmid(name, 0, strlen(name) - 8)        
+        if (strlowcase(strmid(name, 7, /reverse_offset)) ne '__define') then begin
+          self.system->warning, 'field not allowed in non-class definition routine'
           break
         endif
    
+        ; parse
         comments = self->_parseTag(lines, /has_argument, $
                                    argument=fieldName, $
                                    n_attributes=nAttributes, $
                                    attribute_names=attributeNames, $
                                    attribute_values=attributeValues)                                        
+
+        ; get the class tree object
+        class = file->getClass(classname)
         
+        ; add the field
         field = class->addField(fieldName, /get_only)
         if (obj_valid(field)) then begin        
           field->setProperty, name=fieldName, $
@@ -330,8 +336,10 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
                                    n_attributes=nAttributes, $
                                    attribute_names=attributeNames, $
                                    attribute_values=attributeValues)                                        
+
+        property = obj_new('DOCtreeProperty', propertyName, system=self.system)    
+        self.heldProperties->add, property           
         
-        property = class->addProperty(propertyName)
         property->setProperty, comments=markupParser->parse(comments)
       end
     
@@ -369,7 +377,7 @@ end
 pro docparidldocformatparser::parseRoutineComments, lines, routine=routine, $
                                                     markup_parser=markupParser
   compile_opt strictarr
-
+  
   ; find @ symbols that are the first non-whitespace character on the line
   tagLocations = where(stregex(lines, '^[[:space:]]*@') ne -1, nTags)
   

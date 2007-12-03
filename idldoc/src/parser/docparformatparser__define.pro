@@ -51,10 +51,38 @@ pro docparformatparser::parseOverviewComments, lines, system=system, $
 end
 
 
+pro docparformatparser::checkForClass, routine
+  compile_opt strictarr
+  
+  ; before starting on any of the comments associated with the routine, see if
+  ; there are any "heldProperties" from a previous file comment that should be
+  ; associated with the class represented by this routine
+  routine->getProperty, classname=classname, file=file
+  if (classname ne '') then begin
+    class = file->getClass(classname)
+    for p = 0L, self.heldProperties->count() - 1L do begin
+      class->addProperty, self.heldProperties->get(position=p)
+    endfor        
+  endif else begin
+    properties = self.heldProperties->get(/all, count=nProps)
+    if (nProps gt 0) then obj_destroy, properties
+  endelse
+  self.heldProperties->remove, /all
+end
+  
+  
+pro docparformatparser::cleanup
+  compile_opt strictarr
+
+  obj_destroy, self.heldProperties
+end
+
+
 function docparformatparser::init, system=system
   compile_opt strictarr
   
   self.system = system
+  self.heldProperties = obj_new('MGcoArrayList', type=11)
   
   return, 1
 end
@@ -62,9 +90,16 @@ end
 
 ;+
 ; Define instance variables.
+;
+; :Fields:
+;    heldProperties
+;       properties waiting to be claimed by a class
 ;-
 pro docparformatparser__define 
   compile_opt strictarr
   
-  define = { DOCparFormatParser, system: obj_new() }
+  define = { DOCparFormatParser, $
+             system: obj_new(), $
+             heldProperties: obj_new() $
+           }
 end

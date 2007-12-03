@@ -26,13 +26,14 @@
 ; Retrieve properties.
 ;-
 pro doctreeproperty::getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
-                                  comments=comments
+                                  comments=comments, name=name
   compile_opt strictarr
   
   if (arg_present(isGet)) then isGet = self.isGet
   if (arg_present(isSet)) then isSet = self.isSet
   if (arg_present(isInit)) then isInit = self.isInit
   if (arg_present(comments)) then comments = self.comments
+  if (arg_present(name)) then name = self.name
 end
 
 
@@ -40,14 +41,15 @@ end
 ; Set properties.
 ;-
 pro doctreeproperty::setProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
-                                  comments=comments
+                                  comments=comments, class=class
   compile_opt strictarr
   
   if (n_elements(isGet) gt 0) then self.isGet = isGet
   if (n_elements(isSet) gt 0) then self.isSet = isSet
   if (n_elements(IsInit) gt 0) then self.IsInit = IsInit
   
-  if (n_elements(comments) gt 0) then self.comments = comments      
+  if (n_elements(comments) gt 0) then self.comments = comments   
+  if (n_elements(class) gt 0) then self.class = class   
 end
 
 
@@ -56,11 +58,11 @@ end
 ;
 ; :Returns: variable
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of variable
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreeproperty::getVariable, name, found=found
@@ -119,20 +121,17 @@ end
 ;
 ; :Returns: 1 if successful, 0 for failure
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of the property
 ;
 ; :Keywords:
-;    `class` : in, required, type=object
-;       class object
-;    `system` : in, required, type=object
+;    system : in, required, type=object
 ;       system object
 ;-
-function doctreeproperty::init, name, class=class, system=system
+function doctreeproperty::init, name, system=system
   compile_opt strictarr
 
   self.name = name
-  self.class = class
   self.system = system
   
   self.system->createIndexEntry, self.name, self
@@ -145,21 +144,22 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    `system` 
+;    system
 ;       system object
-;    `class` 
+;    class`
 ;       class object that the property is part of
-;    `name` 
+;    name
 ;       name of the property
-;    `isGet` 
+;    isGet
 ;       boolean that indicates whether the property can be retrieved with the 
 ;       getProperty method
-;    `isSet` 
+;    isSet
 ;       boolean that indicates whether the property can be set with the 
 ;       setProperty method
-;    `isInit` 
+;    isInit
 ;       boolean that indicates whether the property can be set on initialization
-;    `comments` parse tree object
+;    comments
+;       parse tree object
 ;-
 pro doctreeproperty__define
   compile_opt strictarr
