@@ -62,6 +62,7 @@ dd { margin-bottom: 0.35em; }
 input, textarea { background: #F3F6ED; border: #E1D6C6 1px solid; padding: 2px 1em 2px 1em; }
 input.text { background: #FFFFC0; }
 
+div.note { margin: 1em 2em 1em 2em; background: #EFEFEF; border: 1px #A0A0A0 dotted; padding: 0 1em 0 1em; }
 p.indent { margin-left: 2em; }
 
 /* An attribute table is a vertical list of name-value pairs. */
