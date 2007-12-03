@@ -191,7 +191,18 @@ function doctreeclass::isVisible
 end
 
 
-function doctreeclass::_createClass, classname, error=error
+;+
+; Create a structure containing the fields of the class.
+;
+; :Params:
+;    classname : in, required, type=string
+;       name of the named structure i.e. the classname
+;
+; :Keywords:
+;    error : out, optional, type=long
+;       set to a named variable to contain any error code; 0 indicates no error
+;-
+function doctreeclass::_createClassStructure, classname, error=error
   compile_opt strictarr
   
   error = 0L
@@ -207,55 +218,70 @@ function doctreeclass::_createClass, classname, error=error
 end
 
 
+;+
+; Find parent classes for class and figure out where each field was defined.
+;-
 pro doctreeclass::findParents
   compile_opt strictarr
   
-  s = self->_createClass(self.classname, error=error)
+  ; get all fields defined in class
+  s = self->_createClassStructure(self.classname, error=error)
   if (error ne 0L) then begin
     self.system->warning, 'cannot find definition for class ' + self.classname $
                             + ' in path'
     return
   endif
     
+  ; get direct parent classes
   parents = obj_class(self.classname, /superclass)
   nParents = parents[0] eq '' ? 0 : n_elements(parents)  
   
-  parentFieldNameList = obj_new('MGcoArrayList', type=7)
+  ; this list will contain the names of fields of ancestor classes, any fields
+  ; in s that are not in ancestorFieldNameList then are defined in this class
+  ancestorFieldNameList = obj_new('MGcoArrayList', type=7)
   
   for i = 0L, nParents - 1L do begin
+    ; lookup parent class in system class hash table
     p = self.classes->get(strlowcase(parents[i]), found=found)
     if (~found) then begin
       p = obj_new('DOCtreeClass', parents[i], system=self.system)
       self.classes->put, strlowcase(parents[i]), p
     endif
 
-    parentFieldNameList->add, p.fields->keys()
-
     ; connect classes
     p->addChild, self
     self.parents->add, p
     self.ancestors->add, p
     
+    ; ancestors of parents of this class are ancestors of this class 
     p->getProperty, ancestors=ancestors
     if (ancestors->count() gt 0) then begin
       self.ancestors->add, ancestors->get(/all)
     endif
   endfor
+
+  for a = 0L, self.ancestors->count() - 1L do begin
+    anc = self.ancestors->get(position=a)
+    
+    ; add all the fields of the ancestor class to the ancestorFieldNameList
+    ancestorFieldNameList->add, anc.fields->keys()
+  endfor
   
-  parentFieldNames = parentFieldNameList->get(/all, count=nParentFieldNames)
+  ancestorFieldNames = ancestorFieldNameList->get(/all, count=nAncestorFieldNames)
   fieldNames = tag_names(s)
 
   for f = 0L, n_tags(s) - 1L do begin  
-    if (nParentFieldNames ne 0) then begin
-      ind = where(strlowcase(fieldNames[f]) eq parentFieldNames, nMatches)
+    if (nAncestorFieldNames ne 0) then begin
+      ind = where(strlowcase(fieldNames[f]) eq ancestorFieldNames, nMatches)
     endif
-    if (nParentFieldNames eq 0 || nMatches eq 0) then begin
+    if (nAncestorFieldNames eq 0 || nMatches eq 0) then begin
       field = self->addField(fieldNames[f])
       field->setProperty, type=doc_variable_declaration(s.(f))
     endif
   endfor  
   
-  obj_destroy, parentFieldNameList
+  ; don't need the array list object any more
+  obj_destroy, ancestorFieldNameList
 end
 
 

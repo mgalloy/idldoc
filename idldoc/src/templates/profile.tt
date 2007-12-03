@@ -53,7 +53,7 @@
       [% END %]
       
       [% IF has_class %][% FOREACH class IN classes %][% SCOPE class %]
-      <h2>Class description</h2>
+      <h2>Class description for [% classname %]</h2>
       
         [% IF n_ancestors gt 0 %]
         <h3>Inheritance</h3>
