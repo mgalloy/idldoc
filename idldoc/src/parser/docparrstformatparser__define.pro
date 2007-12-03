@@ -269,9 +269,9 @@ end
 ;       set to indicate the tag is a keyword
 ;-
 pro docparrstformatparser::_handleArgumentTag, lines, $
-                                                  routine=routine, $
-                                                  markup_parser=markupParser, $
-                                                  keyword=keyword
+                                               routine=routine, $
+                                               markup_parser=markupParser, $
+                                               keyword=keyword
   compile_opt strictarr
   
   ; find params/keywords
@@ -302,35 +302,72 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
   
   ; add each property
   for p = 0L, nParams - 1L do begin
-   paramName = strmid(paramLines[paramDefinitionLines[p]], $
-                      paramNamesStart[1, paramDefinitionLines[p]], $
-                      paramNamesLength[1, paramDefinitionLines[p]])
-   param = keyword_set(keyword) $
-             ? routine->getKeyword(paramName, found=found) $
-             : routine->getParameter(paramName, found=found)
+    paramName = strmid(paramLines[paramDefinitionLines[p]], $
+                       paramNamesStart[1, paramDefinitionLines[p]], $
+                       paramNamesLength[1, paramDefinitionLines[p]])
+    param = keyword_set(keyword) $
+              ? routine->getKeyword(paramName, found=found) $
+              : routine->getParameter(paramName, found=found)
              
-   if (~found) then begin     
-     msg = string(format='(%"%s %s not found in %s")', tag, paramName, routineName)
-     self.system->warning, msg       
-     continue                      
-   endif         
+    if (~found) then begin     
+      msg = string(format='(%"%s %s not found in %s")', tag, paramName, routineName)
+      self.system->warning, msg       
+      continue                      
+    endif         
    
-   headerLine = paramLines[paramDefinitionLines[p]]
-   colonPos = strpos(headerLine, ':')
-   if (colonPos ne -1L) then begin
-     attributes = strsplit(strmid(headerLine, colonPos + 1L), ',', /extract)
-     for a = 0L, n_elements(attributes) - 1L do begin
-      self->_handleAttribute, param, strtrim(attributes[a], 2), routine=routine
-     endfor
-   endif
+    headerLine = paramLines[paramDefinitionLines[p]]
+    colonPos = strpos(headerLine, ':')
+    if (colonPos ne -1L) then begin
+      attributes = strsplit(strmid(headerLine, colonPos + 1L), ',', $
+                            /extract, escape='\')
+                           
+      ; handle quoted attributes, like:
+      ;
+      ;   vertices : in, type="fltarr(2, m, n)" lost text, required
+      ;
+      ; breaks down into:
+      ;
+      ;   0: in
+      ;   1: type="fltarr(
+      ;   2:  m
+      ;   3:  n)" lost text
+      ;   4: required    
+      for a = 0L, n_elements(attributes) - 1L do begin
+        if (strmid(attributes[a], strpos(attributes[a], '=') + 1L, 1) eq '"') then begin
+          ; add following attributes until closing quote or end of line
+          i = a + 1L
+          while (i lt n_elements(attributes)) do begin
+            t = attributes[i]
+            attributes[a] += ',' + t
+            attributes[i] = ''
+            
+            if (strpos(t, '"') ne -1L) then break
+            
+            i++
+          endwhile
+          
+          ; fix up attributes[a] by removing quotes
+          firstQuote = strpos(attributes[a], '"')
+          secondQuote = strpos(attributes[a], '"', firstQuote + 1L)
+          if (secondQuote eq -1L) then secondQuote = strlen(attributes[a])
+          valueLength = secondQuote - firstQuote - 1L
+          value = strmid(attributes[a], firstQuote + 1L, valueLength)
+          attributes[a] = strmid(attributes[a], 0, firstQuote) + value                          
+        endif
+      endfor
+     
+      for a = 0L, n_elements(attributes) - 1L do begin
+        self->_handleAttribute, param, strtrim(attributes[a], 2), routine=routine
+      endfor
+    endif
    
-   paramDefinitionEnd = p eq nParams - 1L $
-                          ? n_elements(paramLines) - 1L $
-                          : paramDefinitionLines[p + 1L] - 1L
-   if (paramDefinitionLines[p] + 1 le paramDefinitionEnd) then begin
-     comments = paramLines[paramDefinitionLines[p] + 1L:paramDefinitionEnd] 
-     param->setProperty, comments=markupParser->parse(comments)        
-   endif  
+    paramDefinitionEnd = p eq nParams - 1L $
+                           ? n_elements(paramLines) - 1L $
+                           : paramDefinitionLines[p + 1L] - 1L
+    if (paramDefinitionLines[p] + 1 le paramDefinitionEnd) then begin
+      comments = paramLines[paramDefinitionLines[p] + 1L:paramDefinitionEnd] 
+      param->setProperty, comments=markupParser->parse(comments)        
+    endif  
   endfor                       
 end
 
@@ -350,6 +387,8 @@ end
 ;-
 pro docparrstformatparser::_handleAttribute, param, attribute, routine=routine
   compile_opt strictarr
+  
+  if (attribute eq '') then return
   
   param->getProperty, name=paramName
   routine->getProperty, name=routineName  
