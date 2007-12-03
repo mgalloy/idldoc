@@ -41,7 +41,34 @@
  
     	
     	<h2>Advanced search</h2>
-    
+
+			<form name="basicForm" action="javascript:basicsearch() //">
+			  <table>
+			    <tr>
+			      <td>Routine name</td>
+				    <td><input class="text" name="routineName" size="30"/> </td>
+				  </tr>
+
+			    <tr>
+			      <td>Parameter name</td>
+				    <td><input class="text" name="paramName" size="30"/> </td>
+				  </tr>
+
+			    <tr>
+			      <td>Code header</td>
+				    <td><input class="text" name="codeHeader" size="30"/> </td>
+				  </tr>
+				  				  
+          <tr>
+            <td></td>            
+			      <td><input name="send" type="submit" value="Search" /></td>
+			    </tr>
+
+				</table>
+			</form>
+			    
+			<br/>
+			
     	[% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]    		
     </div>    
 

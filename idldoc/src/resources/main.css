@@ -59,7 +59,7 @@ ul li { list-style-type: none; }
 table { empty-cells: show; }
 thead { color: #900000; }
 dd { margin-bottom: 0.35em; }
-input, textarea { background: #F3F6ED; border: #E1D6C6 1px solid; padding: 2px 1em 2px 1em; }
+input, textarea { background: #F3F6ED; border: #E1D6C6 1px solid; padding: 2px 1em 2px 0.5em; }
 input.text { background: #FFFFC0; }
 
 div.note { margin: 1em 2em 1em 2em; background: #EFEFEF; border: 1px #A0A0A0 dotted; padding: 0 1em 0 1em; }
@@ -74,6 +74,7 @@ table.box {
 }
 table.attribute { padding-left: 0.75em; padding-right: 0.75em; }
 table td { vertical-align: top; }
+form table td { vertical-align: middle; }
 table.attribute p { margin: 0; }
 table td.name { font-style: normal; padding-right: 1.5em; }
 
