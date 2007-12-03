@@ -74,10 +74,10 @@ pro docparidlformatparser::_handleFileTag, tag, lines, $
                                            markup_parser=markupParser
   compile_opt strictarr
   
-  ; TODO: get correct routine and add comments to it
-  case strlowcase(tag) of
-    ; TODO: might use this to find correct routine
-    'name':
+  ; TODO: get last routine and add blank cases to it
+  
+  case strlowcase(tag) of    
+    'name': ; might be able to use this to find correct routine
     'purpose': file->setProperty, comments=markupParser->parse(lines)
     'category': 
     'calling sequence':   ; ignore, not used    
@@ -110,7 +110,6 @@ pro docparidlformatparser::_handleFileTag, tag, lines, $
         file->setProperty, examples=examples
       end
     'modification history': begin
-        ; TODO: pull out author information
         file->setProperty, history=markupParser->parse(lines)
       end
     else: begin
@@ -182,8 +181,7 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
         examples = verbatimParser->parse(exLines, top='listing')
         routine->setProperty, examples=examples
       end
-    'modification history': begin
-        ; TODO: pull out author information
+    'modification history': begin        
         routine->setProperty, history=markupParser->parse(lines)
       end
     else: begin
@@ -303,7 +301,14 @@ pro docparidlformatparser::parseOverviewComments, lines, system=system, $
                                                      markup_parser=markupParser
   compile_opt strictarr
 
-  ; TODO: implement this
+  ; TODO: need to define an overview file format for the IDL format
+  
+  ; DIRECTORIES:
+  ;   ./: Description goes here. This must be followed by a blank line.
+  ;
+  ;   collection/: Description goes here. Note that the description can flow
+  ;                onto following lines. It is the blank line that delimits
+  ;                directories.
 end
 
 

@@ -305,8 +305,17 @@ end
 ;    property : in, required, type=object
 ;       property tree object to add
 ;-
-pro doctreeclass::addProperty, property
+pro doctreeclass::addProperty, property, property_name=propertyName
   compile_opt strictarr
+  
+  if (n_elements(propertyName) ne 0) then begin
+    property = self.properties->get(strlowcase(propertyName), found=found)
+    if (~found) then begin
+      property = obj_new('DOCtreeProperty', propertyName, system=self.system)
+      self.properties->put, strlowcase(propertyName), property
+    endif
+    property->setProperty, class=self
+  endif
   
   property->setProperty, class=self
   property->getProperty, name=propertyName

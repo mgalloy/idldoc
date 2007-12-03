@@ -437,29 +437,32 @@ pro doctreeroutine::addKeyword, keyword
   
   self.keywords->add, keyword
 
-  ; special for properties
+  ; create a property for a keyword of getProperty, setProperty, or init
   self.file->getProperty, has_class=hasClass
   if (self.isMethod && hasClass) then begin
   
     keyword->getProperty, name=propertyName
+    self->getProperty, classname=classname
     
-    ; TODO: fix this
+    ; lookup class
+    self.system->getProperty, classes=classes
+    class = classes->get(strlowcase(classname), found=found)
     
-;    case 1 of
-;      strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'getproperty': begin
-;          property = class->addProperty(propertyName)
-;          property->setProperty, is_get=1B
-;        end
-;      strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'setproperty': begin
-;          property = class->addProperty(propertyName)
-;          property->setProperty, is_set=1B
-;        end
-;      strlowcase(strmid(self.name, 3, /reverse_offset)) eq 'init': begin
-;          property = class->addProperty(propertyName)
-;          property->setProperty, is_init=1B
-;        end
-;      else:   ; just a normal keyword
-;    endcase
+    case 1 of
+      strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'getproperty': begin
+          class->addProperty, property, property_name=propertyName
+          property->setProperty, is_get=1B
+        end
+      strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'setproperty': begin
+          class->addProperty, property, property_name=propertyName
+          property->setProperty, is_set=1B
+        end
+      strlowcase(strmid(self.name, 3, /reverse_offset)) eq 'init': begin
+          class->addProperty, property, property_name=propertyName
+          property->setProperty, is_init=1B
+        end
+      else:   ; just a normal keyword
+    endcase
   endif  
 end
 
