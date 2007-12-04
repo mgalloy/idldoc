@@ -327,14 +327,15 @@ pro doctreeprofile::addRoutine, routine
 end
 
 
-pro doctreeprofile::_propertyCheck, methodname, propertyname, comments
+pro doctreeprofile::_propertyCheck, methodname, propertyname, comments, class
   compile_opt strictarr
   
-  self.class->getProperty, classname=classname
+  class->getProperty, classname=classname
   
   for r = 0L, self.routines->count() - 1L do begin
-    routine = self.routines->get(position=r)
+    routine = self.routines->get(position=r)    
     routine->getProperty, name=name
+    
     if (strlowcase(name) eq strlowcase(classname + '::' + methodname)) then begin
       routine->getProperty, keywords=keywords
       for k = 0L, keywords->count() - 1L do begin
@@ -365,19 +366,29 @@ pro doctreeprofile::process
     ; for getProperty, setProperty, and init if there are no comments there
     ; already
     
-    ; TODO: fix this up
-    
-;    self.class->getProperty, properties=properties
-;    propertyNames = properties->keys(count=nProperties)
-;    for p = 0L, nProperties - 1L do begin
-;      property = properties->get(propertyNames[p])
-;      property->getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
-;                             comments=comments
-;      
-;      if (isGet) then self->_propertyCheck, 'getProperty', propertyNames[p], comments
-;      if (isSet) then self->_propertyCheck, 'setProperty', propertyNames[p], comments
-;      if (isInit) then self->_propertyCheck, 'init', propertyNames[p], comments
-;    endfor
+    for c = 0L, self.classes->count() - 1L do begin      
+      class = self.classes->get(position=c)
+      class->getProperty, properties=properties
+      propertyNames = properties->keys(count=nProperties)
+      
+      for p = 0L, nProperties - 1L do begin
+        property = properties->get(propertyNames[p])
+        property->getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
+                               comments=comments
+        
+        if (isGet) then begin
+          self->_propertyCheck, 'getProperty', propertyNames[p], comments, class
+        endif
+        
+        if (isSet) then begin
+          self->_propertyCheck, 'setProperty', propertyNames[p], comments, class
+        endif
+        
+        if (isInit) then begin
+          self->_propertyCheck, 'init', propertyNames[p], comments, class
+        endif
+      endfor
+    endfor
   endif
   
   for r = 0L, self.routines->count() - 1L do begin
