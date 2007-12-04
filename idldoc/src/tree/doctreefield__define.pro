@@ -20,11 +20,11 @@
 ; :Returns: value or -1L if variable name not found
 ;
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of variable (case insensitive)
 ; 
 ; :Keywords: 
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       pass a named variable to get whether the variable was found
 ;-
 function doctreefield::getVariable, name, found=found

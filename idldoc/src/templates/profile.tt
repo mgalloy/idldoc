@@ -53,66 +53,71 @@
       [% END %]
       
       [% IF has_class %][% FOREACH class IN classes %][% SCOPE class %]
-      <h2>Class description for [% classname %]</h2>
+      <div class="class-description">
+        <h2>Class description for [% classname %]</h2>
       
-        [% IF n_ancestors gt 0 %]
-        <h3>Inheritance</h3>
-          <ul>
-            [% FOREACH p IN parents %]
-            <li>[% IF p->hasUrl() %]<a href="[% relative_root %][% p->getUrl() %]">[% END %][% p->getClassname() %][% IF p->hasUrl() %]</a>[% END %]</li>
-            [% END %]
-          </ul>
+          [% IF n_ancestors gt 0 %]
+          <h3>Inheritance</h3>
+            <ul>
+              [% FOREACH p IN parents %]
+              <li>[% IF p->hasUrl() %]<a href="[% relative_root %][% p->getUrl() %]">[% END %][% p->getClassname() %][% IF p->hasUrl() %]</a>[% END %]</li>
+              [% END %]
+            </ul>
         
-          [% IF n_ancestors gt n_parents %]      
-          <p class="small">All ancestor classes:
-        		[% FOREACH a IN ancestors %]
-        		[% IF a->hasUrl() %]<a href="[% relative_root %][% a->getUrl() %]">[% END %][% a->getClassname() %][% IF a->hasUrl() %]</a>[% END %]
-        		[% END %]
-        	</p>
-        	[% END %]
-        [% END %]
+            [% IF n_ancestors gt n_parents %]      
+            <p class="small">All ancestor classes:
+          		[% FOREACH a IN ancestors %]
+          		[% IF a->hasUrl() %]<a href="[% relative_root %][% a->getUrl() %]">[% END %][% a->getClassname() %][% IF a->hasUrl() %]</a>[% END %]
+          		[% END %]
+          	</p>
+          	[% END %]
+          [% END %]
       
-        [% IF n_children gt 0 %]
-          <p class="small">Subclasses: 
-            [% FOREACH c IN children %]
-            [% IF c->hasUrl() %]<a href="[% relative_root %][% c->getUrl() %]">[% END %][% c->getClassname() %][% IF c->hasUrl() %]</a>[% END %]
-            [% END %]
-          </p>      
-        [% END %]
+          [% IF n_children gt 0 %]
+            <p class="small">Subclasses: 
+              [% FOREACH c IN children %]
+              [% IF c->hasUrl() %]<a href="[% relative_root %][% c->getUrl() %]">[% END %][% c->getClassname() %][% IF c->hasUrl() %]</a>[% END %]
+              [% END %]
+            </p>      
+          [% END %]
       
-        [% IF n_properties gt 0 %]
-        <h3>Properties</h3>
-        	<div class="details">
-  	        <dl>
-  	          [% FOREACH p IN properties %][% SCOPE p %]
-  	          <dt>[% name %] <span class="smaller">[% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %]</span></dt>
-  	          <dd class="small">[% comments %]</dd>
-  	          [% END %][% END %]
-  	        </dl>  
-          </div>    
-        [% END %]
+          [% IF n_properties gt 0 %]
+          <h3>Properties</h3>
+          	<div class="details">
+    	        <dl>
+    	          [% FOREACH p IN properties %][% SCOPE p %]
+    	          <dt>[% name %] <span class="smaller">[% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %]</span></dt>
+    	          <dd class="small">[% comments %]</dd>
+    	          [% END %][% END %]
+    	        </dl>  
+            </div>    
+          [% END %]
       
-        [% IF n_fields gt 0 && ~user %]
-        <h3>Fields</h3>
-        	<div class="details">
-  	        <dl>
-  	          [% FOREACH f IN fields %][% SCOPE f %]
-  	          <dt>[% name %] <span class="smaller">[% type %]</span></dt>
-  	          <dd class="small">[% comments %]</dd>
-  	          [% END %][% END %]
-  	        </dl>        	
-        	</div>
-        [% END %]
+          [% IF n_fields gt 0 && ~user %]
+          <h3>Fields</h3>
+          	<div class="details">
+    	        <dl>
+    	          [% FOREACH f IN fields %][% SCOPE f %]
+    	          <dt>[% name %] <span class="smaller">[% type %]</span></dt>
+    	          <dd class="small">[% comments %]</dd>
+    	          [% END %][% END %]
+    	        </dl>        	
+          	</div>
+          [% END %]
       
-        [% IF n_ancestors gt 0 %]
-        [% FOREACH a IN ancestors %]
-        	[% IF a->getFieldCount() %]
-        	<h4>Fields in [% IF a->hasUrl() %]<a href="[% relative_root %][% a->getUrl() %]">[% END %][% a->getClassname() %][% IF a->hasUrl() %]</a>[% END %]</h4>
-        	<p class="indent small">[% strjoin(a->getFieldNames() + ': <code>' + a->getFieldTypes() + '</code>', ', ') %]</p>
-        	[% END %]
+          [% IF n_ancestors gt 0 %]
+          [% FOREACH a IN ancestors %][% SCOPE a %]
+          	[% IF n_fields gt 0 %]
+          	<h4>Fields in [% IF has_url %]<a href="[% relative_root %][% url %]">[% END %][% classname %][% IF has_url %]</a>[% END %]</h4>
+          	<ul class="fieldslist smaller">
+          	  [% FOREACH f IN fields %][% SCOPE f %]
+          	  <li><span class="fieldname">[% name %]</span> [% type %]</li>
+          	  [% END %][% END %]
+          	</ul>
+          	[% END %]
+          [% END %][% END %]
         [% END %]
-        [% END %]
-      	      
+      </div>      
       [% END %][% END %][% END %]
       
       [% IF has_author_info %]

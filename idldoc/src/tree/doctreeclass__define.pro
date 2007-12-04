@@ -18,6 +18,7 @@ function doctreeclass::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'classname': return, self.classname
+    'has_url': return, obj_valid(self.proFile)              
     'url': begin
         if (~obj_valid(self.proFile)) then return, ''
         
