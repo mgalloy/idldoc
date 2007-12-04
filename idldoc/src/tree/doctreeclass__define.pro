@@ -203,7 +203,8 @@ end
 ;    error : out, optional, type=long
 ;       set to a named variable to contain any error code; 0 indicates no error
 ;-
-function doctreeclass::_createClassStructure, classname, error=error
+function doctreeclass::_createClassStructure, classname, error=error, $
+                                              compile=compile
   compile_opt strictarr
   
   error = 0L
@@ -212,6 +213,11 @@ function doctreeclass::_createClassStructure, classname, error=error
     catch, /cancel
     error = 1L
     return, -1L
+  endif
+
+  if (keyword_set(compile)) then begin
+    self.proFile->getProperty, basename=basename
+    resolve_routine, file_basename(basename, '.pro')
   endif
   
   s = create_struct(name=classname)
@@ -228,9 +234,12 @@ pro doctreeclass::findParents
   ; get all fields defined in class
   s = self->_createClassStructure(self.classname, error=error)
   if (error ne 0L) then begin
-    self.system->warning, 'cannot find definition for class ' + self.classname $
-                            + ' in path'
-    return
+    s = self->_createClassStructure(self.classname, error=error, /compile)
+    if (error ne 0L) then begin
+      self.system->warning, 'cannot find definition for class ' $
+                              + self.classname + ' in path'
+      return
+    endif
   endif
     
   ; get direct parent classes

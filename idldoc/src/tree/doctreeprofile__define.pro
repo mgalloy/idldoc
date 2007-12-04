@@ -28,7 +28,7 @@ pro doctreeprofile::getProperty, basename=basename, $
                                  has_class=hasClass, classes=classes, $
                                  comments=comments, $
                                  n_routines=nRoutines, routines=routines, $
-                                 n_lines=nLines, directory=directory
+                                 n_lines=nLines, directory=directory                                 
   compile_opt strictarr
   
   if (arg_present(basename)) then basename = self.basename
@@ -40,7 +40,7 @@ pro doctreeprofile::getProperty, basename=basename, $
   if (arg_present(comments)) then comments = self.comments
   if (arg_present(nRoutines)) then nRoutines = self.routines->count()
   if (arg_present(routines)) then routines = self.routines
-  if (arg_present(nLines)) then nLines = self.nLines
+  if (arg_present(nLines)) then nLines = self.nLines  
 end
 
 
