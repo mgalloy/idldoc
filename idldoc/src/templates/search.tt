@@ -26,6 +26,8 @@
         parent.document.title="Search ([% title %])";
       }
     </script>
+    <script type="text/javascript" src="libdata.js"></script>
+    <script type="text/javascript" src="idldoc-resources/search.js"></script>
   </head>
     
   <body onload="setTitle();">
@@ -35,14 +37,14 @@
     
     	<h2>Search</h2>
  
- 				<form name="basicForm" action="javascript:basicsearch() //">
- 					<input class="text" name="basicText" size="50"/> &nbsp; <input name="send" type="submit" value="Search" />
+ 				<form name="basicForm">
+ 					<input class="text" name="basicText" size="50"/> &nbsp; <input name="send" type="submit" value="Search" onClick="basicsearch()"/>
  				</form>
  
     	
     	<h2>Advanced search</h2>
 
-			<form name="basicForm" action="javascript:basicsearch() //">
+			<form name="advancedForm">
 			  <table>
 			    <tr>
 			      <td>Routine name</td>
@@ -61,12 +63,12 @@
 				  				  
           <tr>
             <td></td>            
-			      <td><input name="send" type="submit" value="Search" /></td>
+			      <td><input name="send" type="submit" value="Search" onClick="javascript:advancedsearch()"/></td>
 			    </tr>
 
 				</table>
 			</form>
-			    
+
 			<br/>
 			
     	[% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]    		
