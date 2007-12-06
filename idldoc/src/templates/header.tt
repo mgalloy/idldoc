@@ -4,7 +4,7 @@
 </div>
 
 [% IF ~nonavbar %]
-<table class="navbar smaller" cellspacing="0">
+<table class="navbar smaller" summary="Navigation header" cellspacing="0">
   <tr>
     <td [% IF current_template eq 'overview' %]class="selected"[% END %]>
       <a href="[% relative_root %]overview.html">Overview</a>
@@ -18,7 +18,7 @@
     
     [% IF ~nosource %]
     <td [% IF current_template eq 'source' %]class="selected"[% END %]>
-      [% IF current_template eq 'profile' %]<a href="[% source_url %]" tilte="Chromocoded source">Source</a> <a href="[% direct_source_url %]" title=".pro file"><img src="[% relative_root %]idldoc-resources/attach.png" align="top"/></a>[% ELSE %]Source <img src="[% relative_root %]idldoc-resources/attach.png" align="top"/>[% END %]        
+      [% IF current_template eq 'profile' %]<a href="[% source_url %]" tilte="Chromocoded source">Source</a> <a href="[% direct_source_url %]" title=".pro file"><img src="[% relative_root %]idldoc-resources/attach.png" alt="[attach.png]" align="top"/></a>[% ELSE %]Source <img src="[% relative_root %]idldoc-resources/attach.png" alt="[attach.png]" align="top"/>[% END %]        
     </td>
     [% END %]
     

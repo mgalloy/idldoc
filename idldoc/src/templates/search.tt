@@ -5,6 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>Search ([% title %])</title>
 
     [% IF embed %]
@@ -26,8 +27,8 @@
         parent.document.title="Search ([% title %])";
       }
     </script>
-    <script type="text/javascript" src="libdata.js"></script>
-    <script type="text/javascript" src="idldoc-resources/search.js"></script>
+    <script type="text/javascript" src="libdata.js"/>
+    <script type="text/javascript" src="idldoc-resources/search.js"/>
   </head>
     
   <body onload="setTitle();">
@@ -45,7 +46,7 @@
     	<h2>Advanced search</h2>
 
 			<form name="advancedForm">
-			  <table>
+			  <table summary="Advanced search">
 			    <tr>
 			      <td>Routine name</td>
 				    <td><input class="text" name="routineName" size="30"/> </td>

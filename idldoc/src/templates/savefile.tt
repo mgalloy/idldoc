@@ -5,6 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>[% basename %] ([% title %])</title>
 
     [% IF embed %]
@@ -38,7 +39,7 @@
             
       <h2>SAV file attributes</h2>
       
-      <table class="attribute smaller">  
+      <table class="attribute smaller" summary="SAV file attributes">  
         <tr>
           <td class="name">Description:</td>
           <td>[% description %]</td>
@@ -63,7 +64,7 @@
 
       <h2>Contents</h2>
       
-      <table class="attribute smaller">      
+      <table class="attribute smaller" summary="Contents of SAV file">      
         <tr>
           <td class="name">[% IF n_procedure gt 0%]<a href="#procedures">[% END %]Procedures:[% IF n_procedure gt 0 %]</a>[% END %]</td>
           <td>[% n_procedure %]</td>
@@ -133,10 +134,10 @@
       <div id="vars">
         <h3>Variables</h3>
         
-        <table class="smaller">
+        <table class="smaller" summary="Variables">
         [% FOREACH v IN variables %][% SCOPE v %]
           <tr>
-            <td>[% IF has_thumbnail %]<img src="[% thumbnail_url %]"/>[% END %]</td>
+            <td>[% IF has_thumbnail %]<img src="[% thumbnail_url %]" alt="[thumbnail]"/>[% END %]</td>
             <td>[% name %]</td>
             <td><code>[% declaration %]</code></td>             
           </tr>
@@ -149,10 +150,10 @@
       <div id="system">
         <h3>System variables</h3>
         
-        <table class="smaller">
+        <table class="smaller" summary="System variables">
         [% FOREACH sv IN system_variables %][% SCOPE sv %]
           <tr>
-            <td>[% IF has_thumbnail %]<img src="[% thumbnail_url %]"/>[% END %]</td>
+            <td>[% IF has_thumbnail %]<img src="[% thumbnail_url %]" alt="[thumbnail]"/>[% END %]</td>
             <td>[% name %]</td>
             <td><code>[% declaration %]</code></td>             
           </tr>
@@ -165,7 +166,7 @@
       <div id="common">
         <h3>Common blocks</h3>
         
-        <table class="smaller">
+        <table class="smaller" summary="Common blocks">
         [% FOREACH cb IN common_blocks %][% SCOPE cb %]
           <tr>
             <td>[% name %]</td>
@@ -180,7 +181,7 @@
       <div id="structures">
         <h3>Structure definitions</h3>
         
-        <table class="smaller">
+        <table class="smaller" summary="Structure definitions">
         [% FOREACH s IN structure_definitions %][% SCOPE s %]
           <tr>
             <td>[% name %]</td>
@@ -195,10 +196,10 @@
       <div id="pointers">
         <h3>Pointers</h3>
         
-        <table class="smaller">
+        <table class="smaller" summary="Pointers">
         [% FOREACH p IN pointers %][% SCOPE p %]
           <tr>
-            <td>[% IF has_thumbnail %]<img src="[% thumbnail_url %]"/>[% END %]</td>
+            <td>[% IF has_thumbnail %]<img src="[% thumbnail_url %]" alt="[thumbnail]"/>[% END %]</td>
             <td>[% name %]</td>
             <td><code>[% declaration %]</code></td>             
           </tr>
@@ -211,7 +212,7 @@
       <div id="objects">
         <h3>Objects</h3>
         
-        <table class="smaller">
+        <table class="smaller" summary="Objects">
         [% FOREACH o IN objects %][% SCOPE o %]
           <tr>
             <td>[% name %]</td>
@@ -224,7 +225,7 @@
                   
       <h2>File attributes</h2>
       
-        <table class="attribute smaller">
+        <table class="attribute smaller" summary="File attributes">
           <tr>
             <td class="name">Modification date:</td>
             <td>[% modification_time %]</td>
@@ -241,4 +242,5 @@
     
     [% INCLUDE_TEMPLATE idldoc_footer_location %]    
   </body>
- </html>
+</html>
+ 

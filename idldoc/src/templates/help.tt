@@ -5,6 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>Help ([% title %])</title>
 
     [% IF embed %]
@@ -46,7 +47,7 @@
   			
 			<p>There are quite a few keywords to IDLdoc to set various specifications for the output. Further customization can be done through the templates (described in the <a href="#customizing">"Producing customized output"</a> section).</p>
 				
-			<table class="small">
+			<table class="small" summary="IDLdoc keyword descriptions">
 			  <thead>
 			    <tr>
 			      <td>Keyword</td>
@@ -348,7 +349,7 @@ end</code></p>
 
         <p>The following tags are available in file comments (i.e. comment headers not immediately preceeding/following a routine header).</p>
         
-        <table class="small">
+        <table class="small" summary="IDLdoc and rst file level tag descriptions">
           <thead>
             <tr>
               <td class="name">Tag name</td>
@@ -428,7 +429,7 @@ end</code></p>
         
         <p>The following tags are available for comments immediately before or after a routine header.</p>
         
-        <table class="small">
+        <table class="small" summary="IDLdoc and rst routine level tag descriptions">
           <thead>
             <tr>
               <td class="name">Tag name</td>
@@ -646,7 +647,7 @@ end</code></p>
 ;    bwd : out, optional, type="fltarr(2, nSegments)"
 ;       streamline in the backward direction</code></p>
         
-        <table class="small">
+        <table class="small" summary="Attribute descriptions">
           <thead>
             <tr>
               <td class="name">Attribute name</td>
@@ -710,7 +711,7 @@ end</code></p>
 
         <p>The following headers are available in an IDL style format.</p>
         
-        <table class="small">
+        <table class="small" summary="Headers in IDL format">
           <thead>
             <tr>
               <td class="name">Header name</td>

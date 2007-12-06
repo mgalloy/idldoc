@@ -123,7 +123,7 @@
       [% IF has_author_info %]
       <h2>Author information</h2>
 
-        <table class="attribute small">
+        <table class="attribute small" summary="File author information">
           [% IF has_author %]
           <tr>
             <td class="name">Author:</td>
@@ -218,7 +218,7 @@
           [% IF has_author_info %]
           <h3>Author information</h3>
 
-            <table class="attribute small">
+            <table class="attribute small" summary="Routine author information">
               [% IF has_author %]
               <tr>
                 <td class="name">Author:</td>
@@ -252,7 +252,7 @@
           [% IF has_others %]
           <h3>Other attributes</h3>
 
-            <table class="attribute small">                            
+            <table class="attribute small" summary="Other routine attributes">                            
               [% IF has_todo %]
               <tr>
                 <td class="name">Todo:</td>
@@ -314,7 +314,7 @@
           [% IF statistics %]
           <h3>Statistics</h3>
 
-		        <table class="attribute small">
+		        <table class="attribute small" summary="Routine statistics">
 		          <tr>
 		            <td class="name">Lines:</td>
 		            <td>[% n_lines %]</td>
@@ -336,7 +336,7 @@
       <div id="attributes">
         <h2>File attributes</h2>
         	
-        <table class="attribute small">
+        <table class="attribute small" summary="File attributes">
           <tr>
             <td class="name">Modifcation date:</td>
             <td>[% modification_time %]</td>
