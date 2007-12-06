@@ -5,6 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>[% title %]</title>
 
     [% IF embed %]
@@ -41,7 +42,7 @@
       
     	<h2 id="directories">Directories</h2>
     	
-      <table class="attribute box small">
+      <table class="attribute box small" summary="Directories">
         [% FOREACH d IN dirs %][% SCOPE d %]
         <tr>
           <td class="name"><a href="[% url %]dir-overview.html">[% location %]</a></td>
@@ -52,7 +53,7 @@
       
       <h2 id="statistics">Project statistics</h2>
 
-      <table class="attribute small">
+      <table class="attribute small" summary="Project statistics">
         <tr>
           <td class="name">Directories:</td>
           <td>[% n_dirs %]</td>
