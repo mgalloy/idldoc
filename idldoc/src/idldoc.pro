@@ -60,6 +60,8 @@
 ;       prefix for template's names
 ;    template_location : in, optional, type=string
 ;       directory to find templates in
+;    charset : in, optional, type=string, default=utf-8
+;       character set to use
 ;
 ;    error : out, optional, type=long
 ;       error code from run; 0 indicates no error
@@ -91,6 +93,7 @@ pro idldoc, root=root, $
             browse_routines=browseRoutines, $
             template_prefix=templatePrefix, $
             template_location=templateLocation, $
+            charset=charset, $
             error=error, $
             help=help, $
             version=version
@@ -135,6 +138,7 @@ pro idldoc, root=root, $
                    browse_routines=browseRoutines, $
                    template_prefix=templatePrefix, $
                    template_location=templateLocation, $
+                   charset=charset, $
                    help=help, $
                    version=version)
   

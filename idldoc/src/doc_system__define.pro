@@ -43,6 +43,7 @@ function doc_system::getVariable, name, found=found
     'system': return, self
     
     'idldoc_version': return, self.version
+    'charset': return, self.charset
     'date': return, systime()
     'title': return, self.title
     'subtitle': return, self.subtitle
@@ -926,6 +927,8 @@ end
 ;       prefix for template's names
 ;    template_location : in, optional, type=string
 ;       directory to find templates in
+;    charset : in, optional, type=string, default=utf-8
+;       character set to use
 ;-
 function doc_system::init, root=root, output=output, $
                            quiet=quiet, silent=silent, n_warnings=nWarnings, $
@@ -940,7 +943,7 @@ function doc_system::init, root=root, output=output, $
                            preformat=preformat, browse_routines=browseRoutines, $
                            template_prefix=templatePrefix, $
                            template_location=templateLocation, $
-                           help=help, version=version                      
+                           help=help, version=version, charset=charset                  
   compile_opt strictarr
   
   self.version = idldoc_version()
@@ -1016,6 +1019,7 @@ function doc_system::init, root=root, output=output, $
     
   self.templatePrefix = n_elements(templatePrefix) gt 0 ? templatePrefix : ''
   self.templateLocation = n_elements(templateLocation) gt 0 ? templateLocation : ''
+  self.charset = n_elements(charset) eq 0 ? 'utf-8' : charset
   
   ; test output directory for write permission
   outputError = self->testOutput()
@@ -1116,6 +1120,8 @@ end
 ;       set to embed CSS in the HTML output
 ;    currentTemplate
 ;       most recently asked for template
+;    charset
+;       character set to use
 ;    index
 ;       hash table of names to tree objects
 ;    proFiles
@@ -1170,6 +1176,7 @@ pro doc_system__define
              templatePrefix: '', $
              templateLocation: '', $
              currentTemplate: '', $
+             charset: '', $
              
              index: obj_new(), $
              classes: obj_new(), $ 
