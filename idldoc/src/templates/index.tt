@@ -7,10 +7,6 @@
   <head>
     <title>[% title %]</title>
 
-    <style type="text/css" media="all">
-      frameset#nav_frames { border-right: 1px solid #AAAAAA; }
-    </style>
-
     <link rel="shortcut icon" href="./idldoc-resources/idldoc.ico"/>
   </head>
 
@@ -24,13 +20,15 @@
     </frameset>
     [% END %]
     <frame src="overview.html" name="main_frame"/>
+
+    <noframes>
+      <body>
+        <h2>Frame Alert</h2>
+        <p>This document is designed to be viewed using frames. If you
+           see this message, you are using a non-frame-capable web client.</p>
+
+        <p>A <a href="overview.html">non-frame version</a> is available.</p>
+      </body>
+    </noframes>
   </frameset>
-
-  <noframes>
-    <h2>Frame Alert</h2>
-    <p>This document is designed to be viewed using frames. If you
-       see this message, you are using a non-frame-capable web client.</p>
-
-    <p>A <a href="overview.html">non-frame version</a> is available.</p>
-  </noframes>
 </html>
