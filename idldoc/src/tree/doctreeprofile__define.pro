@@ -218,6 +218,9 @@ function doctreeprofile::getVariable, name, found=found
           endif else return, ''
         endif
         
+        ; TODO: this should not process the comments and then look for the 
+        ; sentence; there should be a method of the parse tree to find the 
+        ; first sentence
         comments = self.system->processComments(self.comments)             
         
         nLines = n_elements(comments)
@@ -228,10 +231,20 @@ function doctreeprofile::getVariable, name, found=found
           line++
         endwhile  
         
-        if (pos eq -1L) then return, comments[0L:line-1L]
-        if (line eq 0L) then return, strmid(comments[line], 0L, pos + 1L)
+        ; no . found
+        if (pos eq -1L) then begin
+          firstLine = comments[0L:line - 1L]          
+          return, firstLine
+        endif
         
-        return, [comments[0L:line-1L], strmid(comments[line], 0L, pos + 1L)]
+        ; . found on first line
+        if (line eq 0L) then begin
+          return, strmid(comments[line], 0L, pos + 1L)
+        endif
+        
+        ; . found on some other line
+        return, [comments[0L:line-1L], $
+                 strmid(comments[line], 0L, pos + 1L)]
       end
           
     'n_routines' : return, self.routines->count()

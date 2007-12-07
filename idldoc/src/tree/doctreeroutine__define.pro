@@ -236,6 +236,9 @@ function doctreeroutine::getVariable, name, found=found
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
         
+        ; TODO: this should not process the comments and then look for the 
+        ; sentence; there should be a method of the parse tree to find the 
+        ; first sentence
         comments = self.system->processComments(self.comments) 
         
         nLines = n_elements(comments)
