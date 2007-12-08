@@ -54,6 +54,9 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
           nameIndent = stregex(lines[l++], '[[:alnum:]_$]')          
         endwhile
         
+        ; empty properties tag, so quit
+        if (nameIndent eq -1L) then break
+        
         ; must indent property names
         if (nameIndent lt 1) then begin
           self.system->warning, 'invalid properties syntax'
@@ -158,6 +161,9 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
         while (l lt n_elements(lines) && nameIndent eq -1L) do begin 
           nameIndent = stregex(lines[l++], '[[:alnum:]_$]')          
         endwhile
+        
+        ; this is an empty fields tag, so quit
+        if (nameIndent eq -1L) then break
         
         ; must indent fields names
         if (nameIndent lt 1) then begin
@@ -279,6 +285,7 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
   compile_opt strictarr
   
   ; find params/keywords
+  tag = keyword_set(keyword) ? 'keyword' : 'param'
   
   ; find number of spaces that properties' names are indented
   l = 1L
@@ -286,10 +293,13 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
   while (l lt n_elements(lines) && nameIndent eq -1L) do begin 
     nameIndent = stregex(lines[l++], '[[:alnum:]_$]')          
   endwhile
-        
+  
+  ; empty Params or Keywords tag, so quit      
+  if (nameIndent eq -1L) then return
+  
   ; must indent property names
   if (nameIndent lt 1) then begin
-    self.system->warning, 'invalid properties syntax'
+    self.system->warning, 'invalid ' + tag + 's syntax'
     return
   endif              
 
@@ -302,7 +312,6 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
   paramDefinitionLines = where(paramNamesStart[1, *] ne -1L, nParams)
 
   routine->getProperty, name=routineName
-  tag = keyword_set(keyword) ? 'keyword' : 'param'
   
   ; add each property
   for p = 0L, nParams - 1L do begin
@@ -398,7 +407,7 @@ pro docparrstformatparser::_handleAttribute, param, attribute, routine=routine
   routine->getProperty, name=routineName  
   
   result = strsplit(attribute, '=', /extract)
-  attributeName = result[0]
+  attributeName = strtrim(result[0], 2)
   attributeValue = (n_elements(result) gt 1) ? result[1] : ''
   
   case attributeName of
