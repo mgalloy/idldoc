@@ -236,8 +236,8 @@ pro doctreeclass::findParents
   if (error ne 0L) then begin
     s = self->_createClassStructure(self.classname, error=error, /compile)
     if (error ne 0L) then begin
-      self.system->warning, 'cannot find definition for class ' $
-                              + self.classname + ' in path'
+      self.system->warning, 'cannot construct definition for class ' $
+                              + self.classname
       return
     endif
   endif
