@@ -233,7 +233,7 @@ end
 pro docparprofileparser::_parseHeader, routine, cmd, first_line=firstLine
   compile_opt strictarr
   
-  args = strsplit(cmd, ',', /extract, count=nargs)
+  args = strsplit(cmd, '[[:space:],]', /extract, /regex, count=nargs)
   
   ; skip first "argument" if this is the first line (the "pro routine_name" 
   ; part)
