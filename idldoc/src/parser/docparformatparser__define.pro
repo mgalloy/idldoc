@@ -13,12 +13,12 @@
 ;
 ; :Abstract:
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       all lines of the comment block
 ; :Keywords:
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       routine tree object 
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparformatparser::parseRoutineComments, lines, routine=routine, $

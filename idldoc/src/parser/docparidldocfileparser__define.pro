@@ -10,13 +10,13 @@
 ; 
 ; :Returns: file tree object
 ; :Params:
-;    `filename` : in, required, type=string
+;    filename : in, required, type=string
 ;       absolute path to .pro file to be parsed
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       returns 1 if filename found, 0 otherwise
-;    `directory` : in, required, type=object
+;    directory : in, required, type=object
 ;       directory tree object
 ;-
 function docparidldocfileparser::parse, filename, found=found, $
@@ -52,7 +52,7 @@ end
 ; Create an idldoc file parser.
 ;
 ; :Keywords:
-;    `system` : in, required, type=object
+;    system : in, required, type=object
 ;       system object
 ;-
 function docparidldocfileparser::init, system=system
@@ -68,7 +68,8 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    `filename` absolute path to the .idldoc file to be parsed
+;    filename
+;       absolute path to the .idldoc file to be parsed
 ;-
 pro docparidldocfileparser__define
   compile_opt strictarr
