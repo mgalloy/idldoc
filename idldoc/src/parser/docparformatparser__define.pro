@@ -12,9 +12,11 @@
 ; Handles parsing of a code block. 
 ;
 ; :Abstract:
+;
 ; :Params:
 ;    lines : in, required, type=strarr
 ;       all lines of the comment block
+;
 ; :Keywords:
 ;    routine : in, required, type=object
 ;       routine tree object 
@@ -28,6 +30,19 @@ pro docparformatparser::parseRoutineComments, lines, routine=routine, $
 end
 
 
+;+
+; Handles parsing of a comment block associated with a file. 
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
+;    file : in, required, type=object
+;       file tree object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
 pro docparformatparser::parseFileComments, lines, file=file, $
                                            markup_parser=markupParser
   compile_opt strictarr
@@ -35,6 +50,19 @@ pro docparformatparser::parseFileComments, lines, file=file, $
 end
 
 
+;+
+; Parse comments in an .idldoc file.
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
+;    file : in, required, type=object
+;       file tree object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
 pro docparformatparser::parseIDLdocComments, lines, file=file, $
                                              markup_parser=markupParser
   compile_opt strictarr
@@ -44,6 +72,19 @@ pro docparformatparser::parseIDLdocComments, lines, file=file, $
 end
 
 
+;+
+; Handles parsing of a comment block in the overview file using IDLdoc syntax. 
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
+;    system : in, required, type=object
+;       system object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
 pro docparformatparser::parseOverviewComments, lines, system=system, $
                                                markup_parser=markupParser
   compile_opt strictarr
@@ -51,6 +92,14 @@ pro docparformatparser::parseOverviewComments, lines, system=system, $
 end
 
 
+;+
+; Check if there is any class-related information (like heldProperties) waiting
+; for this routine.
+;
+; :Params:
+;     routine : in, required, type=object
+;        routine tree object
+;-
 pro docparformatparser::checkForClass, routine
   compile_opt strictarr
   
@@ -71,6 +120,9 @@ pro docparformatparser::checkForClass, routine
 end
   
   
+;+
+; Free resources.
+;-
 pro docparformatparser::cleanup
   compile_opt strictarr
 
@@ -78,6 +130,11 @@ pro docparformatparser::cleanup
 end
 
 
+;+
+; Create a format parser object.
+;
+; :Returns: 1 for success, 0 for failure
+;-
 function docparformatparser::init, system=system
   compile_opt strictarr
   
@@ -92,6 +149,8 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
+;    system
+;       system tree object
 ;    heldProperties
 ;       properties waiting to be claimed by a class
 ;-

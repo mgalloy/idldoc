@@ -16,8 +16,8 @@
 ; :Keywords:
 ;    routine : in, required, type=object
 ;       routine tree object 
-;    file : in, required, type=file
-;       file tree object
+;    routine : in, required, type=file
+;       routine tree object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
