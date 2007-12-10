@@ -97,7 +97,49 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
     'copyright': file->setProperty, copyright=markupParser->parse(self->_parseTag(lines))
     'history': file->setProperty, history=markupParser->parse(self->_parseTag(lines))
     'version': file->setProperty, version=markupParser->parse(self->_parseTag(lines))
+
+    ; TODO: add
+    'abstract':
+    'bugs':
+    'categories':
+    'customer_id':
+    'obsolete':
+    'requires':
+    'restrictions':
+    'todo':
+    'uses':
     
+    'fields': begin
+        file->getProperty, basename=basename
+        msg = '(%"routine level tag ''%s'' at file level in %s")'
+        self.system->warning, string(format=msg, tag, basename)    
+      end
+    'post': begin
+        file->getProperty, basename=basename
+        msg = '(%"routine level tag ''%s'' at file level in %s")'
+        self.system->warning, string(format=msg, tag, basename)    
+      end
+    'pre': begin
+        file->getProperty, basename=basename
+        msg = '(%"routine level tag ''%s'' at file level in %s")'
+        self.system->warning, string(format=msg, tag, basename)    
+      end
+    'params': begin
+        file->getProperty, basename=basename
+        msg = '(%"routine level tag ''%s'' at file level in %s")'
+        self.system->warning, string(format=msg, tag, basename)    
+      end
+    'keywords': begin
+        file->getProperty, basename=basename
+        msg = '(%"routine level tag ''%s'' at file level in %s")'
+        self.system->warning, string(format=msg, tag, basename)    
+      end
+    'returns': begin
+        file->getProperty, basename=basename
+        msg = '(%"routine level tag ''%s'' at file level in %s")'
+        self.system->warning, string(format=msg, tag, basename)        
+      end
+              
     else: begin
         file->getProperty, basename=basename
         msg = '(%"unknown tag ''%s'' at file level in %s")'
@@ -214,7 +256,11 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
         file->setProperty, is_hidden=1B
       end
     'history': routine->setProperty, history=markupParser->parse(self->_parseTag(lines))
-    'inherits':   ; not used any more       
+    'inherits':  begin
+        routine->getProperty, name=name
+        msg = '(%"obsolete tag ''%s'' at routine level in %s")'
+        self.system->warning, string(format=msg, tag, name)            
+      end
     'keywords': self->_handleArgumentTag, lines, routine=routine, $
                                           markup_parser=markupParser, /keyword     
     'obsolete': begin
@@ -229,6 +275,11 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
     'private_file': begin
         routine->getProperty, file=file
         file->setProperty, is_private=1B
+      end    
+    'properties': begin
+        routine->getProperty, name=name
+        msg = '(%"properties tag at routine level in %s")'
+        self.system->warning, string(format=msg, tag, name)        
       end
     'requires': begin        
         requires = self->_parseTag(lines)
