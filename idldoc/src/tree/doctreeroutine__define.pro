@@ -236,23 +236,8 @@ function doctreeroutine::getVariable, name, found=found
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
         
-        ; TODO: this should not process the comments and then look for the 
-        ; sentence; there should be a method of the parse tree to find the 
-        ; first sentence
-        comments = self.system->processComments(self.comments) 
-        
-        nLines = n_elements(comments)
-        line = 0
-        while (line lt nLines) do begin
-          pos = stregex(comments[line], '\.( |$)')
-          if (pos ne -1) then break
-          line++
-        endwhile  
-        
-        if (pos eq -1) then return, comments[0:line-1]
-        if (line eq 0) then return, strmid(comments[line], 0, pos + 1)
-        
-        return, [comments[0:line-1], strmid(comments[line], 0, pos + 1)]
+        self.firstline = mg_tm_firstline(self.comments)
+        return, self.system->processComments(self.firstline)        
       end
       
     'has_returns': return, obj_valid(self.returns)
@@ -404,7 +389,7 @@ end
 ; Add a parameter to the list of parameters for this routine.
 ; 
 ; :Params:
-;    `param` : in, required, type=object
+;    param : in, required, type=object
 ;       argument tree object
 ;-
 pro doctreeroutine::addParameter, param
@@ -522,6 +507,7 @@ end
 pro doctreeroutine::cleanup
   compile_opt strictarr
   
+  obj_destroy, self.firstline
   obj_destroy, [self.parameters, self.keywords, self.comments]
   obj_destroy, [self.returns, self.bugs]
   obj_destroy, [self.author, self.copyright, self.history, self.todo]
@@ -536,7 +522,7 @@ end
 ;    1 for success, 0 for failure
 ;
 ; :Params:
-;    `file` : in, required, type=object
+;    file : in, required, type=object
 ;       file tree object
 ;-
 function doctreeroutine::init, file, system=system
@@ -558,13 +544,20 @@ end
 ; Define instance variables for routine class. 
 ;
 ; :Fields:
-;    `file` file object containing this routine
-;    `name` string name of this routine
-;    `isFunction` true if this routine is a function
-;    `isMethod` true if this routine is a method of a class
-;    `parameters` list of parameter objects
-;    `keywords` list of keyword objects
-;    `comments` tree node hierarchy
+;    file 
+;       file object containing this routine
+;    name
+;       string name of this routine
+;    isFunction
+;       true if this routine is a function
+;    isMethod;
+;       true if this routine is a method of a class
+;    parameters
+;       list of parameter objects
+;    keywords
+;       list of keyword objects
+;    comments
+;       tree node hierarchy
 ;-
 pro doctreeroutine__define
   compile_opt strictarr
@@ -586,6 +579,7 @@ pro doctreeroutine__define
              keywords: obj_new(), $
              
              comments: obj_new(), $
+             firstline: obj_new(), $
              returns: obj_new(), $
 
              categories: obj_new(), $

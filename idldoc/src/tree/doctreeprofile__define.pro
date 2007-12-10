@@ -218,33 +218,8 @@ function doctreeprofile::getVariable, name, found=found
           endif else return, ''
         endif
         
-        ; TODO: this should not process the comments and then look for the 
-        ; sentence; there should be a method of the parse tree to find the 
-        ; first sentence
-        comments = self.system->processComments(self.comments)             
-        
-        nLines = n_elements(comments)
-        line = 0L
-        while (line lt nLines) do begin
-          pos = stregex(comments[line], '\.( |$)')
-          if (pos ne -1L) then break
-          line++
-        endwhile  
-        
-        ; no . found
-        if (pos eq -1L) then begin
-          firstLine = comments[0L:line - 1L]          
-          return, firstLine
-        endif
-        
-        ; . found on first line
-        if (line eq 0L) then begin
-          return, strmid(comments[line], 0L, pos + 1L)
-        endif
-        
-        ; . found on some other line
-        return, [comments[0L:line-1L], $
-                 strmid(comments[line], 0L, pos + 1L)]
+        self.firstline = mg_tm_firstline(self.comments)
+        return, self.system->processComments(self.firstline)        
       end
           
     'n_routines' : return, self.routines->count()
@@ -451,6 +426,7 @@ end
 pro doctreeprofile::cleanup
   compile_opt strictarr
   
+  obj_destroy, self.firstline
   obj_destroy, self.routines
   obj_destroy, self.classes
   obj_destroy, [self.author, self.copyright, self.history]
@@ -483,22 +459,6 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   self.fullpath = fullpath
   
   self.classes = obj_new('MGcoArrayList', type=11, block_size=3)
-  
-;  self.isClass = strlowcase(strmid(self.basename, 11, /reverse_offset)) eq '__define.pro'
-;  if (self.isClass) then begin  
-;    classname = strmid(self.basename, 0, strlen(self.basename) - 12)
-;    self.system->getProperty, classes=classes
-;    class = classes->get(strlowcase(classname), found=found)
-;    if (found) then begin
-;      self.class = class
-;      self.class->setProperty, pro_file=self, classname=classname
-;    endif else begin
-;      self.class = obj_new('DOCtreeClass', $
-;                           classname, $
-;                           pro_file=self, $
-;                           system=self.system)
-;    endelse
-;  endif 
   
   self.routines = obj_new('MGcoArrayList', type=11)
   
@@ -546,6 +506,7 @@ pro doctreeprofile__define
              markup: '', $
              
              comments: obj_new(), $
+             firstline: obj_new(), $
              
              routines: obj_new(), $
              

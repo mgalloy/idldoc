@@ -68,8 +68,8 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    filename
-;       absolute path to the .idldoc file to be parsed
+;    system
+;       system tree object
 ;-
 pro docparidldocfileparser__define
   compile_opt strictarr
