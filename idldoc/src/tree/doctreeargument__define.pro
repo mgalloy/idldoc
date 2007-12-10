@@ -65,6 +65,28 @@ function doctreeargument::getVariable, name, found=found
         return, name + ':' + (self.isKeyword ? 'k' : 'p') + ':' + self.name
       end
       
+    'index_name': return, self.name
+    'index_type': begin
+        type = self.isKeyword ? 'keyword' : 'parameter'
+        self.routine->getProperty, file=file, name=routineName
+        file->getProperty, basename=basename
+        
+        msg = '(%"%s in routine %s in file %s")'
+        return, string(format=msg, type, routineName, basename)
+      end      
+    'index_url': begin
+        self.routine->getProperty, file=file, name=routineName
+        file->getProperty, directory=directory, basename=basename
+        directory->getProperty, url=dirUrl
+        msg = '(%"%s%s#%s:%s:%s")'
+        return, string(format=msg, $
+                       dirUrl, $
+                       file_basename(basename, '.pro') + '.html', $
+                       routineName, $
+                       (self.isKeyword ? 'k' : 'p'), $
+                       self.name)
+      end
+            
     'is_keyword' : return, self.isKeyword
     'is_optional': return, self.isOptional
     'is_required': return, self.isRequired
@@ -249,7 +271,7 @@ function doctreeargument::init, routine, name=name, is_keyword=isKeyword, $
   
   self.isKeyword = keyword_set(isKeyword)
   
-  ;self.system->createIndexEntry, self.name, self
+  self.system->createIndexEntry, self.name, self
   
   return, 1
 end
