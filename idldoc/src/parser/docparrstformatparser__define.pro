@@ -100,7 +100,8 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
     
     else: begin
         file->getProperty, basename=basename
-        self.system->warning, 'unknown tag "' + tag + '" in file ' + basename
+        msg = '(%"unknown tag ''%s'' at file level in %s")'
+        self.system->warning, string(format=msg, tag, basename)
       end
   endcase
 end
@@ -255,7 +256,8 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
     'version': routine->setProperty, version=markupParser->parse(self->_parseTag(lines))
     else: begin
         routine->getProperty, name=name
-        self.system->warning, 'unknown tag "' + tag + '" in routine ' + name
+        msg = '(%"unknown tag ''%s'' at routine level in %s")'
+        self.system->warning, string(format=msg, tag, name)
       end
   endcase
 end

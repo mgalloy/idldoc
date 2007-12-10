@@ -112,9 +112,10 @@ pro docparidlformatparser::_handleFileTag, tag, lines, $
     'modification history': begin
         file->setProperty, history=markupParser->parse(lines)
       end
-    else: begin
+    else: begin                
         file->getProperty, basename=basename
-        self.system->warning, 'unknown tag "' + tag + '" in file ' + basename
+        msg = '(%"unknown tag ''%s'' at file level in %s")'
+        self.system->warning, string(format=msg, tag, basename)
       end
   endcase
 end
@@ -186,7 +187,8 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
       end
     else: begin
         routine->getProperty, name=name
-        self.system->warning, 'unknown tag "' + tag + '" in routine ' + name
+        msg = '(%"unknown tag ''%s'' at routine level in %s")'
+        self.system->warning, string(format=msg, tag, name)
       end
   endcase
 end
