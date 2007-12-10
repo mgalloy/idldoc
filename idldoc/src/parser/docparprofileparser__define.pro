@@ -234,10 +234,11 @@ pro docparprofileparser::_parseHeader, routine, cmd, first_line=firstLine
   compile_opt strictarr
   
   args = strsplit(cmd, '[[:space:],]', /extract, /regex, count=nargs)
+  startIndex = keyword_set(firstLine) ? 2L : 0L
   
   ; skip first "argument" if this is the first line (the "pro routine_name" 
   ; part)
-  for a = keyword_set(firstLine), nargs - 1L do begin
+  for a = startIndex, nargs - 1L do begin
     argument = strcompress(args[a], /remove_all)
     if (argument eq '$') then continue
     if (strpos(argument, '=') ne -1) then begin
