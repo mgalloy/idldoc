@@ -11,10 +11,10 @@
 ; 
 ; :Returns: file tree object
 ; :Params:
-;    `filename` : in, required, type=string
+;    filename : in, required, type=string
 ;       absolute path to .pro file to be parsed
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       returns 1 if filename found, 0 otherwise
 ;-
 function docparoverviewfileparser::parse, filename, found=found
@@ -28,7 +28,8 @@ end
 ; Define instance variables.
 ; 
 ; :Fields:
-;    `filename` absolute path to overview file to be parsed
+;    filename
+;       absolute path to overview file to be parsed
 ;-
 pro docparoverviewfileparser__define
   compile_opt strictarr

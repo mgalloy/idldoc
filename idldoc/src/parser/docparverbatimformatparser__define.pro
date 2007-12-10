@@ -10,14 +10,15 @@
 ; through to the markup parser. 
 ;
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       all lines of the comment block
+;
 ; :Keywords:
-;    `routine` : in, required, type=object
+;    routine : in, required, type=object
 ;       routine tree object 
-;    `file` : in, required, type=file
+;    file : in, required, type=file
 ;       file tree object
-;    `markup_parser` : in, required, type=object
+;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparverbatimformatparser::parseRoutineComments, lines, routine=routine, $

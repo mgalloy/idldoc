@@ -14,7 +14,7 @@
 ; :Returns: object
 ; :Abstract:
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       lines to be parsed
 ;-
 function docparmarkupparser::parse, lines
