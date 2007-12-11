@@ -99,11 +99,11 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
     'version': file->setProperty, version=markupParser->parse(self->_parseTag(lines))
 
     ; TODO: add
-    'abstract':
+    'abstract': file->setProperty, is_abstract=1B
     'bugs':
     'categories':
     'customer_id':
-    'obsolete':
+    'obsolete': file->setProperty, is_obsolete=1B
     'requires':
     'restrictions':
     'todo':

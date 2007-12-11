@@ -35,7 +35,7 @@
     
     <div class="content">
       <h2 class="directory">[% location %]</h2>
-      <h1 class="basename">[% basename %]</h1>
+      <h1 class="basename">[% basename %]<span class="file-attributes">[% IF is_abstract %]abstract&nbsp; [% END %][% IF is_obsolete %]obsolete&nbsp; [% END %]</span></h1>
       
       [% IF is_batch %]<span class="file_attribute small">batch file</span>[% END %]
       [% IF has_main_level %]<span class="file_attribute small">includes main-level program</span>[% END %]

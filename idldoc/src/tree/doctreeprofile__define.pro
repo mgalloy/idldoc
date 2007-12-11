@@ -49,7 +49,10 @@ end
 ;-
 pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
                                  is_hidden=isHidden, is_private=isPrivate, $
-                                 is_batch=isBatch, comments=comments, $
+                                 is_batch=isBatch, $
+                                 is_abstract=isAbstract, $
+                                 is_obsolete=isObsolete, $
+                                 comments=comments, $
                                  modification_time=mTime, n_lines=nLines, $ 
                                  format=format, markup=markup, $
                                  examples=examples, $
@@ -93,7 +96,9 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
   if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
   
   if (n_elements(hasMainLevel) gt 0) then self.hasMainLevel = hasMainLevel
+  if (n_elements(isAbstract) gt 0) then self.isAbstract = isAbstract
   if (n_elements(isBatch) gt 0) then self.isBatch = isBatch
+  if (n_elements(isObsolete) gt 0) then self.isObsolete = isObsolete
   if (n_elements(comments) gt 0) then begin
     if (obj_valid(self.comments)) then begin
       parent = obj_new('MGtmTag')
@@ -197,6 +202,8 @@ function doctreeprofile::getVariable, name, found=found
     'has_class': return, self.classes->count() gt 0
     'classes': return, self.classes->get(/all)
     'is_private': return, self.isPrivate
+    'is_abstract': return, self.isAbstract
+    'is_obsolete': return, self.isObsolete
     
     'modification_time': return, self.modificationTime
     'n_lines': return, mg_int_format(self.nLines)
@@ -510,7 +517,9 @@ pro doctreeprofile__define
              
              routines: obj_new(), $
              
+             isAbstract: 0B, $
              isHidden: 0B, $
+             isObsolete: 0B, $
              isPrivate: 0B, $
              
              examples: obj_new(), $

@@ -21,6 +21,7 @@ h4 { margin-bottom: 0.25em; }
 .smaller { font-family: Verdana, Helvetica, sans-serif; font-size: 80%; }
 .smallest { font-family: Verdana, Helvetica, sans-serif; font-size: 70%; }
 h1.basename { margin-top: 0; margin-bottom: 0; }
+h1.basename span.file-attributes { font-size: 70%; margin-left: 3em; color: #384806; }
 h2.directory { font-size: 90%; margin-bottom: 0; }
 h2.routine-name { margin-top: 0; margin-bottom: 0; }
 p.categories { color: #384806; margin-top: 0; }
