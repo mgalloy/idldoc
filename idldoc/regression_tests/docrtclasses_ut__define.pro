@@ -1,7 +1,7 @@
 ; docformat = 'rst'
 
 ;+
-; Basic IDLdoc run of on save files.
+; Basic IDLdoc run of on class definition file.
 ;-
 function docrtclasses_ut::test_basic
   compile_opt strictarr

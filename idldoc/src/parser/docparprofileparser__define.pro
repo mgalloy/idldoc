@@ -233,23 +233,22 @@ end
 pro docparprofileparser::_parseHeader, routine, cmd, first_line=firstLine
   compile_opt strictarr
   
-  args = strsplit(cmd, '[[:space:],]', /extract, /regex, count=nargs)
-  startIndex = keyword_set(firstLine) ? 2L : 0L
+  args = strsplit(cmd, ',', /extract, /regex, count=nargs)
   
   ; skip first "argument" if this is the first line (the "pro routine_name" 
   ; part)
-  for a = startIndex, nargs - 1L do begin
-    argument = strcompress(args[a], /remove_all)
-    if (argument eq '$') then continue
-    if (strpos(argument, '=') ne -1) then begin
+  for a = keyword_set(firstLine), nargs - 1L do begin
+    if (strtrim(args[a], 2) eq '$') then break
+    if (strpos(args[a], '=') ne -1) then begin
       ; add text before "=" as keyword to routine
-      name = (strsplit(argument, '=', /extract))[0]
+      name = strtrim((strsplit(args[a], '=', /extract))[0], 2)
       keyword = obj_new('DOCtreeArgument', routine, name=name, /is_keyword, $
                         system=self.system)
       routine->addKeyword, keyword
     endif else begin
       ; add param as a positional parameter to routine
-      param = obj_new('DOCtreeArgument', routine, name=argument, $
+      argument = strsplit(args[a], '[[:space:]]', /regex, /extract)
+      param = obj_new('DOCtreeArgument', routine, name=argument[0], $
                       system=self.system)
       routine->addParameter, param
     endelse
