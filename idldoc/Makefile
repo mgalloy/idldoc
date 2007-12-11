@@ -1,4 +1,4 @@
-VERSION=3.0b3
+VERSION=3.0b4
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 
 clean:
@@ -21,6 +21,12 @@ srcdist:
 	mv idldoc_version.pro src/
 
 	svn export . idldoc-$(VERSION)-src/
+	svn export src/collection idldoc-$(VERSION)-src/collection
+	svn export src/dist_tools idldoc-$(VERSION)-src/dist_tools
+	svn export src/math idldoc-$(VERSION)-src/math
+	svn export src/textmarkup idldoc-$(VERSION)-src/textmarkup
+	svn export src/templating idldoc-$(VERSION)-src/templating
+	svn export src/web idldoc-$(VERSION)-src/web
 	zip -r idldoc-$(VERSION)-src.zip idldoc-$(VERSION)-src/*
 	rm -rf idldoc-$(VERSION)-src
 	
