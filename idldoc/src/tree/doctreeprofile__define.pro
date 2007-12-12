@@ -3,14 +3,6 @@
 ;+
 ; This class represents a information about .pro file.
 ;
-;
-; :Bugs:
-;    some stuff isn't working
-; :Todo:
-;    some kind of problem
-; :Requires: IDL 6.1
-; :Categories: object graphics
-;
 ; :Properties:
 ;    basename : get, set, type=string
 ;       basename of filename
@@ -29,8 +21,6 @@
 
 ;+
 ; Get properties.
-;
-; :Todo: fix this
 ;-
 pro doctreeprofile::getProperty, basename=basename, $
                                  has_main_level=hasMainLevel, $
