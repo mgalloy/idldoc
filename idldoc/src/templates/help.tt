@@ -136,6 +136,11 @@
   		      <td>output format for comments ("html", "rst", or "latex"); default is "html"</td>
   		    </tr>			    
 
+            <tr>
+              <td class="name">CHARSET</td>
+              <td>set to the character set to be used for the output, default is utf-8</td>
+            </tr>
+            
   		    <tr>
   		      <td class="name">TEMPLATE_PREFIX</td>
   		      <td>prefix for template's names</td>
@@ -151,6 +156,16 @@
   		      <td>set to a named variable to return the error state of the IDLdoc call; 0 indicates no error, anything else is an error</td>
   		    </tr>
 
+            <tr>
+              <td class="name">HELP</td>
+              <td>set to print out the syntax of an IDLdoc call</td>
+            </tr>
+            
+            <tr>
+              <td class="name">VERSION</td>
+              <td>set to print out the version of IDLdoc</td>
+            </tr>
+            
   		    <tr>
   		      <td class="name">N_WARNINGS</td>
   		      <td>set to a named variable to return the number of warnings for the</td>

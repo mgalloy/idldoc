@@ -290,14 +290,23 @@ end
 pro doc_system::printHelp
   compile_opt strictarr
   
-  msg = ['Calling syntax: ', $
+  msg = ['IDLdoc ' + self.version, $
          '', $
-         '  IDL> idldoc, ROOT=root, OUTPUT=output', $
+         'Usage:', $
          '', $
-         'where the ROOT keyword specifies a directory hierarchy to', $
-         'document and the OUTPUT keyword specifies an output location.', $
+         '  IDL> idldoc, ROOT=string [, OUTPUT=string] $', $
+         '               [, TITLE=string] [, SUBTITLE=string] $', $
+         '               [, /EMBED] [, OVERVIEW=string] [, FOOTER] $', $
+         '               [, /NONAVBAR], [, /NOSOURCE] [, /USER] [, /STATISTICS] $', $
+         '               [, /QUIET] [, /SILENT] $', $
+         '               [, FORMAT_STYLE=string] [, MARKUP_STYLE=string] $', $
+         '               [, COMMENT_STYLE=string] [, CHARSET=string] $', $
+         '               [, TEMPLATE_PREFIX=string] [, TEMPLATE_LOCATION=string] $', $
+         '               [, ERROR=named variable] [N_WARNINGS=named variable] $', $
+         '               [, LOG_FILE=string]', $
+         '               [, /HELP] [, /VERSION] $'
          '', $
-         'See the help for more information about other keywords.']
+         'See the help for more detailed information about the keywords.']
   
   self->print, transpose(msg)
 end
