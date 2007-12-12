@@ -6,6 +6,10 @@
 ; them) and parsing IDL code.
 ;
 ; Only one file parser should be created for all .pro files.
+;
+; :Properties:
+;    system
+;       system object
 ;-
 
 
@@ -56,6 +60,10 @@ end
 ; :Params:
 ;    line : in, required, type=string
 ;       line of code
+;
+; :Keywords:
+;    comments : out, optional, type=string
+;       returns the comments stripped from the line
 ;-
 function docparprofileparser::_stripComments, line, comments=comments
   compile_opt strictarr
@@ -482,9 +490,7 @@ end
 ;+
 ; Create a file parser.
 ;
-; :Keywords:
-;    system : in, required, type=object
-;       system object
+; :Returns: 1 for success, 0 for failure
 ;-
 function docparprofileparser::init, system=system
   compile_opt strictarr

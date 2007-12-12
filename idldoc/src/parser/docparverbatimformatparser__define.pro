@@ -6,8 +6,8 @@
 
 
 ;+
-; Handles parsing of a comment block np special syntax: all comments are passed
-; through to the markup parser. 
+; Handles parsing of a routine level comment block with no special syntax: all 
+; comments are passed through to the markup parser. 
 ;
 ; :Params:
 ;    lines : in, required, type=strarr
@@ -16,8 +16,6 @@
 ; :Keywords:
 ;    routine : in, required, type=object
 ;       routine tree object 
-;    routine : in, required, type=file
-;       routine tree object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
@@ -30,6 +28,20 @@ pro docparverbatimformatparser::parseRoutineComments, lines, routine=routine, $
 end
 
 
+;+
+; Handles parsing of a file level comment block with no special syntax: all 
+; comments are passed through to the markup parser. 
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
+;    file : in, required, type=object
+;       file tree object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
 pro docparverbatimformatparser::parseFileComments, lines, file=file, $
                                                    markup_parser=markupParser
   compile_opt strictarr
@@ -39,6 +51,20 @@ pro docparverbatimformatparser::parseFileComments, lines, file=file, $
 end
 
 
+;+
+; Handles parsing of the overview comment block with no special syntax: all 
+; comments are passed through to the markup parser. 
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
+;    system : in, required, type=object
+;       system object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
 pro docparverbatimformatparser::parseOverviewComments, lines, system=system, $
                                                        markup_parser=markupParser
   compile_opt strictarr

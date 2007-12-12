@@ -5,6 +5,10 @@
 ; comment is not an entire comment block, but a part of the comment block that 
 ; the format parser has already decided is associated with a specific item like 
 ; a routine or argument.
+;
+; :Properties:
+;    system
+;       system object
 ;-
 
 
@@ -24,6 +28,11 @@ function docparmarkupparser::parse, lines
 end
 
 
+;+
+; Create a markup parser.
+;
+; :Returns: 1 for success, 0 for failure
+;-
 function docparmarkupparser::init, system=system
   compile_opt strictarr
   

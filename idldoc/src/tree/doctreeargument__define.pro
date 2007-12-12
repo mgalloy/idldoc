@@ -224,6 +224,8 @@ end
 ;+
 ; Arguments are visible if their routine is visible and they don't have hidden 
 ; or private (with system variable user) set.
+;
+; :Returns: 1 if visible, 0 if not
 ;-
 function doctreeargument::isVisible
   compile_opt strictarr

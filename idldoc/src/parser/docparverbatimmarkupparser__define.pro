@@ -9,11 +9,16 @@
 ;+
 ; Takes a string array of free text comments and return a parse tree.
 ;
-; :Returns: object
 ; :Abstract:
+; :Returns: object
+;
 ; :Params:
-;    `lines` : in, required, type=strarr
+;    lines : in, required, type=strarr
 ;       lines to be parsed
+;
+; :Keywords:
+;    top : in, optional, type=string, default=paragraph
+;       type of top-level MGtmTag to create
 ;-
 function docparverbatimmarkupparser::parse, lines, top=top
   compile_opt strictarr

@@ -8,6 +8,8 @@
 ;+
 ; Parse the lines from a tag; simply removes the tag and passes along the rest.
 ; 
+; :Returns: strarr
+;
 ; :Params:
 ;    lines : in, out, required, type=strarr
 ;-
@@ -500,11 +502,12 @@ pro docparrstformatparser::_handleAttribute, param, attribute, routine=routine
 end
                                                   
 ;+
-; Handles parsing of a comment block using rst syntax. 
+; Handles parsing of a routine level comment block using rst syntax. 
 ;
 ; :Params:
 ;    lines : in, required, type=strarr
 ;       all lines of the comment block
+;
 ; :Keywords:
 ;    routine : in, required, type=object
 ;       routine tree object 
@@ -540,6 +543,19 @@ pro docparrstformatparser::parseRoutineComments, lines, routine=routine,  $
 end
 
 
+;+
+; Handles parsing of a file level comment block using rst syntax. 
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
+;    file : in, required, type=object
+;       file tree object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
 pro docparrstformatparser::parseFileComments, lines, file=file,  $
                                               markup_parser=markupParser
   compile_opt strictarr
