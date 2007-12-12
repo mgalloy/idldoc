@@ -100,12 +100,13 @@
     	<div id="requires">
     	  <h2>Requires</h2>
     	  
-    	  <p>Routines that require IDL [% requires_version %]:</p>
-    	  <ul>
-    	  [% FOREACH r in requires_routines %][% SCOPE r %]
-    	    <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>
+    	  <p>Routines and files that require IDL [% requires_version %]:</p>
+    	  <dl>
+    	  [% FOREACH r in requires_items %][% SCOPE r %]
+    	    <dt><a href="[% index_url %]">[% index_name %]</a><dt>
+    	    <dd>[% index_type %]</dd>
     	  [% END %][% END %]
-    	  </ul>
+    	  </dl>
     	</div>
     	[% END %]
     	

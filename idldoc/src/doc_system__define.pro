@@ -163,7 +163,7 @@ function doc_system::getVariable, name, found=found
         return, mg_int_format(nLines)
       end
     'requires_version': return, self.requiresVersion
-    'requires_routines': return, self.requiresRoutines->get(/all)
+    'requires_items': return, self.requiresItems->get(/all)
     
     'current_template': return, self.currentTemplate
                                     
@@ -773,18 +773,18 @@ end
 ; :Params:
 ;    version : in, required, type=string
 ;       required version
-;    routine : in, required, type=object
-;       routine tree object
+;    item : in, required, type=object
+;       routine or file tree object
 ;-
-pro doc_system::checkRequiredVersion, version, routine
+pro doc_system::checkRequiredVersion, version, item
   compile_opt strictarr
   
   case mg_cmp_version(version, self.requiresVersion) of
     -1: ; don't do anything if version is not at least equal to requires version
-     0: self.requiresRoutines->add, routine
+     0: self.requiresItems->add, item
      1: begin
-        self.requiresRoutines->remove, /all
-        self.requiresRoutines->add, routine
+        self.requiresItems->remove, /all
+        self.requiresItems->add, item
         self.requiresVersion = version       
       end
     else:   ; should not happen
@@ -1047,7 +1047,7 @@ function doc_system::init, root=root, output=output, $
   self.savFiles = obj_new('MGcoArrayList', type=11, block_size=20)
   self.idldocFiles = obj_new('MGcoArrayList', type=11, block_size=20)
   
-  self.requiresRoutines = obj_new('MGcoArrayList', type=11, block_size=20)
+  self.requiresItems = obj_new('MGcoArrayList', type=11, block_size=20)
   
   ; copy resources
   self->print, 'Copying resources...'
@@ -1200,6 +1200,6 @@ pro doc_system__define
              idldocFiles: obj_new(), $
              
              requiresVersion: '', $
-             requiresRoutines: obj_new() $                              
+             requiresItems: obj_new() $                              
            }
 end

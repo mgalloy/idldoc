@@ -368,7 +368,22 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
     'categories':
     'customer_id': file->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))
     'obsolete': file->setProperty, is_obsolete=1B
-    'requires': file->setProperty, requires=markupParser->parse(self->_parseTag(lines))
+    'requires': begin
+        requires = self->_parseTag(lines)
+        
+        ; look for an IDL version
+        for i = 0L, n_elements(requires) - 1L do begin
+          version = stregex(lines[i], '[[:digit:].]+', /extract)
+          if (version ne '') then break
+        endfor
+         
+        ; if you have a real version then check in with system
+        if (version ne '') then begin
+          self.system->checkRequiredVersion, version, file
+        endif
+            
+        file->setProperty, requires=markupParser->parse(requires)
+      end
     'restrictions': file->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))
     'todo': begin
         file->setProperty, todo=markupParser->parse(self->_parseTag(lines))
