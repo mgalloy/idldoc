@@ -367,12 +367,12 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
     'abstract': file->setProperty, is_abstract=1B
     'bugs':
     'categories':
-    'customer_id':
+    'customer_id': file->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))
     'obsolete': file->setProperty, is_obsolete=1B
     'requires':
-    'restrictions':
+    'restrictions': file->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))
     'todo':
-    'uses':
+    'uses': file->setProperty, uses=markupParser->parse(self->_parseTag(lines))
         
     'field': begin
         file->getProperty, basename=basename

@@ -155,6 +155,33 @@
         </table>          
       [% END %]
                         
+      [% IF has_others %]
+      <h2>Other file information</h2>
+      
+        <table class="attribute small" summary="Other file attributes">
+        [% IF has_customer_id %]
+          <tr>
+            <td class="name">Customer ID:</td>
+            <td>[% customer_id %]</td>
+          </tr>           
+        [% END %]
+        
+        [% IF has_restrictions %]
+          <tr>
+            <td class="name">Restrictions:</td>
+            <td>[% restrictions %]</td>
+          </tr>           
+        [% END %]
+        
+        [% IF has_uses %]
+          <tr>
+            <td class="name">Uses:</td>
+            <td>[% uses %]</td>
+          </tr>           
+        [% END %]
+        </table>
+      [% END %]
+      
       [% IF n_visible_routines gt 1 %]
       <div>
         <h2>Routines</h2>

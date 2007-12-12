@@ -2,7 +2,7 @@
 
 ;+
 ; This class represents a information about .pro file.
-; 
+;
 ; :Properties:
 ;    basename : get, set, type=string
 ;       basename of filename
@@ -57,7 +57,10 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
                                  format=format, markup=markup, $
                                  examples=examples, $
                                  author=author, copyright=copyright, $
-                                 history=history, version=version                                 
+                                 history=history, version=version, $
+                                 customer_id=customerId, $
+                                 restrictions=restrictions, $
+                                 uses=uses                                 
   compile_opt strictarr
   
   if (n_elements(code) gt 0) then begin
@@ -133,7 +136,23 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
   if (n_elements(version) gt 0) then begin
     self.hasAuthorInfo = 1B
     self.version = version
-  endif    
+  endif
+  
+  if (n_elements(customerId) gt 0) then begin
+    self.hasOthers = 1B    
+    self.customerId = customerId
+  endif  
+  
+  if (n_elements(restrictions) gt 0) then begin
+    self.hasOthers = 1B
+    self.restrictions = restrictions
+  endif
+    
+  if (n_elements(uses) gt 0) then begin
+    self.hasOthers = 1B
+    self.uses = uses
+  endif  
+    
 end
 
 
@@ -277,6 +296,17 @@ function doctreeprofile::getVariable, name, found=found
         return, dirUrl + file_basename(self.basename, '.pro') + '.html'
       end
             
+    'has_others': return, self.hasOthers
+    
+    'has_customer_id': return, obj_valid(self.customerId)
+    'customer_id': return, self.system->processComments(self.customerId)
+    
+    'has_restrictions': return, obj_valid(self.restrictions)
+    'restrictions': return, self.system->processComments(self.restrictions)
+    
+    'has_uses': return, obj_valid(self.uses)
+    'uses': return, self.system->processComments(self.uses)
+    
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
@@ -528,6 +558,11 @@ pro doctreeprofile__define
              author: obj_new(), $
              copyright: obj_new(), $
              history: obj_new(), $
-             version: obj_new() $
+             version: obj_new(), $
+             
+             hasOthers: 0B, $
+             customerId: obj_new(), $
+             restrictions: obj_new(), $
+             uses: obj_new() $
            }
 end
