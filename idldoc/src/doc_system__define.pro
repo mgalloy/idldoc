@@ -304,7 +304,7 @@ pro doc_system::printHelp
          '               [, TEMPLATE_PREFIX=string] [, TEMPLATE_LOCATION=string] $', $
          '               [, ERROR=named variable] [N_WARNINGS=named variable] $', $
          '               [, LOG_FILE=string]', $
-         '               [, /HELP] [, /VERSION] $'
+         '               [, /HELP] [, /VERSION] $', $
          '', $
          'See the help for more detailed information about the keywords.']
   
