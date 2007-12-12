@@ -51,6 +51,8 @@ end
 ;+
 ; Create an idldoc file parser.
 ;
+; :Returns: 1 for success, 0 for failure
+;
 ; :Keywords:
 ;    system : in, required, type=object
 ;       system object

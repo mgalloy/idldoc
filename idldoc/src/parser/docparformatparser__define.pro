@@ -5,6 +5,10 @@
 ; the standard IDL template, IDLdoc style @-tags, or rst style syntax. The 
 ; format parser will call the markup parser to parse free text comments in the
 ; comment block.
+;
+; :Properties:
+;    system
+;       system object
 ;-
 
 

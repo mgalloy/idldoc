@@ -5,7 +5,27 @@
 ;-
 
 
-
+;+
+; Handle a section of an IDL format code header.
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       lines of a section of an IDL format code header
+;
+; :Keywords:
+;    routine : in, required, type=object
+;       routine tree object
+;    markup_parser : in, required, type=object
+;       markup parser object
+;    keyword : in, optional, type=boolean
+;       set to indicate keywords are being parsed
+;    optional : in, optional, type=boolean
+;       set to indicate optional parameters are being parsed
+;    input : in, optional, type=boolean
+;       set to indicate inputs are being parsed
+;    tag : in, required, type=string
+;       name of section parsing
+;-
 pro docparidlformatparser::_handleArguments, lines, routine=routine, $
                                              markup_parser=markupParser, $
                                              keyword=keyword, $

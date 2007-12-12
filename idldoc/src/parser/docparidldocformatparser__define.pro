@@ -30,6 +30,8 @@ end
 ;+
 ; Parse the lines from a tag.
 ; 
+; :Returns: strarr
+;
 ; :Params:
 ;    lines : in, out, required, type=strarr
 ;
