@@ -159,20 +159,41 @@
       <h2>Other file information</h2>
       
         <table class="attribute small" summary="Other file attributes">
+        [% IF has_bugs %]
+          <tr>
+            <td class="name">Bugs:</td>
+            <td>[% bugs %]</td>
+          </tr>           
+        [% END %]
+                
         [% IF has_customer_id %]
           <tr>
             <td class="name">Customer ID:</td>
             <td>[% customer_id %]</td>
           </tr>           
         [% END %]
-        
+
+        [% IF has_requires %]
+          <tr>
+            <td class="name">Requires:</td>
+            <td>[% requires %]</td>
+          </tr>           
+        [% END %]
+                
         [% IF has_restrictions %]
           <tr>
             <td class="name">Restrictions:</td>
             <td>[% restrictions %]</td>
           </tr>           
         [% END %]
-        
+
+        [% IF has_todo %]
+          <tr>
+            <td class="name">Todo:</td>
+            <td>[% todo %]</td>
+          </tr>           
+        [% END %]
+                
         [% IF has_uses %]
           <tr>
             <td class="name">Uses:</td>

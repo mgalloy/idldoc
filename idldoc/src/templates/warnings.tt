@@ -40,13 +40,14 @@
       
       [% IF n_todos gt 0 %]
     	<div id="todos">
-    		<h2>Routines with todos</h2>
+    		<h2>Todos</h2>
     		
-    		<ul>
+    		<dl>
     		[% FOREACH r IN todos %][% SCOPE r %]
-          <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>    		
+              <dt><a href="[% index_url %]">[% index_name %]</a></dt>
+              <dd>[% index_type %]</dd>    		
     		[% END %][% END %]
-    		</ul>
+    		</dl>
     	</div>
     	[% END %]
     	

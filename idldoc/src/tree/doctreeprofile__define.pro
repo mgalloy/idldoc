@@ -3,6 +3,14 @@
 ;+
 ; This class represents a information about .pro file.
 ;
+;
+; :Bugs:
+;    some stuff isn't working
+; :Todo:
+;    some kind of problem
+; :Requires: IDL 6.1
+; :Categories: object graphics
+;
 ; :Properties:
 ;    basename : get, set, type=string
 ;       basename of filename
@@ -21,6 +29,8 @@
 
 ;+
 ; Get properties.
+;
+; :Todo: fix this
 ;-
 pro doctreeprofile::getProperty, basename=basename, $
                                  has_main_level=hasMainLevel, $
@@ -58,8 +68,11 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
                                  examples=examples, $
                                  author=author, copyright=copyright, $
                                  history=history, version=version, $
+                                 bugs=bugs, $
                                  customer_id=customerId, $
+                                 requires=requires, $
                                  restrictions=restrictions, $
+                                 todo=todo, $
                                  uses=uses                                 
   compile_opt strictarr
   
@@ -137,22 +150,36 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
     self.hasAuthorInfo = 1B
     self.version = version
   endif
-  
+
+  if (n_elements(bugs) gt 0) then begin
+    self.hasOthers = 1B
+    self.bugs = bugs
+  endif 
+    
   if (n_elements(customerId) gt 0) then begin
     self.hasOthers = 1B    
     self.customerId = customerId
   endif  
-  
+
+  if (n_elements(requires) gt 0) then begin
+    self.hasOthers = 1B
+    self.requires = requires
+  endif 
+    
   if (n_elements(restrictions) gt 0) then begin
     self.hasOthers = 1B
     self.restrictions = restrictions
   endif
-    
+
+  if (n_elements(todo) gt 0) then begin
+    self.hasOthers = 1B
+    self.todo = todo
+  endif 
+      
   if (n_elements(uses) gt 0) then begin
     self.hasOthers = 1B
     self.uses = uses
   endif  
-    
 end
 
 
@@ -297,13 +324,22 @@ function doctreeprofile::getVariable, name, found=found
       end
             
     'has_others': return, self.hasOthers
-    
+
+    'has_bugs': return, obj_valid(self.bugs)
+    'bugs': return, self.system->processComments(self.bugs)
+        
     'has_customer_id': return, obj_valid(self.customerId)
     'customer_id': return, self.system->processComments(self.customerId)
     
+    'has_requires': return, obj_valid(self.requires)
+    'requires': return, self.system->processComments(self.requires)
+        
     'has_restrictions': return, obj_valid(self.restrictions)
     'restrictions': return, self.system->processComments(self.restrictions)
-    
+
+    'has_todo': return, obj_valid(self.todo)
+    'todo': return, self.system->processComments(self.todo)
+        
     'has_uses': return, obj_valid(self.uses)
     'uses': return, self.system->processComments(self.uses)
     
@@ -468,6 +504,9 @@ pro doctreeprofile::cleanup
   obj_destroy, self.classes
   obj_destroy, [self.author, self.copyright, self.history]
   obj_destroy, self.code
+  obj_destroy, self.categories
+  obj_destroy, [self.bugs, self.customerId]
+  obj_destroy, [self.requires, self.restrictions, self.todo, self.uses]
 end
 
 
@@ -497,7 +536,9 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   
   self.classes = obj_new('MGcoArrayList', type=11, block_size=3)
   
-  self.routines = obj_new('MGcoArrayList', type=11)
+  self.routines = obj_new('MGcoArrayList', type=11, block_size=10)
+  
+  self.categories = obj_new('MGcoArrayList', type=7, block_size=3)
   
   self.system->createIndexEntry, self.basename, self
   self.system->print, '  Parsing ' + self.basename + '...'
@@ -560,9 +601,15 @@ pro doctreeprofile__define
              history: obj_new(), $
              version: obj_new(), $
              
+             categories: obj_new(), $
+             
              hasOthers: 0B, $
+             bugs: obj_new(), $
              customerId: obj_new(), $
              restrictions: obj_new(), $
+             requires: obj_new(), $
+             todo: obj_new(), $
              uses: obj_new() $
+             
            }
 end

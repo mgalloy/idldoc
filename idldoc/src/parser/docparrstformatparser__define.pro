@@ -98,15 +98,17 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
     'history': file->setProperty, history=markupParser->parse(self->_parseTag(lines))
     'version': file->setProperty, version=markupParser->parse(self->_parseTag(lines))
 
-    ; TODO: add
     'abstract': file->setProperty, is_abstract=1B
-    'bugs':
+    'bugs': file->setProperty, bugs=markupParser->parse(self->_parseTag(lines))
     'categories':
     'customer_id': file->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))      
     'obsolete': file->setProperty, is_obsolete=1B
-    'requires':
+    'requires': file->setProperty, requires=markupParser->parse(self->_parseTag(lines))
     'restrictions': file->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))      
-    'todo':
+    'todo': begin
+        file->setProperty, todo=markupParser->parse(self->_parseTag(lines))
+        self.system->createTodoEntry, file
+      end
     'uses': file->setProperty, uses=markupParser->parse(self->_parseTag(lines))      
     
     'fields': begin
