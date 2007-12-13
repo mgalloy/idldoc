@@ -1,9 +1,26 @@
 ; docformat = 'rst'
 
 ;+
+; Tree object representing a class.
+;
+; :Properties:
+;    ancestors
+;       ancestor classes
+;    classname
+;       name of the class
+;    pro_file
+;       name of the pro_file where the class is defined (where the __define 
+;       routine is) 
+;    properties
+;       hash table of properties (name -> property tree object)
+;    system
+;       system object
+;-
+
+;+
 ; Get variables for use with templates.
 ;
-; :Returns: variable
+; :Returns: variable value
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable
@@ -156,7 +173,10 @@ function doctreeclass::getFieldTypes
   return, fieldTypes
 end
 
-        
+
+;+
+; Set properties.
+;-
 pro doctreeclass::setProperty, pro_file=proFile, classname=classname
   compile_opt strictarr
   
@@ -165,6 +185,9 @@ pro doctreeclass::setProperty, pro_file=proFile, classname=classname
 end
 
 
+;+
+; Get properties.
+;-
 pro doctreeclass::getProperty, ancestors=ancestors, classname=classname, $
                                properties=properties
   compile_opt strictarr
@@ -175,6 +198,13 @@ pro doctreeclass::getProperty, ancestors=ancestors, classname=classname, $
 end
 
 
+;+
+; Add child class for this class.
+;
+; :Params:
+;    child : in, required, type=object
+;       class tree object
+;-
 pro doctreeclass::addChild, child
   compile_opt strictarr
   
@@ -184,6 +214,8 @@ end
 
 ;+
 ; Classes are visible if their files are visible.
+;
+; :Returns: 1 if visible, 0 if not visible
 ;-
 function doctreeclass::isVisible
   compile_opt strictarr
@@ -195,6 +227,8 @@ end
 ;+
 ; Create a structure containing the fields of the class.
 ;
+; :Returns: structure
+;
 ; :Params:
 ;    classname : in, required, type=string
 ;       name of the named structure i.e. the classname
@@ -202,6 +236,8 @@ end
 ; :Keywords:
 ;    error : out, optional, type=long
 ;       set to a named variable to contain any error code; 0 indicates no error
+;    compile : in, optional, type=boolean
+;       set to compile .pro file before trying to define structure
 ;-
 function doctreeclass::_createClassStructure, classname, error=error, $
                                               compile=compile
@@ -295,6 +331,19 @@ pro doctreeclass::findParents
 end
 
 
+;+
+; Add a field to the class.
+; 
+; :Returns: field tree object
+;
+; :Params:
+;    fieldname : in, required, type=string
+;       name of the field to create and add to the class
+; 
+; :Keywords:
+;    get_only : in, optional, type=boolean
+;       if set, do not create a field tree object; just return an exising field
+;-
 function doctreeclass::addField, fieldName, get_only=getOnly
   compile_opt strictarr
   
@@ -314,6 +363,10 @@ end
 ; :Params:
 ;    property : in, required, type=object
 ;       property tree object to add
+;
+; :Keywords:
+;    property_name : in, out, optional, type=string
+;       name of the property
 ;-
 pro doctreeclass::addProperty, property, property_name=propertyName
   compile_opt strictarr
@@ -350,6 +403,10 @@ end
 ; Create a class tree object.
 ;
 ; :Returns: 1 for success, 0 otherwise
+;
+; :Params:
+;    classname : in, required, type=string
+;       name of the class
 ;-
 function doctreeclass::init, classname, pro_file=proFile, system=system
   compile_opt strictarr
@@ -393,6 +450,8 @@ end
 ;       array list of parent classes
 ;    ancestors
 ;       array list of ancestor classes
+;    children
+;       array list of (direct) children classes
 ;    fields
 ;       hash table of field tree classes
 ;    properties

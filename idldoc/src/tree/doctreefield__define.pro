@@ -87,6 +87,8 @@ end
 
 ;+
 ; Fields are visible if their class is visible.
+;
+; :Returns: 1 if visible, 0 if not visible
 ;-
 function doctreefield::isVisible
   compile_opt strictarr

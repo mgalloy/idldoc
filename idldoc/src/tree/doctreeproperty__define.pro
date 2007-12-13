@@ -98,6 +98,8 @@ end
 
 ;+
 ; Properties are visible if their class is visible.
+;
+; :Returns: 1 if visible, 0 if not visible
 ;-
 function doctreeproperty::isVisible
   compile_opt strictarr

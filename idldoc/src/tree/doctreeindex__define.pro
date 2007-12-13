@@ -30,6 +30,11 @@ end
 
 ;+
 ; Add the item to the index.
+;
+; :Params:
+;    item : in, required, type=object
+;       item to add to the index; any object with 'index_name', 'index_url',
+;       and 'index_type' available from getVariable can be added
 ;- 
 pro doctreeindex::add, item
   compile_opt strictarr

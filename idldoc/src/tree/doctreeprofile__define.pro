@@ -378,6 +378,20 @@ pro doctreeprofile::addRoutine, routine
 end
 
 
+;+
+; Add property comments to the appropriate keyword if there are no keyword 
+; comments.
+;
+; :Params:
+;    methodname : in, required, type=string
+;       method to check for keywords; either getProperty, setProperty, init
+;    propertyname : in, required, type=string
+;       name of the property
+;    comments : in, required, type=object
+;       property comments
+;    class : in, required, type=object
+;       class tree object in which to check properties
+;-
 pro doctreeprofile::_propertyCheck, methodname, propertyname, comments, class
   compile_opt strictarr
   
@@ -450,6 +464,15 @@ pro doctreeprofile::process
 end
 
 
+;+
+; Generate output documenting the .pro file.
+;
+; :Params:
+;    outputRoot : in, required, type=string
+;       absolute path to the output root directory
+;    directory : in, required, type=string
+;       directory name relative to the root for the .pro file
+;-
 pro doctreeprofile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
