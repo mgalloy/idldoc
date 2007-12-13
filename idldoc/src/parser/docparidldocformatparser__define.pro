@@ -370,7 +370,16 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
         self.system->createBugEntry, file
         file->setProperty, bugs=markupParser->parse(self->_parseTag(lines))
       end
-    'categories':
+    'categories': begin
+        comments = self->_parseTag(lines)
+        categories = strtrim(strsplit(strjoin(comments), ',', /extract), 2)
+        for i = 0L, n_elements(categories) - 1L do begin
+          if (categories[i] ne '') then begin
+            file->addCategory, categories[i]
+            self.system->createCategoryEntry, categories[i], file
+          endif
+        endfor
+      end
     'customer_id': file->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))
     'obsolete': begin
         self.system->createObsoleteEntry, file

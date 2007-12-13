@@ -420,6 +420,21 @@ end
 
 
 ;+
+; Add a category name to the file.
+;
+; :Params:
+;    name : in, required, type=string
+;       name of category to add to this file
+;-
+pro doctreeprofile::addCategory, name
+  compile_opt strictarr
+
+  self.categories->add, name
+end
+
+
+
+;+
 ; Do any analysis necessary on information gathered during the "parseTree"
 ; phase.
 ;-

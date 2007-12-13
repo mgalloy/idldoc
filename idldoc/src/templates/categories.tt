@@ -39,11 +39,12 @@
     	[% IF n_categories gt 0 %]
     	  [% FOREACH c IN categories %]
     	    <h3>[% c %]</h3>   
-    	    <ul>
+    	    <dl>
     	    [% FOREACH r IN system->getCategoryEntries(c) %][% SCOPE r %]
-    	      <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>
+    	      <dt><a href="[% index_url %]">[% index_name %]</a></dt>
+    	      <dd>[% index_type %]</dd>
     	    [% END %][% END %]
-    	    </ul> 	    
+    	    </dl> 	    
     	  [% END %]
     	[% END %]
     	

@@ -6,7 +6,7 @@
 ;
 ; :Author:
 ;    Michael Galloy
-; 
+;
 ; :Properties:
 ;    root
 ;       the directory containing the code to document
@@ -673,10 +673,10 @@ end
 ; :Params:
 ;    name : in, required, type=string
 ;       category name
-;    routine : in, required, type=object
-;       routine tree object
+;    item : in, required, type=object
+;       routine or file tree object
 ;-
-pro doc_system::createCategoryEntry, name, routine
+pro doc_system::createCategoryEntry, name, item
   compile_opt strictarr
   
   lname = strlowcase(name)
@@ -687,7 +687,7 @@ pro doc_system::createCategoryEntry, name, routine
     self.categories->put, lname, categoryList
   endif
   
-  categoryList->add, routine
+  categoryList->add, item
 end
 
 
