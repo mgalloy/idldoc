@@ -4,10 +4,14 @@
 ; This class represents a information about .idldoc file.
 ; 
 ; :Properties:
-;    `basename` : get, type=string
+;    basename : get, type=string
 ;       basename of filename
-;    `comments` : set, type=object
+;    comments : set, type=object
 ;       text markup tree to add to the current tree
+;    directory
+;       directory tree object that the .idldoc file is located within
+;    system
+;       system object
 ;-
 
 
@@ -43,11 +47,11 @@ end
 ;
 ; :Returns: variable
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of variable
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreeidldocfile::getVariable, name, found=found
@@ -93,6 +97,8 @@ end
 
 ;+
 ; .idldoc files are always visible.
+;
+; :Returns: 1 if visible, 0 if not visible.
 ;-
 function doctreeidldocfile::isVisible
   compile_opt strictarr
@@ -105,9 +111,9 @@ end
 ; Generate the output for the .idldoc file.
 ; 
 ; :Params:
-;    `outputRoot` : in, required, type=string
+;    outputRoot : in, required, type=string
 ;       location of the root of the run
-;    `directory` : in, required, type=string
+;    directory : in, required, type=string
 ;       specification of the directory the .idldoc file is in (relative to the 
 ;       root)
 ;-
@@ -139,13 +145,6 @@ end
 ; Create file tree object.
 ;
 ; :Returns: 1 for success, 0 for failure
-; :Keywords:
-;    `basename` : in, required, type=string
-;       basename of the .idldoc file
-;    `directory` : in, required, type=object
-;       directory tree object that the .idldoc file is located within
-;    `system` : in, required, type=object
-;       system object
 ;-
 function doctreeidldocfile::init, basename=basename, directory=directory, $
                                   system=system
@@ -166,12 +165,17 @@ end
 
 
 ;+
+; Define instance variables.
+; 
 ; :Fields:
-;    `directory` directory tree object
-;    `basename` basename of file
-;    `hasMainLevel` true if the file has a main level program at the end
-;    `isBatch` true if the file is a batch file
-;    `routines` list of routine objects
+;    directory
+;       directory tree object
+;    basename
+;       basename of file
+;    comments
+;       comment markup tree
+;    system
+;       system object
 ;-
 pro doctreeidldocfile__define
   compile_opt strictarr

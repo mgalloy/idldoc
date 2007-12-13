@@ -1,15 +1,25 @@
 ; docformat = 'rst'
 
 ;+
+; Represents a variable in .sav file.
+;
+; :Properties:
+;    declaration
+;       string representing IDL code to create variable
+;    system
+;       system object
+;-
+
+;+
 ; Get variables for use with templates.
 ;
 ; :Returns: variable
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of variable
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreesavvar::getVariable, name, found=found
@@ -43,6 +53,9 @@ function doctreesavvar::getVariable, name, found=found
 end
 
 
+;+
+; Set properties.
+;-
 pro doctreesavvar::setProperty, declaration=declaration
   compile_opt strictarr
 
@@ -52,6 +65,8 @@ end
 
 ;+
 ; All sav variables are visible.
+;
+; :Returns: 1 if visible, 0 if not visible
 ;-
 function doctreesavvar::isVisible
   compile_opt strictarr
@@ -69,6 +84,19 @@ pro doctreesavvar::cleanup
 end
 
 
+;+
+; Creates a sav variable object.
+;
+; :Returns: 1 for success, 0 for failure
+;
+; :Params:
+;    name : in, required, type=string
+;       name of the variable
+;    data : in, required, type=any
+;       data contained in the variable in the .sav file
+;    savFile : in, required, type=object
+;       sav file tree object
+;-
 function doctreesavvar::init, name, data, savFile, system=system
   compile_opt strictarr
   
@@ -96,6 +124,23 @@ function doctreesavvar::init, name, data, savFile, system=system
 end
 
 
+;+
+; Define instance variables.
+;
+; :Fields:
+;    system
+;       system object
+;    savfile
+;       sav file object in which the variable is contained
+;    name
+;       name of the variable
+;    declaration
+;       IDL code to specify variable type
+;    localThumbnailUrl
+;       URL to the thumbnail image
+;    hasThumbnail
+;       1 if a thumbnail image for the variable could be derived
+;-
 pro doctreesavvar__define
   compile_opt strictarr
   

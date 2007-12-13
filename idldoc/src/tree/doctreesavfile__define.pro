@@ -4,8 +4,13 @@
 ; This class represents a information about .pro file.
 ; 
 ; :Properties:
-;    `name` : get, set, type=string
+;    basename : get, set, type=string
 ;       basename of filename
+;    directory
+;       directory tree object
+;    system
+;       system object
+;
 ;-
 
 
@@ -14,11 +19,11 @@
 ;
 ; :Returns: variable
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of variable
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreesavfile::getVariable, name, found=found
@@ -100,6 +105,24 @@ pro doctreesavfile::getProperty, basename=basename, directory=directory
 end
 
 
+;+
+; Restores the contents of the .sav file item specified by itemname.
+; 
+; :Returns: data of itemname
+; 
+; :Params:
+;    itemname : in, required, type=string
+; 
+; :Keywords:
+;    system_variable : in, optional, type=boolean
+;       set to indicate itemname represents a system variable
+;    structure_definition : in, optional, type=boolean
+;       set to indicate itemname represents a structure definition
+;    pointer_heapvar : in, optional, type=boolean
+;       set to indicate itemname represents a pointer
+;    object_heapvar : in, optional, type=boolean
+;       set to indicate itemname represents an object
+;-
 function doctreesavfile::loadItem, itemName, $
                                    system_variable=systemVariable, $
                                    structure_definition=structureDefinition, $
@@ -151,6 +174,9 @@ function doctreesavfile::loadItem, itemName, $
 end
 
 
+;+
+; Read contents of the .sav file.
+;-
 pro doctreesavfile::loadSavContents
   compile_opt strictarr
   
@@ -230,6 +256,8 @@ end
 
 ;+
 ; All .sav files are visible.
+; 
+; :Returns: 1 if visible, 0 if not visible
 ;-
 function doctreesavfile::isVisible
   compile_opt strictarr
@@ -238,6 +266,15 @@ function doctreesavfile::isVisible
 end
 
 
+;+
+; Generate output documenting the .sav file.
+;
+; :Params:
+;    outputRoot : in, required, type=string
+;       absolute path to the output root directory
+;    directory : in, required, type=string
+;       directory name relative to the root for the .sav file
+;-
 pro doctreesavfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   on_error, 2
@@ -277,11 +314,6 @@ end
 ; Create file tree object.
 ;
 ; :Returns: 1 for success, 0 for failure
-; :Keywords:
-;    `basename` : in, required, type=string
-;       basename of filename
-;    `directory` : in, required, type=object
-;       object representing parent directory
 ;-
 function doctreesavfile::init, basename=basename, directory=directory, $
                                system=system
@@ -319,10 +351,33 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    `system` system object
-;    `directory` directory tree object
-;    `basename` basename of file
-;    `savFile` IDL_Savefile object corresponding to this sav file
+;    system
+;       system object
+;    directory
+;       directory tree object
+;    basename
+;       basename of file
+;    savFilename
+;       absolute filename of the .sav file
+;    modificationTime
+;       formatted string representing time/date of last modification time of the
+;       .sav file
+;    size
+;       formatted size of .sav file with units
+;    procedures
+;       array list of procedure names
+;    functions
+;       array list of function names
+;    systemVariables
+;       array list of sav variable tree objects
+;    commonBlocks
+;       array list of sav variable tree objects
+;    structureDefinitions
+;       array list of sav variable tree objects
+;    pointers
+;       array list of sav variable tree objects
+;    objects
+;       array list of sav variables tree objects
 ;-
 pro doctreesavfile__define
   compile_opt strictarr

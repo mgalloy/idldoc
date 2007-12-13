@@ -1,19 +1,67 @@
 ; docformat = 'rst'
 
 ;+
+; Represents a routine (procedure or function, method or regular).
+; 
 ; :Properties:
-;    file : get, type=object
+;    file
 ;       file tree object
-;    name : set, get, type=string
+;    name
 ;       name of the routine
-;    is_function : get, set, type=boolean
+;    is_function
 ;       1 if a function, 0 if not 
-;    is_method : get, set, type=boolean
+;    is_method
 ;       1 if a method, 0 if not
-;    parameters : get, type=object
+;    parameters
 ;       list object of positional parameter objects for routine
-;    keywords : get, type=object
+;    keywords
 ;       list object of keyword objects for routine
+;    classname
+;       name of class associated with this routine (if a method)
+;    undocumented
+;       true if not documented
+;    partially_documented
+;       true if partially documented
+;    is_obsolete
+;       1 if obsolete, 0 if not
+;    is_abstract
+;       1 if abstract (not implemented), 0 if not
+;    is_hidden
+;       1 if hidden (not visible), 0 if not
+;    is_private
+;       1 if private (hidden to users, but not developers), 0 if not
+;    comments
+;       markup tree of comments for routine
+;    returns
+;       markup tree for return value of routine
+;    examples
+;       markup tree for usage examples for routine
+;    bugs
+;       markup tree for known bugs for the routine
+;    pre
+;       markup tree for pre-condition for the routine
+;    post
+;       markup tree for post-condition for the routine
+;    customer_id
+;       markup tree for customer identification
+;    author
+;       markup tree for author
+;    copyright
+;       markup tree for copyright information
+;    history
+;       markup tree for history
+;    version
+;       markup tree for version of routine
+;    todo
+;       markup tree for todo items for this routine
+;    restrictions
+;       markup tree for restrictions on routine usage
+;    uses
+;       markup tree for routines, classes, etc used by routine
+;    requires
+;       markup tree for IDL version requirements
+;    n_lines
+;       number of lines in routine
 ;-
 
 ;+
@@ -50,6 +98,10 @@ pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
 end
 
 
+;+
+; Determine if a routine is not documented, partially documented, or fully
+; documented.
+;-
 pro doctreeroutine::checkDocumentation
   compile_opt strictarr
  
@@ -367,7 +419,7 @@ end
 ; the status of the containing file to determine if this routine should be 
 ; visible.
 ;
-; :Returns: boolean
+; :Returns: 1 if visible, 0 if not visible
 ;-
 function doctreeroutine::isVisible
   compile_opt strictarr
@@ -399,6 +451,19 @@ pro doctreeroutine::addParameter, param
 end
 
 
+;+
+; Get a positional parameter by name.
+;
+; :Returns: argument tree object
+;
+; :Params:
+;    name : in, required, type=string
+;       name of the parameter to find
+;
+; :Keywords:
+;    found : out, optional, type=boolean
+;       set to a named variable to find out if the parameter was found
+;-
 function doctreeroutine::getParameter, name, found=found
   compile_opt strictarr
   
@@ -455,6 +520,19 @@ pro doctreeroutine::addKeyword, keyword
 end
 
 
+;+
+; Get a keyword by name.
+;
+; :Returns: argument tree object
+;
+; :Params:
+;    name : in, required, type=string
+;       name of the keyword to find
+;
+; :Keywords:
+;    found : out, optional, type=boolean
+;       set to a named variable to find out if the keyword was found
+;-
 function doctreeroutine::getKeyword, name, found=found
   compile_opt strictarr
 
@@ -469,6 +547,13 @@ function doctreeroutine::getKeyword, name, found=found
 end
 
 
+;+
+; Add a category name to the routine.
+;
+; :Params:
+;    name : in, required, type=string
+;       name of category to add to this routine
+;-
 pro doctreeroutine::addCategory, name
   compile_opt strictarr
 
@@ -544,20 +629,63 @@ end
 ; Define instance variables for routine class. 
 ;
 ; :Fields:
+;    system
+;       system object
 ;    file 
 ;       file object containing this routine
 ;    name
 ;       string name of this routine
 ;    isFunction
 ;       true if this routine is a function
-;    isMethod;
+;    isMethod
 ;       true if this routine is a method of a class
+;    isAbstract
+;       true if this routine is abstract (not implemented)
+;    isObsolete
+;       true if this routine is obsolete
+;    isHidden
+;       true if this routine hidden (i.e. not visible)
+;    isPrivate
+;       true if this routine is not visible to users (but visible to 
+;       developers)
+;    nLines
+;       number of lines in the routine 
 ;    parameters
 ;       list of parameter objects
 ;    keywords
 ;       list of keyword objects
 ;    comments
 ;       tree node hierarchy
+;    firstline
+;       first line in first paragraph of routine comments
+;    returns
+;       markup tree representing return value for functions
+;    categories
+;       array list of strings indicating categories for routine
+;    examples
+;       markup tree representing example usage of the routine
+;    hasOthers
+;       true if it has one of the "other" attributes: bugs, pre, post, uses, 
+;       requires, customerId, todo, or restrictions
+;    bugs
+;       markup tree representing known bugs for the routine
+;    pre
+;       markup tree representing pre-condition for the routine
+;    post
+;       markup tree representing post-condition for the routine
+;    uses
+;       markup tree representing what other routines, classes, etc. are used
+;       by the routine
+;    requires
+;       markup tree representing IDL requirements for the routine
+;    customerId
+;       markup tree representing customer identification
+;    todo
+;       markup tree representing todo items for the routine
+;    restrictions
+;       markup tree representing routine restrictions
+;    documentationLevel
+;       level of documentation for the routine: 0 (none), 1 (partial), 2 (fully)
 ;-
 pro doctreeroutine__define
   compile_opt strictarr

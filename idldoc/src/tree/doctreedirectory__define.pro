@@ -1,10 +1,19 @@
 ; docformat = 'rst'
 
 ;+
+; Represents a directory.
+; 
 ; :Properties:
-;    `location` : get, init
-;       location of the directory
-;    `url` : get
+;    files
+;       .sav/.pro/.idldoc files in directory
+;    location
+;       location of the directory relative to the ROOT (w/ trailing slash)
+;    overview_comments
+;       markup comment tree representing the overview comments for the 
+;       directory
+;    system
+;       system object
+;    url
 ;       location of the directory as an URL
 ;-
 
@@ -20,6 +29,9 @@ pro doctreedirectory::getProperty, location=location, url=url
 end
 
 
+;+
+; Set properties.
+;-
 pro doctreedirectory::setProperty, overview_comments=overviewComments
   compile_opt strictarr
 
@@ -32,11 +44,11 @@ end
 ;
 ; :Returns: variable
 ; :Params:
-;    `name` : in, required, type=string
+;    name : in, required, type=string
 ;       name of variable
 ;
 ; :Keywords:
-;    `found` : out, optional, type=boolean
+;    found : out, optional, type=boolean
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreedirectory::getVariable, name, found=found
@@ -100,6 +112,8 @@ end
 
 ;+
 ; Directories are always visible.
+;
+; :Returns: 1 if visible, 0 if not visible
 ;-
 function doctreedirectory::isVisible
   compile_opt strictarr
@@ -126,7 +140,7 @@ end
 ; Generate all the output for the directory.
 ;
 ; :Params: 
-;    `outputRoot` : in, required, type=string
+;    outputRoot : in, required, type=string
 ;       output root directory (w/ trailing slash)
 ;-
 pro doctreedirectory::generateOutput, outputRoot
@@ -189,13 +203,6 @@ end
 ; Create a directory object.
 ;
 ; :Returns: 1 for success, 0 for failure
-; :Keywords:
-;    `location` : in, required, type=string
-;       location of the directory relative to the ROOT (w/ trailing slash)
-;    `files` : in, required, type=strarr
-;       .sav/.pro/.idldoc files in directory
-;    `system` : in, required, type=object
-;       system object
 ;-
 function doctreedirectory::init, location=location, files=files, system=system
   compile_opt strictarr
@@ -246,18 +253,20 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    `system`
+;    system
 ;       system object
-;    `location`
+;    location
 ;       location of the directory relative to the ROOT (w/ trailing slash)
-;    `url`
+;    url
 ;       location of the directory relative to the ROOT as an URL (w/ trailing 
 ;       slash) 
-;    `proFiles`
+;    overviewComments
+;       markup tree representing the overview comments for the directory
+;    proFiles
 ;       array list of .pro file objects
-;    `savFiles`
+;    savFiles
 ;       array list of .sav file objects
-;    `idldocFiles`
+;    idldocFiles
 ;       array list of .idldoc file objects
 ;-
 pro doctreedirectory__define
