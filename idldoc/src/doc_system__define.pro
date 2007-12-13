@@ -6,7 +6,7 @@
 ;
 ; :Author:
 ;    Michael Galloy
-;
+; 
 ; :Properties:
 ;    root
 ;       the directory containing the code to document
@@ -728,13 +728,13 @@ end
 ; Remember that the given routine is obsolete.
 ;
 ; :Params:
-;    routine : in, required, type=object
-;       routine tree object which is obsolete
+;    item : in, required, type=object
+;       routine or file tree object which is obsolete
 ;-
-pro doc_system::createObsoleteEntry, routine
+pro doc_system::createObsoleteEntry, item
   compile_opt strictarr
   
-  self.obsolete->add, routine
+  self.obsolete->add, item
 end
 
 
@@ -742,13 +742,13 @@ end
 ; Remember that the given routine has a bug.
 ;
 ; :Params:
-;    routine : in, required, type=object
-;       routine tree object which is obsolete
+;    item : in, required, type=object
+;       routine or file tree object which contains a bug
 ;-
-pro doc_system::createBugEntry, routine
+pro doc_system::createBugEntry, item
   compile_opt strictarr
   
-  self.bugs->add, routine
+  self.bugs->add, item
 end
 
 

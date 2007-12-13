@@ -53,19 +53,20 @@
     	
     	[% IF n_bugs gt 0 %]
     	<div id="bugs">
-    		<h2>Routines with noted bugs</h2>
+    	  <h2>Routines and files with noted bugs</h2>
     		
-        <ul>
-        [% FOREACH r IN bugs %][% SCOPE r %]
-          <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>        
-        [% END %][% END %]
-        </ul>    
+          <dl>
+          [% FOREACH r IN bugs %][% SCOPE r %]
+            <dt><a href="[% index_url %]">[% index_name %]</a><dt>
+            <dd>[% index_type %]</dd>
+          [% END %][% END %]
+          </dl>    
     	</div>
     	[% END %]
     	
     	[% IF n_undocumented gt 0 %]
     	<div id="undocumented">	
-    		<h2>Routines without full documentation</h2>   
+    	  <h2>Routines without full documentation</h2>   
     		
         <dl>
         [% FOREACH r IN undocumented %][% SCOPE r %]
@@ -78,13 +79,14 @@
     	
     	[% IF n_obsolete gt 0 %]
     	<div id="obsolete">
-    		<h2>Obsolete routines</h2>
+    	  <h2>Obsolete routines and files</h2>
 
-        <ul>
-        [% FOREACH r IN obsolete %][% SCOPE r %]
-          <li><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></li>        
-        [% END %][% END %]
-        </ul>    		
+          <dl>
+          [% FOREACH r IN obsolete %][% SCOPE r %]
+            <dt><a href="[% index_url %]">[% index_name %]</a></dt>
+            <dd>[% index_type %]</dd>
+          [% END %][% END %]
+          </dl>    		
     	</div>
     	[% END %]
     	

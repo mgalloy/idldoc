@@ -101,10 +101,16 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
     'version': file->setProperty, version=markupParser->parse(self->_parseTag(lines))
 
     'abstract': file->setProperty, is_abstract=1B
-    'bugs': file->setProperty, bugs=markupParser->parse(self->_parseTag(lines))
+    'bugs': begin
+        self.system->createBugEntry, file
+        file->setProperty, bugs=markupParser->parse(self->_parseTag(lines))
+      end
     'categories':
     'customer_id': file->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))      
-    'obsolete': file->setProperty, is_obsolete=1B
+    'obsolete': begin
+        self.system->createObsoleteEntry, file
+        file->setProperty, is_obsolete=1B
+      end
     'requires': begin
         requires = self->_parseTag(lines)
         
