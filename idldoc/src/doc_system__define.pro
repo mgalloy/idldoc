@@ -454,7 +454,7 @@ pro doc_system::loadTemplates
   
   templates = ['file-listing', 'all-files', 'dir-listing',  $
                'index', 'overview', 'help', 'warnings', 'index-entries', $
-               'categories', 'search', $
+               'categories', 'search', 'libdata', $
                'dir-overview', 'savefile', 'profile', 'source', 'idldocfile']
   for t = 0L, n_elements(templates) - 1L do begin
     dir = self.templateLocation eq '' $
@@ -583,8 +583,11 @@ pro doc_system::generateOutput
   self->print, 'Generating search page...'
   searchTemplate = self->getTemplate('search')
   searchTemplate->reset
-  searchTemplate->process, self, filepath('search.html', $
-                                          root=self.output)
+  searchTemplate->process, self, filepath('search.html', root=self.output)
+  
+  libdataTemplate = self->getTemplate('libdata')
+  libdataTemplate->reset
+  libdataTemplate->process, self, filepath('libdata.js', root=self.output)
                                           
   ; generate categories page
   self->print, 'Generating categories page...'

@@ -1,0 +1,9 @@
+/* Index used for searching */
+/* Fields used 
+/* url, filename, routine name, comments, parameters, keywords */
+[% FOREACH f IN visible_pro_files %][% SCOPE f %]
+  [% basename %]
+  [% FOREACH r IN visible_routines %][% SCOPE r %]
+    [% name %]
+  [% END %][% END %]
+[% END %][% END %]
