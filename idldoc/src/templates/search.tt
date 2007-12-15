@@ -27,8 +27,8 @@
         parent.document.title="Search ([% title %])";
       }
     </script>
-    <script type="text/javascript" src="libdata.js"/>
-    <script type="text/javascript" src="idldoc-resources/search.js"/>
+    <script type="text/javascript" src="libdata.js"></script>
+    <script type="text/javascript" src="idldoc-resources/search.js"></script>
   </head>
     
   <body onload="setTitle();">

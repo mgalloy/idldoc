@@ -291,7 +291,21 @@ function doctreeroutine::getVariable, name, found=found
         self.firstline = mg_tm_firstline(self.comments)
         return, self.system->processComments(self.firstline)        
       end
-      
+    'plain_comments': begin
+        if (~obj_valid(self.comments)) then return, ''
+        
+        commentParser = self.system->getParser('plainoutput')
+        comments = strjoin(commentParser->process(self.comments), ' ')
+        bcomments = byte(comments)
+        quote = (byte('"'))[0]
+        space = (byte(' '))[0]
+        quoteIndices = where(bcomments eq quote, nQuotes)
+        if (nQuotes gt 0) then begin
+          bcomments[quoteIndices] = space
+        endif
+        comments = string(bcomments)
+        return, comments
+      end
     'has_returns': return, obj_valid(self.returns)
     'returns': return, self.system->processComments(self.returns)
 

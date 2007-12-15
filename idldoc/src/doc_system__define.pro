@@ -532,6 +532,7 @@ pro doc_system::loadParsers
   self.parsers->put, 'htmloutput', obj_new('MGtmHTML')
   self.parsers->put, 'rstoutput', obj_new('MGtmRST')
   self.parsers->put, 'latexoutput', obj_new('MGtmLaTeX')
+  self.parsers->put, 'plainoutput', obj_new('MGtmPlain')
 end
 
 

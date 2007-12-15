@@ -264,7 +264,22 @@ function doctreeprofile::getVariable, name, found=found
         self.firstline = mg_tm_firstline(self.comments)
         return, self.system->processComments(self.firstline)        
       end
-          
+    'plain_comments': begin
+        if (~obj_valid(self.comments)) then return, ''
+        
+        commentParser = self.system->getParser('plainoutput')
+        comments = strjoin(commentParser->process(self.comments), ' ')
+        bcomments = byte(comments)
+        quote = (byte('"'))[0]
+        space = (byte(' '))[0]
+        quoteIndices = where(bcomments eq quote, nQuotes)
+        if (nQuotes gt 0) then begin
+          bcomments[quoteIndices] = space
+        endif
+        comments = string(bcomments)
+        return, comments
+      end
+                
     'n_routines' : return, self.routines->count()
     'routines' : return, self.routines->get(/all)
     'n_visible_routines': begin

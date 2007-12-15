@@ -38,6 +38,7 @@
 .compile src/textmarkup/mgtmlanguage__define
 .compile src/textmarkup/mgtmlatex__define
 .compile src/textmarkup/mgtmnode__define
+.compile src/textmarkup/mgtmplain__define
 .compile src/textmarkup/mgtmrst__define
 .compile src/textmarkup/mgtmtag__define
 .compile src/textmarkup/mgtmtext__define

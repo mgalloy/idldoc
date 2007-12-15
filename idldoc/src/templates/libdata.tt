@@ -1,9 +1,12 @@
 /* Index used for searching */
 /* Fields used 
 /* url, filename, routine name, comments, parameters, keywords */
+libdata = new Array();
+i = 0;
+
 [% FOREACH f IN visible_pro_files %][% SCOPE f %]
-  [% basename %]
+libdata[i++] = new Array("[% index_url %]", "[% file_basename(basename) %]", "", "[% plain_comments %]", "", "");
   [% FOREACH r IN visible_routines %][% SCOPE r %]
-    [% name %]
+  libdata[i++] = new Array("[% index_url %]", "[% file_basename(basename) %]", "[% name %]", "[% plain_comments %]", "", "");
   [% END %][% END %]
 [% END %][% END %]
