@@ -42,23 +42,24 @@
  					<input class="text" name="basicText" size="50"/> &nbsp; <input name="send" type="submit" value="Search" onClick="basicsearch()"/>
  				</form>
  
+       <p class="smaller">This is an explanation of what the basic search does. Nothing fancy, just searches for files or routines that have the words entered.</p>
     	
     	<h2>Advanced search</h2>
-
+      
 			<form name="advancedForm">
 			  <table summary="Advanced search">
 			    <tr>
-			      <td>Routine name</td>
+			      <td>Routine names</td>
 				    <td><input class="text" name="routineName" size="30"/> </td>
 				  </tr>
 
 			    <tr>
-			      <td>Parameter name</td>
+			      <td>Parameters</td>
 				    <td><input class="text" name="paramName" size="30"/> </td>
 				  </tr>
 
 			    <tr>
-			      <td>Code header</td>
+			      <td>Code headers</td>
 				    <td><input class="text" name="codeHeader" size="30"/> </td>
 				  </tr>
 				  				  
@@ -70,6 +71,7 @@
 				</table>
 			</form>
 
+      <p class="smaller">This is an explanation of what the advanced search does. I'm not sure there really should be an advanced search right now.</p>
 			<br/>
 			
     	[% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]    		
