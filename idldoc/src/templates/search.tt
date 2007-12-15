@@ -11,6 +11,11 @@
     [% IF embed %]
     <style type="text/css" media="all">
       [% INCLUDE css_location %]
+			fieldset { border: #ddd 1px solid; padding: 1em; margin-top: 3em; }
+			legend { color: #900000; font-size: 120%; }
+			label { width: 8em; display: block; float: left; }
+			fieldset div { margin: 0.35em; }
+			div.test { border: #900000 1px solid; }
     </style>
     <style type="text/css" media="print">
       [% INCLUDE print_css_location %]
@@ -39,39 +44,61 @@
     	<h2>Search</h2>
  
  				<form name="basicForm">
- 					<input class="text" name="basicText" size="50"/> &nbsp; <input name="send" type="submit" value="Search" onClick="basicsearch()"/>
+ 					<input class="text" name="basicText" size="50"/>&nbsp;<input name="send" type="submit" value="Search" onClick="basicsearch()"/>
  				</form>
  
        <p class="smaller">This is an explanation of what the basic search does. Nothing fancy, just searches for files or routines that have the words entered.</p>
-    	
-    	<h2>Advanced search</h2>
+    
       
 			<form name="advancedForm">
-			  <table summary="Advanced search">
-			    <tr>
-			      <td>Routine names</td>
-				    <td><input class="text" name="routineName" size="30"/> </td>
-				  </tr>
+				<fieldset>
+					<legend>Advanced search</legend>
+					<div>
+						<label for="routinename">Routine name</label>
+						<input type="text" id="routinename" size="40">
+					</div>
+					
+					<div>
+						<label for="comments">Comments</label>
+						<input type="text" id="comments" size="40">
+					</div>
+					
+					<div>
+						<label for="parameters">Parameters</label>
+						<input type="text" id="parameters" size="40">
+					</div>
+					
+					<div>
+						<label for="authors">Authors</label>
+						<input type="text" id="authors" size="40">
+					</div>						  
 
-			    <tr>
-			      <td>Parameters</td>
-				    <td><input class="text" name="paramName" size="30"/> </td>
-				  </tr>
+					<div>
+						<label>Categories</label>
+						  <input type="checkbox" name="allcategories">any&nbsp;category
+						  <input type="checkbox" name="allcategories">any&nbsp;category
+						  <input type="checkbox" name="allcategories">any&nbsp;category
+						  <input type="checkbox" name="allcategories">any&nbsp;category
+						  <input type="checkbox" name="allcategories">any&nbsp;category																								
+							<input type="checkbox" name="nocategories">no&nbsp;categories
+						[% FOREACH c IN categories %]
+							<input type="checkbox" name="[% c %]"/>[% c %]
+						[% END %]								
+					</div>
+					
+					<div>
+						<label for="send"></label>
+						<input name="send" type="submit" value="Search" onClick="javascript:advancedsearch()"/>
+					</div>
+					
+					<div>
+						<p class="smaller">This is an explanation of what the advanced search does. I'm not sure there really should be an advanced search right now. But it might be useful to be able to search on a particular type of information: author name, category, etc.</p>
+					</div>
+				</fieldset>																							  		
 
-			    <tr>
-			      <td>Code headers</td>
-				    <td><input class="text" name="codeHeader" size="30"/> </td>
-				  </tr>
-				  				  
-          <tr>
-            <td></td>            
-			      <td><input name="send" type="submit" value="Search" onClick="javascript:advancedsearch()"/></td>
-			    </tr>
-
-				</table>
 			</form>
 
-      <p class="smaller">This is an explanation of what the advanced search does. I'm not sure there really should be an advanced search right now.</p>
+      
 			<br/>
 			
     	[% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]    		
