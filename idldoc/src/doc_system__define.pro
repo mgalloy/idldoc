@@ -20,7 +20,39 @@
 ;       markup style
 ;    overview_comments
 ;       comment tree
+;    overview
+;       filename of overview file
+;    directories
+;       array list of directory objects
+;    nosource
+;       true if the source code is not to be copied into the output
+;    user
+;       true if user documentation is to be generated (as opposed to developer
+;       level documentation)
+;    quiet 
+;    silent
+;    n_warnings
+;    log_file
+;    assistant
+;    embed
+;    overview
+;    footer
+;    title
+;    subtitle
+;    nonavbar
+;    statistics
+;    format_style
+;    markup_style
+;    comment_style
+;    preformat
+;    browse_routines
+;    template_prefix
+;    template_location
+;    help
+;    version
+;    charset
 ;-
+
 
 ;+
 ; Get variables for use with templates.

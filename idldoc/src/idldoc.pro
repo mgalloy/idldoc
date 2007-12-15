@@ -5,6 +5,12 @@
 ; doc_system class; this routine only handles errors, saving/restoring !path, 
 ; and creating the doc_system object.
 ;
+; :Author:
+;    Michael Galloy
+; 
+; :Copyright:
+;    IDLdoc is released under a BSD-type license
+; 
 ; :Keywords:
 ;    root : in, required, type=string
 ;       root of directory hierarchy to document
