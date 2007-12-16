@@ -13,9 +13,7 @@
       [% INCLUDE css_location %]
 			fieldset { border: #ddd 1px solid; padding: 1em; margin-top: 3em; }
 			legend { color: #900000; font-size: 120%; }
-			label { width: 8em; display: block; float: left; }
-			fieldset div { margin: 0.35em; }
-			div.test { border: #900000 1px solid; }
+			label { white-space: nowrap; }
     </style>
     <style type="text/css" media="print">
       [% INCLUDE print_css_location %]
@@ -53,48 +51,71 @@
 			<form name="advancedForm">
 				<fieldset>
 					<legend>Advanced search</legend>
-					<div>
-						<label for="routinename">Routine name</label>
-						<input type="text" id="routinename" size="40">
-					</div>
-					
-					<div>
-						<label for="comments">Comments</label>
-						<input type="text" id="comments" size="40">
-					</div>
-					
-					<div>
-						<label for="parameters">Parameters</label>
-						<input type="text" id="parameters" size="40">
-					</div>
-					
-					<div>
-						<label for="authors">Authors</label>
-						<input type="text" id="authors" size="40">
-					</div>						  
+					<table>
+						<tr>
+							<td>
+								<label for="routinename">Routine name</label>
+							</td>
+							<td>
+								<input type="text" id="routinename" size="40">
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<label for="comments">Comments</label>
+							</td>
+							<td>
+								<input type="text" id="comments" size="40">
+							</td>
+						</tr>
 
-					<div>
-						<label>Categories</label>
-						  <input type="checkbox" name="allcategories">any&nbsp;category
-						  <input type="checkbox" name="allcategories">any&nbsp;category
-						  <input type="checkbox" name="allcategories">any&nbsp;category
-						  <input type="checkbox" name="allcategories">any&nbsp;category
-						  <input type="checkbox" name="allcategories">any&nbsp;category																								
-							<input type="checkbox" name="nocategories">no&nbsp;categories
-						[% FOREACH c IN categories %]
-							<input type="checkbox" name="[% c %]"/>[% c %]
-						[% END %]								
-					</div>
+						<tr>
+							<td>								
+								<label for="parameters">Parameters</label>
+							</td>
+							<td>
+								<input type="text" id="parameters" size="40">
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<label for="authors">Authors</label>
+							</td>
+							<td>
+								<input type="text" id="authors" size="40">
+							</td>
+						</tr>
+						
+						<tr>
+							<td>	
+								<label>Categories</label>
+							</td>
+							<td>
+						  	<input type="checkbox" name="anycategory">any&nbsp;category																								
+								<input type="checkbox" name="nocategories">no&nbsp;categories<br/>
+								<br/>
+								<br/>
+								[% FOREACH c IN categories %]
+									<input type="checkbox" name="[% c %]"/>[% c %]
+								[% END %]								
+						  </td>
+						</tr>
 					
-					<div>
-						<label for="send"></label>
-						<input name="send" type="submit" value="Search" onClick="javascript:advancedsearch()"/>
-					</div>
+						<tr>
+							<td></td>
+							<td>
+								<input name="send" type="submit" value="Search" onClick="javascript:advancedsearch()"/>
+					  	</td>
+						</tr>
 					
+					</table>
+				
 					<div>
 						<p class="smaller">This is an explanation of what the advanced search does. I'm not sure there really should be an advanced search right now. But it might be useful to be able to search on a particular type of information: author name, category, etc.</p>
 					</div>
-				</fieldset>																							  		
+			  </fieldset>																							  		
 
 			</form>
 
