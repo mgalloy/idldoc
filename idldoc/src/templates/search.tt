@@ -14,6 +14,8 @@
 			fieldset { border: #ddd 1px solid; padding: 1em; margin-top: 3em; }
 			legend { color: #900000; font-size: 120%; }
 			label { white-space: nowrap; }
+			td { vertical-align: top; }
+			p { margin: 2em 10em 1em 2em; }
     </style>
     <style type="text/css" media="print">
       [% INCLUDE print_css_location %]
@@ -90,13 +92,11 @@
 						
 						<tr>
 							<td>	
-								<label>Categories</label>
+								Categories
 							</td>
 							<td>
 						  	<input type="checkbox" name="anycategory">any&nbsp;category																								
 								<input type="checkbox" name="nocategories">no&nbsp;categories<br/>
-								<br/>
-								<br/>
 								[% FOREACH c IN categories %]
 									<input type="checkbox" name="[% c %]"/>[% c %]
 								[% END %]								
