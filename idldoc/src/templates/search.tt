@@ -11,11 +11,6 @@
     [% IF embed %]
     <style type="text/css" media="all">
       [% INCLUDE css_location %]
-			fieldset { border: #ddd 1px solid; padding: 1em; margin-top: 3em; }
-			legend { color: #900000; font-size: 120%; }
-			label { white-space: nowrap; }
-			td { vertical-align: top; }
-			p { margin: 2em 10em 1em 2em; }
     </style>
     <style type="text/css" media="print">
       [% INCLUDE print_css_location %]
@@ -47,7 +42,7 @@
  					<input class="text" name="basicText" size="50"/>&nbsp;<input name="send" type="submit" value="Search" onClick="basicsearch()"/>
  				</form>
  
-       <p class="smaller">This is an explanation of what the basic search does. Nothing fancy, just searches for files or routines that have the words entered.</p>
+       <p class="smaller description">This is an explanation of what the basic search does. Nothing fancy, just searches for files or routines that have the words entered.</p>
     
       
 			<form name="advancedForm">
@@ -55,7 +50,7 @@
 					<legend>Advanced search</legend>
 					<table>
 						<tr>
-							<td>
+							<td class="name">
 								<label for="routinename">Routine name</label>
 							</td>
 							<td>
@@ -64,7 +59,7 @@
 						</tr>
 						
 						<tr>
-							<td>
+							<td class="name">
 								<label for="comments">Comments</label>
 							</td>
 							<td>
@@ -73,7 +68,7 @@
 						</tr>
 
 						<tr>
-							<td>								
+							<td class="name">								
 								<label for="parameters">Parameters</label>
 							</td>
 							<td>
@@ -82,7 +77,7 @@
 						</tr>
 
 						<tr>
-							<td>
+							<td class="name">
 								<label for="authors">Authors</label>
 							</td>
 							<td>
@@ -113,7 +108,7 @@
 					</table>
 				
 					<div>
-						<p class="smaller">This is an explanation of what the advanced search does. I'm not sure there really should be an advanced search right now. But it might be useful to be able to search on a particular type of information: author name, category, etc.</p>
+						<p class="smaller description">This is an explanation of what the advanced search does. I'm not sure there really should be an advanced search right now. But it might be useful to be able to search on a particular type of information: author name, category, etc.</p>
 					</div>
 			  </fieldset>																							  		
 
