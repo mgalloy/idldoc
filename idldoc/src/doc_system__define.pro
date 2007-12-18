@@ -519,6 +519,35 @@ end
 
 
 ;+
+; Convert a parse tree into a string array using the plain output parser.
+;
+; :Returns: strarr
+; :Params:
+;    tree : in, required, type=object
+;       parse tree object with the plain output parser
+;-
+function doc_system::processPlainComments, tree
+  compile_opt strictarr
+  
+  if (~obj_valid(tree)) then return, ''
+  
+  plainParser = self->getParser('plainoutput')
+  comments = strjoin(plainParser->process(tree), ' ')  
+
+  bcomments = byte(comments)
+  quote = (byte('"'))[0]
+  space = (byte(' '))[0]
+  quoteIndices = where(bcomments eq quote, nQuotes)
+  if (nQuotes gt 0) then begin
+    bcomments[quoteIndices] = space
+  endif
+  comments = string(bcomments)
+          
+  return, comments
+end
+
+
+;+
 ; Get a parser by name (as used when loaded in loadParsers).
 ; 
 ; :Returns: parser object or -1 if not found

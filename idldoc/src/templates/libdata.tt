@@ -1,12 +1,14 @@
 /* Index used for searching */
 /* Fields used 
-/* url, filename, routine name, comments, parameters, keywords */
+/* url, type, name, filename, authors, routine name, comments, parameters, keywords */
+title = "[% title %]";
+subtitle = "[% subtitle %]";
 libdata = new Array();
 i = 0;
 
 [% FOREACH f IN visible_pro_files %][% SCOPE f %]
-libdata[i++] = new Array("[% index_url %]", "[% file_basename(basename) %]", "", "[% plain_comments %]", "", "");
+libdata[i++] = new Array("[% index_url %]", "[% index_name %]", "[% index_type %]", "[% file_basename(basename) %]", "[% plain_author %]", "", "[% plain_comments %]", "", "");
   [% FOREACH r IN visible_routines %][% SCOPE r %]
-  libdata[i++] = new Array("[% index_url %]", "[% file_basename(basename) %]", "[% name %]", "[% plain_comments %]", "", "");
+  libdata[i++] = new Array("[% index_url %]", "[% index_name %]", "[% index_type %]", "[% file_basename(basename) %]", "[% plain_author %]", "[% name %]", "[% plain_comments %]", "", "");
   [% END %][% END %]
 [% END %][% END %]

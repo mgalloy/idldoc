@@ -291,21 +291,8 @@ function doctreeroutine::getVariable, name, found=found
         self.firstline = mg_tm_firstline(self.comments)
         return, self.system->processComments(self.firstline)        
       end
-    'plain_comments': begin
-        if (~obj_valid(self.comments)) then return, ''
-        
-        commentParser = self.system->getParser('plainoutput')
-        comments = strjoin(commentParser->process(self.comments), ' ')
-        bcomments = byte(comments)
-        quote = (byte('"'))[0]
-        space = (byte(' '))[0]
-        quoteIndices = where(bcomments eq quote, nQuotes)
-        if (nQuotes gt 0) then begin
-          bcomments[quoteIndices] = space
-        endif
-        comments = string(bcomments)
-        return, comments
-      end
+    'plain_comments': return, self.system->processPlainComments(self.comments)
+
     'has_returns': return, obj_valid(self.returns)
     'returns': return, self.system->processComments(self.returns)
 
@@ -319,6 +306,7 @@ function doctreeroutine::getVariable, name, found=found
     
     'has_author': return, obj_valid(self.author)
     'author': return, self.system->processComments(self.author)
+    'plain_author': return, self.system->processPlainComments(self.author)
 
     'has_copyright': return, obj_valid(self.copyright)
     'copyright': return, self.system->processComments(self.copyright)
