@@ -1,7 +1,7 @@
 /* Index used for searching */
 /* 
    Fields used:
-     url, type, name, filename, authors, routine name, comments, parameters 
+     url, name, type, filename, authors, routine name, comments, parameters 
 */
 title = "[% title %]";
 subtitle = "[% subtitle %]";
