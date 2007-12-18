@@ -1,11 +1,40 @@
 var html;
 var searchString;
 
+var URL          = 0;
+var TYPE         = 1;
+var FILENAME     = 2;
+var ROUTINE_NAME = 3;
+var COMMENTS     = 4;
+var PARAMETERS   = 5;
+var KEYWORDS     = 6;
+var MATCH_TYPE   = 7;
+var N_MATCHES    = 8;
+var SCORE        = 9;
+var MATCHES      = 10;
 
-function putResults() {
+
+/*
+   Find results from the search.
+*/
+function searchItem(item, upperSearchString) {
 
 }
 
+
+function findResults() {
+  upperSearchString = searchString.toUpperCase();
+  for (var item = 0; item < libdata.length; item++) {
+    searchItem(item, upperSearchString);
+  }
+  sortResults();
+}
+
+
+/*
+   Create results web page. Results are written to the html variable
+   and then sent to the browser.
+*/
 
 function putHeader() {
   html = "<html><head><title>Search results</title>";
@@ -19,6 +48,11 @@ function putHeader() {
   
   html += "<div class=\"content\">";
   html += "<h2>Search results for \"" + searchString + "\"</h2>";  
+}
+
+
+function putResults() {
+
 }
 
 
@@ -37,11 +71,16 @@ function writeResultsPage() {
   iu.document.close();
 }
 
+/* 
+   Event handlers for forms on search page.
+*/
 
 function basicsearch() {
   searchString = document.basicForm.basicText.value;
   
   //alert("Searching...\n\nSearch terms = " + searchString);
+  
+  findResults();
   
   putHeader();
   putResults();
