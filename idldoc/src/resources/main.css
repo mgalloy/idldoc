@@ -98,7 +98,7 @@ p.localnavbar { text-align: right; margin: 0.2em 1em 0.2em 0.2em; padding: 0; }
 fieldset { border: #ddd 1px solid; padding: 1em; margin-top: 3em; }
 legend { color: #900000; font-size: 120%; }
 label { white-space: nowrap; }
-p.description { margin: 2em 10em 1em 2em; }
+p.description { margin: 2em 2em 1em 2em; }
 form table td.name { vertical-align: middle; }
       
 /* footer styles */

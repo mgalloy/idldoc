@@ -6,11 +6,11 @@
 title = "[% title %]";
 subtitle = "[% subtitle %]";
 libdata = new Array();
-i = 0;
+libdataItem = 0;
 
 [% FOREACH f IN visible_pro_files %][% SCOPE f %]
-libdata[i++] = new Array("[% index_url %]", "[% index_name %]", "[% index_type %]", "[% file_basename(basename) %]", "[% plain_author %]", "", "[% plain_comments %]", "");
+libdata[libdataItem++] = new Array("[% index_url %]", "[% index_name %]", "[% index_type %]", "[% file_basename(basename) %]", "[% plain_author %]", "", "[% plain_comments %]", "");
   [% FOREACH r IN visible_routines %][% SCOPE r %]
-  libdata[i++] = new Array("[% index_url %]", "[% index_name %]", "[% index_type %]", "[% file_basename(basename) %]", "[% plain_author %]", "[% name %]", "[% plain_comments %]", "");
+  libdata[libdataItem++] = new Array("[% index_url %]", "[% index_name %]", "[% index_type %]", "[% file_basename(basename) %]", "[% plain_author %]", "[% name %]", "[% plain_comments %]", "");
   [% END %][% END %]
 [% END %][% END %]

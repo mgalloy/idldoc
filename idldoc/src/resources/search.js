@@ -23,9 +23,8 @@ var SORT         = 12;
 */
 
 
-/*
-  Returns true for a-zA-Z0-9 and &, false otherwise.
-*/
+
+//  Returns true for a-zA-Z0-9 and &, false otherwise.
 function isAlnum(ch) {
   if ((ch >= "a" && ch <= "z") || (ch == "&") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <="9")) {
     return true;
@@ -35,23 +34,40 @@ function isAlnum(ch) {
 }
 
 
+// find all the matches in a single item
 function searchElement(item, matchType, upperSearchString) {
-  var element = libdata[item][matchType];
+  var element = libdata[item][matchType].toUpperCase();
+  var pos, origPos = 0;
   
   libdata[item][N_MATCHES] = 0;
   pos = element.indexOf(upperSearchString);
   
-  // TODO: finish implementation
+  while (pos >= 0) {
+    origPos += pos + 1;
+    
+    libdata[item][MATCHES + libdata[item][N_MATCHES]] = origPos - 1;
+    libdata[item][N_MATCHES]++;
+
+    element = element.substring(pos + 1, element.length);
+    while (isAlnum(element.charAt(0)) && element.length > 0) {
+      element = element.substring(1, element.length);
+      origPos++;
+    }
+    
+    pos = element.indexOf(upperSearchString);
+  }  
 }
 
 
 function searchItem(item, upperSearchString) {
   var matchType = TYPE;
   
+  //html += "Searching " + item + "<br/>";
+  
   // mark item as not matching
   libdata[item][MATCH_TYPE] = -1;
   
-  // search FILENAME, ROUTINE_NAME, COMMENTS, and PARAMETERS fields
+  // search FILENAME, AUTHORS, ROUTINE_NAME, COMMENTS, and PARAMETERS fields
   while (++matchType <= PARAMETERS && libdata[item][MATCH_TYPE] == -1) {
     searchElement(item, matchType, upperSearchString);
     if (libdata[item][N_MATCHES] > 0) {
@@ -68,15 +84,15 @@ function sortResults() {
   
   for (item = 1; item < libdata.length; item++) {
     tempScore = libdata[item][SCORE];
-	tempSort = libdata[item][SORT];
-	
-	for (i = item; i > 1 && tempScore > libdata[i-1][SCORE]; i--) {
-	  libdata[i][SCORE] = libdata[i-1][SCORE];
-	  libdata[i][SORT] = libdata[i-1][SORT];
-	}
-	
-	libdata[i][SCORE] = tempScore;
-	libdata[i][SORT] = tempSort;
+    tempSort = libdata[item][SORT];
+  
+    for (i = item; i > 1 && tempScore > libdata[i-1][SCORE]; i--) {
+      libdata[i][SCORE] = libdata[i-1][SCORE];
+      libdata[i][SORT] = libdata[i-1][SORT];
+    }
+  
+    libdata[i][SCORE] = tempScore;
+    libdata[i][SORT] = tempSort;
   }
 }
 
@@ -122,7 +138,7 @@ function putItem(item) {
 function putResults() {
   for (var item = 0; item < libdata.length; item++) {
     if (libdata[item][N_MATCHES] > 0) {
-	  nResults++;
+    nResults++;
     }
   }
   
@@ -132,7 +148,7 @@ function putResults() {
   
   for (var item = 0; item < libdata.length; item++) {
     if (libdata[libdata[item][SORT]][N_MATCHES] > 0) {
-	  putItem(libdata[item][SORT]);
+    putItem(libdata[item][SORT]);
     }
   }
   
@@ -169,12 +185,11 @@ function writeResultsPage() {
 function basicsearch() {
   searchString = document.basicForm.basicText.value;
   
-  //alert("Searching...\n\nSearch terms = " + searchString);
-  
-  findResults();
-  
   putHeader();
+    
+  findResults();
   putResults();
+  
   putFooter();
   
   writeResultsPage();
