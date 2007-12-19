@@ -119,6 +119,14 @@ function findResults() {
 function putHeader() {
   html = "<html><head><title>Search results</title>";
   html += "<link rel=\"stylesheet\" type=\"text/css\" href=\"idldoc-resources/main.css\" />";
+
+  html += "<style type=\"text/css\" media=\"all\">";
+  html += "  span.score { color: black; }";
+  html += "  span.context { color: #A0A0A0; }";
+  html += "  span.term { color: black; background: yellow; }";
+  html += "  li { margin-bottom: 0.25em; }";
+  html += "</style>";
+  
   html += "</head><body>";
   
   html += "<div class=\"header smaller\">";
@@ -137,35 +145,48 @@ function putItem(item) {
   
   html += "<li>";
   html += "<img src=\"idldoc-resources/searchbar.png\" height=\"10\" width=\"" + width + "\" />&nbsp;";
-  html += "<a href=\"" + libdata[item][URL] + "\" target=\"main_frame\">" + libdata[item][NAME] + "</a>";
-  html += " - " + libdata[item][TYPE] + "<br/>";
+  html += "<a href=\"" + libdata[item][URL] + "\" target=\"main_frame\">" + libdata[item][NAME] + "</a><br/>";
+  html += libdata[item][TYPE] + "<br/>";
   
-  html += "..." + libdata[item][mType].substring(libdata[item][MATCHES] - 5, libdata[item][MATCHES] + 15) + "...<br/>";
+  nPreCharacters = 25;
+  nPostCharacters = 40;
+  html += "<span class=\"context\">";
+  if (libdata[item][MATCHES] > nPreCharacters) { 
+    html += "...";
+  }
+  html += libdata[item][mType].substring(libdata[item][MATCHES] - nPreCharacters, libdata[item][MATCHES]);
+  html += "<span class=\"term\">";
+  html += libdata[item][mType].substring(libdata[item][MATCHES], libdata[item][MATCHES] + searchString.length);
+  html += "</span>";
+  html += libdata[item][mType].substring(libdata[item][MATCHES] + searchString.length, libdata[item][MATCHES] + searchString.length + nPostCharacters);
+  if (libdata[item][MATCHES] + searchString.length + nPostCharacters < libdata[item][mType].length) {
+    html += "...";
+  }
+  html += "</span><br/>";
   
-  html += "Score: " + Math.round(10 * libdata[item][SCORE]) / 10;
-  html += " - " + libdata[item][N_MATCHES] + " matches ";
+  html += "<span class=\"score\">Score: " + Math.round(10 * libdata[item][SCORE]) / 10;
+  plural = libdata[item][N_MATCHES] > 1 ? "es" : "";
+  html += " - " + libdata[item][N_MATCHES] + " match" + plural + " in ";
   
   if (mType == 3) {
-    type = "filename";
+    type = "the filename";
   } else if (mType == 4) {
-    type = "author";
+    type = "the author names";
   } else if (mType == 5) {
-    type = "routine name";
+    type = "the routine name";
   } else if (mType == 6) {
-    type = "comments";
+    type = "the comments";
   } else if (mType == 7) {
-    type = "parameter";
+    type = "the parameters";
   } else if (mType == 8) {
-    type = "category";
+    type = "the categories";
   } else if (mType == 9) {
-    type = "attribute";
+    type = "the attributes";
   } else {
-    type = "unknown";
+    type = "an unspecified comment";
   }
-  
-  html += " - " + type + " match";
      
-  html += "</li>";
+  html += type + "</span></li>";
 }
 
 

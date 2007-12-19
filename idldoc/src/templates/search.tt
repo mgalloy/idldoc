@@ -85,6 +85,7 @@
 							</td>
 						</tr>
 						
+						[% IF n_categories gt 0 %]
 						<tr>
 							<td>	
 								Categories
@@ -97,7 +98,8 @@
 								[% END %]								
 						  </td>
 						</tr>
-					
+					  [% END %]
+					  
 						<tr>
 							<td></td>
 							<td>
