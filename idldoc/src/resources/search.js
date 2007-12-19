@@ -11,11 +11,13 @@ var AUTHORS      = 4;
 var ROUTINE_NAME = 5;
 var COMMENTS     = 6;
 var PARAMETERS   = 7;
-var MATCH_TYPE   = 8;
-var N_MATCHES    = 9;
-var SCORE        = 10;
-var MATCHES      = 11;
-var SORT         = 12;
+var CATEGORIES   = 8;
+var ATTRIBUTES   = 9;
+var MATCH_TYPE   = 10;
+var N_MATCHES    = 11;
+var SCORE        = 12;
+var MATCHES      = 13;
+var SORT         = 14;
 
 
 /*
@@ -66,9 +68,11 @@ function searchItem(item, upperSearchString) {
   
   // mark item as not matching
   libdata[item][MATCH_TYPE] = -1;
+  libdata[item][SCORE] = 0;
   
-  // search FILENAME, AUTHORS, ROUTINE_NAME, COMMENTS, and PARAMETERS fields
-  while (++matchType <= PARAMETERS && libdata[item][MATCH_TYPE] == -1) {
+  // search FILENAME, AUTHORS, ROUTINE_NAME, COMMENTS, PARAMETERS, 
+  //   CATEGORIES, and ATTRIBUTES fields
+  while (++matchType <= ATTRIBUTES && libdata[item][MATCH_TYPE] == -1) {
     searchElement(item, matchType, upperSearchString);
     if (libdata[item][N_MATCHES] > 0) {
       libdata[item][MATCH_TYPE] = matchType;
@@ -129,8 +133,36 @@ function putHeader() {
 
 function putItem(item) {
   html += "<li>";
+  html += "<img src=\"idldoc-resources/searchbar.png\" height=\"10\" width=\"20\" />&nbsp;";
   html += "<a href=\"" + libdata[item][URL] + "\" target=\"main_frame\">" + libdata[item][NAME] + "</a>";
-  html += " - " + libdata[item][TYPE];
+  html += " - " + libdata[item][TYPE] + "<br/>";
+  
+  html += "..." + libdata[item][libdata[item][MATCH_TYPE]].substring(libdata[item][MATCHES] - 5, libdata[item][MATCHES] + 15) + "...<br/>";
+  
+  html += "Score: " + libdata[item][SCORE];
+  html += " - " + libdata[item][N_MATCHES] + " matches ";
+  
+  mType = libdata[item][MATCH_TYPE];
+  if (mType == 3) {
+    type = "filename";
+  } else if (mType == 4) {
+    type = "author";
+  } else if (mType == 5) {
+    type = "routine name";
+  } else if (mType == 6) {
+    type = "comments";
+  } else if (mType == 7) {
+    type = "parameter";
+  } else if (mType == 8) {
+    type = "category";
+  } else if (mType == 9) {
+    type = "attribute";
+  } else {
+    type = "unknown";
+  }
+  
+  html += " - " + type + " match";
+     
   html += "</li>";
 }
 
