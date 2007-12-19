@@ -124,7 +124,7 @@ function putHeader() {
   html += "  span.score { color: black; }";
   html += "  span.context { color: #A0A0A0; }";
   html += "  span.term { color: black; background: yellow; }";
-  html += "  li { margin-bottom: 0.25em; }";
+  html += "  li { margin-bottom: 0.5em; }";
   html += "</style>";
   
   html += "</head><body>";

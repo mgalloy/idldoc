@@ -42,7 +42,7 @@
  					<input class="text" name="basicText" size="50"/>&nbsp;<input name="send" type="submit" value="Search" onClick="basicsearch()"/>
  				</form>
  
-       <p class="smaller description">Enter search terms to find in comment headers for files and routines. Case insensitive.</p>
+       <p class="smaller description">Enter search terms to find in file and routine comment headers. The search is case insensitive.</p>
     
       
 			<form name="advancedForm">
