@@ -19,6 +19,8 @@ var SCORE        = 12;
 var MATCHES      = 13;
 var SORT         = 14;
 
+var SCORE_VALUES = new Array(0, 0, 0, 8, 6, 10, 4, 6, 8, 4);
+
 
 /*
    Find results from the search.
@@ -86,17 +88,27 @@ function sortResults() {
     libdata[item][SORT] = item;
   }
   
+  for (item = 0; item < libdata.length; item++) {
+    if (libdata[item][N_MATCHES] > 0) {
+      libdata[item][SCORE] = item;
+      matchType = libdata[item][MATCH_TYPE];
+      typeMultiplier = SCORE_VALUES[matchType];      
+      matchPercentage = libdata[item][N_MATCHES] * searchString.length / libdata[item][matchType].length;
+      libdata[item][SCORE] = Math.round(typeMultiplier * matchPercentage);
+    }
+  }
+  
   for (item = 1; item < libdata.length; item++) {
     tempScore = libdata[item][SCORE];
     tempSort = libdata[item][SORT];
   
-    for (i = item; i > 1 && tempScore > libdata[i-1][SCORE]; i--) {
-      libdata[i][SCORE] = libdata[i-1][SCORE];
-      libdata[i][SORT] = libdata[i-1][SORT];
+    for (k = item; k > 1 && tempScore > libdata[k - 1][SCORE]; k--) {
+      libdata[k][SCORE] = libdata[k - 1][SCORE];
+      libdata[k][SORT] = libdata[k - 1][SORT];
     }
   
-    libdata[i][SCORE] = tempScore;
-    libdata[i][SORT] = tempSort;
+    libdata[k][SCORE] = tempScore;
+    libdata[k][SORT] = tempSort;
   }
 }
 
@@ -106,6 +118,7 @@ function findResults() {
   for (var item = 0; item < libdata.length; item++) {
     searchItem(item, upperSearchString);
   }
+  
   sortResults();
 }
 
@@ -132,17 +145,19 @@ function putHeader() {
 
 
 function putItem(item) {
+  mType = libdata[item][MATCH_TYPE];
+  width = 2 * libdata[item][SCORE];
+  
   html += "<li>";
-  html += "<img src=\"idldoc-resources/searchbar.png\" height=\"10\" width=\"20\" />&nbsp;";
+  html += "<img src=\"idldoc-resources/searchbar.png\" height=\"10\" width=\"" + width + "\" />&nbsp;";
   html += "<a href=\"" + libdata[item][URL] + "\" target=\"main_frame\">" + libdata[item][NAME] + "</a>";
   html += " - " + libdata[item][TYPE] + "<br/>";
   
-  html += "..." + libdata[item][libdata[item][MATCH_TYPE]].substring(libdata[item][MATCHES] - 5, libdata[item][MATCHES] + 15) + "...<br/>";
+  html += "..." + libdata[item][mType].substring(libdata[item][MATCHES] - 5, libdata[item][MATCHES] + 15) + "...<br/>";
   
   html += "Score: " + libdata[item][SCORE];
   html += " - " + libdata[item][N_MATCHES] + " matches ";
   
-  mType = libdata[item][MATCH_TYPE];
   if (mType == 3) {
     type = "filename";
   } else if (mType == 4) {
@@ -180,7 +195,7 @@ function putResults() {
   
   for (var item = 0; item < libdata.length; item++) {
     if (libdata[libdata[item][SORT]][N_MATCHES] > 0) {
-    putItem(libdata[item][SORT]);
+      putItem(libdata[item][SORT]);
     }
   }
   
