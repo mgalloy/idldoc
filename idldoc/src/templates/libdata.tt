@@ -9,9 +9,13 @@ subtitle = "[% subtitle %]";
 libdata = new Array();
 libdataItem = 0;
 
+[% IF n_visible_pro_files %]
 [% FOREACH f IN visible_pro_files %][% SCOPE f %]
 libdata[libdataItem++] = new Array("[% index_url %]", "[% index_name %]", "[% index_type %]", "[% file_basename(basename) %]", "[% plain_author %]", "", "[% plain_comments %]", "", "[% strjoin(categories, ' ') %]", "");
+  [% IF n_visible_routines gt 0 %]
   [% FOREACH r IN visible_routines %][% SCOPE r %]
   libdata[libdataItem++] = new Array("[% index_url %]", "[% index_name %]", "[% index_type %]", "[% file_basename(basename) %]", "[% plain_author %]", "[% name %]", "[% plain_comments %]", "", "[% strjoin(categories, ' ') %]", "");
   [% END %][% END %]
+  [% END %]
 [% END %][% END %]
+[% END %]
