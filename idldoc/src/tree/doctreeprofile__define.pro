@@ -334,7 +334,20 @@ function doctreeprofile::getVariable, name, found=found
         
     'has_uses': return, obj_valid(self.uses)
     'uses': return, self.system->processComments(self.uses)
-    
+
+    'plain_attributes': begin
+        attributes = [self.bugs, self.version, self.history, self.copyright, $
+                      self.examples, self.customerId, self.requires, $
+                      self.restrictions, self.todo, self.uses]
+        
+        result = ''
+        for a = 0L, n_elements(attributes) - 1L do begin
+          result += strjoin(self.system->processPlainComments(attributes[a]), ' ')
+        endfor
+        
+        return, result
+      end
+          
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)

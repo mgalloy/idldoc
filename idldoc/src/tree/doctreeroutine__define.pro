@@ -391,7 +391,11 @@ function doctreeroutine::getVariable, name, found=found
         
         return, keywords[ind]
       end
-    
+    'plain_parameters': begin
+        ; TODO: implement this
+        return, ''
+      end
+      
     'index_name': return, self.name
     'index_type': begin
         self.file->getProperty, basename=basename
@@ -404,6 +408,11 @@ function doctreeroutine::getVariable, name, found=found
         
     'documentation_level': return, self.documentationLevel
     
+    'plain_attributes': begin
+        ; TODO; implement this
+        return, ''
+      end
+      
     else: begin
         ; search in the system object if the variable is not found here
         var = self.file->getVariable(name, found=found)
