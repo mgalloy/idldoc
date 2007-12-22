@@ -392,8 +392,30 @@ function doctreeroutine::getVariable, name, found=found
         return, keywords[ind]
       end
     'plain_parameters': begin
-        ; TODO: implement this
-        return, ''
+        result = ''
+        
+        ; for each keyword: grab each keyword name, comments, type, default
+        for k = 0L, self.keywords->count() - 1L do begin
+          keyword = self.keywords->get(position=k)
+          keyword->getProperty, name=name, comments=comments, $
+                                type=type, default_value=defaultValue
+          result += name
+          result += strjoin(self.system->processPlainComments(comments), ' ')
+          result += strjoin(self.system->processPlainComments(type), ' ')
+          result += strjoin(self.system->processPlainComments(defaultValue), ' ')                    
+        endfor
+        
+        ; for each param: grab each param name, comments, type, default
+        for p = 0L, self.parameters->count() - 1L do begin
+          param = self.parameters->get(position=p)
+          param->getProperty, name=name, comments=comments, $
+                              type=type, default_value=defaultValue
+          result += name
+          result += strjoin(self.system->processPlainComments(comments), ' ')
+          result += strjoin(self.system->processPlainComments(type), ' ')
+          result += strjoin(self.system->processPlainComments(defaultValue), ' ')                    
+        endfor        
+        return, result
       end
       
     'index_name': return, self.name
@@ -409,10 +431,19 @@ function doctreeroutine::getVariable, name, found=found
     'documentation_level': return, self.documentationLevel
     
     'plain_attributes': begin
-        ; TODO; implement this
-        return, ''
+        attributes = [self.bugs, self.version, self.history, self.copyright, $
+                      self.examples, self.customerId, self.requires, $
+                      self.restrictions, self.todo, self.uses, self.returns, $
+                      self.pre, self.post]
+        
+        result = ''
+        for a = 0L, n_elements(attributes) - 1L do begin
+          result += strjoin(self.system->processPlainComments(attributes[a]), ' ')
+        endfor
+        
+        return, result
       end
-      
+    
     else: begin
         ; search in the system object if the variable is not found here
         var = self.file->getVariable(name, found=found)

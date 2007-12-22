@@ -344,7 +344,7 @@ function doctreeprofile::getVariable, name, found=found
         for a = 0L, n_elements(attributes) - 1L do begin
           result += strjoin(self.system->processPlainComments(attributes[a]), ' ')
         endfor
-        
+
         return, result
       end
           
