@@ -44,7 +44,7 @@
  
        <p class="smaller description">Enter search terms to find in file and routine comment headers. The search is case insensitive.</p>
     
-      
+      <!--
 			<form name="advancedForm">
 				<fieldset>
 					<legend>Advanced search</legend>
@@ -115,7 +115,7 @@
 			  </fieldset>																							  		
 
 			</form>
-
+      -->
       
 			<br/>
 			

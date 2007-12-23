@@ -1,6 +1,7 @@
 var html;           // accumulated results page
 var searchString;   // original search string
 var nResults = 0;   // number of search results
+var searchTerms;    // array of words in search string
 
 // indices into a libdata entry
 var URL          = 0;
@@ -239,6 +240,7 @@ function writeResultsPage() {
 
 function basicsearch() {
   searchString = document.basicForm.basicText.value;
+  searchTerms = searchString.split(/\s/);
   
   putHeader();
     
