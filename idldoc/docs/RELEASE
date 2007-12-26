@@ -1,7 +1,9 @@
+-------------
 Release notes
 -------------
 
 IDLdoc 3.0
+----------
 
 * IDLdoc 3.0 is completely rewritten from scatch. It is released under a 
   BSD-style open source license (see COPYING file for legal details). Feel 
@@ -10,9 +12,9 @@ IDLdoc 3.0
   
 * Comments inside ;+/;- that are not immediately before or after a routine
   header are considered file level comments. (The file_comments tag is still
-  used, but is no longer needed.) There are also file-level tags now:
-  "hidden," "private", "author", "copyright", "history", "version",
-  "examples", and "property".
+  used, but is no longer needed.) There are also file-level tags now; any 
+  routine level tag that is reasonable on the file-level is allowed (i.e. most
+  anything except params, keywords, and returns).
   
 * Routine comments can be immediately before or *after* the routine header.
 
@@ -53,11 +55,11 @@ IDLdoc 3.0
   
 * The source link is always available (in IDLdoc 2.0 it was only active if the
   OUTPUT keyword was not used). There is a NOSOURCE keyword to explicitly
-  disable this if required.
+  not show source code if that is required.
   
 * Ability to generate output for the IDL Assistant has not been reimplemented
   since IDL has a new help system in IDL 7.0. For now, only HTML designed for
-  a normal browser is provided with IDLdoc (though with the TEMPLATE_* keywords,
-  users could now do these customizations themselves).
+  a normal browser is provided with IDLdoc (though with the TEMPLATE_* 
+  keywords, users could now do these customizations themselves).
 
-* Requires IDL 6.1. IDLdoc runs on all platforms supported by IDL.
+* IDLdoc 3.0 requires IDL 6.1. IDLdoc runs on all platforms supported by IDL.

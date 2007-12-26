@@ -1,23 +1,4 @@
 Known issues
 ------------
 
-* Search is not implemented yet.
-
-  This is the only (known) outstanding issue right now.
-
-* Complexity statistics are not implemented yet.
-
-  Statistics has been pushed back to IDLdoc 3.1.
-
-* The ASSISTANT keyword is obsolete now (and probably will be for the release).
-  The IDL Assistant is only going to be around for a while longer, so it didn't
-  seem worth it to reimplement assistant formatted output.
-  
-* Defining two classes in one file can lead to name conflicts.
-
-  This issue should be OK now.
-
-* The help is not complete yet.
-
-  The help is "complete", though I'm sure it could use more thorough explanation
-  and more examples.  
+There are no known issues. Please report new bugs and add feature requests at the project website, idldoc.idldev.com.
