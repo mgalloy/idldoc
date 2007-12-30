@@ -549,7 +549,7 @@ pro doctreeprofile::cleanup
   
   obj_destroy, self.classes
   
-  obj_destroy, [self.author, self.copyright, self.history]
+  obj_destroy, [self.author, self.copyright, self.history, self.version]
   obj_destroy, self.code
   
   obj_destroy, self.examples

@@ -35,7 +35,6 @@
 ;    log_file
 ;    assistant
 ;    embed
-;    overview
 ;    footer
 ;    title
 ;    subtitle

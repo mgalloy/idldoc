@@ -49,7 +49,7 @@ pro doctreeproperty::setProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
   if (n_elements(IsInit) gt 0) then self.IsInit = IsInit
   
   if (n_elements(comments) gt 0) then self.comments = comments   
-  if (n_elements(class) gt 0) then self.class = class   
+  if (n_elements(class) gt 0) then self.class = class      
 end
 
 
@@ -113,7 +113,7 @@ end
 ;-
 pro doctreeproperty::cleanup
   compile_opt strictarr
-  
+      
   obj_destroy, self.comments
 end
 
