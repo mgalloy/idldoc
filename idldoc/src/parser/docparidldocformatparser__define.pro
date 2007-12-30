@@ -349,9 +349,7 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
                                    attribute_names=attributeNames, $
                                    attribute_values=attributeValues)                                        
 
-        property = obj_new('DOCtreeProperty', propertyName, system=self.system)    
-        self.heldProperties->add, property           
-        
+        property = self->_addToHelpProperties(propertyName)        
         property->setProperty, comments=markupParser->parse(comments)
       end
     
