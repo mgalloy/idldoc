@@ -635,10 +635,19 @@ pro doctreeroutine::cleanup
   compile_opt strictarr
   
   obj_destroy, self.firstline
-  obj_destroy, [self.parameters, self.keywords, self.comments]
-  obj_destroy, [self.returns, self.bugs]
-  obj_destroy, [self.author, self.copyright, self.history, self.todo]
-  obj_destroy, [self.categories, self.restrictions, self.uses, self.requires]
+  obj_destroy, self.comments
+  
+  obj_destroy, [self.author, self.copyright, self.history, self.version]
+  
+  obj_destroy, [self.bugs, self.todo, self.restrictions, self.uses, $
+                self.requires, self.customerId, self.pre, self.post]
+  
+  obj_destroy, self.examples
+  obj_destroy, self.returns
+  obj_destroy, self.parameters 
+  obj_destroy, self.keywords
+
+  obj_destroy, self.categories
 end
 
 
@@ -658,10 +667,10 @@ function doctreeroutine::init, file, system=system
   self.file = file
   self.system = system
   
-  self.categories = obj_new('MGcoArrayList', type=7)
+  self.categories = obj_new('MGcoArrayList', type=7, block_size=5)
   
-  self.parameters = obj_new('MGcoArrayList', type=11)
-  self.keywords = obj_new('MGcoArrayList', type=11)
+  self.parameters = obj_new('MGcoArrayList', type=11, block_size=5)
+  self.keywords = obj_new('MGcoArrayList', type=11, block_size=5)
   
   return, 1B
 end

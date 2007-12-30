@@ -543,10 +543,17 @@ pro doctreeprofile::cleanup
   compile_opt strictarr
   
   obj_destroy, self.firstline
+  obj_destroy, self.comments
+  
   obj_destroy, self.routines
+  
   obj_destroy, self.classes
+  
   obj_destroy, [self.author, self.copyright, self.history]
   obj_destroy, self.code
+  
+  obj_destroy, self.examples
+  
   obj_destroy, self.categories
   obj_destroy, [self.bugs, self.customerId]
   obj_destroy, [self.requires, self.restrictions, self.todo, self.uses]
@@ -652,7 +659,6 @@ pro doctreeprofile__define
              restrictions: obj_new(), $
              requires: obj_new(), $
              todo: obj_new(), $
-             uses: obj_new() $
-             
+             uses: obj_new() $             
            }
 end

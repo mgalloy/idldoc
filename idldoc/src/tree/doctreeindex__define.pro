@@ -64,7 +64,8 @@ function doctreeindex::init
   compile_opt strictarr
 
   ; strings -> objects
-  self.items = obj_new('MGcoArraylist', example={ name:'', item: obj_new() })
+  self.items = obj_new('MGcoArraylist', example={ name:'', item: obj_new() }, $
+                       block_size=100)
   
   return, 1
 end

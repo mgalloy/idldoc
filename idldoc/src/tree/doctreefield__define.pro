@@ -103,6 +103,7 @@ end
 pro doctreefield::cleanup
   compile_opt strictarr
   
+  obj_destroy, self.comments
 end
 
 

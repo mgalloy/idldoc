@@ -284,7 +284,7 @@ pro doctreeclass::findParents
   
   ; this list will contain the names of fields of ancestor classes, any fields
   ; in s that are not in ancestorFieldNameList then are defined in this class
-  ancestorFieldNameList = obj_new('MGcoArrayList', type=7)
+  ancestorFieldNameList = obj_new('MGcoArrayList', type=7, block_size=10)
   
   for i = 0L, nParents - 1L do begin
     ; lookup parent class in system class hash table
@@ -392,8 +392,11 @@ end
 pro doctreeclass::cleanup
   compile_opt strictarr
   
+  obj_destroy, [self.parents, self.ancestors, self.children]
+  
   if (self.fields->count() gt 0) then obj_destroy, self.fields->values()
   obj_destroy, self.fields
+  
   if (self.properties->count() gt 0) then obj_destroy, self.properties->values()
   obj_destroy, self.properties
 end
@@ -421,9 +424,9 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
   self.classes = classes
   self.classes->put, strlowcase(self.classname), self
 
-  self.parents = obj_new('MGcoArrayList', type=11)
-  self.ancestors = obj_new('MGcoArrayList', type=11)
-  self.children = obj_new('MGcoArrayList', type=11)
+  self.parents = obj_new('MGcoArrayList', type=11, block_size=4)
+  self.ancestors = obj_new('MGcoArrayList', type=11, block_size=10)
+  self.children = obj_new('MGcoArrayList', type=11, block_size=10)
   
   self.fields = obj_new('MGcoHashtable', key_type=7, value_type=11)
   self.properties = obj_new('MGcoHashtable', key_type=7, value_type=11)

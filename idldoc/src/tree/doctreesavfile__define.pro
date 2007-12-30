@@ -334,14 +334,14 @@ function doctreesavfile::init, basename=basename, directory=directory, $
   self.system->createIndexEntry, self.basename, self
   self.system->print, '  Parsing ' + self.basename + '...'
   
-  self.procedures = obj_new('MGcoArrayList', type=7)
-  self.functions = obj_new('MGcoArrayList', type=7)
-  self.variables = obj_new('MGcoArrayList', type=11)
-  self.systemVariables = obj_new('MGcoArrayList', type=11)
-  self.commonBlocks = obj_new('MGcoArrayList', type=11)
-  self.structureDefinitions = obj_new('MGcoArrayList', type=11)
-  self.pointers = obj_new('MGcoArrayList', type=11)
-  self.objects = obj_new('MGcoArrayList', type=11)
+  self.procedures = obj_new('MGcoArrayList', type=7, block_size=20)
+  self.functions = obj_new('MGcoArrayList', type=7, block_size=20)
+  self.variables = obj_new('MGcoArrayList', type=11, block_size=10)
+  self.systemVariables = obj_new('MGcoArrayList', type=11, block_size=20)
+  self.commonBlocks = obj_new('MGcoArrayList', type=11, block_size=5)
+  self.structureDefinitions = obj_new('MGcoArrayList', type=11, block_size=5)
+  self.pointers = obj_new('MGcoArrayList', type=11, block_size=10)
+  self.objects = obj_new('MGcoArrayList', type=11, block_size=10)
   
   return, 1
 end

@@ -148,7 +148,7 @@ end
 ; :Fields:
 ;    system
 ;       system object
-;    class`
+;    class
 ;       class object that the property is part of
 ;    name
 ;       name of the property

@@ -934,10 +934,14 @@ pro doc_system::cleanup
   if (nCategories gt 0) then obj_destroy, categoryLists
   obj_destroy, self.categories
   
+  obj_destroy, self.overviewComments
+  
   obj_destroy, [self.todos, self.obsolete, self.undocumented, self.bugs]
+  obj_destroy, self.requiresItems
   
   obj_destroy, self.templates->values()
   obj_destroy, self.templates
+  
   obj_destroy, self.parsers->values()
   obj_destroy, self.parsers  
 end

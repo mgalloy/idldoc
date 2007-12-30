@@ -143,7 +143,7 @@ function docparformatparser::init, system=system
   compile_opt strictarr
   
   self.system = system
-  self.heldProperties = obj_new('MGcoArrayList', type=11)
+  self.heldProperties = obj_new('MGcoArrayList', type=11, block_size=5)
   
   return, 1
 end

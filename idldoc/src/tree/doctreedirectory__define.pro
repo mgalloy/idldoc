@@ -212,9 +212,9 @@ function doctreedirectory::init, location=location, files=files, system=system
   
   self.system->createIndexEntry, self.location, self
   
-  self.proFiles = obj_new('MGcoArrayList', type=11)
-  self.savFiles = obj_new('MGcoArrayList', type=11)
-  self.idldocFiles = obj_new('MGcoArrayList', type=11)
+  self.proFiles = obj_new('MGcoArrayList', type=11, block_size=10)
+  self.savFiles = obj_new('MGcoArrayList', type=11, block_size=5)
+  self.idldocFiles = obj_new('MGcoArrayList', type=11, block_size=4)
   
   self.url = strjoin(strsplit(self.location, path_sep(), /extract), '/') + '/'
   
