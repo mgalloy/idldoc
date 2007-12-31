@@ -125,6 +125,35 @@ end
   
   
 ;+
+; Add a property to the help properties if it's not there. Return either the
+; new property or the existing one.
+;
+; :Returns: property tree object
+;
+; :Params:
+;    propertyName : in, optional, type=string
+;       name of the property
+;-
+function docparformatparser::_addToHelpProperties, propertyName
+  compile_opt strictarr
+  
+  ; check for property already existing before creating a new one
+  for p = 0L, self.heldProperties->count() - 1L do begin
+    prop = self.heldProperties->get(position=p)
+    prop->getProperty, name=propName  
+    if (strlowcase(propName) eq strlowcase(propertyName)) then begin
+      return, prop      
+    endif
+  endfor 
+  
+  property = obj_new('DOCtreeProperty', propertyName, system=self.system)    
+  self.heldProperties->add, property
+           
+  return, property  
+end
+
+  
+;+
 ; Free resources.
 ;-
 pro docparformatparser::cleanup

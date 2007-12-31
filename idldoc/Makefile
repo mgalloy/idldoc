@@ -1,4 +1,4 @@
-VERSION=3.0b4
+VERSION=3.0rc1
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 
 clean:

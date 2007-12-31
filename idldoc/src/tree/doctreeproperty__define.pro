@@ -48,7 +48,15 @@ pro doctreeproperty::setProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
   if (n_elements(isSet) gt 0) then self.isSet = isSet
   if (n_elements(IsInit) gt 0) then self.IsInit = IsInit
   
-  if (n_elements(comments) gt 0) then self.comments = comments   
+  if (n_elements(comments) gt 0) then begin
+    if (obj_valid(self.comments)) then begin
+      parent = obj_new('MGtmTag')
+      parent->addChild, self.comments
+      parent->addChild, comments
+      self.comments = parent
+    endif else self.comments = comments
+  endif
+
   if (n_elements(class) gt 0) then self.class = class      
 end
 

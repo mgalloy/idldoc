@@ -78,8 +78,7 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
           propertyName = strmid(propLines[propertyDefinitionLines[p]], $
                                 propertyNamesStart[1, propertyDefinitionLines[p]], $
                                propertyNamesLength[1, propertyDefinitionLines[p]])
-          property = obj_new('DOCtreeProperty', propertyName, system=self.system)    
-          self.heldProperties->add, property    
+          property = self->_addToHelpProperties(propertyName)                                               
           propertyDefinitionEnd = p eq nProperties - 1L $
                                     ? n_elements(propLines) - 1L $
                                     : propertyDefinitionLines[p + 1L] - 1L
