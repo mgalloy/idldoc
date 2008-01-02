@@ -402,7 +402,7 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
     'restrictions': file->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))
     'todo': begin
         file->setProperty, todo=markupParser->parse(self->_parseTag(lines))
-        self.system->createTodoEntry, routine
+        self.system->createTodoEntry, file
       end
     'uses': file->setProperty, uses=markupParser->parse(self->_parseTag(lines))
         
@@ -476,7 +476,7 @@ pro docparidldocformatparser::parseRoutineComments, lines, routine=routine, $
   ; go through each tag
   for t = 0L, nTags - 1L do begin
     tagStart = tagLocations[t]
-    tag = strmid(strtrim(stregex(lines[tagStart], '^[ ]*@[^[:space:]]+', /extract), 1), 1)
+    tag = strmid(strtrim(stregex(lines[tagStart], '^[ ]*@[[:alpha:]_]+', /extract), 1), 1)
     tagEnd = t eq nTags - 1L $
                ? n_elements(lines) - 1L $
                : tagLocations[t + 1L] - 1L
