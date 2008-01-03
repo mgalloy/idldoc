@@ -880,11 +880,14 @@ end
 pro doc_system::copyResources
   compile_opt strictarr
   
-  resourceLocation = filepath('', subdir=['resources'], $
+  ; copy *.* to avoid .svn/ if running from a Subversion checkout 
+  resourceLocation = filepath('*.*', subdir=['resources'], $
                               root=self.sourceLocation)
   resourceDestination = filepath('', subdir=['idldoc-resources'], $
                                  root=self.output)
+                                 
   file_delete, resourceDestination, /recursive, /allow_nonexistent
+  file_mkdir, resourceDestination
   file_copy, resourceLocation, resourceDestination, /recursive, /overwrite
 end
 
