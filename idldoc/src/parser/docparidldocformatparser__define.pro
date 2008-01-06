@@ -408,7 +408,12 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
         self.system->createTodoEntry, file
       end
     'uses': file->setProperty, uses=markupParser->parse(self->_parseTag(lines))
-        
+
+    'inherits': begin
+        file->getProperty, basename=basename
+        msg = '(%"obsolete tag ''%s'' at file level in %s")'
+        self.system->warning, string(format=msg, tag, basename) 
+      end         
     'field': begin
         file->getProperty, basename=basename
         msg = '(%"routine level tag ''%s'' at file level in %s")'
