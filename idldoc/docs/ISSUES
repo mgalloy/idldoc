@@ -1,4 +1,16 @@
-Known issues
+Known bug
 ------------
 
-There are no known issues. Please report new bugs and add feature requests at the project website, idldoc.idldev.com.
+There are no known bugs. Please add tickets for new bugs and add feature 
+requests at the project website, idldoc.idldev.com.
+
+
+Backward-compatibility issues
+-----------------------------
+
+* A comment block separated from a routine header by a blank line would be
+  associated with the routine in IDLdoc 2.0, but is considered a file level
+  comment in IDL 3.0. In particularly, param, keyword, and returns tags in that
+  comment block would now generate warnings since they are routine level comment
+  tags in a file level comment.
+  
