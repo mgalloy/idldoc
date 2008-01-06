@@ -337,6 +337,9 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
   compile_opt strictarr
   
   case strlowcase(tag) of
+    'file_comments': begin
+        file->setProperty, comments=markupParser->parse(self->_parseTag(lines))    
+      end
     'property': begin
         file->getProperty, is_class=isClass, class=class
         if (~isClass) then begin

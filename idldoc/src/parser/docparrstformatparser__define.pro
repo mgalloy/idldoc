@@ -1,7 +1,7 @@
 ; docformat = 'rst'
 
 ;+
-; Handles parsing of the rst (restructured text) style comment blocks.
+;  Handles parsing of the rst (restructured text) style comment blocks.
 ;-
 
 
@@ -45,6 +45,9 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
   compile_opt strictarr
   
   case strlowcase(tag) of
+    'file_comments' : begin
+        file->setProperty, comments=markupParser->parse(self->_parseTag(lines))    
+      end
     'properties': begin        
         ; there is no way to tell right now if this properties tag is allowed or
         ; not, must check later
