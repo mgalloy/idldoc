@@ -246,6 +246,9 @@ function doctreeprofile::getVariable, name, found=found
     'format': return, self.format
     'markup': return, self.markup
 
+    'has_categories': return, self.categories->count() gt 0
+    'categories': return, self.categories->get(/all)
+    
     'has_examples': return, obj_valid(self.examples)
     'examples': return, self.system->processComments(self.examples) 
         
