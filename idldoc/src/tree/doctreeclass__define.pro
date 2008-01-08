@@ -224,7 +224,40 @@ function doctreeclass::isVisible
 end
 
 
+;+
+; Compile a given procedure. This is in a separate routine because if it's done
+; directly in _createClassStructure, then errors like::
+; 
+;    % CATCH: Unexpected keyword cleanup stack found on return.
+;
+; are generated on each call to _createClassStructure.
+;
+; :Params:
+;    routineName : in, required, type=string
+;       name of procedure to compile
+;-
 pro doctreeclass::_compileRoutine, routineName
+  compile_opt strictarr
+  
+  error = 0L
+  catch, error
+  if (error ne 0L) then return
+  
+  resolve_routine, routineName
+end
+
+
+;+
+; Pulled RESOLVE_ROUTINE out of _createClassStructure routine so that if 
+; routineName is not found, it doesn't generate an error that is caught by
+; the CATCH statement in _createClassStructure (which is reserved for the 
+; error of an invalid structure definition attempt).
+;
+; :Params:
+;    routineName : in, required, type=string
+;       name of the procedure to compile
+;-
+pro doctreeclass::_compileFile, routineName
   compile_opt strictarr
   
   error = 0L
@@ -257,16 +290,13 @@ function doctreeclass::_createClassStructure, classname, error=error, $
   error = 0L
   catch, error
   if (error ne 0L) then begin
-    catch, /cancel
     error = 1L
     return, -1L
   endif
-
-  self->compileRoutine, classname + '__define' 
-
+    
   if (keyword_set(compileFile)) then begin
     self.proFile->getProperty, basename=basename
-    self->compileRoutine, file_basename(basename, '.pro')
+    self->_compileFile, file_basename(basename, '.pro')
   endif
     
   s = create_struct(name=classname)
@@ -285,12 +315,9 @@ pro doctreeclass::findParents
   if (error ne 0L) then begin
     s = self->_createClassStructure(self.classname, error=error, /compile_file)
     if (error ne 0L) then begin
-      s = self->_createClassStructure(self.classname, error=error)
-      if (error ne 0L) then begin
-        self.system->warning, 'cannot construct definition for class ' $
-                                + self.classname
-        return
-      endif
+      self.system->warning, 'cannot construct definition for class ' $
+                              + self.classname
+      return
     endif
   endif
     
