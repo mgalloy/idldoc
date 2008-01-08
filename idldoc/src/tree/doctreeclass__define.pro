@@ -240,7 +240,8 @@ end
 ;       set to compile .pro file before trying to define structure
 ;-
 function doctreeclass::_createClassStructure, classname, error=error, $
-                                              compile=compile
+                                              compile_file=compileFile, $
+                                              compile_class=compileClass
   compile_opt strictarr
   
   error = 0L
@@ -251,11 +252,15 @@ function doctreeclass::_createClassStructure, classname, error=error, $
     return, -1L
   endif
 
-  if (keyword_set(compile)) then begin
+  if (keyword_set(compileClass)) then begin
+    resolve_routine, classname + '__define'
+  endif
+  
+  if (keyword_set(compileFile)) then begin
     self.proFile->getProperty, basename=basename
     resolve_routine, file_basename(basename, '.pro')
   endif
-  
+    
   s = create_struct(name=classname)
   return, s
 end
@@ -270,11 +275,14 @@ pro doctreeclass::findParents
   ; get all fields defined in class
   s = self->_createClassStructure(self.classname, error=error)
   if (error ne 0L) then begin
-    s = self->_createClassStructure(self.classname, error=error, /compile)
+    s = self->_createClassStructure(self.classname, error=error, /compile_file)
     if (error ne 0L) then begin
-      self.system->warning, 'cannot construct definition for class ' $
-                              + self.classname
-      return
+      s = self->_createClassStructure(self.classname, error=error, /compile_class)
+      if (error ne 0L) then begin
+        self.system->warning, 'cannot construct definition for class ' $
+                                + self.classname
+        return
+      endif
     endif
   endif
     
