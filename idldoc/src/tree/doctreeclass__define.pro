@@ -224,6 +224,17 @@ function doctreeclass::isVisible
 end
 
 
+pro doctreeclass::_compileRoutine, routineName
+  compile_opt strictarr
+  
+  error = 0L
+  catch, error
+  if (error ne 0L) then return
+  
+  resolve_routine, routineName
+end
+
+
 ;+
 ; Create a structure containing the fields of the class.
 ;
@@ -236,12 +247,11 @@ end
 ; :Keywords:
 ;    error : out, optional, type=long
 ;       set to a named variable to contain any error code; 0 indicates no error
-;    compile : in, optional, type=boolean
+;    compile_file : in, optional, type=boolean
 ;       set to compile .pro file before trying to define structure
 ;-
 function doctreeclass::_createClassStructure, classname, error=error, $
-                                              compile_file=compileFile, $
-                                              compile_class=compileClass
+                                              compile_file=compileFile
   compile_opt strictarr
   
   error = 0L
@@ -252,13 +262,11 @@ function doctreeclass::_createClassStructure, classname, error=error, $
     return, -1L
   endif
 
-  if (keyword_set(compileClass)) then begin
-    resolve_routine, classname + '__define'
-  endif
-  
+  self->compileRoutine, classname + '__define' 
+
   if (keyword_set(compileFile)) then begin
     self.proFile->getProperty, basename=basename
-    resolve_routine, file_basename(basename, '.pro')
+    self->compileRoutine, file_basename(basename, '.pro')
   endif
     
   s = create_struct(name=classname)
@@ -277,7 +285,7 @@ pro doctreeclass::findParents
   if (error ne 0L) then begin
     s = self->_createClassStructure(self.classname, error=error, /compile_file)
     if (error ne 0L) then begin
-      s = self->_createClassStructure(self.classname, error=error, /compile_class)
+      s = self->_createClassStructure(self.classname, error=error)
       if (error ne 0L) then begin
         self.system->warning, 'cannot construct definition for class ' $
                                 + self.classname
