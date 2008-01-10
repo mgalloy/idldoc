@@ -71,6 +71,8 @@
 ;
 ;    error : out, optional, type=long
 ;       error code from run; 0 indicates no error
+;    debug : in, optional, type=boolean
+;       set to allow a crash with stack trace instead of just a simple message
 ;    help : in, optional, type=boolean
 ;       if set, print out a help message instead of running IDLdoc
 ;    version : in, optional, type=boolean
@@ -100,13 +102,11 @@ pro idldoc, root=root, $
             template_prefix=templatePrefix, $
             template_location=templateLocation, $
             charset=charset, $
-            error=error, $
+            error=error, debug=debug, $
             help=help, $
             version=version
   compile_opt strictarr
 
-  ; TODO: make sure to turn debug off before releasing
-  debug = 0B
   origPath = !path
   
   if (~keyword_set(debug) || arg_present(error)) then begin

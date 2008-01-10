@@ -157,6 +157,11 @@
   		    </tr>
 
             <tr>
+              <td class="name">DEBUG</td>
+              <td>set to allow crashes with a stack trace instead of the default simple message</td>
+            </tr>
+            
+            <tr>
               <td class="name">HELP</td>
               <td>set to print out the syntax of an IDLdoc call</td>
             </tr>
