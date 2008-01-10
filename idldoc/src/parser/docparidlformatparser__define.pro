@@ -94,8 +94,6 @@ pro docparidlformatparser::_handleFileTag, tag, lines, $
                                            markup_parser=markupParser
   compile_opt strictarr
   
-  ; TODO: get last routine and add blank cases to it
-  
   case strlowcase(tag) of    
     'name': ; might be able to use this to find correct routine
     'purpose': file->setProperty, comments=markupParser->parse(lines)
@@ -322,8 +320,6 @@ end
 pro docparidlformatparser::parseOverviewComments, lines, system=system, $
                                                      markup_parser=markupParser
   compile_opt strictarr
-
-  ; TODO: need to define an overview file format for the IDL format
   
   ; DIRECTORIES:
   ;   ./: Description goes here. This must be followed by a blank line.
