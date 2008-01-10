@@ -5,15 +5,18 @@
 ; 
 ; The markup parser recognizes:
 ;   #. paragraphs separated by a blank line
-;   #. lists (numbered, bulleted, and definition)
-;   #. *emphasis* and **bold**
-;   #. links: single word and phrase links
+;   #. (not implemented) lists (numbered, bulleted, and definition)
+;   #. (not implemented) *emphasis* and **bold**
+;   #. (not implemented) code can be marked as `a = findgen(10)`
+;   #. (not implemented) links: single word and phrase links
 ;   #. code callouts like::
 ;  
 ;        pro test, a
 ;          compile_opt strictarr
 ;         
-;        end 
+;        end
+; 
+; :Todo: finish implementation specified above
 ;-
 
 
@@ -29,8 +32,6 @@
 ;-
 function docparrstmarkupparser::parse, lines
   compile_opt strictarr
-  
-  ; TODO: finish the implementation
   
   indent = 0L
   code = 0B
