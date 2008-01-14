@@ -233,18 +233,21 @@ end</code></p>
         <p>Each format parser is discussed in its own section below.</p>
         
         <p>It is recommended to use spaces instead of tabs to indent comments (though it is only required when using the rst parsers).</p>
+    	
+    	<p>To be considered fully documented, a routine must have routine comments, document each parameter/keyword, and, if a function, document its return value.</p>
     		
-    		<h3>IDLdoc format</h3>
     		
-    		<p>Tags are prefixed with an "@" sign. Tag names are case-insensitive. For a list of all the tags, see the <a href="#tags">"Tags for IDL and rst formats"</a> section. They must be the first non-whitespace character after the comment symbol ";" on a line. Arguments follow the tags after whitespace. Attributes are enclosed curly braces "{}".</p>
+    	<h3>IDLdoc format</h3>
     		
-    		<p>For example, a tag with no arguments appears like: <code class="listing">; @abstract</code> Tags with an argument: <code class="listing">; @returns string/strarr</code> Tags with attributes appear like: <code class="listing">; @param x {in}{required}{type=fltarr} independent variable
+    	<p>Tags are prefixed with an "@" sign. Tag names are case-insensitive. For a list of all the tags, see the <a href="#tags">"Tags for IDL and rst formats"</a> section. They must be the first non-whitespace character after the comment symbol ";" on a line. Arguments follow the tags after whitespace. Attributes are enclosed curly braces "{}".</p>
+    		
+    	<p>For example, a tag with no arguments appears like: <code class="listing">; @abstract</code> Tags with an argument: <code class="listing">; @returns string/strarr</code> Tags with attributes appear like: <code class="listing">; @param x {in}{required}{type=fltarr} independent variable
 ; @param y {in}{required}{type=fltarr} dependent variable</code></p>
     		
     		
-    		<h3>IDL format</h3>
+    	<h3>IDL format</h3>
     		
-    		<p>The standard IDL format is given below. The individual headers are described in the <a href="#idl-headers">"Headers in IDL format"</a> section. <code class="listing">;+
+    	<p>The standard IDL format is given below. The individual headers are described in the <a href="#idl-headers">"Headers in IDL format"</a> section. <code class="listing">;+
 ; NAME:
 ;	ROUTINE_NAME
 ;
