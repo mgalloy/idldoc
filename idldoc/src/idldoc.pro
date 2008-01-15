@@ -40,6 +40,11 @@
 ;       set to not display the navbar
 ;    nosource : in, optional, type=boolean
 ;       set to not display the source code for .pro files
+;    source_link : in, optional, type=long, default=0L
+;       by default, IDLdoc copies the source code into the output; if this
+;       keyword is set to 1 (relative link) or 2 (absolute link), then the 
+;       output documentation will point to the ROOT location of the original 
+;       source code
 ;    user : in, optional, type=boolean
 ;       set to generate user-level docs (private parameters, files are not
 ;       shown); the default is developer-level docs showing files and 
@@ -92,6 +97,7 @@ pro idldoc, root=root, $
             subtitle=subtitle, $
             nonavbar=nonavbar, $
             nosource=nosource, $
+            source_link=sourceLink, $
             user=user, $
             statistics=statistics, $
             format_style=formatStyle, $
@@ -135,6 +141,7 @@ pro idldoc, root=root, $
                    subtitle=subtitle, $
                    nonavbar=nonavbar, $
                    nosource=nosource, $
+                   source_link=sourceLink, $
                    user=user, $
                    statistics=statistics, $
                    format_style=formatStyle, $
