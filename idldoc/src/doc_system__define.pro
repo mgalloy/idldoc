@@ -227,7 +227,8 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              format=format, markup=markup, $
                              comment_style=commentStyle, overview=overview, $
                              directories=directories, $
-                             nosource=nosource, user=user
+                             nosource=nosource, source_link=sourceLink, $
+                             user=user
   compile_opt strictarr
 
   if (arg_present(root)) then root = self.root
@@ -239,6 +240,7 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(overview)) then overview = self.overview
   if (arg_present(directories)) then directories = self.directories
   if (arg_present(nosource)) then nosource = self.nosource  
+  if (arg_present(sourceLink)) then sourceLink = self.sourceLink
   if (arg_present(user)) then user = self.user
 end
 
@@ -980,7 +982,13 @@ end
 ;       subtitle for docs
 ;    nonavbar : in, optional, type=boolean
 ;       set to not display the navbar
-;
+;    nosource : in, optional, type=boolean
+;       set to not display the source code for .pro files
+;    source_link : in, optional, type=long, default=0
+;       by default, IDLdoc copies the source code into the output; if this
+;       keyword is set to 1 (relative link) or 2 (absolute link), then the 
+;       output documentation will point to the ROOT location of the original 
+;       source code
 ;    user : in, optional, type=boolean
 ;       set to generate user-level docs (private parameters, files are not
 ;       shown); the default is developer-level docs showing files and 
@@ -1016,7 +1024,7 @@ function doc_system::init, root=root, output=output, $
                            assistant=assistant, embed=embed, overview=overview, $
                            footer=footer, title=title, subtitle=subtitle, $
                            nonavbar=nonavbar, $
-                           nosource=nosource, $
+                           nosource=nosource, source_link=sourceLink, $
                            user=user, statistics=statistics, $
                            format_style=formatStyle, markup_style=markupStyle, $
                            comment_style=commentStyle, $
@@ -1086,6 +1094,21 @@ function doc_system::init, root=root, output=output, $
   
   self.nonavbar = keyword_set(nonavbar)
   self.nosource = keyword_set(nosource)
+  
+  self.sourceLink = n_elements(sourceLink) eq 0 ? 0L : sourceLink
+  if (total(self.sourceLink eq [0, 1, 2]) lt 1) then begin
+    self.sourceLink = 0L
+    self->warning, 'invalid SOURCE_LINK value, copying instead'
+  endif
+  ; check if on Windows AND ROOT and OUTPUT are on different drives
+  if (strlowcase(!version.os_family) eq 'windows') then begin
+    rootDrive = mg_getdrive(self.root)
+    outputDrive = mg_getdrive(self.output)  
+    if (strlowcase(rootDrive) ne strlowcase(outputDrive)) then begin
+      self.sourceLink = 0L
+      self->warning, 'cannot use relative link across Windows drives, copying instead'
+    endif 
+  endif
   
   self.logFile = n_elements(logFile) gt 0 ? logFile : ''
   if (self.logFile ne '') then begin
@@ -1267,6 +1290,7 @@ pro doc_system__define
              embed: 0B, $
              nonavbar: 0B, $
              nosource: 0B, $
+             sourceLink: 0L, $
              
              logFile: '', $
              logLun: 0L, $

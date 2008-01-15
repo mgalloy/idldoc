@@ -54,6 +54,7 @@
 .compile src/tree/doctreesavfile__define
 .compile src/tree/doctreesavvar__define
 
+.compile src/util/mg_getdrive
 .compile src/util/mg_int_format
 .compile src/util/mg_is_int
 .compile src/util/mg_relative_path

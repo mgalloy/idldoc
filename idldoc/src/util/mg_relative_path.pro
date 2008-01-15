@@ -33,7 +33,7 @@ function mg_relative_path, src, dst, web=web
   ; the web always uses /
   sep = keyword_set(web) ? '/' : path_sep()
   
-  ; get absolute path if src and dst
+  ; get absolute path of src and dst
   srcAbs = file_search(src, /fully_qualify_path, /mark_directory, count=nsrc)
   dstAbs = file_search(dst, /fully_qualify_path, /mark_directory, count=ndst)
   

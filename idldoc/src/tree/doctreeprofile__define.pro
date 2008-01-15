@@ -230,7 +230,22 @@ function doctreeprofile::getVariable, name, found=found
     'basename': return, self.basename
     'local_url': return, file_basename(self.basename, '.pro') + '.html'
     'source_url': return, file_basename(self.basename, '.pro') + '-code.html'
-    'direct_source_url': return, file_basename(self.basename)
+    'direct_source_url': begin
+        self.system->getProperty, source_link=sourceLink, output=output
+        case sourceLink of
+          0: return, file_basename(self.basename)   ; URL to copy
+          1: begin   ; relative URL               
+               self.directory->getProperty, url=url
+               return, mg_relative_path(output + url , self.fullpath, /web)
+             end
+          2: begin   ; absolute URL
+               abspath = file_expand_path(self.fullpath)
+               pathTokens = strsplit(abspath, path_sep(), /extract, /preserve_null)
+               return, 'file://' + strjoin(pathTokens, '/')
+             end
+          else:
+        endcase        
+      end
     'code': return, self.system->processComments(self.code)
     
     'is_batch': return, self.isBatch
@@ -534,8 +549,11 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   sourceTemplate->process, self, outputFilename    
   
   ; direct version of the source code
-  file_copy, self.fullpath, outputDir + file_basename(self.basename), $
-             /allow_same, /overwrite
+  self.system->getProperty, source_link=sourceLink
+  if (sourceLink eq 0) then begin
+    file_copy, self.fullpath, outputDir + file_basename(self.basename), $
+               /allow_same, /overwrite
+  endif
 end
 
 
