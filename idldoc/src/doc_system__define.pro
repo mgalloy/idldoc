@@ -34,6 +34,7 @@
 ;    silent
 ;       true if nothing should be printed
 ;    n_warnings
+;       number of warnings generated
 ;    log_file
 ;    assistant
 ;    embed
