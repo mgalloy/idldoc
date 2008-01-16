@@ -38,6 +38,7 @@
 ;    log_file
 ;       filename of log file, '' if no log file is being used
 ;    assistant
+;       set to produce output formatted for the IDL Assistant (obsolete)
 ;    embed
 ;    footer
 ;    title
