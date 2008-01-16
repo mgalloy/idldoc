@@ -1096,12 +1096,16 @@ function doc_system::init, root=root, output=output, $
   self.nosource = keyword_set(nosource)
   
   self.sourceLink = n_elements(sourceLink) eq 0 ? 0L : sourceLink
+  
+  ; check to make sure sourceLink is 0, 1, or 2
   if (total(self.sourceLink eq [0, 1, 2]) lt 1) then begin
     self.sourceLink = 0L
     self->warning, 'invalid SOURCE_LINK value, copying instead'
   endif
-  ; check if on Windows AND ROOT and OUTPUT are on different drives
-  if (strlowcase(!version.os_family) eq 'windows') then begin
+  
+  ; check if using relative link on Windows AND ROOT and OUTPUT are on different 
+  ; drives
+  if (self.sourceLink eq 1 && strlowcase(!version.os_family) eq 'windows') then begin
     rootDrive = mg_getdrive(self.root)
     outputDrive = mg_getdrive(self.output)  
     if (strlowcase(rootDrive) ne strlowcase(outputDrive)) then begin
