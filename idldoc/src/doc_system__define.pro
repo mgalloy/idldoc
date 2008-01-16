@@ -29,8 +29,10 @@
 ;    user
 ;       true if user documentation is to be generated (as opposed to developer
 ;       level documentation)
-;    quiet 
+;    quiet
+;       true if only warnings should be printed
 ;    silent
+;       true if nothing should be printed
 ;    n_warnings
 ;    log_file
 ;    assistant
