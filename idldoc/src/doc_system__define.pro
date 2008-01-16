@@ -36,6 +36,7 @@
 ;    n_warnings
 ;       number of warnings generated
 ;    log_file
+;       filename of log file, '' if no log file is being used
 ;    assistant
 ;    embed
 ;    footer
