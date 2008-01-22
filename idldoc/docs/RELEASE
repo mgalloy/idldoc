@@ -55,7 +55,8 @@ IDLdoc 3.0
   
 * The source link is always available (in IDLdoc 2.0 it was only active if the
   OUTPUT keyword was not used). There is a NOSOURCE keyword to explicitly
-  not show source code if that is required.
+  not show source code if that is required. Copying the source code or linking
+  to it is controlled by the SOURCE_LINK keyword.
   
 * Ability to generate output for the IDL Assistant has not been reimplemented
   since IDL has a new help system in IDL 7.0. For now, only HTML designed for
