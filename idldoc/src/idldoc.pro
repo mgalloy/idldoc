@@ -11,6 +11,9 @@
 ; :Copyright:
 ;    IDLdoc is released under a BSD-type license
 ; 
+; :Requires: 
+;    IDL 6.2
+;
 ; :Keywords:
 ;    root : in, required, type=string
 ;       root of directory hierarchy to document

@@ -63,4 +63,4 @@ IDLdoc 3.0
   a normal browser is provided with IDLdoc (though with the TEMPLATE_* 
   keywords, users could now do these customizations themselves).
 
-* IDLdoc 3.0 requires IDL 6.1. IDLdoc runs on all platforms supported by IDL.
+* IDLdoc 3.0 requires IDL 6.2. IDLdoc runs on all platforms supported by IDL.
