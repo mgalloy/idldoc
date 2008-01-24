@@ -335,12 +335,13 @@ pro doc_system::printHelp
          '  IDL> idldoc, ROOT=string [, OUTPUT=string] $', $
          '               [, TITLE=string] [, SUBTITLE=string] $', $
          '               [, /EMBED] [, OVERVIEW=string] [, FOOTER] $', $
-         '               [, /NONAVBAR], [, /NOSOURCE] [, /USER] [, /STATISTICS] $', $
+         '               [, /NONAVBAR], [, /NOSOURCE] [, SOURCE_LINK={0, 1, 2}]', $
+         '               [, /USER] [, /STATISTICS] $', $
          '               [, /QUIET] [, /SILENT] $', $
          '               [, FORMAT_STYLE=string] [, MARKUP_STYLE=string] $', $
          '               [, COMMENT_STYLE=string] [, CHARSET=string] $', $
          '               [, TEMPLATE_PREFIX=string] [, TEMPLATE_LOCATION=string] $', $
-         '               [, ERROR=named variable] [N_WARNINGS=named variable] $', $
+         '               [, ERROR=named variable] [, /DEBUG] [N_WARNINGS=named variable] $', $
          '               [, LOG_FILE=string]', $
          '               [, /HELP] [, /VERSION] $', $
          '', $
