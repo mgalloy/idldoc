@@ -112,7 +112,7 @@ end
 function doctreeproperty::isVisible
   compile_opt strictarr
   
-  return, self.class->isVisible()
+  return, obj_valid(self.class) ? self.class->isVisible() : 0B
 end
 
 
@@ -121,7 +121,7 @@ end
 ;-
 pro doctreeproperty::cleanup
   compile_opt strictarr
-      
+
   obj_destroy, self.comments
 end
 

@@ -283,7 +283,8 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
   compile_opt strictarr, logical_predicate
   
   formatParser = self.system->getParser(format + 'format')
-    
+  formatParser->startNewFile
+  
   insideComment = 0B
   justFinishedComment = 0L   ; 0, 1 (in header), 2 (just finished)
   justFinishedHeader = 0B

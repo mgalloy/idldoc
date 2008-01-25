@@ -115,12 +115,9 @@ pro docparformatparser::checkForClass, routine
     class = file->getClass(classname)
     for p = 0L, self.heldProperties->count() - 1L do begin
       class->addProperty, self.heldProperties->get(position=p)
-    endfor        
-  endif else begin
-    properties = self.heldProperties->get(/all, count=nProps)
-    if (nProps gt 0) then obj_destroy, properties
-  endelse
-  self.heldProperties->remove, /all
+    endfor 
+    self.heldProperties->remove, /all       
+  endif
 end
   
   
@@ -152,7 +149,17 @@ function docparformatparser::_addToHeldProperties, propertyName
   return, property  
 end
 
-  
+
+;+
+; Start parsing a new file, so clear any stuff remembered about the last file.
+;-
+pro docparformatparser::startNewFile
+  compile_opt strictarr
+
+  self.heldProperties->remove, /all
+end
+
+
 ;+
 ; Free resources.
 ;-
