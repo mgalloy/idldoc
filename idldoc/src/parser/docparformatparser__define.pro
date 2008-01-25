@@ -134,7 +134,7 @@ end
 ;    propertyName : in, optional, type=string
 ;       name of the property
 ;-
-function docparformatparser::_addToHelpProperties, propertyName
+function docparformatparser::_addToHeldProperties, propertyName
   compile_opt strictarr
   
   ; check for property already existing before creating a new one

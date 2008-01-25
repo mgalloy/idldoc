@@ -352,7 +352,7 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
                                    attribute_names=attributeNames, $
                                    attribute_values=attributeValues)                                        
 
-        property = self->_addToHelpProperties(propertyName)        
+        property = self->_addToHeldProperties(propertyName)        
         property->setProperty, comments=markupParser->parse(comments)
       end
     
