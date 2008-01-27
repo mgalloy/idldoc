@@ -1,0 +1,44 @@
+[IDLdoc 3.0, Michael Galloy, idldoc.idldev.com]
+
+Welcome to the Getting Started with IDLdoc 3.0 video!
+
+IDLdoc is a tool for generating documentation from IDL source code. IDLdoc
+3.0 was rewritten from scratch to allow for an open source BSD-style license.
+
+Let's begin with a simple example.
+
+[type: idldoc, root='simple', output='simple-docs']
+
+Any source code that compiles can be run through IDLdoc. [up arrow] The output
+will list the routines and their arguments for each file in the directory
+hierarchy specified by the ROOT keyword. Output can be directed to a separate
+directory with the OUTPUT keyword.
+
+Here's the output from code that contained no comments.
+
+[look at simple-docs]
+
+This in itself can be useful for examining a code base, but with the addition
+of properly marked up comments, much more information can be included in the
+documentation.
+
+[pull over rst style header]
+
+There are now several different format styles that IDLdoc can understand. The
+traditional IDL header template, the old IDLdoc style (with the @ tags), or
+the new restructured text based style shown here. These styles are specified
+either with the FORMAT_STYLE keyword to IDLDOC or the docformat comment at the
+beginning of the file.
+
+Here's the output from the code with the comments just shown.
+
+[look at full docs]
+
+Each of these styles has syntax for documenting parameters, keywords, return
+values, author information, and many other aspects of the code.
+
+[idldoc.idldev.com]
+
+For more information about IDLdoc, check out its project website --
+idldoc.idldev.com. Mailing lists, source code, feature and bug tickets, and
+other information is available there.
