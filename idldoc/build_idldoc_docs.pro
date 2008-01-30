@@ -1,4 +1,4 @@
-@compile_all
+@idldoc_compile_all
 
 profiler
 profiler, /system

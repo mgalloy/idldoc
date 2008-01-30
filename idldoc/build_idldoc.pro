@@ -7,7 +7,7 @@
 
 ; compile required code
 
-@compile_all
+@idldoc_compile_all
 
 ; compile any system routines that are used in the required code
 resolve_all
