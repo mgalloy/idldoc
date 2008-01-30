@@ -32,8 +32,16 @@ end
 ; :Params:
 ;    routine_name : in, required, type=string
 ;       name of routine to find documentation for
+;
+; :Keywords:
+;    full : in, optional, type=boolean
+;       set to list the documentation for the routine, the default is to just
+;       list the syntax for the routine
+;    file : in, optional, type=boolean
+;       set to list all routines in the given file, the default is to assume a 
+;       routine name is passed into the routine
 ;-
-pro man, routine_name
+pro man, routine_name, full=full, file=file
   compile_opt strictarr
   on_error, 2
   
@@ -48,4 +56,5 @@ pro man, routine_name
   
   ; TODO: create DOCtreeFile
   ; TODO: get correct routine out of file
+  ; TODO: create a special system object for this
 end
