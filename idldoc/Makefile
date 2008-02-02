@@ -46,3 +46,7 @@ dist:
 	zip -r idldoc-$(VERSION).zip idldoc-$(VERSION)/*
 	rm -rf idldoc-$(VERSION)
 
+updates:
+	rm -rf updates.idldev.com
+	mkdir updates.idldev.com
+	idl -e build_updates_site
