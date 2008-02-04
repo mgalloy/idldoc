@@ -10,10 +10,22 @@ pro build_updates_site
   root = mg_src_root()
   vars = { version: idldoc_version() }
     
-  ttfile = filepath('site.xml.tt', root=root)
-  outfile = filepath('site.xml', subdir='updates.idldev.com', root=root)
+  siteTemplateFile = filepath('site.xml.tt', subdir='updates-resources', root=root)
+  siteFile = filepath('site.xml', subdir='updates.idldev.com', root=root)
   
-  template = obj_new('MGffTemplate', ttfile)
-  template->process, vars, outfile
-  obj_destroy, template
+  siteTemplate = obj_new('MGffTemplate', siteTemplateFile)
+  siteTemplate->process, vars, siteFile
+  obj_destroy, siteTemplate
+  
+  featureResources = filepath('', $
+                              subdir=['updates-resources', 'features'], $
+                              root=root)
+  featureRoot = filepath('', $
+                         subdir=['updates.idldev.com', 'features', 'com.idldev.idl.idldoc.feature_' + idldoc_version()], $
+                         root=root)
+  file_mkdir, featureRoot
+  
+  featureTemplate = obj_new('MGffTemplate', featureResources + 'feature.properties.tt')
+  featureTemplate->process, vars, featureRoot + 'feature.properties'
+  obj_destroy, featureTemplate
 end

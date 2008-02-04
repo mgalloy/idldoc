@@ -3,6 +3,7 @@ REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 
 clean:
 	rm -f *.zip
+	rm -rf updates.idldev.com
 	rm -rf api-docs
 	rm -rf regression_test/*-docs
 	rm -rf unit_tests/*-docs
@@ -48,5 +49,15 @@ dist:
 
 updates:
 	rm -rf updates.idldev.com
-	mkdir updates.idldev.com
+	mkdir -p updates.idldev.com/{features,plugins}
+
 	idl -e build_updates_site
+
+	cp updates-resources/features/about.html updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
+	cp updates-resources/features/feature.xml updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
+	svn export updates-resources/features/META-INF updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/META_INF/
+
+	jar cvf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION).jar updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
+	rm -rf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
+
+
