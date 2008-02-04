@@ -25,7 +25,7 @@ pro build_updates_site
                          root=root)
   file_mkdir, featureRoot
   
-  featureTemplate = obj_new('MGffTemplate', featureResources + 'feature.properties.tt')
-  featureTemplate->process, vars, featureRoot + 'feature.properties'
-  obj_destroy, featureTemplate
+  featureTemplate = obj_new('MGffTemplate', featureResources + 'feature.xml.tt')
+  featureTemplate->process, vars, featureRoot + 'feature.xml'
+  obj_destroy, featureTemplate  
 end

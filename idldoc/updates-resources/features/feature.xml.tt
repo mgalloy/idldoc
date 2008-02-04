@@ -2,7 +2,7 @@
 <feature
       id="com.idldev.idl.idldoc.feature"
       label="%featureName"
-      version="%version"
+      version="[% version %]"
       provider-name="%featureProvider">
 
    <description url="%featureURL">
@@ -20,4 +20,10 @@
    <url>
       <update label="idldev.com projects" url="http://updates.idldev.com/"/>
    </url>
+   
+   <plugin id="com.idldev.idl.idldoc.feature"
+           download-size="0"
+           install-size="0"
+           version="[% version %]"
+           unpack="true"/>
 </feature>

@@ -58,9 +58,9 @@ updates:
 	idl -e build_updates_site
 
 	cp updates-resources/features/about.html updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
-	cp updates-resources/features/feature.xml updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
+	cp updates-resources/features/feature.properties updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 
-	jar cvf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION).jar -C updates.idldev.com/features com.idldev.idl.idldoc.feature_$(VERSION)/
+	jar cvf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION).jar -C updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/ .
 	rm -rf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 
 	idl -IDL_STARTUP "" build_idldoc
@@ -74,7 +74,7 @@ updates:
 	svn export src/templates updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/templates/
 	svn export src/resources updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/resources/
 
-	jar cvf updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION).jar -C updates.idldev.com/plugins com.idldev.idl.idldoc.feature_$(VERSION)/
+	jar cvf updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION).jar -C updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION) .
 	rm -rf updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/
 
 	scp -r updates.idldev.com/* tizer.dreamhost.com:~/updates.idldev.com
