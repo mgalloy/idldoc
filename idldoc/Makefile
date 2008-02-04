@@ -60,4 +60,17 @@ updates:
 	jar cvf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION).jar updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 	rm -rf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 
+	idl -IDL_STARTUP "" build_idldoc
 
+	mkdir updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/
+	cp idldoc.sav updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/
+	rm idldoc.sav
+
+	svn export docs updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/docs/
+
+	svn export src/templates updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/templates/
+	svn export src/resources updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/resources/
+	svn export updates-resources/plugins/META-INF updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/META_INF/
+
+	jar cvf updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION).jar updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/
+	rm -rf updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/
