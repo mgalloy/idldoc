@@ -1,4 +1,4 @@
-VERSION=3.0
+VERSION=3.0.0
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 
 clean:
@@ -49,15 +49,18 @@ dist:
 
 updates:
 	rm -rf updates.idldev.com
+
+	sed "s/version = '.*'/version = '$(VERSION)'/" < src/idldoc_version.pro | sed "s/revision = '.*'/revision = '$(REVISION)'/" > idldoc_version.pro
+	mv idldoc_version.pro src/
+
 	mkdir -p updates.idldev.com/{features,plugins}
 
 	idl -e build_updates_site
 
 	cp updates-resources/features/about.html updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 	cp updates-resources/features/feature.xml updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
-	svn export updates-resources/features/META-INF updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/META_INF/
 
-	jar cvf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION).jar updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
+	jar cvf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION).jar -C updates.idldev.com/features com.idldev.idl.idldoc.feature_$(VERSION)/
 	rm -rf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 
 	idl -IDL_STARTUP "" build_idldoc
@@ -70,7 +73,8 @@ updates:
 
 	svn export src/templates updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/templates/
 	svn export src/resources updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/resources/
-	svn export updates-resources/plugins/META-INF updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/META_INF/
 
-	jar cvf updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION).jar updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/
+	jar cvf updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION).jar -C updates.idldev.com/plugins com.idldev.idl.idldoc.feature_$(VERSION)/
 	rm -rf updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/
+
+	scp -r updates.idldev.com/* tizer.dreamhost.com:~/updates.idldev.com
