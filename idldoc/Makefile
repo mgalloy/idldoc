@@ -74,7 +74,8 @@ updates:
 	svn export src/templates updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/templates/
 	svn export src/resources updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/resources/
 
-	jar cvf updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION).jar -C updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION) .
+	jar cvfm updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION).jar updates.idldev.com/plugins/manifest -C updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION) .
 	rm -rf updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
+	rm updates.idldev.com/plugins/manifest
 
 	scp -r updates.idldev.com/* tizer.dreamhost.com:~/updates.idldev.com
