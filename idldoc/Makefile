@@ -1,4 +1,4 @@
-VERSION=3.0.1
+VERSION=3.0.2
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 
 clean:
@@ -65,16 +65,17 @@ updates:
 
 	idl -IDL_STARTUP "" build_idldoc
 
-	mkdir updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/
-	cp idldoc.sav updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/
+	mkdir updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
+	cp idldoc.sav updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
 	rm idldoc.sav
 
-	svn export docs updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/docs/
+	svn export docs updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/docs/
 
-	svn export src/templates updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/templates/
-	svn export src/resources updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/resources/
+	svn export src/templates updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/templates/
+	svn export src/resources updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/resources/
 
-	jar cvf updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION).jar -C updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION) .
-	rm -rf updates.idldev.com/plugins/com.idldev.idl.idldoc.feature_$(VERSION)/
+	jar cvfm updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION).jar updates.idldev.com/plugins/manifest -C updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION) .
+	rm -rf updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
+	rm updates.idldev.com/plugins/manifest
 
 	scp -r updates.idldev.com/* tizer.dreamhost.com:~/updates.idldev.com

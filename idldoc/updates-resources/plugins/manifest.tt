@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: IDLdoc
+Bundle-SymbolicName: com.idldev.idl.idldoc 
+Bundle-Version: [% version %]
+Bundle-Vendor: Michael Galloy

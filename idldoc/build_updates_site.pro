@@ -19,13 +19,25 @@ pro build_updates_site
   
   featureResources = filepath('', $
                               subdir=['updates-resources', 'features'], $
-                              root=root)
+                              root=root)                              
   featureRoot = filepath('', $
                          subdir=['updates.idldev.com', 'features', 'com.idldev.idl.idldoc.feature_' + idldoc_version()], $
                          root=root)
+                         
+  pluginResources = filepath('', $
+                             subdir=['updates-resources', 'plugins'], $
+                             root=root)
+  pluginRoot = filepath('', $
+                        subdir=['updates.idldev.com', 'plugins'], $
+                        root=root)
+                                                       
   file_mkdir, featureRoot
   
   featureTemplate = obj_new('MGffTemplate', featureResources + 'feature.xml.tt')
   featureTemplate->process, vars, featureRoot + 'feature.xml'
-  obj_destroy, featureTemplate  
+  obj_destroy, featureTemplate
+  
+  manifestTemplate = obj_new('MGffTemplate', pluginResources + 'manifest.tt')
+  manifestTemplate->process, vars, pluginRoot + 'manifest'
+  obj_destroy, manifestTemplate
 end
