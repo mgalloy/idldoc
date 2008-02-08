@@ -127,83 +127,63 @@
       [% IF has_author_info %]
       <h2>Author information</h2>
 
-        <table class="attribute small" summary="File author information">
+        <dl class="attribute small" summary="File author information">
           [% IF has_author %]
-          <tr>
-            <td class="name">Author:</td>
-            <td>[% author %]</td>
-          </tr>          
+            <dt>Author</dt>
+            <dd>[% author %]</dd>        
           [% END %]
           
           [% IF has_copyright %]
-          <tr>
-            <td class="name">Copyright:</td>
-            <td>[% copyright %]</td>
-          </tr>          
+            <dt>Copyright</dt>
+            <dd>[% copyright %]</dd>       
           [% END %]
           
           [% IF has_history %]
-          <tr>
-            <td class="name">History:</td>
-            <td>[% history %]</td>
-          </tr>          
+            <dt>History</dt>
+            <dd>[% history %]</dd>       
           [% END %]
 
           [% IF has_version %]
-          <tr>
-            <td class="name">Version:</td>
-            <td>[% version %]</td>
-          </tr>          
+            <dt>Version</dt>
+            <dd>[% version %]</dd>  
           [% END %]          
-        </table>          
+        </dl>          
       [% END %]
                         
       [% IF has_others %]
       <h2>Other file information</h2>
       
-        <table class="attribute small" summary="Other file attributes">
+        <dl class="attribute small" summary="Other file attributes">
         [% IF has_bugs %]
-          <tr>
-            <td class="name">Bugs:</td>
-            <td>[% bugs %]</td>
-          </tr>           
+            <dt>Bugs:</dt>
+            <dd>[% bugs %]</dd>
         [% END %]
                 
         [% IF has_customer_id %]
-          <tr>
-            <td class="name">Customer ID:</td>
-            <td>[% customer_id %]</td>
-          </tr>           
+            <dt>Customer ID:</dt>
+            <dd>[% customer_id %]</dd>
         [% END %]
 
         [% IF has_requires %]
-          <tr>
-            <td class="name">Requires:</td>
-            <td>[% requires %]</td>
-          </tr>           
+            <dt>Requires:</dt>
+            <dd>[% requires %]</dd>     
         [% END %]
                 
         [% IF has_restrictions %]
-          <tr>
-            <td class="name">Restrictions:</td>
-            <td>[% restrictions %]</td>
-          </tr>           
+            <dt>Restrictions:</dt>
+            <dd>[% restrictions %]</dd>
         [% END %]
 
         [% IF has_todo %]
-          <tr>
-            <td class="name">Todo:</td>
-            <td>[% todo %]</td>
-          </tr>           
+            <dt>Todo:</dt>
+            <dd>[% todo %]</dd>
         [% END %]
                 
         [% IF has_uses %]
-          <tr>
-            <td class="name">Uses:</td>
-            <td>[% uses %]</td>
-          </tr>           
+            <dt>Uses:</dt>
+            <dd>[% uses %]</dd>
         [% END %]
-        </table>
+        </dl>
       [% END %]
       
       [% IF n_visible_routines gt 1 %]
@@ -270,97 +250,73 @@
           [% IF has_author_info %]
           <h3>Author information</h3>
 
-            <table class="attribute small" summary="Routine author information">
+            <dl class="attribute small" summary="Routine author information">
               [% IF has_author %]
-              <tr>
-                <td class="name">Author:</td>
-                <td>[% author %]</td>
-              </tr>          
+                <dt>Author:</dt>
+                <dd>[% author %]</dd>       
               [% END %]
               
               [% IF has_copyright %]
-              <tr>
-                <td class="name">Copyright:</td>
-                <td>[% copyright %]</td>
-              </tr>          
+                <dt>Copyright:</dt>
+                <dd>[% copyright %]</dd>       
               [% END %]
               
               [% IF has_history %]
-              <tr>
-                <td class="name">History:</td>
-                <td>[% history %]</td>
-              </tr>          
+                <dt>History:</dt>
+                <dd>[% history %]</dd>    
               [% END %]
 
               [% IF has_version %]
-              <tr>
-                <td class="name">Version:</td>
-                <td>[% version %]</td>
-              </tr>          
+                <dt>Version:</dt>
+                <dd>[% version %]</dd>     
               [% END %]              
-            </table>          
+            </dl>          
           [% END %]
           
           [% IF has_others %]
           <h3>Other attributes</h3>
 
-            <table class="attribute small" summary="Other routine attributes">                            
+            <dl class="attribute small" summary="Other routine attributes">                            
               [% IF has_todo %]
-              <tr>
-                <td class="name">Todo:</td>
-                <td>[% todo %]</td>
-              </tr>          
+                <dt>Todo:</dt>
+                <dd>[% todo %]</dd>
               [% END %]
 
               [% IF has_restrictions %]
-              <tr>
-                <td class="name">Restrictions:</td>
-                <td>[% restrictions %]</td>
-              </tr>          
+                <dt>Restrictions:</dt>
+                <dd>[% restrictions %]</dd>
               [% END %]
 
               [% IF has_requires %]
-              <tr>
-                <td class="name">Requires:</td>
-                <td>[% requires %]</td>
-              </tr>          
+                <dt>Requires:</dt>
+                <dd>[% requires %]</dd>
               [% END %]
               
               [% IF has_uses %]
-              <tr>
-                <td class="name">Uses:</td>
-                <td>[% uses %]</td>
-              </tr>          
+                <dt>Uses:</dt>
+                <dd>[% uses %]</dd>
               [% END %]
                                                       
               [% IF has_bugs %]
-              <tr>
-                <td class="name">Bugs:</td>
-                <td>[% bugs %]</td>
-              </tr>          
+                <dt>Bugs:</dt>
+                <dd>[% bugs %]</dd>       
               [% END %]
 
               [% IF has_pre %]
-              <tr>
-                <td class="name">Pre-condition:</td>
-                <td>[% pre %]</td>
-              </tr>          
+                <dt>Pre-condition:</dt>
+                <dd>[% pre %]</dd> 
               [% END %]
 
               [% IF has_post %]
-              <tr>
-                <td class="name">Post-condition:</td>
-                <td>[% post %]</td>
-              </tr>          
+                <dt>Post-condition:</dt>
+                <dd>[% post %]</dd>    
               [% END %]     
 
               [% IF has_customer_id %]
-              <tr>
-                <td class="name">Customer ID:</td>
-                <td>[% customer_id %]</td>
-              </tr>          
+                <dt>Customer ID:</dt>
+                <dd>[% customer_id %]</dd>         
               [% END %]                                     
-            </table>
+            </dl>
           [% END %]
           
           [% IF statistics %]

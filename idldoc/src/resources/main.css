@@ -2,12 +2,13 @@
 body { font-family: Helvetica, sans-serif; font-size: 10pt; margin: 0; padding: 0; }
 div.content { padding: 1em; }
 p { line-height: 1.2; }
+td p { padding-bottom: 0.5em; }
 img { border: 0; }
 
 /* link styles */
 a { text-decoration: none; }
 a:link, a:visited { color: #0000FF; }
-a:hover, a:focus { background: yellow; border-bottom: 1px dotted #303099; }
+a:hover, a:focus { background: yellow; border-bottom: 1emx dotted #303099; }
 
 /* dir-overview styles */
 dt.filename { margin-top: 0.5em; }
@@ -81,6 +82,8 @@ table td.name { font-style: normal; padding-right: 1.5em; }
 ul.fieldslist { padding-top: 0; color: #909090; }
 ul.fieldslist li { margin-bottom: 0.25em; }
 span.fieldname { color: #000000; }
+
+dl.attribute dt { color: #990000; }
 
 /* header/navbar styles */
 div.header { padding: 2em 2em 0 2em; background: #71900B; border-bottom: 2px #384806 solid; }
