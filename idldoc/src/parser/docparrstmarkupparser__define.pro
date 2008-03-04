@@ -24,7 +24,7 @@
 ;+
 ; Process directives.
 ;-
-pro docparrstmarkupparser::_processDirective, line, pos, len, tree=tree
+pro docparrstmarkupparser::_processDirective, line, pos, len, tree=tree, file=file
   compile_opt strictarr
   
   fullDirective = strmid(line, pos + 3L, len)
@@ -44,7 +44,10 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, tree=tree
   tree->addChild, tag
   tree->addChild, obj_new('MGtmText', text=afterDirective)
   tree->addChild, obj_new('MGtmTag', type='newline')
+  
+  if (obj_valid(file)) then file->addImageRef, tokens[1]
 end
+
 
 ;+
 ; Takes a string array of rst style comments and return a parse tree.
@@ -56,7 +59,7 @@ end
 ;    lines : in, required, type=strarr
 ;       lines to be parsed
 ;-
-function docparrstmarkupparser::parse, lines
+function docparrstmarkupparser::parse, lines, file=file
   compile_opt strictarr
   
   indent = 0L
@@ -85,7 +88,7 @@ function docparrstmarkupparser::parse, lines
                            length=directiveLen)
     
     if ((~code || (currentIndent gt -1 && currentIndent le indent)) && directivePos ne -1L) then begin
-      self->_processDirective, cleanline, directivePos, directiveLen, tree=para
+      self->_processDirective, cleanline, directivePos, directiveLen, tree=para, file=file
       code = 0B
     endif else begin
       if (code && (currentIndent eq -1 || currentIndent gt indent)) then begin

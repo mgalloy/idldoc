@@ -20,7 +20,7 @@
 ;    top : in, optional, type=string, default=paragraph
 ;       type of top-level MGtmTag to create
 ;-
-function docparverbatimmarkupparser::parse, lines, top=top
+function docparverbatimmarkupparser::parse, lines, top=top, file=file
   compile_opt strictarr
   
   tree = obj_new('MGtmTag', type=n_elements(top) gt 0 ? top : 'paragraph')

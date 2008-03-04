@@ -48,6 +48,8 @@ pro docparidlformatparser::_handleArguments, lines, routine=routine, $
   
   argEnds = nArgs eq 1 ? n_elements(argPos) - 1L : [args[1:*] - 1L, n_elements(argPos) - 1L]
   
+  routine->getProperty, file=file
+  
   for a = 0L, nArgs - 1L do begin
     argumentName = strmid(argLines[args[a]], argPos[args[a]], argLen[args[a]])
     arg = keyword_set(keyword) $
@@ -69,7 +71,7 @@ pro docparidlformatparser::_handleArguments, lines, routine=routine, $
     ; set comments for the argument
     comments = lines[args[a]:argEnds[a]]
     comments[0] = strmid(comments[0], argPos[args[a]] + argLen[args[a]] + 2L)
-    arg->setProperty, comments=markupParser->parse(comments)
+    arg->setProperty, comments=markupParser->parse(comments, file=file)
   endfor
 end
 
@@ -105,9 +107,9 @@ pro docparidlformatparser::_handleFileTag, tag, lines, $
     'outputs':       
     'optional outputs': 
     'common blocks':
-    'side effects': file->setProperty, comments=markupParser->parse(lines)
-    'restrictions': file->setProperty, comments=markupParser->parse(lines)
-    'procedure': file->setProperty, comments=markupParser->parse(lines)
+    'side effects': file->setProperty, comments=markupParser->parse(lines, file=file)
+    'restrictions': file->setProperty, comments=markupParser->parse(lines, file=file)
+    'procedure': file->setProperty, comments=markupParser->parse(lines, file=file)
     'example': begin        
         verbatimParser = self.system->getParser('verbatimmarkup')
                 
@@ -128,7 +130,7 @@ pro docparidlformatparser::_handleFileTag, tag, lines, $
         file->setProperty, examples=examples
       end
     'modification history': begin
-        file->setProperty, history=markupParser->parse(lines)
+        file->setProperty, history=markupParser->parse(lines, file=file)
       end
     else: begin                
         file->getProperty, basename=basename
@@ -159,6 +161,8 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
                                               markup_parser=markupParser
   compile_opt strictarr
   
+  routine->getProperty, file=file
+  
   case strlowcase(tag) of
     'name':   ; ignore, not used
     'purpose': routine->setProperty, comments=markupParser->parse(lines)
@@ -175,12 +179,12 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
     'inputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, tag='input'
     'optional inputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, /optional, tag='optional input'
     'keyword parameters': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, /keyword, /optional, tag='keyword' 
-    'outputs': routine->setProperty, returns=markupParser->parse(lines)      
+    'outputs': routine->setProperty, returns=markupParser->parse(lines , file=file)      
     'optional outputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, tag='optional output'
-    'common blocks': routine->setProperty, comments=markupParser->parse(lines)
-    'side effects': routine->setProperty, comments=markupParser->parse(lines)
-    'restrictions': routine->setProperty, comments=markupParser->parse(lines)
-    'procedure': routine->setProperty, comments=markupParser->parse(lines)
+    'common blocks': routine->setProperty, comments=markupParser->parse(lines, file=file)
+    'side effects': routine->setProperty, comments=markupParser->parse(lines, file=file)
+    'restrictions': routine->setProperty, comments=markupParser->parse(lines, file=file)
+    'procedure': routine->setProperty, comments=markupParser->parse(lines, file=file)
     'example': begin        
         verbatimParser = self.system->getParser('verbatimmarkup')
                 
@@ -201,7 +205,7 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
         routine->setProperty, examples=examples
       end
     'modification history': begin        
-        routine->setProperty, history=markupParser->parse(lines)
+        routine->setProperty, history=markupParser->parse(lines, file=file)
       end
     else: begin
         routine->getProperty, name=name

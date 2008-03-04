@@ -21,7 +21,7 @@
 ;    lines : in, required, type=strarr
 ;       lines to be parsed
 ;-
-function docparmarkupparser::parse, lines
+function docparmarkupparser::parse, lines, file=file
   compile_opt strictarr
   
   return, obj_new()

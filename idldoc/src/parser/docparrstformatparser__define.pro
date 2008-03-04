@@ -46,7 +46,7 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
   
   case strlowcase(tag) of
     'file_comments' : begin
-        file->setProperty, comments=markupParser->parse(self->_parseTag(lines))    
+        file->setProperty, comments=markupParser->parse(self->_parseTag(lines), file=file)    
       end
     'properties': begin        
         ; there is no way to tell right now if this properties tag is allowed or
@@ -87,7 +87,7 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
                                     : propertyDefinitionLines[p + 1L] - 1L
           if (propertyDefinitionLines[p] + 1 le propertyDefinitionEnd) then begin
             comments = propLines[propertyDefinitionLines[p] + 1L:propertyDefinitionEnd] 
-            property->setProperty, comments=markupParser->parse(comments)        
+            property->setProperty, comments=markupParser->parse(comments, file=file)        
           endif  
         endfor                     
       end
@@ -95,17 +95,17 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
     'hidden': file->setProperty, is_hidden=1B
     'private': file->setProperty, is_private=1B
     
-    'examples': file->setProperty, examples=markupParser->parse(self->_parseTag(lines))
+    'examples': file->setProperty, examples=markupParser->parse(self->_parseTag(lines), file=file)
     
-    'author': file->setProperty, author=markupParser->parse(self->_parseTag(lines))
-    'copyright': file->setProperty, copyright=markupParser->parse(self->_parseTag(lines))
-    'history': file->setProperty, history=markupParser->parse(self->_parseTag(lines))
-    'version': file->setProperty, version=markupParser->parse(self->_parseTag(lines))
+    'author': file->setProperty, author=markupParser->parse(self->_parseTag(lines), file=file)
+    'copyright': file->setProperty, copyright=markupParser->parse(self->_parseTag(lines), file=file)
+    'history': file->setProperty, history=markupParser->parse(self->_parseTag(lines), file=file)
+    'version': file->setProperty, version=markupParser->parse(self->_parseTag(lines), file=file)
 
     'abstract': file->setProperty, is_abstract=1B
     'bugs': begin
         self.system->createBugEntry, file
-        file->setProperty, bugs=markupParser->parse(self->_parseTag(lines))
+        file->setProperty, bugs=markupParser->parse(self->_parseTag(lines), file=file)
       end
     'categories': begin
         comments = self->_parseTag(lines)
@@ -117,7 +117,7 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
           endif
         endfor
       end
-    'customer_id': file->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))      
+    'customer_id': file->setProperty, customer_id=markupParser->parse(self->_parseTag(lines), file=file)      
     'obsolete': begin
         self.system->createObsoleteEntry, file
         file->setProperty, is_obsolete=1B
@@ -136,14 +136,14 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
           self.system->checkRequiredVersion, version, file
         endif
             
-        file->setProperty, requires=markupParser->parse(requires)
+        file->setProperty, requires=markupParser->parse(requires, file=file)
       end
-    'restrictions': file->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))      
+    'restrictions': file->setProperty, restrictions=markupParser->parse(self->_parseTag(lines), file=file)      
     'todo': begin
-        file->setProperty, todo=markupParser->parse(self->_parseTag(lines))
+        file->setProperty, todo=markupParser->parse(self->_parseTag(lines), file=file)
         self.system->createTodoEntry, file
       end
-    'uses': file->setProperty, uses=markupParser->parse(self->_parseTag(lines))      
+    'uses': file->setProperty, uses=markupParser->parse(self->_parseTag(lines), file=file)      
     
     'fields': begin
         file->getProperty, basename=basename
@@ -204,11 +204,13 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
                                               markup_parser=markupParser
   compile_opt strictarr
   
+  routine->getProperty, file=file
+  
   case strlowcase(tag) of
     'abstract': routine->setProperty, is_abstract=1B
-    'author': routine->setProperty, author=markupParser->parse(self->_parseTag(lines))
+    'author': routine->setProperty, author=markupParser->parse(self->_parseTag(lines), file=file)
     'bugs': begin
-        routine->setProperty, bugs=markupParser->parse(self->_parseTag(lines))
+        routine->setProperty, bugs=markupParser->parse(self->_parseTag(lines), file=file)
         self.system->createBugEntry, routine
       end      
     'categories': begin
@@ -221,9 +223,9 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
           endif
         endfor
       end
-    'copyright': routine->setProperty, copyright=markupParser->parse(self->_parseTag(lines))
-    'customer_id': routine->setProperty, customer_id=markupParser->parse(self->_parseTag(lines))
-    'examples': routine->setProperty, examples=markupParser->parse(self->_parseTag(lines))
+    'copyright': routine->setProperty, copyright=markupParser->parse(self->_parseTag(lines), file=file)
+    'customer_id': routine->setProperty, customer_id=markupParser->parse(self->_parseTag(lines), file=file)
+    'examples': routine->setProperty, examples=markupParser->parse(self->_parseTag(lines), file=file)
         
     'fields': begin
         ; fields are only allowed in routine named "classname__define"
@@ -274,7 +276,7 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
          if (fieldDefinitionLines[f] + 1L le fieldDefinitionEnd) then begin
            if (obj_valid(field)) then begin
              comments = fieldLines[fieldDefinitionLines[f] + 1L:fieldDefinitionEnd] 
-             field->setProperty, name=fieldName, comments=markupParser->parse(comments)
+             field->setProperty, name=fieldName, comments=markupParser->parse(comments, file=file)
            endif else begin
              self.system->warning, 'invalid field ' + fieldName
            endelse        
@@ -284,14 +286,14 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
     
     'file_comments': begin
         routine->getProperty, file=file
-        file->setProperty, comments=markupParser->parse(self->_parseTag(lines))
+        file->setProperty, comments=markupParser->parse(self->_parseTag(lines), file=file)
       end
     'hidden': routine->setProperty, is_hidden=1
     'hidden_file': begin
         routine->getProperty, file=file
         file->setProperty, is_hidden=1B
       end
-    'history': routine->setProperty, history=markupParser->parse(self->_parseTag(lines))
+    'history': routine->setProperty, history=markupParser->parse(self->_parseTag(lines), file=file)
     'inherits':  begin
         routine->getProperty, name=name
         msg = '(%"obsolete tag ''%s'' at routine level in %s")'
@@ -305,8 +307,8 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
       end          
     'params': self->_handleArgumentTag, lines, routine=routine, $
                                         markup_parser=markupParser    
-    'post': routine->setProperty, post=markupParser->parse(self->_parseTag(lines))
-    'pre': routine->setProperty, pre=markupParser->parse(self->_parseTag(lines))
+    'post': routine->setProperty, post=markupParser->parse(self->_parseTag(lines), file=file)
+    'pre': routine->setProperty, pre=markupParser->parse(self->_parseTag(lines), file=file)
     'private': routine->setProperty, is_private=1B
     'private_file': begin
         routine->getProperty, file=file
@@ -331,16 +333,16 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
           self.system->checkRequiredVersion, version, routine
         endif
         
-        routine->setProperty, requires=markupParser->parse(requires)
+        routine->setProperty, requires=markupParser->parse(requires, file=file)
       end
-    'restrictions': routine->setProperty, restrictions=markupParser->parse(self->_parseTag(lines))
-    'returns': routine->setProperty, returns=markupParser->parse(self->_parseTag(lines))
+    'restrictions': routine->setProperty, restrictions=markupParser->parse(self->_parseTag(lines), file=file)
+    'returns': routine->setProperty, returns=markupParser->parse(self->_parseTag(lines), file=file)
     'todo': begin
-        routine->setProperty, todo=markupParser->parse(self->_parseTag(lines))
+        routine->setProperty, todo=markupParser->parse(self->_parseTag(lines), file=file)
         self.system->createTodoEntry, routine
       end
-    'uses': routine->setProperty, uses=markupParser->parse(self->_parseTag(lines))
-    'version': routine->setProperty, version=markupParser->parse(self->_parseTag(lines))
+    'uses': routine->setProperty, uses=markupParser->parse(self->_parseTag(lines), file=file)
+    'version': routine->setProperty, version=markupParser->parse(self->_parseTag(lines), file=file)
     else: begin
         routine->getProperty, name=name
         msg = '(%"unknown tag ''%s'' at routine level in %s")'
@@ -468,7 +470,8 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
                            : paramDefinitionLines[p + 1L] - 1L
     if (paramDefinitionLines[p] + 1 le paramDefinitionEnd) then begin
       comments = paramLines[paramDefinitionLines[p] + 1L:paramDefinitionEnd] 
-      param->setProperty, comments=markupParser->parse(comments)        
+      routine->getProperty, file=file
+      param->setProperty, comments=markupParser->parse(comments, file=file)        
     endif  
   endfor                       
 end
@@ -542,7 +545,8 @@ pro docparrstformatparser::parseRoutineComments, lines, routine=routine,  $
   ; parse normal comments
   tagsStart = nTags gt 0 ? tagLocations[0] : n_elements(lines)
   if (tagsStart ne 0) then begin
-    comments = markupParser->parse(lines[0:tagsStart - 1L])
+    routine->getProperty, file=file
+    comments = markupParser->parse(lines[0:tagsStart - 1L], file=file)
     routine->setProperty, comments=comments
   endif  
   
@@ -585,7 +589,7 @@ pro docparrstformatparser::parseFileComments, lines, file=file,  $
   ; parse normal comments
   tagsStart = nTags gt 0 ? tagLocations[0] : n_elements(lines)
   if (tagsStart ne 0) then begin
-    comments = markupParser->parse(lines[0:tagsStart - 1L])
+    comments = markupParser->parse(lines[0:tagsStart - 1L], file=file)
     file->setProperty, comments=comments
   endif  
   

@@ -37,6 +37,8 @@ end
 ;+
 ; Handles parsing of a comment block associated with a file. 
 ;
+; :Abstract:
+;
 ; :Params:
 ;    lines : in, required, type=strarr
 ;       all lines of the comment block

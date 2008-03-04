@@ -512,6 +512,13 @@ pro doctreeprofile::process
 end
 
 
+pro doctreeprofile::addImageRef, filename
+  compile_opt strictarr
+  
+  self.imagerefs->add, filename
+end
+
+
 ;+
 ; Generate output documenting the .pro file.
 ;
@@ -554,6 +561,17 @@ pro doctreeprofile::generateOutput, outputRoot, directory
     file_copy, self.fullpath, outputDir + file_basename(self.basename), $
                /allow_same, /overwrite
   endif
+  
+  ; copy images references in the documentation
+  for i = 0L, self.imagerefs->count() - 1L do begin
+    path = file_dirname(self.fullpath, /mark_directory)
+    filename = self.imagerefs->get(position=i)
+    if (file_test(path + filename)) then begin
+      file_copy, path + filename, outputDir + filename, /allow_same, /overwrite
+    endif else begin
+      self.system->warning, 'image at ' + path + filename + ' not found'
+    endelse
+  endfor
 end
 
 
@@ -578,6 +596,8 @@ pro doctreeprofile::cleanup
   obj_destroy, self.categories
   obj_destroy, [self.bugs, self.customerId]
   obj_destroy, [self.requires, self.restrictions, self.todo, self.uses]
+  
+  obj_destroy, self.imagerefs
 end
 
 
@@ -606,10 +626,9 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   self.fullpath = fullpath
   
   self.classes = obj_new('MGcoArrayList', type=11, block_size=3)
-  
   self.routines = obj_new('MGcoArrayList', type=11, block_size=10)
-  
   self.categories = obj_new('MGcoArrayList', type=7, block_size=3)
+  self.imagerefs = obj_new('MGcoArrayList', type=7, block_size=3)
   
   self.system->createIndexEntry, self.basename, self
   self.system->print, '  Parsing ' + self.basename + '...'
@@ -680,6 +699,8 @@ pro doctreeprofile__define
              restrictions: obj_new(), $
              requires: obj_new(), $
              todo: obj_new(), $
-             uses: obj_new() $             
+             uses: obj_new(), $
+             
+             imagerefs: obj_new() $             
            }
 end
