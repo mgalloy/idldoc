@@ -2,6 +2,13 @@
 Release notes
 -------------
 
+IDLdoc 3.1
+----------
+
+* Added ability to reference images in rst markup. IDLdoc will automatically
+  copy referenced images into the output.
+
+
 IDLdoc 3.0
 ----------
 
@@ -19,9 +26,9 @@ IDLdoc 3.0
 * Routine comments can be immediately before or *after* the routine header.
 
 * Comments can now contain basic restructured text markup. Separating lines
-  of text with a blank line will create separate paragraphs. Ending a line with
-  two colons (::) and then indenting will format the indented section like a
-  block of code.
+  of text with a blank line will create separate paragraphs. Ending a line
+  with two colons (::) and then indenting will format the indented section 
+  like a block of code.
 
 * It is now feasible to create your own library of templates for output. The
   TEMPLATE_PREFIX keyword specifies a prefix before the template names. The
