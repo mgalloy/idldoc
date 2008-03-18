@@ -826,9 +826,11 @@ July 1994 Describe modifications done on this date </code></td>
         
         <h2 id="markup-styles">Markup styles</h2>
         
-        <p>There are two markup styles that are used to format text (such as file/routine comments or the values of nearly any tag). The "verbatim" style simply copies exactly what is present. The "rst" style does two things: <ol>
-          <li>blank lines make paragraphs</li>
-          <li>ending a line with two colons ("::"), skipping a line, and indenting the next section makes a code listing section</li>
+        <p>There are two markup styles that are used to format text (such as file/routine comments or the values of nearly any tag). The "verbatim" style simply copies exactly what is present. The "rst" style does two things: 
+          <ol>
+            <li>blank lines make paragraphs</li>
+            <li>ending a line with two colons ("::"), skipping a line, and indenting the next section makes a code listing section</li>
+            <li>the image directive will insert an image into the output and copy the image file to the output directory: <code class="listing">.. image:: filename</code></li>
           </ol> There will be more features in the future, but for now these are quite handy.</p>
     	</div>
     	
