@@ -175,7 +175,7 @@ pro docparidldocformatparser::_handleArgumentTag, lines, $
       else: begin
           self.system->warning, $
             'unknown argument attribute "' + attributeNames[i] $
-              + '" for argument' + argument + ' in ' + routineName           
+              + '" for argument ' + argument + ' in ' + routineName           
         end
     endcase
   endfor
