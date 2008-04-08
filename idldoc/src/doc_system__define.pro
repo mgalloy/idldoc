@@ -1165,7 +1165,9 @@ function doc_system::init, root=root, output=output, $
   self->loadParsers
   
   self.format = n_elements(formatStyle) eq 0 ? 'idldoc' : formatStyle
-  self.markup = n_elements(markupStyle) eq 0 ? 'verbatim' : markupStyle
+  self.markup = n_elements(markupStyle) eq 0 $
+                  ? (self.format eq 'rst' ? 'rst' : 'verbatim') $
+                  : markupStyle
   self.commentStyle = n_elements(commentStyle) eq 0 ? 'html' : commentStyle  
   
   formatparser = self->getParser(self.format + 'format', found=found)
