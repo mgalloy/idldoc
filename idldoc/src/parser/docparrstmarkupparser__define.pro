@@ -22,9 +22,26 @@
 
 
 ;+
-; Process directives.
+; Process directives. Directives are of the form::
+;
+;    .. directive_name:: directive_argument
+;
+; :Params:
+;    line : in, required, type=string
+;       line the directive occurs on
+;    pos : in, required, type=long
+;       position of the start of the directive
+;    len : in, required, type=long
+;       length of the directive
+; 
+; :Keywords:
+;    tree : in, required, type=object
+;       parse tree to add markup for directive
+;    file : in, optional, type=object
+;       file object to add image to
 ;-
-pro docparrstmarkupparser::_processDirective, line, pos, len, tree=tree, file=file
+pro docparrstmarkupparser::_processDirective, line, pos, len, $
+                                              tree=tree, file=file
   compile_opt strictarr
   
   fullDirective = strmid(line, pos + 3L, len)
@@ -72,7 +89,7 @@ function docparrstmarkupparser::parse, lines, file=file
   tree->addChild, para
   
   for l = 0L, n_elements(lines) - 1L do begin
-    cleanline = strtrim(lines[l], 0)
+    cleanline = strtrim(lines[l], 0)   ; remove trailing blanks
     dummy = stregex(lines[l], ' *[^[:space:]]', length=currentIndent)
     
     if (cleanLine eq '' && ~code) then begin
