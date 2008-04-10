@@ -66,29 +66,16 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
 end
 
 
-;+
-; Takes a string array of rst style comments and return a parse tree.
-;
-; :Returns: 
-;    object
-;
-; :Params:
-;    lines : in, required, type=strarr
-;       lines to be parsed
-;-
-function docparrstmarkupparser::parse, lines, file=file
+pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=file
   compile_opt strictarr
-  
-  indent = 0L
+
   code = 0B
   nextIsCode = 0B
-  
-  tree = obj_new('MGtmTag')
   
   para = obj_new('MGtmTag', type='paragraph')
   tree->addChild, para
   
-  for l = 0L, n_elements(lines) - 1L do begin
+  for l = start, n_elements(lines) - 1L do begin    
     cleanline = strtrim(lines[l], 0)   ; remove trailing blanks
     dummy = stregex(lines[l], ' *[^[:space:]]', length=currentIndent)
     
@@ -125,8 +112,30 @@ function docparrstmarkupparser::parse, lines, file=file
       listing = obj_new('MGtmTag', type='listing')
       para->addChild, listing
     endif
-  endfor
+  endfor  
+end
+
+
+;+
+; Takes a string array of rst style comments and return a parse tree.
+;
+; :Returns: 
+;    object
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       lines to be parsed
+;-
+function docparrstmarkupparser::parse, lines, file=file
+  compile_opt strictarr
   
+  start = 0L  
+  indent = 0L
+  
+  tree = obj_new('MGtmTag')
+  
+  self->_handleLevel, lines, start, indent, tree=tree, file=file
+    
   return, tree  
 end
 
