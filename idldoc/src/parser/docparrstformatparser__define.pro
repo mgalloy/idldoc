@@ -20,6 +20,10 @@ function docparrstformatparser::_parseTag, lines
   pos = stregex(lines[0], '^[[:space:]]*:[[:alpha:]_]+:[[:space:]]*', length=len)
   mylines[0] = strmid(lines[0], pos + len)
   
+  while (strtrim(mylines[0], 2) eq '' && n_elements(mylines) gt 1L) do begin
+    mylines = mylines[1:*]
+  endwhile
+  
   return, mylines                                           
 end  
          
@@ -225,6 +229,9 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
       end
     'copyright': routine->setProperty, copyright=markupParser->parse(self->_parseTag(lines), file=file)
     'customer_id': routine->setProperty, customer_id=markupParser->parse(self->_parseTag(lines), file=file)
+    
+    ; handle description tag for ITT VIS Workbench integration
+    'description': routine->setProperty, comments=markupParser->parse(self->_parseTag(lines), file=file)
     'examples': routine->setProperty, examples=markupParser->parse(self->_parseTag(lines), file=file)
         
     'fields': begin
