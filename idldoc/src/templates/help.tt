@@ -395,7 +395,7 @@ end</code></p>
               <td>none</td>
               <td>Specifies the copyright information for the file.</td>
             </tr>
-
+            
             <tr>
               <td class="name">examples</td>
               <td>comments</td>
@@ -504,6 +504,14 @@ end</code></p>
               <td>Specifies a customer ID for the routine.</td>
             </tr>
 
+
+            <tr>
+              <td class="name">description</td>
+              <td>comments</td>
+              <td>none</td>
+              <td>A tag for the standard comments for a routine. Will be appended to standard comments if both are present. Valid for rst format only.</td>
+            </tr>
+            
             <tr>
               <td class="name">examples</td>
               <td>comments</td>

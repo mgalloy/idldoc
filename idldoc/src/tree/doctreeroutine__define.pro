@@ -65,8 +65,7 @@
 ;-
 
 ;+
-; :Description:
-;    Get properties.
+; Get properties.
 ;-
 pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
                                  is_method=isMethod, parameters=parameters, $
