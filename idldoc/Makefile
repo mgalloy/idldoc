@@ -1,5 +1,6 @@
 VERSION=3.0.2
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
+IDL=idl
 
 clean:
 	rm -f *.zip
@@ -9,13 +10,13 @@ clean:
 	rm -rf unit_tests/*-docs
 	
 doc:
-	idl build_idldoc_docs
+	$(IDL) build_idldoc_docs
 
 regression:
-	idl -e "mgunit, 'docrtalltests_uts'"
+	$(IDL) -e "mgunit, 'docrtalltests_uts'"
 	
 tests:
-	idl -e "mgunit, 'docutalltests_uts'"
+	$(IDL) -e "mgunit, 'docutalltests_uts'"
 	
 srcdist:
 	sed "s/version = '.*'/version = '$(VERSION)'/" < src/idldoc_version.pro | sed "s/revision = '.*'/revision = '$(REVISION)'/" > idldoc_version.pro
@@ -37,7 +38,7 @@ dist:
 	
 	mkdir idldoc-$(VERSION)
 	
-	idl -IDL_STARTUP "" build_idldoc
+	$(IDL) -IDL_STARTUP "" build_idldoc
 	mv idldoc.sav idldoc-$(VERSION)/
 	
 	svn export docs idldoc-$(VERSION)/docs/
@@ -55,7 +56,7 @@ updates:
 
 	mkdir -p updates.idldev.com/{features,plugins}
 
-	idl -e build_updates_site
+	$(IDL) -e build_updates_site
 
 	cp updates-resources/features/about.html updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 	cp updates-resources/features/feature.properties updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
@@ -63,7 +64,7 @@ updates:
 	jar cvf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION).jar -C updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/ .
 	rm -rf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 
-	idl -IDL_STARTUP "" build_idldoc
+	$(IDL) -IDL_STARTUP "" build_idldoc
 
 	mkdir updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
 	cp idldoc.sav updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
