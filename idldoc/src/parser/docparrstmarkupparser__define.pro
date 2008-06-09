@@ -66,6 +66,34 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
 end
 
 
+;+
+; Substitute correct codes for less than, greater than, and other signs. 
+;
+; :Returns:
+;    string
+;
+; :Params:
+;    line : in, required, type=string
+;       line to process
+;-
+function docparrstmarkupparser::_processText, line
+  compile_opt strictarr
+  
+  output = ''
+  
+  for pos = 0L, strlen(line) - 1L do begin
+    ch = strmid(line, pos, 1)
+    case ch of
+      '<': output += '&lt;'
+      '>': output += '&gt;'
+      else: output += ch
+     endcase
+  endfor
+  
+  return, output
+end
+
+
 pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=file
   compile_opt strictarr
 
@@ -96,10 +124,10 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
       code = 0B
     endif else begin
       if (code && (currentIndent eq -1 || currentIndent gt indent)) then begin
-        listing->addChild, obj_new('MGtmText', text=strmid(cleanline, indent))
+        listing->addChild, obj_new('MGtmText', text=self->_processText(strmid(cleanline, indent)))
         listing->addChild, obj_new('MGtmTag', type='newline')
       endif else begin     
-        para->addChild, obj_new('MGtmText', text=cleanline)
+        para->addChild, obj_new('MGtmText', text=self->_processText(cleanline))
         para->addChild, obj_new('MGtmTag', type='newline')
         code = 0B
       endelse
