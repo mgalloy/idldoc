@@ -8,6 +8,15 @@ IDLdoc 3.1
 * Added ability to reference images in rst markup. IDLdoc will automatically
   copy referenced images into the output.
 
+* In rst markup, illegal characters like < and > are automatically converted
+  to character entities.
+  
+* Added `:Description:` tag for compatibility with IDL Workbench update. 
+
+* Changed default markup parser to rst when format parser is rst.
+
+* Miscellaneous small bug fixes.
+
 
 IDLdoc 3.0
 ----------
