@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" 
-	      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [ 
+	        "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [ 
 <!ENTITY mgalloy "Michael Galloy"> 
 ]>
 
@@ -10,6 +10,7 @@
   </bookinfo>
     
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="overview.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="all-dirs.xml"/>  
 </book>    
 
 
