@@ -323,7 +323,8 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     
     ; token delimiters are: space, tab, comma, and colon
     delims = ' ' + string(9B) + ',:'
-    tokens = strsplit(self->_stripComments(command), delims, /extract, count=nTokens)
+    cmd = self->_stripComments(command)
+    tokens = strsplit(cmd, delims, /extract, count=nTokens)
     if (nTokens eq 0) then begin
       if (justFinishedComment eq 2 && currentComments->count() gt 0) then begin
         if (~headerContinued && codeLevel eq 0) then begin
@@ -392,7 +393,10 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       routine = obj_new('DOCtreeRoutine', file, system=self.system)
       file->addRoutine, routine
       
-      routine->setProperty, name=(strsplit(tokens[1], ',', /extract))[0]
+      ; if there is a routine header with a :: in it, then it's a method name
+      routineName = strpos(cmd, '::') eq -1 ? tokens[1] : strjoin(tokens[1:2], '::')
+      routine->setProperty, name=routineName
+      
       formatParser->checkForClass, routine
       if (strpos(tokens[1], '::') ne -1) then routine->setProperty, is_method=1B
       if (firstToken eq 'function') then routine->setProperty, is_function=1B   
