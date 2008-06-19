@@ -1,2 +1,17 @@
 <chapter><title>[% location %]</title>
+
+	[% IF n_visible_pro_files gt 0 %]
+	<sect1><title>.pro files</title>
+	
+	  <variablelist>
+    [% FOREACH f IN visible_pro_files %][% SCOPE f %]
+      <varlistentry>
+        <term><filename>[% basename %]</filename></term>
+        <listitem>[% comments_first_line %]</listitem>
+      </varlistentry>
+    [% END %][% END %]
+    </variablelist>
+  
+	[% END %]
+  </sect1>
 </chapter>
