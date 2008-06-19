@@ -173,15 +173,16 @@ pro doctreedirectory::generateOutput, outputRoot
     file = self.idldocFiles->get(position=f)
     file->generateOutput, outputRoot, self.location
   endfor
-      
+  
+  self.system->getProperty, output_extension=outputExtension
   ; generate directory overview
-  dirOverviewFilename = filepath('dir-overview.html', root=outputDir)
+  dirOverviewFilename = filepath('dir-overview.' + outputExtension, root=outputDir)
   dirOverviewTemplate = self.system->getTemplate('dir-overview')
   dirOverviewTemplate->reset
   dirOverviewTemplate->process, self, dirOverviewFilename
     
   ; generate file listing
-  listingFilename = filepath('dir-files.html', root=outputDir)
+  listingFilename = filepath('dir-files.' + outputExtension, root=outputDir)
   listingTemplate = self.system->getTemplate('file-listing')
   listingTemplate->reset
   listingTemplate->process, self, listingFilename
@@ -202,7 +203,8 @@ end
 ;+
 ; Create a directory object.
 ;
-; :Returns: 1 for success, 0 for failure
+; :Returns: 
+;    1 for success, 0 for failure
 ;-
 function doctreedirectory::init, location=location, files=files, system=system
   compile_opt strictarr

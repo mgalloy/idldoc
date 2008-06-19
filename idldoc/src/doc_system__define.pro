@@ -230,7 +230,9 @@ end
 ;-
 pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              format=format, markup=markup, $
-                             comment_style=commentStyle, overview=overview, $
+                             comment_style=commentStyle, $
+                             output_extension=outputExtension, $
+                             overview=overview, $
                              directories=directories, $
                              nosource=nosource, source_link=sourceLink, $
                              user=user
@@ -242,6 +244,7 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(format)) then format = self.format
   if (arg_present(markup)) then markup = self.markup
   if (arg_present(commentStyle)) then commentStyle = self.commentStyle
+  if (arg_present(outputExtension)) then outputExtension = self.outputExtension  
   if (arg_present(overview)) then overview = self.overview
   if (arg_present(directories)) then directories = self.directories
   if (arg_present(nosource)) then nosource = self.nosource  

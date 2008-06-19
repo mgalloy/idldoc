@@ -535,11 +535,12 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   if (~self->isVisible()) then return
   
   self.system->print, '  Generating output for ' + self.basename + '...'
-
+  self.system->getProperty, output_extension=outputExtension
+  
   proFileTemplate = self.system->getTemplate('profile')
   
   outputDir = outputRoot + directory
-  outputFilename = outputDir + file_basename(self.basename, '.pro') + '.html'
+  outputFilename = outputDir + file_basename(self.basename, '.pro') + '.' + outputExtension
   
   proFileTemplate->reset
   proFileTemplate->process, self, outputFilename  
@@ -550,7 +551,7 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   ; chromocoded version of the source code
   sourceTemplate = self.system->getTemplate('source')
   
-  outputFilename = outputDir + file_basename(self.basename, '.pro') + '-code.html'
+  outputFilename = outputDir + file_basename(self.basename, '.pro') + '-code.' + outputExtension
   
   sourceTemplate->reset
   sourceTemplate->process, self, outputFilename    
