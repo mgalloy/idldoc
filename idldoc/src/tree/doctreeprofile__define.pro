@@ -535,7 +535,7 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   if (~self->isVisible()) then return
   
   self.system->print, '  Generating output for ' + self.basename + '...'
-  self.system->getProperty, output_extension=outputExtension
+  self.system->getProperty, extension=outputExtension
   
   proFileTemplate = self.system->getTemplate('profile')
   

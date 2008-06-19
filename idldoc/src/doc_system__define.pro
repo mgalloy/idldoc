@@ -231,7 +231,7 @@ end
 pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              format=format, markup=markup, $
                              comment_style=commentStyle, $
-                             output_extension=outputExtension, $
+                             extension=outputExtension, $
                              overview=overview, $
                              directories=directories, $
                              nosource=nosource, source_link=sourceLink, $

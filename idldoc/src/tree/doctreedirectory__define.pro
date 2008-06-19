@@ -174,7 +174,7 @@ pro doctreedirectory::generateOutput, outputRoot
     file->generateOutput, outputRoot, self.location
   endfor
   
-  self.system->getProperty, output_extension=outputExtension
+  self.system->getProperty, extension=outputExtension
   ; generate directory overview
   dirOverviewFilename = filepath('dir-overview.' + outputExtension, root=outputDir)
   dirOverviewTemplate = self.system->getTemplate('dir-overview')
