@@ -61,7 +61,7 @@
 ;    markup_style : in, optional, type=string, default='verbatim'
 ;       markup used in comments ("rst" or "verbatim")
 ;    comment_style : in, optional, type=string, default='html'
-;       output format for comments ("html", "rst", or "latex")
+;       output format for comments ("html", "rst", "latex", or "docbook")
 ;
 ;    assistant : in, optional, type=boolean, obsolete
 ;       no longer used

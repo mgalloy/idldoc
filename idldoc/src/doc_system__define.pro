@@ -601,6 +601,7 @@ pro doc_system::loadParsers
   self.parsers->put, 'rstoutput', obj_new('MGtmRST')
   self.parsers->put, 'latexoutput', obj_new('MGtmLaTeX')
   self.parsers->put, 'plainoutput', obj_new('MGtmPlain')
+  self.parsers->put, 'docbookoutput', obj_new('MGtmDocbook')
 end
 
 
@@ -620,39 +621,39 @@ pro doc_system::generateOutput
   self->print, 'Generating file listing...'
   allFilesTemplate = self->getTemplate('all-files')
   allFilesTemplate->reset
-  allFilesTemplate->process, self, filepath('all-files.html', root=self.output)
+  allFilesTemplate->process, self, filepath('all-files.' + self.outputExtension, root=self.output)
     
   ; generate all-dirs
   self->print, 'Generating directory listing...'
   allDirsTemplate = self->getTemplate('dir-listing')
   allDirsTemplate->reset
-  allDirsTemplate->process, self, filepath('all-dirs.html', root=self.output)
+  allDirsTemplate->process, self, filepath('all-dirs.' + self.outputExtension, root=self.output)
   
   ; generate overview page
   self->print, 'Generating overview page...'
   overviewTemplate = self->getTemplate('overview')
   overviewTemplate->reset
-  overviewTemplate->process, self, filepath('overview.html', root=self.output)
+  overviewTemplate->process, self, filepath('overview.' + self.outputExtension, root=self.output)
     
   ; generate index entries page
   self->print, 'Generating index entries page...'
   indexEntriesTemplate = self->getTemplate('index-entries')
   indexEntriesTemplate->reset
-  indexEntriesTemplate->process, self, filepath('idldoc-index.html', $
+  indexEntriesTemplate->process, self, filepath('idldoc-index.' + self.outputExtension, $
                                                 root=self.output)
     
   ; generate warnings page
   self->print, 'Generating warnings page...'
   warningsTemplate = self->getTemplate('warnings')
   warningsTemplate->reset
-  warningsTemplate->process, self, filepath('idldoc-warnings.html', $
+  warningsTemplate->process, self, filepath('idldoc-warnings.' + self.outputExtension, $
                                             root=self.output)
 
   ; generate search page
   self->print, 'Generating search page...'
   searchTemplate = self->getTemplate('search')
   searchTemplate->reset
-  searchTemplate->process, self, filepath('search.html', root=self.output)
+  searchTemplate->process, self, filepath('search.' + self.outputExtension, root=self.output)
   
   libdataTemplate = self->getTemplate('libdata')
   libdataTemplate->reset
@@ -662,19 +663,19 @@ pro doc_system::generateOutput
   self->print, 'Generating categories page...'
   categoriesTemplate = self->getTemplate('categories')
   categoriesTemplate->reset
-  categoriesTemplate->process, self, filepath('categories.html', $
+  categoriesTemplate->process, self, filepath('categories.' + self.outputExtension, $
                                               root=self.output)
   ; generate help page
   self->print, 'Generating help page...'
   helpTemplate = self->getTemplate('help')
   helpTemplate->reset
-  helpTemplate->process, self, filepath('idldoc-help.html', root=self.output)
+  helpTemplate->process, self, filepath('idldoc-help.' + self.outputExtension, root=self.output)
     
   ; generate index.html
   self->print, 'Generating index page...'
   indexTemplate = self->getTemplate('index')
   indexTemplate->reset
-  indexTemplate->process, self, filepath('index.html', root=self.output)
+  indexTemplate->process, self, filepath('index.' + self.outputExtension, root=self.output)
   
   self->print, strtrim(self.nWarnings, 2) + ' warnings generated'
 end
@@ -1008,7 +1009,7 @@ end
 ;    markup_style : in, optional, type=string, default='verbatim'
 ;       markup used in comments ("rst" or "verbatim")
 ;    comment_style : in, optional, type=string, default='html'
-;       output format for comments ("html", "rst", or "latex")
+;       output format for comments ("html", "rst", "latex", or "docbook")
 ;
 ;    assistant : in, optional, type=boolean, obsolete
 ;       no longer used
@@ -1169,7 +1170,21 @@ function doc_system::init, root=root, output=output, $
                   ? (self.format eq 'rst' ? 'rst' : 'verbatim') $
                   : markupStyle
   self.commentStyle = n_elements(commentStyle) eq 0 ? 'html' : commentStyle  
-  
+  commentparser = self->getParser(self.commentStyle + 'output', found=found)
+
+  if (~found) then begin
+    self->warning, self.commentStyle + ' output style not found, using HTML output'
+    self.commentStyle = 'html'
+  end
+    
+  case self.commentStyle of
+    'html': self.outputExtension = 'html'
+    'latex': self.outputExtension = 'tex'
+    'rst': self.outputExtension = 'rst'
+    'plain': self.outputExtension = 'txt'
+    'docbook': self.outputExtension = 'xml'
+  endcase
+    
   formatparser = self->getParser(self.format + 'format', found=found)
   if (~found) then begin
     self->warning, self.format + ' format parser not found, using IDLdoc parser'
@@ -1180,12 +1195,6 @@ function doc_system::init, root=root, output=output, $
   if (~found) then begin
     self->warning, self.format + ' markup parser not found, using verbatim parser'
     self.markup = 'verbatim'
-  end
-
-  commentparser = self->getParser(self.commentStyle + 'output', found=found)
-  if (~found) then begin
-    self->warning, self.format + ' output style not found, using HTML output'
-    self.commentStyle = 'html'
   end
       
   ; parse tree of directories, files, routines, parameters 
@@ -1303,6 +1312,7 @@ pro doc_system__define
              nonavbar: 0B, $
              nosource: 0B, $
              sourceLink: 0L, $
+             outputExtension: '', $
              
              logFile: '', $
              logLun: 0L, $
