@@ -346,7 +346,7 @@
         	
         <table class="attribute small" summary="File attributes">
           <tr>
-            <td class="name">Modifcation date:</td>
+            <td class="name">Modification date:</td>
             <td>[% modification_time %]</td>
           </tr>
 
