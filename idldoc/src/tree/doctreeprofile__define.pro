@@ -228,8 +228,14 @@ function doctreeprofile::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'basename': return, self.basename
-    'local_url': return, file_basename(self.basename, '.pro') + '.html'
-    'source_url': return, file_basename(self.basename, '.pro') + '-code.html'
+    'local_url': begin
+        self.system->getProperty, extension=ext
+        return, file_basename(self.basename, '.pro') + '.' + ext
+      end
+    'source_url': begin
+        self.system->getProperty, extension=ext      
+        return, file_basename(self.basename, '.pro') + '-code.' + ext
+      end
     'direct_source_url': begin
         self.system->getProperty, source_link=sourceLink, output=output
         case sourceLink of

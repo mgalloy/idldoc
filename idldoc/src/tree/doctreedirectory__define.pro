@@ -94,7 +94,7 @@ function doctreedirectory::getVariable, name, found=found
     'n_idldoc_files' : return, self.idldocFiles->count()
     'idldoc_files' : return, self.idldocFiles->get(/all)
     
-    'name' : return, file_basename(self.location)
+    'fullname' : return, strjoin(strsplit(self.location, path_sep(), /extract), '.')
     
     'index_name': return, self.location
     'index_type': return, 'directory'
