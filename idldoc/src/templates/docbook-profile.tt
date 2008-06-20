@@ -1,3 +1,122 @@
 <sect1><title><filename>[% basename %]</filename></title>
 
+  [% IF has_author_info %]
+  <sect2><title>Author information</title>
+
+	  <variablelist>
+      [% IF has_author %]
+      <varlistentry>
+        <term>Author</term>
+        <listitem>[% author %]</listitem>
+      </varlistentry>
+      [% END %]
+      
+      [% IF has_copyright %]
+      <varlistentry>
+        <term>Copyright</term>
+        <listitem>[% copyright %]</listitem>
+      </varlistentry>
+      [% END %]
+
+      [% IF has_history %]      
+      <varlistentry>
+        <term>History</term>
+        <listitem>[% history %]</listitem>
+      </varlistentry>
+      [% END %]
+
+      [% IF has_version %]      
+      <varlistentry>
+        <term>Version</term>
+        <listitem>[% version %]</listitem>
+      </varlistentry>                  
+      [% END %]      
+    </variablelist>
+    
+  </sect2>
+  [% END %]
+
+  [% IF has_others %]
+  <sect2><title>Other file information</title>
+  
+    <variablelist>    
+      [% IF has_bugs %]
+      <varlistentry>
+        <term>Bugs:</term>
+        <listitem>[% bugs %]</listitem>
+      </varlistentry>
+      [% END %]
+            
+      [% IF has_customer_id %]
+      <varlistentry>
+        <term>Customer ID:</term>
+        <listitem>[% customer_id %]</listitem>
+      </varlistentry>
+      [% END %]
+
+      [% IF has_requires %]
+      <varlistentry>
+        <term>Requires:</term>
+        <listitem>[% requires %]</listitem>     
+      </varlistentry>
+      [% END %]
+            
+      [% IF has_restrictions %]
+      <varlistentry>
+        <term>Restrictions:</term>
+        <listitem>[% restrictions %]</listitem>
+      </varlistentry>
+      [% END %]
+
+      [% IF has_todo %]
+      <varlistentry>
+        <term>Todo:</term>
+        <listitem>[% todo %]</listitem>
+      </varlistentry>
+      [% END %]
+            
+      [% IF has_uses %]
+      <varlistentry>
+        <term>Uses:</term>
+        <listitem>[% uses %]</listitem>
+      </varlistentry>
+      [% END %]
+    </variablelist>
+  </sect2>
+  [% END %]
+
+  [% IF n_visible_routines gt 1 %]
+    <sect2><title>Routines</title>
+  
+    <variablelist>
+      [% FOREACH r IN visible_routines %][% SCOPE r %]
+      <varlistentry>
+        <term><code>[% IF is_function %]<emphasis>result</emphasis> = [% END %][% name %][% IF is_function %]([% END %][% IF n_visible_parameters gt 0 %][% FOREACH p IN visible_parameters %][% SCOPE p %]<emphasis>[% IF is_optional %] [[% END %][% prefix %][% name %][% suffix %][% IF is_optional %]][% END %]</emphasis>[% END %][% END %][% END %][% IF n_visible_keywords gt 0 %][% FOREACH k IN visible_keywords %][% SCOPE k %]<emphasis>[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %][% name %][% IF ~is_boolean %]=<emphasis>[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</emphasis>[% END %][% suffix %][% IF is_optional %]][% END %]</emphasis>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></term>
+        <listitem>[% comments_first_line %]</listitem>
+      </varlistentry>
+      [% END %][% END %]
+    </variablelist>
+    
+    </sect2>
+  [% END %]
+
+	[% IF n_visible_routines gt 0 %]
+	<sect2><title>Routine details</title>
+	
+	  [% FOREACH r IN visible_routines %][% SCOPE r %]
+	  <para><code>[% IF is_function %]<emphasis>result</emphasis> = [% END %][% name %][% IF is_function %]([% END %][% IF n_visible_parameters gt 0 %][% FOREACH p IN visible_parameters %][% SCOPE p %]<emphasis>[% IF is_optional %] [[% END %][% prefix %][% name %][% suffix %][% IF is_optional %]][% END %]</emphasis>[% END %][% END %][% END %][% IF n_visible_keywords gt 0 %][% FOREACH k IN visible_keywords %][% SCOPE k %]<emphasis>[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %][% name %][% IF ~is_boolean %]=<emphasis>[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</emphasis>[% END %][% suffix %][% IF is_optional %]][% END %]</emphasis>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></para>
+
+      [% IF has_comments %]
+        [% comments %]
+      [% END %]
+          
+      [% IF is_function and has_returns %]
+      <sect3><title>Return value</title>
+      	[% returns %]
+      </sect3>
+      [% END %]
+	  [% END %][% END %]
+  </sect2>
+  [% END %]
+  
 </sect1>

@@ -50,7 +50,13 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
   case strlowcase(tokens[0]) of
     'image': begin
         tag = obj_new('MGtmTag', type='image')
+        
         tag->addAttribute, 'source', tokens[1]
+        file->getProperty, directory=directory
+        directory->getProperty, location=location
+        self.system->getProperty, output=output
+        
+        tag->addAttribute, 'location', output + location
       end
     else: self.system->warning, 'unknown rst directive ' + tokens[0]
   endcase
