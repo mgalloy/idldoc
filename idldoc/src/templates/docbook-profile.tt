@@ -155,12 +155,11 @@
       [% END %]
           
       [% IF has_examples %]
-      <variablelist>
-        <varlistentry>
-          <term>Examples</term>
+      <sect4><title>Examples</title>      
+        <itemizedlist>
           <listitem>[% examples %]</listitem>
-        </varlistentry>
-      </variablelist>
+        </itemizedlist>
+      </sect4>
       [% END %]      
             
 	  </sect3>        
