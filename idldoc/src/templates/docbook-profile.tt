@@ -101,7 +101,9 @@
   [% END %]
 
 	[% IF n_visible_routines gt 0 %]
+	[% IF n_visible_routines gt 1 %]	
 	<sect2><title>Routine details</title>
+	[% END %]
 	
 	  [% FOREACH r IN visible_routines %][% SCOPE r %]
 	  <sect3><title><function>[% name %]</function></title>
@@ -161,11 +163,50 @@
         </itemizedlist>
       </sect4>
       [% END %]      
-            
+
+
+      [% IF has_author_info %]
+      <sect4><title>Author information</title>
+
+        <variablelist>
+          [% IF has_author %]
+          <varlistentry>
+            <term>Author:</term>
+            <listitem>[% author %]</listitem>       
+          </varlistentry>                
+          [% END %]
+          
+          [% IF has_copyright %]
+          <varlistentry>              
+            <term>Copyright:</term>
+            <listitem>[% copyright %]</listitem>       
+          </varlistentry>                
+          [% END %]
+          
+          [% IF has_history %]
+          <varlistentry>              
+            <term>History:</term>
+            <listitem>[% history %]</listitem>    
+          </varlistentry>                
+          [% END %]
+
+          [% IF has_version %]
+          <varlistentry>              
+            <term>Version:</term>
+            <listitem>[% version %]</listitem>     
+          </varlistentry>                
+          [% END %]              
+        </variablelist> 
+           
+      </sect4>                
+      [% END %] 
+                 
 	  </sect3>        
   	[% END %][% END %]
 
+	[% IF n_visible_routines gt 1 %]	
   </sect2>
+  [% END %]
   [% END %]
   
 </sect1>
