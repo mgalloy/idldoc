@@ -277,12 +277,19 @@ function doctreeprofile::getVariable, name, found=found
     'comments': return, self.system->processComments(self.comments)       
     'comments_first_line': begin
         ; if no file comments, but there is only one routine then return the
-        ; first line of the routine's comments
+        ; first line of the routine's comments           
         if (~obj_valid(self.comments)) then begin
-          if (self.routines->count() eq 1) then begin
-            routine = self.routines->get(position=0L)
-            return, routine->getVariable('comments_first_line', found=found)
-          endif else return, ''
+          filename = strlowcase(strmid(self.basename, 0, strpos(self.basename, '.')))
+          for r = 0L, self.routines->count() - 1L do begin
+            routine = self.routines->get(position=r)
+            routine->getProperty, name=routineName
+            help, routineName, filename
+            if (strlowcase(routineName) eq filename) then begin
+              return, routine->getVariable('comments_first_line', found=found)
+            endif
+          endfor
+          
+          return, ''
         endif
         
         self.firstline = mg_tm_firstline(self.comments)
