@@ -283,7 +283,6 @@ function doctreeprofile::getVariable, name, found=found
           for r = 0L, self.routines->count() - 1L do begin
             routine = self.routines->get(position=r)
             routine->getProperty, name=routineName
-            help, routineName, filename
             if (strlowcase(routineName) eq filename) then begin
               return, routine->getVariable('comments_first_line', found=found)
             endif
