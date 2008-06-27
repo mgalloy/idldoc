@@ -11,6 +11,10 @@
     
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="overview.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="all-dirs.xml"/>  
+  
+  <part><title>Other information</title>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="idldoc-warnings.xml"/>
+  </part>
 </book>    
 
 
