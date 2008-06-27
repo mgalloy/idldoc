@@ -167,6 +167,7 @@ pro doctreeroutine::setProperty, name=name, $
   
   if (n_elements(name) gt 0) then begin
     self.name = name
+    self.isMethod = strpos(self.name, '::') eq -1L ? 0B : 1B
     self.system->createIndexEntry, self.name, self
   endif
   
@@ -280,6 +281,7 @@ function doctreeroutine::getVariable, name, found=found
     'is_private': return, self.isPrivate   
     'is_visible': return, self->isVisible() 
     'is_obsolete': return, self.isObsolete
+    'is_method': return, self.isMethod
     
     'n_lines': return, self.nLines
     
