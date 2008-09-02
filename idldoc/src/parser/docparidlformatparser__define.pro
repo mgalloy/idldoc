@@ -180,7 +180,7 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
     'optional inputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, /optional, tag='optional input'
     'keyword parameters': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, /keyword, /optional, tag='keyword' 
     'outputs': routine->setProperty, returns=markupParser->parse(lines , file=file)      
-    'optional outputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, tag='optional output'
+    'optional outputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /optional, tag='optional output'
     'common blocks': routine->setProperty, comments=markupParser->parse(lines, file=file)
     'side effects': routine->setProperty, comments=markupParser->parse(lines, file=file)
     'restrictions': routine->setProperty, comments=markupParser->parse(lines, file=file)
