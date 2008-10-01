@@ -50,6 +50,9 @@ function doc_thumbnail_lineplot, data, valid=valid
   plot->getProperty, xrange=xr, yrange=yr
   xc = mg_linear_function(xr, [-0.9, 0.9])
   yc = mg_linear_function(yr, [-0.9, 0.9])
+  if (total(finite(yc)) ne 2L) then begin
+    yc = mg_linear_function([yr[0] - 1, yr[0] + 1], [-0.9, 0.9])
+  endif 
   plot->setProperty, xcoord_conv=xc, ycoord_conv=yc
   
   buffer = obj_new('IDLgrBuffer', dimensions=dims)

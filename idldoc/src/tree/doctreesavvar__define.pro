@@ -31,7 +31,7 @@ function doctreesavvar::getVariable, name, found=found
     'declaration': return, self.declaration
     'has_thumbnail': return, self.hasThumbnail
     'thumbnail_url': begin
-        return, self.savFile->getVariable('url') + self.localThumbnailUrl
+        return, self.localThumbnailUrl
       end
       
     'index_name': return, self.name
