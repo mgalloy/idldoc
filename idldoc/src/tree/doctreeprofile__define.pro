@@ -556,7 +556,18 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   
   proFileTemplate->reset
   proFileTemplate->process, self, outputFilename  
-  
+
+  ; copy images references in the documentation
+  for i = 0L, self.imagerefs->count() - 1L do begin
+    path = file_dirname(self.fullpath, /mark_directory)
+    filename = self.imagerefs->get(position=i)
+    if (file_test(path + filename)) then begin
+      file_copy, path + filename, outputDir + filename, /allow_same, /overwrite
+    endif else begin
+      self.system->warning, 'image at ' + path + filename + ' not found'
+    endelse
+  endfor
+    
   self.system->getProperty, nosource=nosource
   if (nosource) then return
   
@@ -574,17 +585,6 @@ pro doctreeprofile::generateOutput, outputRoot, directory
     file_copy, self.fullpath, outputDir + file_basename(self.basename), $
                /allow_same, /overwrite
   endif
-  
-  ; copy images references in the documentation
-  for i = 0L, self.imagerefs->count() - 1L do begin
-    path = file_dirname(self.fullpath, /mark_directory)
-    filename = self.imagerefs->get(position=i)
-    if (file_test(path + filename)) then begin
-      file_copy, path + filename, outputDir + filename, /allow_same, /overwrite
-    endif else begin
-      self.system->warning, 'image at ' + path + filename + ' not found'
-    endelse
-  endfor
 end
 
 
