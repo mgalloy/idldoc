@@ -109,7 +109,7 @@
           	</div>
           [% END %]
       
-          [% IF n_ancestors gt 0 %]
+          [% IF n_ancestors gt 0 && ~user %]
           [% FOREACH a IN ancestors %][% SCOPE a %]
           	[% IF n_fields gt 0 %]
           	<h4>Fields in [% IF has_url %]<a href="[% relative_root %][% url %]">[% END %][% classname %][% IF has_url %]</a>[% END %]</h4>
