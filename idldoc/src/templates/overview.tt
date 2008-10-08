@@ -39,7 +39,8 @@
       <h2>Overview</h2>
       [% overview_comments %]
       [% END %]
-      
+
+    	[% IF ~just_files %]      
     	<h2 id="directories">Directories</h2>
     	
       <table class="attribute box small" summary="Directories">
@@ -50,6 +51,7 @@
         </tr>
         [% END %][% END %]
       </table>               
+      [% END %]
       
       <h2 id="statistics">Project statistics</h2>
 

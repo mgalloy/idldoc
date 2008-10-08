@@ -102,6 +102,7 @@ function doc_system::getVariable, name, found=found
     'dirs': return, self.directories->get(/all)    
     'n_pro_files': return, self.proFiles->count()
     'pro_files': return, self.proFiles->get(/all)
+    'just_files': return, self.directories->count() le 1
     'n_visible_pro_files': begin
         nVisible = 0L
         for f = 0L, self.proFiles->count() - 1L do begin
