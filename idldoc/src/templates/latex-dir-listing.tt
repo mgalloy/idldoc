@@ -1,0 +1,6 @@
+\part{API}
+                   
+[% FOREACH d IN dirs %][% SCOPE d %]
+\include{[% location %]dir-files}
+[% END %][% END %]
+

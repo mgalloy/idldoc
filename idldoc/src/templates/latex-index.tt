@@ -1,0 +1,16 @@
+\documentclass{book}
+
+\title{[% title %]}
+\date{[% date %]}
+
+\begin{document}
+
+\maketitle
+
+\include{overview}
+\include{all-dirs}
+
+\include{idldoc-warnings}
+
+\end{document}
+

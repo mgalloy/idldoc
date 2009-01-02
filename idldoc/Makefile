@@ -6,12 +6,18 @@ clean:
 	rm -f *.zip
 	rm -rf updates.idldev.com
 	rm -rf api-docs
+	rm -rf api-book
 	rm -rf regression_test/*-docs
 	rm -rf unit_tests/*-docs
 	
 doc:
 	$(IDL) build_idldoc_docs
 
+book:
+	$(IDL) build_idldoc_book
+	cd api-book/
+	pdflatex index
+	
 regression:
 	$(IDL) -e "mgunit, 'docrtalltests_uts'"
 	
