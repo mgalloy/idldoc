@@ -4,6 +4,9 @@
 \author{[% subtitle %]}
 \date{[% date %]}
 
+\usepackage{helvet}
+
+
 \begin{document}
 
 \maketitle

@@ -1,7 +1,7 @@
 ; docformat = 'rst'
 
 ;+
-; Handles parsing of comment blocks bby just passing comments along.
+; Handles parsing of comment blocks by just passing comments along.
 ;-
 
 

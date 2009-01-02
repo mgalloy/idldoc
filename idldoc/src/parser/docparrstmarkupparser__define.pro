@@ -82,8 +82,12 @@ end
 ; :Params:
 ;    line : in, required, type=string
 ;       line to process
+;
+; :Keywords:
+;    code : in, optional, type=boolean
+;       indicates the line is in code (so escapes might be different)
 ;-
-function docparrstmarkupparser::_processText, line
+function docparrstmarkupparser::_processText, line, code=code
   compile_opt strictarr
   
   output = ''
@@ -94,7 +98,7 @@ function docparrstmarkupparser::_processText, line
         for pos = 0L, strlen(line) - 1L do begin
           ch = strmid(line, pos, 1)
           case ch of
-            '_': output += '\_'
+            '_': output += keyword_set(code) ? '_' : '\_'
             else: output += ch
            endcase
         endfor
@@ -147,15 +151,21 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
     directivePos = stregex(cleanline, '\.\. [[:alpha:]]+:: [[:alnum:]_/.\-]+', $
                            length=directiveLen)
     
-    if ((~code || (currentIndent gt -1 && currentIndent le indent)) && directivePos ne -1L) then begin
-      self->_processDirective, cleanline, directivePos, directiveLen, tree=para, file=file
+    if ((~code || (currentIndent gt -1 && currentIndent le indent)) $
+          && directivePos ne -1L) then begin
+      self->_processDirective, cleanline, directivePos, directiveLen, $
+                               tree=para, file=file
       code = 0B
     endif else begin
       if (code && (currentIndent eq -1 || currentIndent gt indent)) then begin
-        listing->addChild, obj_new('MGtmText', text=self->_processText(strmid(cleanline, indent)))
+        listing->addChild, obj_new('MGtmText', $
+                                   text=self->_processText(strmid(cleanline, $
+                                                                  indent), $
+                                                           code=code))
         listing->addChild, obj_new('MGtmTag', type='newline')
       endif else begin     
-        para->addChild, obj_new('MGtmText', text=self->_processText(cleanline))
+        para->addChild, obj_new('MGtmText', $
+                                text=self->_processText(cleanline, code=code))
         para->addChild, obj_new('MGtmTag', type='newline')
         code = 0B
       endelse
