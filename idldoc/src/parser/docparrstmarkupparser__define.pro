@@ -4,20 +4,21 @@
 ; Parse rst style comments into a parse tree.
 ; 
 ; The markup parser recognizes:
-;   #. paragraphs separated by a blank line
-;   #. (not implemented) lists (numbered, bulleted, and definition)
-;   #. (not implemented) *emphasis* and **bold**
-;   #. (not implemented) code can be marked as `a = findgen(10)`
-;   #. (not implemented) links: single word and phrase links
-;   #. images
-;   #. code callouts like::
+;   1. paragraphs separated by a blank line
+;   2. (not implemented) lists (numbered, bulleted, and definition)
+;   3. (not implemented) *emphasis* and **bold**
+;   4. (not implemented) code can be marked as `a = findgen(10)`
+;   5. (not implemented) links: single word and phrase links
+;   5. images
+;   7. code callouts like::
 ;  
 ;        pro test, a
 ;          compile_opt strictarr
 ;         
 ;        end
 ; 
-; :Todo: finish implementation specified above
+; :Todo: 
+;    finish implementation specified above
 ;-
 
 
@@ -86,15 +87,36 @@ function docparrstmarkupparser::_processText, line
   compile_opt strictarr
   
   output = ''
+  self.system->getProperty, comment_style=commentStyle
   
-  for pos = 0L, strlen(line) - 1L do begin
-    ch = strmid(line, pos, 1)
-    case ch of
-      '<': output += '&lt;'
-      '>': output += '&gt;'
-      else: output += ch
-     endcase
-  endfor
+  case commentstyle of
+    'latex': begin
+        for pos = 0L, strlen(line) - 1L do begin
+          ch = strmid(line, pos, 1)
+          case ch of
+            '_': output += '\_'
+            else: output += ch
+           endcase
+        endfor
+        break      
+      end
+    
+    'docbook':
+    'html': begin
+        for pos = 0L, strlen(line) - 1L do begin
+          ch = strmid(line, pos, 1)
+          case ch of
+            '<': output += '&lt;'
+            '>': output += '&gt;'
+            else: output += ch
+           endcase
+        endfor
+        break
+      end
+    else:
+  endcase
+    
+
   
   return, output
 end

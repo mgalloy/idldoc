@@ -242,7 +242,7 @@ function doctreeprofile::getVariable, name, found=found
           0: return, file_basename(self.basename)   ; URL to copy
           1: begin   ; relative URL               
                self.directory->getProperty, url=url
-               return, mg_relative_path(output + url , self.fullpath, /web)
+               return, mg_relative_path(output + url, self.fullpath, /web)
              end
           2: begin   ; absolute URL
                abspath = file_expand_path(self.fullpath)
@@ -252,6 +252,11 @@ function doctreeprofile::getVariable, name, found=found
           else:
         endcase        
       end
+    'output_path': begin      
+         self.directory->getProperty, url=url     
+         self.system->getProperty, extension=ext
+         return, url + file_basename(self.basename, '.pro') + '.' + ext
+       end
     'code': return, self.system->processComments(self.code)
     
     'is_batch': return, self.isBatch
