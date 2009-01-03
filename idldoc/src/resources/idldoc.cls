@@ -1,5 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 
+% Modified from the tufte-book.cls
 \ProvidesClass{idldoc}[2009/01/02 v1.0.0 IDLdoc class]
 
 
