@@ -1,1 +1,45 @@
-[% comments %]
+\section*{[% mg_escape_latex(basename) %]}
+
+[% IF has_comments %]
+\begin{fullwidth}
+\noindent [% comments %]
+\end{fullwidth}
+[% END %]
+
+[% IF n_visible_routines gt 0 %]
+
+[% FOREACH r IN visible_routines %][% SCOPE r %]
+
+\subsection{[% mg_escape_latex(name) %]}
+
+\marginnote{[% IF is_private %]private [% END %][% IF is_obsolete %]obsolete [% END %][% IF is_abstract %]abstract [% END %]}
+
+[% IF has_comments %]
+\noindent [% comments %]
+\vspace{1.1em}
+[% END %]
+
+\begin{fullwidth}
+\begin{verbatim}[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_visible_parameters gt 0 %][% FOREACH p IN visible_parameters %][% SCOPE p %][% IF is_optional %] [[% END %][% prefix %][% name %][% suffix %][% IF is_optional %]][% END %][% END %][% END %][% END %][% IF n_visible_keywords gt 0 %][% FOREACH k IN visible_keywords %][% SCOPE k %][% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %][% name %][% IF ~is_boolean %]=[% IF type ne '' %][% type %][% ELSE %][% name %][% END %][% END %][% suffix %][% IF is_optional %]][% END %][% END %][% END %][% END %][% IF is_function %])[% END %]\end{verbatim}
+\end{fullwidth}
+
+[% IF is_function and has_returns %]
+\begin{description}
+\item[Returns] [% returns %]
+\end{description}
+[% END %]
+
+[% IF has_examples %]
+\begin{description}
+\item[Examples] [% examples %]
+\end{description}
+[% END %]
+                    
+\vspace{0.5em}
+
+[% END %][% END %]
+
+[% END %]
+
+
+

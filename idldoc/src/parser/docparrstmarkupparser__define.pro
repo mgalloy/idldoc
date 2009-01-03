@@ -99,6 +99,7 @@ function docparrstmarkupparser::_processText, line, code=code
           ch = strmid(line, pos, 1)
           case ch of
             '_': output += keyword_set(code) ? '_' : '\_'
+            '$': output += '\$'
             else: output += ch
            endcase
         endfor
@@ -164,10 +165,10 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
                                                            code=code))
         listing->addChild, obj_new('MGtmTag', type='newline')
       endif else begin     
+        code = 0B
         para->addChild, obj_new('MGtmText', $
                                 text=self->_processText(cleanline, code=code))
         para->addChild, obj_new('MGtmTag', type='newline')
-        code = 0B
       endelse
     endelse
     

@@ -22,8 +22,8 @@
 
 [% IF n_visible_pro_files gt 0 %]
 [% FOREACH f IN visible_pro_files %][% SCOPE f %]
-\section*{[% mg_escape_latex(basename) %]}
 \input{[% output_path %]}
+\vspace{2em}
 [% END %][% END %]
 [% END %]
 
