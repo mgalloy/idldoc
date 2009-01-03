@@ -1,4 +1,4 @@
-\documentclass{book}
+\documentclass[nols]{idldoc}
 
 \title{[% title %]}
 \author{[% subtitle %]}
@@ -10,6 +10,8 @@
 \begin{document}
 
 \maketitle
+
+\tableofcontents
 
 \include{overview}
 

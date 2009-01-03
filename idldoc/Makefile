@@ -16,6 +16,7 @@ doc:
 book:
 	$(IDL) build_idldoc_book
 	pdflatex -halt-on-error -output-directory=api-book api-book/index.tex
+	pdflatex -halt-on-error -output-directory=api-book api-book/index.tex	
 	
 regression:
 	$(IDL) -e "mgunit, 'docrtalltests_uts'"

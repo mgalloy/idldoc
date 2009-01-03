@@ -902,6 +902,12 @@ pro doc_system::copyResources
   file_delete, resourceDestination, /recursive, /allow_nonexistent
   file_mkdir, resourceDestination
   file_copy, resourceLocation, resourceDestination, /recursive, /overwrite
+  
+  if (self.commentstyle eq 'latex') then begin
+    file_move, resourceDestination + 'idldoc' + ['.cls', '.sty'], $
+               resourceDestination + ['..', '..'], $
+               /overwrite
+  endif
 end
 
 
@@ -1154,10 +1160,6 @@ function doc_system::init, root=root, output=output, $
   
   self.requiresItems = obj_new('MGcoArrayList', type=11, block_size=20)
   
-  ; copy resources
-  self->print, 'Copying resources...'
-  self->copyResources
-  
   ; initialize some data structures
   self.directories = obj_new('MGcoArrayList', type=11, block_size=8)
   
@@ -1188,7 +1190,11 @@ function doc_system::init, root=root, output=output, $
     'plain': self.outputExtension = 'txt'
     'docbook': self.outputExtension = 'xml'
   endcase
-    
+
+  ; copy resources
+  self->print, 'Copying resources...'
+  self->copyResources
+      
   formatparser = self->getParser(self.format + 'format', found=found)
   if (~found) then begin
     self->warning, self.format + ' format parser not found, using IDLdoc parser'
