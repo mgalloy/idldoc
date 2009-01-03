@@ -18,7 +18,7 @@
 \part{API}
                    
 [% FOREACH d IN dirs %][% SCOPE d %]
-\chapter*{Directory: [% mg_escape_latex(fullname) %]}
+\chapter{Directory: [% mg_escape_latex(fullname) %]}
 
 [% IF n_visible_pro_files gt 0 %]
 [% FOREACH f IN visible_pro_files %][% SCOPE f %]

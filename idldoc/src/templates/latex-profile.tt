@@ -1,4 +1,4 @@
-\section*{[% mg_escape_latex(basename) %]}
+\section{[% mg_escape_latex(basename) %]}
 
 [% IF has_comments %]
 \begin{fullwidth}
@@ -10,7 +10,7 @@
 
 [% FOREACH r IN visible_routines %][% SCOPE r %]
 
-\subsection{[% mg_escape_latex(name) %]}
+\subsection*{[% mg_escape_latex(name) %]}
 
 \marginnote{[% IF is_private %]private [% END %][% IF is_obsolete %]obsolete [% END %][% IF is_abstract %]abstract [% END %]}
 
