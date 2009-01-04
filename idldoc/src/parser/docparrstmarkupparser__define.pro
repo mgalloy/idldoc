@@ -100,6 +100,7 @@ function docparrstmarkupparser::_processText, line, code=code
           case ch of
             '_': output += keyword_set(code) ? '_' : '\_'
             '$': output += '\$'
+            '^': output += '\^'            
             else: output += ch
            endcase
         endfor

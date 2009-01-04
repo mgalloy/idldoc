@@ -1,11 +1,43 @@
 \section{[% mg_escape_latex(basename) %]}
 
+[% IF is_batch %]\marginnote{batch file}[% END %]
+[% IF has_main_level %]\marginnote{includes main-level program}[% END %]
+[% IF is_private %]\marginnote{private}[% END %]
+			
+      
 [% IF has_comments %]
-\begin{fullwidth}
 \noindent [% comments %]
-\end{fullwidth}
 [% END %]
 
+
+[% IF has_examples %]
+\begin{description}
+  \item[Examples][% examples %]
+\end{description}
+[% END %]
+
+[% IF has_author_info %]
+\begin{description}
+[% IF has_author %]
+  \item[Author][% author %]      
+[% END %]
+
+[% IF has_copyright %]
+  \item[Copyright][% copyright %]      
+[% END %]
+    
+[% IF has_history %]
+  \item[History][% history %]       
+[% END %]
+
+[% IF has_version %]
+  \item[Version][% version %] 
+[% END %]          
+\end{description}
+[% END %]
+
+
+      
 [% IF n_visible_routines gt 0 %]
 
 [% FOREACH r IN visible_routines %][% SCOPE r %]
