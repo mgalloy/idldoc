@@ -12,31 +12,59 @@
 
 [% IF has_examples %]
 \begin{description}
-  \item[Examples][% examples %]
+  \item[Examples]\hspace*{1em} \newline [% examples %]
 \end{description}
 [% END %]
 
 [% IF has_author_info %]
 \begin{description}
 [% IF has_author %]
-  \item[Author][% author %]      
+  \item[Author]\hspace*{1em} \newline [% author %]      
 [% END %]
 
 [% IF has_copyright %]
-  \item[Copyright][% copyright %]      
+  \item[Copyright]\hspace*{1em} \newline [% copyright %]      
 [% END %]
     
 [% IF has_history %]
-  \item[History][% history %]       
+  \item[History]\hspace*{1em} \newline [% history %]       
 [% END %]
 
 [% IF has_version %]
-  \item[Version][% version %] 
+  \item[Version]\hspace*{1em} \newline [% version %] 
 [% END %]          
 \end{description}
 [% END %]
 
+[% IF has_others %]
+\begin{description}
+[% IF has_bugs %]
+\itmem[Bugs]\hspace*{1em} \newline [% bugs %]
+[% END %]
+        
+[% IF has_customer_id %]
+\item[Customer ID]\hspace*{1em} \newline [% customer_id %]
+[% END %]
 
+[% IF has_requires %]
+item[Requires]\hspace*{1em} \newline [% requires %]  
+[% END %]
+        
+[% IF has_restrictions %]
+\item[Restrictions]\hspace*{1em} \newline [% restrictions %]
+[% END %]
+
+[% IF has_todo %]
+\item[Todo]\hspace*{1em} \newline [% todo %]
+[% END %]
+        
+[% IF has_uses %]
+\item[Uses]\hspace*{1em} \newline [% uses %]
+[% END %]
+\end{description}
+[% END %]
+      
+      
       
 [% IF n_visible_routines gt 0 %]
 
@@ -57,13 +85,35 @@
 
 [% IF is_function and has_returns %]
 \begin{description}
-\item[Returns] [% returns %]
+\item[Returns]\hspace*{1em} \newline [% returns %]
 \end{description}
 [% END %]
 
+[% IF n_parameters gt 0 %]
+\begin{description}
+\item[Parameters]\hspace*{1em} \newline 
+\begin{description}
+[% FOREACH p IN parameters %][% SCOPE p %]
+\item[[% mg_escape_latex(name) %]]\hspace*{1em} {\footnotesize [% IF is_input %]\smallcaps{in} [% END %][% IF is_output %]\smallcaps{out} [% END %][% IF is_optional %]\smallcaps{optional} [% END %][% IF is_required %]\smallcaps{required} [% END %][% IF is_private %]\smallcaps{private} [% END %][% IF is_hidden %]\smallcaps{hidden} [% END %][% IF is_obsolete %]\smallcaps{obsolete} [% END %][% IF type ne '' %]\smallcaps{type=}[% type %] [% END %][% IF default_value ne '' %]\smallcaps{default=}[% mg_escape_latex(default_value) %][% END %]} \newline [% comments %]
+[% END %][% END %]
+\end{description}
+\end{description}
+[% END %]
+
+[% IF n_keywords gt 0 %]
+\begin{description}
+\item[Keywords]\hspace*{1em} \newline
+\begin{description}
+[% FOREACH k IN keywords %][% SCOPE k %]
+\item[[% mg_escape_latex(name) %]]\hspace*{1em} {\footnotesize [% IF is_input %]\smallcaps{in} [% END %][% IF is_output %]\smallcaps{out} [% END %][% IF is_optional %]\smallcaps{optional} [% END %][% IF is_required %]\smallcaps{required} [% END %][% IF is_private %]\smallcaps{private} [% END %][% IF is_hidden %]\smallcaps{hidden} [% END %][% IF is_obsolete %]\smallcaps{obsolete} [% END %][% IF type ne '' %]\smallcaps{type=}[% type %] [% END %][% IF default_value ne '' %]\smallcaps{default=}[% default_value %][% END %]} \newline [% comments %]
+[% END %][% END %]
+\end{description}
+\end{description}
+[% END %]
+                    
 [% IF has_examples %]
 \begin{description}
-\item[Examples] [% examples %]
+\item[Examples]\hspace*{1em} \newline [% examples %]
 \end{description}
 [% END %]
                     
