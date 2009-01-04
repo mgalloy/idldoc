@@ -20,7 +20,7 @@
 [% END %]
 
 \begin{fullwidth}
-\begin{verbatim}[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_visible_parameters gt 0 %][% FOREACH p IN visible_parameters %][% SCOPE p %][% IF is_optional %] [[% END %][% prefix %][% name %][% suffix %][% IF is_optional %]][% END %][% END %][% END %][% END %][% IF n_visible_keywords gt 0 %][% FOREACH k IN visible_keywords %][% SCOPE k %][% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %][% name %][% IF ~is_boolean %]=[% IF type ne '' %][% type %][% ELSE %][% name %][% END %][% END %][% suffix %][% IF is_optional %]][% END %][% END %][% END %][% END %][% IF is_function %])[% END %]\end{verbatim}
+\lstinline{[% IF is_function %]result = [% END %][% name %][% IF is_function %]([% END %][% IF n_visible_parameters gt 0 %][% FOREACH p IN visible_parameters %][% SCOPE p %][% IF is_optional %] [[% END %][% prefix %][% name %][% suffix %][% IF is_optional %]][% END %][% END %][% END %][% END %][% IF n_visible_keywords gt 0 %][% FOREACH k IN visible_keywords %][% SCOPE k %][% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %][% name %][% IF ~is_boolean %]=[% IF type ne '' %][% type %][% ELSE %][% name %][% END %][% END %][% suffix %][% IF is_optional %]][% END %][% END %][% END %][% END %][% IF is_function %])[% END %]}
 \end{fullwidth}
 
 [% IF is_function and has_returns %]

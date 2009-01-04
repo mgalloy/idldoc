@@ -5,6 +5,8 @@
 \date{[% date %]}
 
 \usepackage{helvet}
+\usepackage{listings}
+\lstset{breaklines=true,basicstyle=\ttfamily}
 
 
 \begin{document}
