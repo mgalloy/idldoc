@@ -99,8 +99,15 @@ function docparrstmarkupparser::_processText, line, code=code
           ch = strmid(line, pos, 1)
           case ch of
             '_': output += keyword_set(code) ? '_' : '\_'
-            '$': output += '\$'
-            '^': output += '\^'            
+            '$': output += keyword_set(code) ? '$' : '\$'
+            '%': output += keyword_set(code) ? '%' : '\%'
+            '#': output += keyword_set(code) ? '#' : '\#'
+            '&': output += keyword_set(code) ? '&' : '\&'
+            '^': output += keyword_set(code) ? '^' : '\verb+^+'
+            '\': output += keyword_set(code) ? '\' : '\verb+\+'
+            '~': output += keyword_set(code) ? '~' : '\verb+~+'
+            '{': output += keyword_set(code) ? '{' : '\{'
+            '}': output += keyword_set(code) ? '}' : '\}'
             else: output += ch
            endcase
         endfor

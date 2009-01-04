@@ -116,10 +116,86 @@ item[Requires]\hspace*{1em} \newline [% requires %]
 \item[Examples]\hspace*{1em} \newline [% examples %]
 \end{description}
 [% END %]
-                    
+
+[% IF has_author_info %]
+\begin{description}
+[% IF has_author %]
+\item[Author]\hspace*{1em} \newline[% author %]      
+[% END %]
+
+[% IF has_copyright %]
+\item[Copyright]\hspace*{1em} \newline[% copyright %]      
+[% END %]
+
+[% IF has_history %]
+\item[History]\hspace*{1em} \newline[% history %]   
+[% END %]
+
+[% IF has_version %]
+\item[Version]\hspace*{1em} \newline[% version %] 
+[% END %]              
+\end{description}          
+[% END %]
+          
+[% IF has_others %]
+\begin{description}
+[% IF has_todo %]
+\item[Todo]\hspace*{1em} \newline [% todo %]
+[% END %]
+
+[% IF has_restrictions %]
+\item[Restrictions]\hspace*{1em} \newline [% restrictions %]
+[% END %]
+
+[% IF has_requires %]
+\item[Requires]\hspace*{1em} \newline [% requires %]
+[% END %]
+
+[% IF has_uses %]
+\item[Uses]\hspace*{1em} \newline [% uses %]
+[% END %]
+                                      
+[% IF has_bugs %]
+\item[Bugs]\hspace*{1em} \newline [% bugs %]     
+[% END %]
+
+[% IF has_pre %]
+\item[Pre-condition]\hspace*{1em} \newline [% pre %]
+[% END %]
+
+[% IF has_post %]
+\item[Post-condition]\hspace*{1em} \newline [% post %]    
+[% END %]     
+
+[% IF has_customer_id %]
+\item[Customer ID]\hspace*{1em} \newline [% customer_id %]        
+[% END %]                                     
+\end{description}
+[% END %]
+          
+[% IF statistics %]
+\begin{description}
+\item[Lines]\hspace*{1em} \newline [% n_lines %]
+\item[McCabe complexity]\hspace*{1em} \newline 
+\end{description}
+[% END %]
+                              
 \vspace{0.5em}
 
 [% END %][% END %]
+
+\begin{description}
+\item[File attributes]\hspace*{1em} \newline
+  	
+\begin{description}
+\item[Modification date]\hspace*{1em} \newline [% modification_time %]
+\item[Lines]\hspace*{1em} \newline [% n_lines %]
+[% IF format ne '' || markup ne '' %]             
+\item[Docformat]\hspace*{1em} \newline [% format %][% IF format ne '' %] [% END %][% markup %]
+[% END %]
+\end{description}
+
+\end{description}
 
 [% END %]
 
