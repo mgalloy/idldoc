@@ -16,6 +16,89 @@
 \end{description}
 [% END %]
 
+
+[% IF has_class %][% FOREACH class IN classes %][% SCOPE class %]
+\section{Class description for [% mg_escape_latex(classname) %]}
+      
+[% IF n_ancestors gt 0 %]
+\begin{description}
+
+\item[Inheritance]\hspace*{1em} \newline
+
+\begin{enumerate}
+[% FOREACH p IN parents %]
+\item [% mg_escape_latex(p->getClassname()) %]
+[% END %]
+\end{enumerate}
+
+[% IF n_ancestors gt n_parents %]      
+\item[All ancestor classes]
+
+\begin{enumerate}
+[% FOREACH a IN ancestors %]
+\item [% mg_escape_latex(a->getClassname()) %]
+[% END %]
+\end{enumerate}
+[% END %]
+
+\end{description}
+[% END %]
+      
+[% IF n_children gt 0 %]
+\begin{description}
+\item[Subclasses]\hspace*{1em} \newline
+
+\begin{enumerate}
+[% FOREACH c IN children %]
+\item [% mg_escape_latex(c->getClassname()) %]
+[% END %]
+\end{enumerate}
+
+\end{description}     
+[% END %]
+      
+[% IF n_properties gt 0 %]
+\begin{description}
+\item[Properties]\hspace*{1em} \newline
+
+\begin{description}
+[% FOREACH p IN properties %][% SCOPE p %]
+\item[[% mg_escape_latex(name) %]] \hspace*{1em} [% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %] \newline [% comments %]
+[% END %][% END %]
+\end{description} 
+   
+\end{description}
+[% END %]
+      
+[% IF n_fields gt 0 && ~user %]
+\begin{description}
+\item[Fields]\hspace*{1em} \newline
+
+\begin{description}
+[% FOREACH f IN fields %][% SCOPE f %]
+\item[[% mg_escape_latex(name) %]] \hspace*{1em} [% mg_escape_latex(type) %] \newline [% comments %]
+[% END %][% END %]
+\end{description}
+
+\end{description}
+[% END %]
+      
+[% IF n_ancestors gt 0 && ~user %]
+\begin{description}
+[% FOREACH a IN ancestors %][% SCOPE a %]
+[% IF n_fields gt 0 %]
+\item[Fields in [% mg_escape_latex(classname) %]] \hspace*{1em} \newline
+[% FOREACH f IN fields %][% SCOPE f %]
+[% mg_escape_latex(name) %] [% mg_escape_latex(type) %] \newline
+[% END %][% END %]
+[% END %]
+[% END %][% END %]
+\end{description}
+[% END %]
+   
+[% END %][% END %][% END %]
+
+
 [% IF has_author_info %]
 \begin{description}
 [% IF has_author %]
@@ -39,7 +122,7 @@
 [% IF has_others %]
 \begin{description}
 [% IF has_bugs %]
-\itmem[Bugs]\hspace*{1em} \newline [% bugs %]
+\item[Bugs]\hspace*{1em} \newline [% bugs %]
 [% END %]
         
 [% IF has_customer_id %]

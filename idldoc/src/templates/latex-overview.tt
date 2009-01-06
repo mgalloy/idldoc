@@ -1,5 +1,10 @@
 \part{Overview}
 
+[% IF has_overview_comments %]
+\section*{Overview}
+[% overview_comments %]
+[% END %]
+      
 \section*{Directories}
 
 [% IF ~just_files %]

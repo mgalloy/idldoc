@@ -18,7 +18,9 @@
 
 \tableofcontents
 
+
 \include{overview}
+
 
 \part{API}
                    
@@ -33,8 +35,6 @@
 [% END %]
 
 [% END %][% END %]
-
-\include{idldoc-warnings}
 
 \end{document}
 
