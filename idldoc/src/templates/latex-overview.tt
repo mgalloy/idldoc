@@ -10,7 +10,7 @@
 
 \begin{tabular}[t]{lp{4in}}
 [% FOREACH d IN dirs %][% SCOPE d %]
-[% mg_escape_latex(location) %] & [% overview_comments %] \\
+\tt [% mg_escape_latex(location) %] & [% overview_comments %] \\
 [% END %][% END %]
 \end{tabular}
              
