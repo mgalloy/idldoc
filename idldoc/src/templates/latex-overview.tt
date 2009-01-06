@@ -4,10 +4,10 @@
 \section*{Overview}
 [% overview_comments %]
 [% END %]
-      
+
+[% IF ~just_files %]      
 \section*{Directories}
 
-[% IF ~just_files %]
 \begin{tabular}[t]{lp{4in}}
 [% FOREACH d IN dirs %][% SCOPE d %]
 [% mg_escape_latex(location) %] & [% overview_comments %] \\

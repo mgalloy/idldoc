@@ -580,6 +580,15 @@
   }
   {\end{adjustwidth}}
 
+\newenvironment{syntaxheader}
+  {\ifthenelse{\boolean{@idldoc@symmetric}}
+     {\begin{adjustwidth}[]{0.35in}{-\@idldoc@overhang}
+      \hspace{-0.3in}}
+     {\begin{adjustwidth}{0.35in}{-\@idldoc@overhang}
+      \hspace{-0.3in}}
+  }
+  {\end{adjustwidth}}
+  
 %%
 % Format the captions in a style similar to the sidenotes
 
