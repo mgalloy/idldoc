@@ -11,6 +11,8 @@
 \usepackage[pdftex]{graphicx}
 \setkeys{Gin}{keepaspectratio}
 
+\raggedbottom
+
 
 \begin{document}
 
