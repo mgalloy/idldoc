@@ -8,8 +8,8 @@
 \usepackage{listings}
 \lstset{breaklines=true,basicstyle=\ttfamily}
 
-\usepackage{graphicx}
-\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\usepackage[pdftex]{graphicx}
+\setkeys{Gin}{keepaspectratio}
 
 
 \begin{document}
