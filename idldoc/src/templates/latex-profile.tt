@@ -17,7 +17,7 @@
 [% END %]
 
 
-[% IF has_class %][% FOREACH class IN classes %][% SCOPE class %]
+[% IF has_class && (n_children gt 0 || n_properties gt 0 || ~user) %][% FOREACH class IN classes %][% SCOPE class %]
 \subsection*{Class description for [% mg_escape_latex(classname) %]}
       
 [% IF n_ancestors gt 0 %]
