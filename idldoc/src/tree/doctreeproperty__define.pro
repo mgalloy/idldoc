@@ -143,8 +143,9 @@ function doctreeproperty::init, name, system=system
 
   self.name = name
   self.system = system
-  
-  self.system->createIndexEntry, self.name, self
+
+  self.system->getProperty, index_level=indexLevel
+  if (indexLevel ge 2L) then self.system->createIndexEntry, self.name, self
   
   return, 1
 end

@@ -103,8 +103,9 @@ function doctreesavvar::init, name, data, savFile, system=system
   self.name = name
   self.savFile = savFile
   self.system = system
-  
-  self.system->createIndexEntry, self.name, self
+
+  self.system->getProperty, index_level=indexLevel
+  if (indexLevel ge 2L) then self.system->createIndexEntry, self.name, self
   
   im = doc_thumbnail(data, valid=valid)
   self.hasThumbnail = valid

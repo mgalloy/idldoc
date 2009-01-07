@@ -32,10 +32,12 @@
     	<a href="[% relative_root %]search.html">Search</a>
     </td>
     
+    [% IF index_level gt 0L %]
     <td [% IF current_template eq 'index-entries' %]class="selected"[% END %]>
       <a href="[% relative_root %]idldoc-index.html">Index</a>
     </td>
-
+    [% END %]
+    
     <td [% IF current_template eq 'warnings' %]class="selected"[% END %]>
       <a href="[% relative_root %]idldoc-warnings.html">Warnings</a>
     </td>

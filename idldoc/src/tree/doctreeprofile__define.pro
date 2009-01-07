@@ -647,8 +647,10 @@ function doctreeprofile::init, basename=basename, directory=directory, $
   self.routines = obj_new('MGcoArrayList', type=11, block_size=10)
   self.categories = obj_new('MGcoArrayList', type=7, block_size=3)
   self.imagerefs = obj_new('MGcoArrayList', type=7, block_size=3)
+
+  self.system->getProperty, index_level=indexLevel
+  if (indexLevel ge 1L) then self.system->createIndexEntry, self.basename, self
   
-  self.system->createIndexEntry, self.basename, self
   self.system->print, '  Parsing ' + self.basename + '...'
   
   return, 1

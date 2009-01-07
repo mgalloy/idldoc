@@ -460,8 +460,9 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
   self.classname = classname
   if (n_elements(proFile) gt 0) then self.proFile = proFile
   self.system = system
-  
-  self.system->createIndexEntry, self.classname, self
+   
+  self.system->getProperty, index_level=indexLevel
+  if (indexLevel ge 1L) then self.system->createIndexEntry, self.classname, self
   
   self.system->getProperty, classes=classes
   self.classes = classes

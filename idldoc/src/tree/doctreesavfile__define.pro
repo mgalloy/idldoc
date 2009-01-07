@@ -330,8 +330,10 @@ function doctreesavfile::init, basename=basename, directory=directory, $
   info = file_info(self.savFilename)
   self.modificationTime = systime(0, info.mtime)
   self.size = mg_int_format(info.size) + ' bytes'
+
+  self.system->getProperty, index_level=indexLevel
+  if (indexLevel ge 1L) then self.system->createIndexEntry, self.basename, self
   
-  self.system->createIndexEntry, self.basename, self
   self.system->print, '  Parsing ' + self.basename + '...'
   
   self.procedures = obj_new('MGcoArrayList', type=7, block_size=20)

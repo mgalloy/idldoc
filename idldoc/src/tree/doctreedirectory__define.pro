@@ -214,7 +214,8 @@ function doctreedirectory::init, location=location, files=files, system=system
   self.location = location
   self.system = system
   
-  self.system->createIndexEntry, self.location, self
+  self.system->getProperty, index_level=indexLevel
+  if (indexLevel ge 1L) then self.system->createIndexEntry, self.location, self
   
   self.proFiles = obj_new('MGcoArrayList', type=11, block_size=10)
   self.savFiles = obj_new('MGcoArrayList', type=11, block_size=5)

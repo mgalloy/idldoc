@@ -168,7 +168,8 @@ pro doctreeroutine::setProperty, name=name, $
   if (n_elements(name) gt 0) then begin
     self.name = name
     self.isMethod = strpos(self.name, '::') eq -1L ? 0B : 1B
-    self.system->createIndexEntry, self.name, self
+    self.system->getProperty, index_level=indexLevel
+    if (indexLevel ge 1L) then self.system->createIndexEntry, self.name, self
   endif
   
   if (n_elements(isFunction) gt 0) then self.isFunction = isFunction

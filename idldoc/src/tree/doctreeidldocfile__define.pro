@@ -155,7 +155,9 @@ function doctreeidldocfile::init, basename=basename, directory=directory, $
   self.directory = directory
   self.system = system
   
-  self.system->createIndexEntry, self.basename, self
+  self.system->getProperty, index_level=indexLevel
+  if (indexLevel ge 1L) then self.system->createIndexEntry, self.basename, self
+  
   self.system->print, '  Parsing ' + self.basename + '...'
   
   self.system->getProperty, root=root

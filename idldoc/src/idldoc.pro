@@ -54,6 +54,10 @@
 ;       parameters
 ;    statistics : in, optional, type=boolean
 ;       generate complexity statistics for routines
+;    index_level : in, optional, type=integer, default=2
+;       level of index generation: 0 for no index; 1 for directories, classes,
+;       files, and routines; 2 for level 1 items plus parameters, keywords,
+;       fields, properties, and sav file variables
 ;
 ;    format_style : in, optional, type=string, default='idldoc'
 ;       style to use to parse file and routine comments ("idl", "idldoc", 
@@ -103,6 +107,7 @@ pro idldoc, root=root, $
             source_link=sourceLink, $
             user=user, $
             statistics=statistics, $
+            index_level=indexLevel, $
             format_style=formatStyle, $
             markup_style=markupStyle, $
             comment_style=commentStyle, $
@@ -147,6 +152,7 @@ pro idldoc, root=root, $
                    source_link=sourceLink, $
                    user=user, $
                    statistics=statistics, $
+                   index_level=indexLevel, $
                    format_style=formatStyle, $
                    markup_style=markupStyle, $
                    comment_style=commentStyle, $

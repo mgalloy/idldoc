@@ -273,7 +273,8 @@ function doctreeargument::init, routine, name=name, is_keyword=isKeyword, $
   
   self.isKeyword = keyword_set(isKeyword)
   
-  self.system->createIndexEntry, self.name, self
+  self.system->getProperty, index_level=indexLevel
+  if (indexLevel ge 2L) then self.system->createIndexEntry, self.name, self
   
   return, 1
 end
