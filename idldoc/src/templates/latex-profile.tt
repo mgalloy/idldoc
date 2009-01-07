@@ -18,7 +18,7 @@
 
 
 [% IF has_class %][% FOREACH class IN classes %][% SCOPE class %]
-\section*{Class description for [% mg_escape_latex(classname) %]}
+\subsection*{Class description for [% mg_escape_latex(classname) %]}
       
 [% IF n_ancestors gt 0 %]
 \begin{description}
@@ -153,7 +153,7 @@ item[Requires]\hspace*{1em} \newline [% requires %]
 
 [% FOREACH r IN visible_routines %][% SCOPE r %]
 
-\subsection*{[% mg_escape_latex(name) %]}
+\subsection*{\allcaps{[% mg_escape_latex(name) %]}}
 
 \marginnote{[% IF is_private %]private [% END %][% IF is_obsolete %]obsolete [% END %][% IF is_abstract %]abstract [% END %]}
 
