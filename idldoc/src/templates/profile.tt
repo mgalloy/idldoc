@@ -56,7 +56,7 @@
       <div class="small">[% examples %]</div>      
       [% END %]
       
-      [% IF has_class %][% FOREACH class IN classes %][% SCOPE class %]
+      [% IF has_class && (n_children gt 0 || n_properties gt 0 || ~user) %][% FOREACH class IN classes %][% SCOPE class %]
       <div class="class-description">
         <h2>Class description for [% classname %]</h2>
       
