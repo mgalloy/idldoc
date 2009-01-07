@@ -126,6 +126,8 @@ function doc_system::getVariable, name, found=found
         
         return, files[ind]
       end
+    'n_dlm_files': return, self.dlmFiles->count()
+    'dlm_files': return, self.dlmFiles->get(/all)
     'n_sav_files': return, self.savFiles->count()
     'sav_files': return, self.savFiles->get(/all)
     'n_idldoc_files': return, self.idldocFiles->count()
@@ -378,7 +380,15 @@ pro doc_system::process
       sind = sort(proFileNames)
       self.proFiles->add, proFiles[sind]      
     endif
-      
+
+    ind = where(obj_isa(entries, 'DOCtreeDLMFile'), nDLMFiles)
+    if (nDLMFiles gt 0) then begin
+      dlmFiles = entries[ind]
+      dlmFileNames = names[ind]
+      sind = sort(dlmFileNames)
+      self.dlmFiles->add, dlmFiles[sind]
+    endif
+          
     ind = where(obj_isa(entries, 'DOCtreeSavFile'), nSavFiles)
     if (nSavFiles gt 0) then begin
       savFiles = entries[ind]
@@ -414,6 +424,7 @@ pro doc_system::parseTree
   
   ; search for special files
   proFiles = file_search(self.root, '*.pro', /test_regular, count=nProFiles)
+  dlmFiles = file_search(self.root, '*.dlm', /test_regular, count=nDLMFiles)    
   savFiles = file_search(self.root, '*.sav', /test_regular, count=nSavFiles)
   idldocFiles = file_search(self.root, '*.idldoc', /test_regular, count=nIDLdocFiles)
   
@@ -423,6 +434,7 @@ pro doc_system::parseTree
   ; add all the files together
   allFiles = ['']
   if (nProFiles gt 0) then allFiles = [allFiles, proFiles]
+  if (nDLMFiles gt 0) then allFiles = [allFiles, dlmFiles]  
   if (nSavFiles gt 0) then allFiles = [allFiles, savFiles]
   if (nIDLdocFiles gt 0) then allFiles = [allFiles, idldocFiles]
   allFiles = allFiles[1:*]
@@ -501,7 +513,8 @@ pro doc_system::loadTemplates
   templates = ['file-listing', 'all-files', 'dir-listing',  $
                'index', 'overview', 'help', 'warnings', 'index-entries', $
                'categories', 'search', 'libdata', $
-               'dir-overview', 'savefile', 'profile', 'source', 'idldocfile']
+               'dir-overview', $
+               'dlmfile', 'savefile', 'profile', 'source', 'idldocfile']
   for t = 0L, n_elements(templates) - 1L do begin
     dir = self.templateLocation eq '' $
       ? filepath('', subdir='templates', root=self.sourceLocation) $
@@ -517,7 +530,9 @@ end
 ;+
 ; Convert a parse tree into a string array using the current comment style.
 ;
-; :Returns: strarr
+; :Returns: 
+;    strarr
+;
 ; :Params:
 ;    tree : in, required, type=object
 ;       parse tree object
@@ -535,7 +550,9 @@ end
 ;+
 ; Convert a parse tree into a string array using the plain output parser.
 ;
-; :Returns: strarr
+; :Returns: 
+;    strarr
+;
 ; :Params:
 ;    tree : in, required, type=object
 ;       parse tree object with the plain output parser
@@ -564,7 +581,8 @@ end
 ;+
 ; Get a parser by name (as used when loaded in loadParsers).
 ; 
-; :Returns: parser object or -1 if not found
+; :Returns: 
+;    parser object or -1 if not found
 ;
 ; :Params:
 ;    name : in, required, type=string
@@ -948,7 +966,7 @@ pro doc_system::cleanup
   
   if (self.logLun ne '') then free_lun, self.logLun
   
-  obj_destroy, [self.index, self.proFiles, self.savFiles, self.idldocFiles]
+  obj_destroy, [self.index, self.proFiles, self.dlmFiles, self.savFiles, self.idldocFiles]
   
   classes = self.classes->values(count=nClasses)
   if (nClasses gt 0) then obj_destroy, classes
@@ -1165,7 +1183,8 @@ function doc_system::init, root=root, output=output, $
   self.bugs = obj_new('MGcoArrayList', type=11, block_size=20)
   
   self.proFiles = obj_new('MGcoArrayList', type=11, block_size=20)
-  self.savFiles = obj_new('MGcoArrayList', type=11, block_size=20)
+  self.dlmFiles = obj_new('MGcoArrayList', type=11, block_size=20)
+  self.savFiles = obj_new('MGcoArrayList', type=11, block_size=20)  
   self.idldocFiles = obj_new('MGcoArrayList', type=11, block_size=20)
   
   self.requiresItems = obj_new('MGcoArrayList', type=11, block_size=20)
@@ -1353,6 +1372,7 @@ pro doc_system__define
              bugs: obj_new(), $
              
              proFiles: obj_new(), $
+             dlmFiles: obj_new(), $
              savFiles: obj_new(), $
              idldocFiles: obj_new(), $
              

@@ -47,6 +47,17 @@
   		  </dl>
   		[% END %]
 
+      [% IF n_dlm_files gt 0 %]
+        <h3>.dlm files</h3>
+        
+        <dl class="file_listing">
+          [% FOREACH f IN dlm_files %][% SCOPE f %]
+          <dt class="filename"><a href="[% local_url %]">[% basename %]</a></dt>
+          <dd class="smaller">[% description %]</dd>  
+          [% END %][% END %]
+        </dl>
+      [% END %]
+      
       [% IF n_sav_files gt 0 %]
         <h3>.sav files</h3>
         

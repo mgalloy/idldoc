@@ -89,6 +89,8 @@ function doctreedirectory::getVariable, name, found=found
         
         return, files[ind]
       end
+    'n_dlm_files' : return, self.dlmFiles->count()
+    'dlm_files' : return, self.dlmFiles->get(/all)
     'n_sav_files' : return, self.savFiles->count()
     'sav_files' : return, self.savFiles->get(/all)
     'n_idldoc_files' : return, self.idldocFiles->count()
@@ -160,12 +162,17 @@ pro doctreedirectory::generateOutput, outputRoot
     endif
   endif
     
-  ; generate docs for each .pro/.sav/.idldoc file in directory
+  ; generate docs for each .pro/.dlm/.sav/.idldoc file in directory
   for f = 0L, self.proFiles->count() - 1L do begin
     file = self.proFiles->get(position=f)
     file->generateOutput, outputRoot, self.location
   endfor
 
+  for f = 0L, self.dlmFiles->count() - 1L do begin
+    file = self.dlmFiles->get(position=f)
+    file->generateOutput, outputRoot, self.location
+  endfor
+  
   for f = 0L, self.savFiles->count() - 1L do begin
     file = self.savFiles->get(position=f)
     file->generateOutput, outputRoot, self.location
@@ -198,7 +205,7 @@ pro doctreedirectory::cleanup
   compile_opt strictarr
   
   obj_destroy, self.overviewComments
-  obj_destroy, [self.proFiles, self.savFiles, self.idldocFiles]
+  obj_destroy, [self.proFiles, self.dlmFiles, self.savFiles, self.idldocFiles]
 end
 
 
@@ -218,7 +225,8 @@ function doctreedirectory::init, location=location, files=files, system=system
   if (indexLevel ge 1L) then self.system->createIndexEntry, self.location, self
   
   self.proFiles = obj_new('MGcoArrayList', type=11, block_size=10)
-  self.savFiles = obj_new('MGcoArrayList', type=11, block_size=5)
+  self.dlmFiles = obj_new('MGcoArrayList', type=11, block_size=5)
+  self.savFiles = obj_new('MGcoArrayList', type=11, block_size=5)  
   self.idldocFiles = obj_new('MGcoArrayList', type=11, block_size=4)
   
   self.url = strjoin(strsplit(self.location, path_sep(), /extract), '/') + '/'
@@ -234,6 +242,13 @@ function doctreedirectory::init, location=location, files=files, system=system
           proFileParser = self.system->getParser('profile')
           file = proFileParser->parse(root + files[f], directory=self)
           self.proFiles->add, file
+        end
+      'dlm': begin
+          file = obj_new('DOCtreeDLMFile', $
+                         basename=file_basename(files[f]), $
+                         directory=self, $
+                         system=self.system)
+          self.dlmFiles->add, file
         end
       'sav': begin
           file = obj_new('DOCtreeSavFile', $
@@ -283,6 +298,7 @@ pro doctreedirectory__define
              url: '', $
              overviewComments: obj_new(), $
              proFiles: obj_new(), $
+             dlmFiles: obj_new(), $
              savFiles: obj_new(), $
              idldocFiles: obj_new() $
            }

@@ -17,7 +17,9 @@
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: variable
+; :Returns: 
+;    variable
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable
@@ -83,7 +85,7 @@ function doctreesavfile::getVariable, name, found=found
       end
     
     else: begin
-        ; search in the system object if the variable is not found here
+        ; search in the directory object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
         if (found) then return, var
         
@@ -257,7 +259,8 @@ end
 ;+
 ; All .sav files are visible.
 ; 
-; :Returns: 1 if visible, 0 if not visible
+; :Returns: 
+;    1 if visible, 0 if not visible
 ;-
 function doctreesavfile::isVisible
   compile_opt strictarr
@@ -279,7 +282,7 @@ pro doctreesavfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   on_error, 2
   
-  self.system->print, '  Generating output for .sav file ' + self.basename
+  self.system->print, '  Generating output for .sav file ' + self.basename + '...'
   
   self->loadSavContents
   

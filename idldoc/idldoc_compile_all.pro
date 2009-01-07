@@ -45,6 +45,7 @@
 .compile src/tree/doctreeargument__define
 .compile src/tree/doctreeclass__define
 .compile src/tree/doctreedirectory__define
+.compile src/tree/doctreedlmfile__define
 .compile src/tree/doctreefield__define
 .compile src/tree/doctreeidldocfile__define
 .compile src/tree/doctreeindex__define
