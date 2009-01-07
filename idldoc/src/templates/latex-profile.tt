@@ -18,27 +18,27 @@
 
 
 [% IF has_class %][% FOREACH class IN classes %][% SCOPE class %]
-\section{Class description for [% mg_escape_latex(classname) %]}
+\section*{Class description for [% mg_escape_latex(classname) %]}
       
 [% IF n_ancestors gt 0 %]
 \begin{description}
 
 \item[Inheritance]\hspace*{1em} \newline
 
-\begin{enumerate}
+\begin{itemize}
 [% FOREACH p IN parents %]
 \item [% mg_escape_latex(p->getClassname()) %]
 [% END %]
-\end{enumerate}
+\end{itemize}
 
 [% IF n_ancestors gt n_parents %]      
-\item[All ancestor classes]
+\item[All ancestor classes]\hspace*{1em} \newline
 
-\begin{enumerate}
+\begin{itemize}
 [% FOREACH a IN ancestors %]
 \item [% mg_escape_latex(a->getClassname()) %]
 [% END %]
-\end{enumerate}
+\end{itemize}
 [% END %]
 
 \end{description}
@@ -48,11 +48,11 @@
 \begin{description}
 \item[Subclasses]\hspace*{1em} \newline
 
-\begin{enumerate}
+\begin{itemize}
 [% FOREACH c IN children %]
 \item [% mg_escape_latex(c->getClassname()) %]
 [% END %]
-\end{enumerate}
+\end{itemize}
 
 \end{description}     
 [% END %]
@@ -63,7 +63,7 @@
 
 \begin{description}
 [% FOREACH p IN properties %][% SCOPE p %]
-\item[[% mg_escape_latex(name) %]] \hspace*{1em} [% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %] \newline [% comments %]
+\item[[% mg_escape_latex(name) %]] \hspace*{1em} {\small\smallcaps{[% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %]}} \newline [% comments %]
 [% END %][% END %]
 \end{description} 
    
@@ -76,7 +76,7 @@
 
 \begin{description}
 [% FOREACH f IN fields %][% SCOPE f %]
-\item[[% mg_escape_latex(name) %]] \hspace*{1em} [% mg_escape_latex(type) %] \newline [% comments %]
+\item[[% mg_escape_latex(name) %]] \hspace*{1em} {\small\smallcaps{[% mg_escape_latex(type) %]}} \newline [% comments %]
 [% END %][% END %]
 \end{description}
 
@@ -89,7 +89,7 @@
 [% IF n_fields gt 0 %]
 \item[Fields in [% mg_escape_latex(classname) %]] \hspace*{1em} \newline
 [% FOREACH f IN fields %][% SCOPE f %]
-[% mg_escape_latex(name) %] [% mg_escape_latex(type) %] \newline
+[% mg_escape_latex(name) %] {\small\smallcaps{[% mg_escape_latex(type) %]}} \newline
 [% END %][% END %]
 [% END %]
 [% END %][% END %]
@@ -177,7 +177,7 @@ item[Requires]\hspace*{1em} \newline [% requires %]
 \item[Parameters]\hspace*{1em} \newline 
 \begin{description}
 [% FOREACH p IN parameters %][% SCOPE p %]
-\item[[% mg_escape_latex(name) %]]\hspace*{1em} {\footnotesize [% IF is_input %]\smallcaps{in} [% END %][% IF is_output %]\smallcaps{out} [% END %][% IF is_optional %]\smallcaps{optional} [% END %][% IF is_required %]\smallcaps{required} [% END %][% IF is_private %]\smallcaps{private} [% END %][% IF is_hidden %]\smallcaps{hidden} [% END %][% IF is_obsolete %]\smallcaps{obsolete} [% END %][% IF type ne '' %]\smallcaps{type=}[% mg_escape_latex(type) %] [% END %][% IF default_value ne '' %]\smallcaps{default=}[% mg_escape_latex(default_value) %][% END %]} \newline [% comments %]
+\item[[% mg_escape_latex(name) %]]\hspace*{1em} {\small [% IF is_input %]\smallcaps{in} [% END %][% IF is_output %]\smallcaps{out} [% END %][% IF is_optional %]\smallcaps{optional} [% END %][% IF is_required %]\smallcaps{required} [% END %][% IF is_private %]\smallcaps{private} [% END %][% IF is_hidden %]\smallcaps{hidden} [% END %][% IF is_obsolete %]\smallcaps{obsolete} [% END %][% IF type ne '' %]\smallcaps{type=}[% mg_escape_latex(type) %] [% END %][% IF default_value ne '' %]\smallcaps{default=}[% mg_escape_latex(default_value) %][% END %]} \newline [% comments %]
 [% END %][% END %]
 \end{description}
 \end{description}
@@ -188,7 +188,7 @@ item[Requires]\hspace*{1em} \newline [% requires %]
 \item[Keywords]\hspace*{1em} \newline
 \begin{description}
 [% FOREACH k IN keywords %][% SCOPE k %]
-\item[[% mg_escape_latex(name) %]]\hspace*{1em} {\footnotesize [% IF is_input %]\smallcaps{in} [% END %][% IF is_output %]\smallcaps{out} [% END %][% IF is_optional %]\smallcaps{optional} [% END %][% IF is_required %]\smallcaps{required} [% END %][% IF is_private %]\smallcaps{private} [% END %][% IF is_hidden %]\smallcaps{hidden} [% END %][% IF is_obsolete %]\smallcaps{obsolete} [% END %][% IF type ne '' %]\smallcaps{type=}[% mg_escape_latex(type) %] [% END %][% IF default_value ne '' %]\smallcaps{default=}[% mg_escape_latex(default_value) %][% END %]} \newline [% comments %]
+\item[[% mg_escape_latex(name) %]]\hspace*{1em} {\small [% IF is_input %]\smallcaps{in} [% END %][% IF is_output %]\smallcaps{out} [% END %][% IF is_optional %]\smallcaps{optional} [% END %][% IF is_required %]\smallcaps{required} [% END %][% IF is_private %]\smallcaps{private} [% END %][% IF is_hidden %]\smallcaps{hidden} [% END %][% IF is_obsolete %]\smallcaps{obsolete} [% END %][% IF type ne '' %]\smallcaps{type=}[% mg_escape_latex(type) %] [% END %][% IF default_value ne '' %]\smallcaps{default=}[% mg_escape_latex(default_value) %][% END %]} \newline [% comments %]
 [% END %][% END %]
 \end{description}
 \end{description}
