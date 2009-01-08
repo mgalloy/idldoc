@@ -19,36 +19,38 @@ function doctreedlmfile::getVariable, name, found=found
   compile_opt strictarr
   
   found = 1B
-  switch strlowcase(name) of
+  case strlowcase(name) of
     'basename' : return, self.basename
     'local_url' : return, file_basename(self.basename, '.dlm') + '-dlm.html'
 
     'description': return, ''
 
-    'has_comments': return, obj_valid(self.comments)
-    'comments': return, self.system->processComments(self.comments)       
-    'comments_first_line': begin
-        ; if no file comments, but there is only one routine then return the
-        ; first line of the routine's comments           
-        if (~obj_valid(self.comments)) then begin
-          filename = strlowcase(strmid(self.basename, 0, strpos(self.basename, '.')))
-          for r = 0L, self.routines->count() - 1L do begin
-            routine = self.routines->get(position=r)
-            routine->getProperty, name=routineName
-            if (strlowcase(routineName) eq filename) then begin
-              return, routine->getVariable('comments_first_line', found=found)
-            endif
-          endfor
-          
-          return, ''
-        endif
-        
-        self.firstline = mg_tm_firstline(self.comments)
-        return, self.system->processComments(self.firstline)        
-      end
-    'plain_comments': return, self.system->processPlainComments(self.comments)
-        
+    'has_comments': return, self.comments ne ''
+    'comments': return, self.comments
+    'comments_first_line': return, self.comments
+    'plain_comments': return, self.comments
+
+    'has_dlm_info': return, self.author ne '' || self.version ne '' || self.moduleName ne '' || self.build_date ne '' || self.comments ne ''
+    
+    'has_author': return, self.author ne ''
+    'author': return, self.author
+    'plain_author': return, self.author
+
+    'has_version': return, self.version ne ''
+    'version': return, self.version
+
+    'has_module_name': return, self.moduleName ne ''
+    'module_name': return, self.moduleName
+
+    'has_build_date': return, self.buildDate ne ''
+    'build_date': return, self.buildDate
+            
     'modification_time': return, self.modificationTime
+
+    'n_routines' : return, self.routines->count()
+    'routines' : return, self.routines->get(/all)
+    'n_visible_routines' : return, self.routines->count()
+    'visible_routines' : return, self.routines->get(/all)
     
     'index_name': return, self.basename
     'index_type': return, '.dlm file in ' + self->getVariable('location')
@@ -64,18 +66,20 @@ function doctreedlmfile::getVariable, name, found=found
         found = 0B
         return, -1L
       end
-  endswitch
+  endcase
 end
 
 
 ;+
 ; Get properties.
 ;-
-pro doctreedlmfile::getProperty, basename=basename, directory=directory
+pro doctreedlmfile::getProperty, basename=basename, directory=directory, $
+                                 has_class=hasClass
   compile_opt strictarr
   
   if (arg_present(basename)) then basename = self.basename
   if (arg_present(directory)) then directory = self.directory
+  if (arg_present(hasClass)) then hasClass = 0B
 end
 
 
@@ -101,9 +105,67 @@ function doctreedlmfile::isVisible
 end
 
 
+pro doctreedlmfile::_addRoutine, line, is_function=isFunction
+  compile_opt strictarr
+  
+  tokens = strsplit(line, /extract, count=ntokens)
+  
+  routine = obj_new('DOCtreeRoutine', self, system=self.system)
+  self.routines->add, routine  
+
+  routine->setProperty, name=tokens[1], is_function=keyword_set(isFunction)
+  
+  minParams = long(tokens[2])
+  maxParams = long(tokens[3])
+  
+  for p = 0L, maxParams -1L do begin
+    paramName = 'param' + strtrim(p, 2)
+    param = obj_new('DOCtreeArgument', routine, name=paramName, $
+                    system=self.system)
+    param->setProperty, is_optional=p lt minParams
+    routine->addParameter, param
+  endfor
+
+  for options = 4, ntokens - 1L do begin
+    case strlowcase(tokens[options]) of
+      'keywords': begin
+          keyword = obj_new('DOCtreeArgument', routine, name='KEYWORDS', $
+                            /is_keyword, system=self.system)                          
+          routine->addKeyword, keyword
+        end
+      'obsolete': routine->setProperty, is_obsolete=1B
+      else:
+    endcase
+  endfor  
+end
+
+
 pro doctreedlmfile::_loadDLMContents
   compile_opt strictarr
   
+  ; read DLM file
+  nlines = file_lines(self.dlmFilename)
+  lines = strarr(nlines)
+  openr, lun, self.dlmFilename, /get_lun
+  readf, lun, lines
+  free_lun, lun
+  
+  ; parse file
+  for i = 0L, nlines - 1L do begin
+    tokens = strsplit(lines[i], length=len)
+    case strlowcase(strmid(lines[i], tokens[0], len[0])) of
+      'module': self.moduleName = strtrim(strmid(lines[i], tokens[0] + len[0]), 2)
+      'description': self.comments = strtrim(strmid(lines[i], tokens[0] + len[0]), 2)
+      'version': self.version = strtrim(strmid(lines[i], tokens[0] + len[0]), 2)
+      'build_date': self.buildDate = strtrim(strmid(lines[i], tokens[0] + len[0]), 2)
+      'source': self.author = strtrim(strmid(lines[i], tokens[0] + len[0]), 2)
+      'checksum': self.checksum = strtrim(strmid(lines[i], tokens[0] + len[0]), 2)
+      'structure': self.structure = strtrim(strmid(lines[i], tokens[0] + len[0]), 2)
+      'procedure': self->_addRoutine, lines[i]
+      'function': self->_addRoutine, lines[i], /is_function
+      else:
+    endcase
+  endfor
 end
 
 
@@ -129,13 +191,9 @@ end
 ;-
 pro doctreedlmfile::cleanup
   compile_opt strictarr
-  
-  obj_destroy, self.firstline
-  obj_destroy, self.comments
-  
+    
   obj_destroy, self.routines
   
-  obj_destroy, [self.author, self.version]
   obj_destroy, self.code
 end
 
@@ -165,9 +223,8 @@ function doctreedlmfile::init, basename=basename, directory=directory, $
   self.directory->getProperty, location=location
   self.dlmFilename = root + location + self.basename
   
-  info = file_info(self.savFilename)
+  info = file_info(self.dlmFilename)
   self.modificationTime = systime(0, info.mtime)
-  self.size = mg_int_format(info.size) + ' bytes'
     
   self.routines = obj_new('MGcoArrayList', type=11, block_size=10)
 
@@ -189,21 +246,25 @@ pro doctreedlmfile__define
              
              basename: '', $
              dlmFilename: '', $
+             moduleName: '', $
+             buildDate: '', $  
+             checksum: '', $
+             structure: '', $           
              code: obj_new(), $                          
              
              modificationTime: '', $
              nLines: 0L, $
              format: '', $
              markup: '', $
-             
-             comments: obj_new(), $
-             firstline: obj_new(), $
+                          
+             comments: '', $
+             firstline: '', $
              
              routines: obj_new(), $
              
              hasAuthorInfo: 0B, $
-             author: obj_new(), $
-             version: obj_new(), $
+             author: '', $
+             version: '', $
              
              hasOthers: 0B $
   }

@@ -37,7 +37,8 @@
 ; The getVariable method is required for objects passed as an input to a
 ; template.
 ;
-; :Returns: value or -1L if variable name not found
+; :Returns: 
+;    value or -1L if variable name not found
 ;
 ; :Params:
 ;    name : in, required, type=string
