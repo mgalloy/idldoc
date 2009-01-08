@@ -37,6 +37,12 @@
       <h2 class="directory">[% location %]</h2>
       <h1 class="basename">[% basename %]</h1>
 
+      [% IF has_comments %]
+      <div id="file_comments">
+      	<div class="small [% IF preformat %]pre[% END %]">[% comments %]</div>
+      </div>
+      [% END %]
+
       [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
     </div>
     

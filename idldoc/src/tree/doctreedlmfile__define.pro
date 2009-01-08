@@ -24,7 +24,30 @@ function doctreedlmfile::getVariable, name, found=found
     'local_url' : return, file_basename(self.basename, '.dlm') + '-dlm.html'
 
     'description': return, ''
-    
+
+    'has_comments': return, obj_valid(self.comments)
+    'comments': return, self.system->processComments(self.comments)       
+    'comments_first_line': begin
+        ; if no file comments, but there is only one routine then return the
+        ; first line of the routine's comments           
+        if (~obj_valid(self.comments)) then begin
+          filename = strlowcase(strmid(self.basename, 0, strpos(self.basename, '.')))
+          for r = 0L, self.routines->count() - 1L do begin
+            routine = self.routines->get(position=r)
+            routine->getProperty, name=routineName
+            if (strlowcase(routineName) eq filename) then begin
+              return, routine->getVariable('comments_first_line', found=found)
+            endif
+          endfor
+          
+          return, ''
+        endif
+        
+        self.firstline = mg_tm_firstline(self.comments)
+        return, self.system->processComments(self.firstline)        
+      end
+    'plain_comments': return, self.system->processPlainComments(self.comments)
+        
     'modification_time': return, self.modificationTime
     
     'index_name': return, self.basename
@@ -137,7 +160,15 @@ function doctreedlmfile::init, basename=basename, directory=directory, $
   self.basename = basename
   self.directory = directory
   self.system = system
+
+  self.system->getProperty, root=root
+  self.directory->getProperty, location=location
+  self.dlmFilename = root + location + self.basename
   
+  info = file_info(self.savFilename)
+  self.modificationTime = systime(0, info.mtime)
+  self.size = mg_int_format(info.size) + ' bytes'
+    
   self.routines = obj_new('MGcoArrayList', type=11, block_size=10)
 
   self.system->getProperty, index_level=indexLevel
@@ -157,8 +188,8 @@ pro doctreedlmfile__define
              directory: obj_new(), $
              
              basename: '', $
-             code: obj_new(), $
-                          
+             dlmFilename: '', $
+             code: obj_new(), $                          
              
              modificationTime: '', $
              nLines: 0L, $
