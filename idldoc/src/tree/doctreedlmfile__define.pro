@@ -126,11 +126,12 @@ pro doctreedlmfile::_addRoutine, line, is_function=isFunction
   minParams = long(tokens[2])
   maxParams = long(tokens[3])
   
-  for p = 0L, maxParams -1L do begin
+  for p = 0L, maxParams - 1L do begin
     paramName = 'param' + strtrim(p, 2)
     param = obj_new('DOCtreeArgument', routine, name=paramName, $
                     system=self.system)
-    param->setProperty, is_optional=p lt minParams
+    param->setProperty, is_optional=p ge minParams
+    if (p eq 0L) then param->setProperty, is_first=1B
     routine->addParameter, param
   endfor
 
@@ -140,6 +141,8 @@ pro doctreedlmfile::_addRoutine, line, is_function=isFunction
           keyword = obj_new('DOCtreeArgument', routine, name='KEYWORDS', $
                             /is_keyword, system=self.system)                          
           routine->addKeyword, keyword
+          keyword->setProperty, type='this routine accepts keywords'
+          if (maxParams eq 0L) then keyword->setProperty, is_first=1B
         end
       'obsolete': routine->setProperty, is_obsolete=1B
       else:
