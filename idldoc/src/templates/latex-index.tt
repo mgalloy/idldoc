@@ -36,6 +36,13 @@
 [% END %][% END %]
 [% END %]
 
+[% IF n_dlm_files gt 0 %]
+[% FOREACH f IN dlm_files %][% SCOPE f %]
+\input{[% output_path %]}
+\vspace{2em}
+[% END %][% END %]
+[% END %]
+
 [% END %][% END %]
 
 \end{document}

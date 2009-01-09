@@ -21,8 +21,16 @@ function doctreedlmfile::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'basename' : return, self.basename
-    'local_url' : return, file_basename(self.basename, '.dlm') + '-dlm.html'
-
+    'local_url': begin
+        self.system->getProperty, extension=ext
+        return, file_basename(self.basename, '.dlm') + '-dlm.' + ext
+      end    
+    'output_path': begin      
+         self.directory->getProperty, url=url     
+         self.system->getProperty, extension=ext
+         return, url + file_basename(self.basename, '.dlm') + '-dlm.' + ext
+       end
+       
     'description': return, ''
 
     'has_comments': return, self.comments ne ''
@@ -179,7 +187,8 @@ pro doctreedlmfile::generateOutput, outputRoot, directory
   dlmFileTemplate = self.system->getTemplate('dlmfile')
   
   outputDir = outputRoot + directory
-  outputFilename = outputDir + file_basename(self.basename, '.dlm') + '-dlm.html'
+  self.system->getProperty, extension=ext
+  outputFilename = outputDir + file_basename(self.basename, '.dlm') + '-dlm.' + ext
   
   dlmFileTemplate->reset
   dlmFileTemplate->process, self, outputFilename  
