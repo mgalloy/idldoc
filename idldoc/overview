@@ -1,14 +1,20 @@
-This is the documentation for the IDLdoc project.
+This is the documentation for the IDLdoc project source code.
   
 The IDLdoc project source code can be accessed via Subversion with the command::
   
-   svn co http://svn.idldev.com/idldoc
+   svn co http://svn.idldev.com/idldoc/trunk/idldoc
     
 Resources
 ---------
     
-  * <a href="http://michaelgalloy.com">Developer site</a>
-  * <a href="http://idldev.com">Hosting site</a>  
+  * Developer site::
+
+       http://michaelgalloy.com
+
+  * Hosting site:: 
+
+       http://idldev.com
+
 
 :Dirs:
    ./ 
