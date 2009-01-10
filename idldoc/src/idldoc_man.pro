@@ -10,11 +10,13 @@
 ;    routine_name : in, required, type=string
 ;       name of routine to find location of
 ;-
-function man_getfilename, routine_name
+function idldoc_man_getfilename, routine_name
   compile_opt strictarr
   
   help, /source_files, output=output
-  matches = stregex(output, '^' + strupcase(routine_name) + '[[:space:]]+', /boolean)
+  matches = stregex(output, $
+                    '^' + strupcase(routine_name) + '[[:space:]]+', $
+                    /boolean)
   ind = where(matches, nmatches)
   if (nmatches eq 0) then begin
     return, file_which(routine_name + '.pro')
@@ -41,14 +43,14 @@ end
 ;       set to list all routines in the given file, the default is to assume a 
 ;       routine name is passed into the routine
 ;-
-pro man, routine_name, full=full, file=file
+pro idldoc_man, routine_name, full=full, file=file
   compile_opt strictarr
   on_error, 2
   
   if (n_params() ne 1) then message, 'routine name required'
   
   ; get location of routine
-  filename = man_getfilename(routine_name)
+  filename = idldoc_man_getfilename(routine_name)
   if (filename eq '') then begin
     print, routine_name + ' not found'
     return
