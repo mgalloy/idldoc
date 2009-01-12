@@ -56,7 +56,7 @@
       <div class="small">[% examples %]</div>      
       [% END %]
       
-      [% IF has_class && (n_children gt 0 || n_properties gt 0 || ~user) %][% FOREACH class IN classes %][% SCOPE class %]
+      [% IF has_class %][% FOREACH class IN classes %][% SCOPE class %]
       <div class="class-description">
         <h2>Class description for [% classname %]</h2>
       
@@ -90,7 +90,7 @@
           	<div class="details">
     	        <dl>
     	          [% FOREACH p IN properties %][% SCOPE p %]
-    	          <dt>[% name %] <span class="smaller">[% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %]</span></dt>
+    	          <dt>[% name %] <span class="smaller">[% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %][% IF has_type %]type=[% type %][% END %]</span></dt>
     	          <dd class="small">[% comments %]</dd>
     	          [% END %][% END %]
     	        </dl>  

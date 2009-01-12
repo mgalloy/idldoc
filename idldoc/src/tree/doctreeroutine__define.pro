@@ -539,28 +539,36 @@ pro doctreeroutine::addKeyword, keyword
   self.file->getProperty, has_class=hasClass
   if (self.isMethod && hasClass) then begin
   
-    keyword->getProperty, name=propertyName
+    keyword->getProperty, name=propertyName, type=keywordType
     self->getProperty, classname=classname
     
     ; lookup class
     self.system->getProperty, classes=classes
     class = classes->get(strlowcase(classname), found=found)
     
+    propertyType = ''
     case 1 of
       strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'getproperty': begin
           class->addProperty, property, property_name=propertyName
           property->setProperty, is_get=1B
+          property->getProperty, type=propertyType
         end
       strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'setproperty': begin
           class->addProperty, property, property_name=propertyName
           property->setProperty, is_set=1B
+          property->getProperty, type=propertyType
         end
       strlowcase(strmid(self.name, 3, /reverse_offset)) eq 'init': begin
           class->addProperty, property, property_name=propertyName
           property->setProperty, is_init=1B
+          property->getProperty, type=propertyType
         end
       else:   ; just a normal keyword
     endcase
+    
+    if (propertyType ne '' && keywordType eq '') then begin
+      keyword->setProperty, type=propertyType
+    endif
   endif  
 end
 

@@ -13,6 +13,8 @@
 ;       method
 ;    is_init
 ;       boolean indicating whether the property can be set in the init method
+;    type
+;       IDL data type of the property
 ;    comments
 ;       parse tree object; comments about the property
 ;    class 
@@ -26,12 +28,13 @@
 ; Retrieve properties.
 ;-
 pro doctreeproperty::getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
-                                  comments=comments, name=name
+                                  comments=comments, name=name, type=type
   compile_opt strictarr
   
   if (arg_present(isGet)) then isGet = self.isGet
   if (arg_present(isSet)) then isSet = self.isSet
   if (arg_present(isInit)) then isInit = self.isInit
+  if (arg_present(type)) then type = self.type
   if (arg_present(comments)) then comments = self.comments
   if (arg_present(name)) then name = self.name
 end
@@ -41,12 +44,14 @@ end
 ; Set properties.
 ;-
 pro doctreeproperty::setProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
-                                  comments=comments, class=class
+                                  comments=comments, class=class, type=type
   compile_opt strictarr
   
   if (n_elements(isGet) gt 0) then self.isGet = isGet
   if (n_elements(isSet) gt 0) then self.isSet = isSet
   if (n_elements(IsInit) gt 0) then self.IsInit = IsInit
+  
+  if (n_elements(type) gt 0) then self.type = type
   
   if (n_elements(comments) gt 0) then begin
     if (obj_valid(self.comments)) then begin
@@ -64,7 +69,9 @@ end
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: variable
+; :Returns: 
+;    variable
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable
@@ -84,6 +91,9 @@ function doctreeproperty::getVariable, name, found=found
     'is_set': return, self.isSet
     'is_init': return, self.isInit
     
+    'has_type': return, self.type ne ''
+    'type': return, self.type
+     
     'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)
      
@@ -184,6 +194,7 @@ pro doctreeproperty__define
              isSet: 0B, $
              isInit: 0B, $
              
+             type: '', $
              comments: obj_new() $
            }
 end

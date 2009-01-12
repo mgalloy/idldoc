@@ -84,8 +84,25 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
         for p = 0L, nProperties - 1L do begin
           propertyName = strmid(propLines[propertyDefinitionLines[p]], $
                                 propertyNamesStart[1, propertyDefinitionLines[p]], $
-                               propertyNamesLength[1, propertyDefinitionLines[p]])
-          property = self->_addToHeldProperties(propertyName)                                               
+                                propertyNamesLength[1, propertyDefinitionLines[p]])
+          property = self->_addToHeldProperties(propertyName)
+          
+          ; add property attributes: right now only TYPE=
+          propattrs = strmid(propLines[propertyDefinitionLines[p]], $
+                             propertyNamesStart[1, propertyDefinitionLines[p]] $ 
+                               + propertyNamesLength[1, propertyDefinitionLines[p]])
+          eqpos = strpos(propattrs, '=')
+          if (eqpos ge 0L) then begin
+            attrnameTokens = strsplit(strmid(propattrs, 0, eqpos), /extract, count=nAttrnameTokens)
+            attrname = attrnameTokens[nAttrnameTokens - 1L]
+            if (strlowcase(attrname) ne 'type') then begin
+              self.system->warning, 'invalid property attribute: ' + attrname
+            endif else begin
+              proptype = strtrim(strmid(propattrs, eqpos + 1), 2)                                
+              property->setProperty, type=proptype
+            endelse
+          endif
+          
           propertyDefinitionEnd = p eq nProperties - 1L $
                                     ? n_elements(propLines) - 1L $
                                     : propertyDefinitionLines[p + 1L] - 1L

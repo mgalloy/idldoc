@@ -404,7 +404,7 @@ end
 ; Adds the given property to this class.
 ;
 ; :Params:
-;    property : in, required, type=object
+;    property : in, out, required, type=object
 ;       property tree object to add
 ;
 ; :Keywords:

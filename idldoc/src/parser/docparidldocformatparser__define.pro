@@ -345,18 +345,20 @@ pro docparidldocformatparser::_handleFileTag, tag, lines, $
         file->setProperty, comments=markupParser->parse(self->_parseTag(lines), file=file)    
       end
     'property': begin
-        file->getProperty, is_class=isClass, class=class
-        if (~isClass) then begin
-          self.system->warning, 'property not allowed non-class definition file'
-        endif
-   
         comments = self->_parseTag(lines, /has_argument, $
                                    argument=propertyName, $
                                    n_attributes=nAttributes, $
                                    attribute_names=attributeNames, $
                                    attribute_values=attributeValues)                                        
 
-        property = self->_addToHeldProperties(propertyName)        
+        property = self->_addToHeldProperties(propertyName)
+        for a = 0L, nAttributes - 1L do begin
+          case strlowcase(attributeNames[a]) of
+            'type': property->setProperty, type=attributeValues[a]
+            else: self.system->warning, 'unknown property attribute: ' + attributeNames[a]
+          endcase
+        endfor
+                
         property->setProperty, comments=markupParser->parse(comments, file=file)
       end
     
