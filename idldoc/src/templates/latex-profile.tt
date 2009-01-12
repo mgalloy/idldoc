@@ -63,7 +63,7 @@
 
 \begin{description}
 [% FOREACH p IN properties %][% SCOPE p %]
-\item[[% mg_escape_latex(name) %]] \hspace*{1em} {\small\smallcaps{[% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %]}[% IF has_type %]type=[% type %][% END %]} \newline [% comments %]
+\item[[% mg_escape_latex(name) %]] \hspace*{1em} {\small\smallcaps{[% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %][% IF has_type %]type=}[% type %][% ELSE %]}[% END %]} \newline [% comments %]
 [% END %][% END %]
 \end{description} 
    
