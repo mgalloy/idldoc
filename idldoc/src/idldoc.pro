@@ -128,7 +128,15 @@ pro idldoc, root=root, $
     catch, error
     if (error ne 0L) then begin
       catch, /cancel
-      message, !error_state.msg, /informational
+      
+      case 1 of
+        keyword_set(unix): crlf = string([10B])
+        keyword_set(windows): crlf = string([13B, 10B])
+        else: crlf = string(!version.os_family eq 'unix' ? [10B] : [13B, 10B])
+      endcase        
+      errormsg = strcompress(strjoin(strsplit(!error_state.msg, crlf, /extract), ' '))
+      
+      message, errormsg, /informational
       !path = origPath
       return
     endif
