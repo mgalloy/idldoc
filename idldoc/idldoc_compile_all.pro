@@ -32,6 +32,7 @@
 .compile src/templating/mgfftemplate__define
 .compile src/templating/mgfftokenizer__define
 
+.compile src/textmarkup/mg_escape_latex
 .compile src/textmarkup/mg_tm_firstline
 .compile src/textmarkup/mgtmhtml__define
 .compile src/textmarkup/mgtmlanguage__define
