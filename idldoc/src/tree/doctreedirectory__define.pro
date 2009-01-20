@@ -42,7 +42,9 @@ end
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: variable
+; :Returns: 
+;    variable
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable

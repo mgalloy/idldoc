@@ -30,7 +30,7 @@
     <h1>.pro files &nbsp;&nbsp; <span>[% n_visible_pro_files %] files</span></h1>
     	<ul>
     		[% FOREACH f IN visible_pro_files %]
-    		  <li>[% SCOPE f %]<a href="[% location %][% local_url %]" target="main_frame">[% basename %]</a>[% END %]</li>
+    		  <li>[% SCOPE f %]<a href="[% url %][% local_url %]" target="main_frame">[% basename %]</a>[% END %]</li>
     		[% END %]
     	</ul>
     [% END %]
@@ -39,7 +39,7 @@
     <h1>.dlm files &nbsp;&nbsp; <span>[% n_dlm_files %] files</span></h1>
       <ul>
         [% FOREACH f IN dlm_files %]
-          <li>[% SCOPE f %]<a href="[% location %][% local_url %]" target="main_frame">[% basename %]</a>[% END %]</li>
+          <li>[% SCOPE f %]<a href="[% url %][% local_url %]" target="main_frame">[% basename %]</a>[% END %]</li>
         [% END %]
       </ul>    
     [% END %]
@@ -48,7 +48,7 @@
     <h1>.sav files &nbsp;&nbsp; <span>[% n_sav_files %] files</span></h1>
       <ul>
         [% FOREACH f IN sav_files %]
-          <li>[% SCOPE f %]<a href="[% location %][% local_url %]" target="main_frame">[% basename %]</a>[% END %]</li>
+          <li>[% SCOPE f %]<a href="[% url %][% local_url %]" target="main_frame">[% basename %]</a>[% END %]</li>
         [% END %]
       </ul>    
     [% END %]
@@ -57,7 +57,7 @@
     <h1>.idldoc files &nbsp;&nbsp; <span>[% n_idldoc_files %] files</span></h1>
       <ul>
         [% FOREACH f IN idldoc_files %]
-          <li>[% SCOPE f %]<a href="[% location %][% local_url %]" target="main_frame">[% basename %]</a>[% END %]</li>
+          <li>[% SCOPE f %]<a href="[% url %][% local_url %]" target="main_frame">[% basename %]</a>[% END %]</li>
         [% END %]
       </ul>     
     [% END %]

@@ -177,7 +177,8 @@ end
 ; Get a class of the given name if defined in the file or system already, create 
 ; it if not.
 ;
-; :Returns: class tree object
+; :Returns: 
+;    class tree object
 ;
 ; :Params:
 ;    classname : in, required, type=string
@@ -213,7 +214,9 @@ end
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: variable
+; :Returns: 
+;    variable
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable
