@@ -45,7 +45,9 @@ end
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: variable
+; :Returns: 
+;    variable
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable
@@ -98,7 +100,8 @@ end
 ;+
 ; .idldoc files are always visible.
 ;
-; :Returns: 1 if visible, 0 if not visible.
+; :Returns: 
+;    1 if visible, 0 if not visible.
 ;-
 function doctreeidldocfile::isVisible
   compile_opt strictarr
@@ -120,7 +123,7 @@ end
 pro doctreeidldocfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
-  self.system->print, '  Generating output for .idldoc file ' + self.basename
+  self.system->print, '  Generating output for ' + self.basename
   
   idldocFileTemplate = self.system->getTemplate('idldocfile')
     
@@ -145,7 +148,8 @@ end
 ;+
 ; Create file tree object.
 ;
-; :Returns: 1 for success, 0 for failure
+; :Returns: 
+;    1 for success, 0 for failure
 ;-
 function doctreeidldocfile::init, basename=basename, directory=directory, $
                                   system=system

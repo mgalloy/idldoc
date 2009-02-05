@@ -183,7 +183,7 @@ end
 pro doctreedlmfile::generateOutput, outputRoot, directory
   compile_opt strictarr
 
-  self.system->print, '  Generating output for .dlm file ' + self.basename + '...'
+  self.system->print, '  Generating output for ' + self.basename + '...'
   
   self->_loadDLMContents
   
