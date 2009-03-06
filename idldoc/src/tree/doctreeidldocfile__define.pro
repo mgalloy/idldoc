@@ -62,7 +62,10 @@ function doctreeidldocfile::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'basename': return, self.basename
-    'local_url': return, file_basename(self.basename, '.idldoc') + '.html'
+    'local_url': begin
+        self.system->getProperty, extension=outputExtension
+        return, file_basename(self.basename, '.idldoc') + '.' + outputExtension
+      end
     
     'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)    
@@ -83,7 +86,11 @@ function doctreeidldocfile::getVariable, name, found=found
         
         return, [comments[0:line-1], strmid(comments[line], 0, pos + 1)]
       end  
-      
+    'output_path': begin      
+         self.directory->getProperty, url=url     
+         self.system->getProperty, extension=ext
+         return, url + file_basename(self.basename, '.idldoc') + '.' + ext
+       end      
       
     else: begin
         ; search in the system object if the variable is not found here
@@ -124,11 +131,12 @@ pro doctreeidldocfile::generateOutput, outputRoot, directory
   compile_opt strictarr
   
   self.system->print, '  Generating output for ' + self.basename
+  self.system->getProperty, extension=outputExtension
   
   idldocFileTemplate = self.system->getTemplate('idldocfile')
     
   outputDir = outputRoot + directory
-  outputFilename = outputDir + file_basename(self.basename, '.idldoc') + '.html'
+  outputFilename = outputDir + file_basename(self.basename, '.idldoc') + '.' + outputExtension
   
   idldocFileTemplate->reset
   idldocFileTemplate->process, self, outputFilename   

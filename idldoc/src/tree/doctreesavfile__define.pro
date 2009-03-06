@@ -34,7 +34,17 @@ function doctreesavfile::getVariable, name, found=found
   found = 1B
   switch strlowcase(name) of
     'basename' : return, self.basename
-    'local_url' : return, file_basename(self.basename, '.sav') + '-sav.html'
+    'local_url' : begin
+        self.system->getProperty, extension=outputExtension      
+        return, file_basename(self.basename, '.sav') + '-sav.' + outputExtension
+      end
+
+    'output_path': begin      
+         self.directory->getProperty, url=url     
+         self.system->getProperty, extension=ext
+         return, url + file_basename(self.basename, '.sav') + '.' + ext
+       end
+             
     'creation_date': begin
         savFile = obj_new('IDL_Savefile', self.savFilename)
         contents = savFile->contents()
@@ -283,13 +293,14 @@ pro doctreesavfile::generateOutput, outputRoot, directory
   on_error, 2
   
   self.system->print, '  Generating output for .sav file ' + self.basename + '...'
+  self.system->getProperty, extension=outputExtension
   
   self->loadSavContents
   
   savFileTemplate = self.system->getTemplate('savefile')
   
   outputDir = outputRoot + directory
-  outputFilename = outputDir + file_basename(self.basename, '.sav') + '-sav.html'
+  outputFilename = outputDir + file_basename(self.basename, '.sav') + '-sav.' + outputExtension
   
   savFileTemplate->reset
   savFileTemplate->process, self, outputFilename

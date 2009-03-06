@@ -1,29 +1,2 @@
-\chapter{[% location %] ([% title %])}
 
-[% IF n_visible_pro_files gt 0 %]
-.pro files, [% n_pro_files %] files
-
-[% FOREACH f IN visible_pro_files %][% SCOPE f %]
-\include{strmid('[% local_url %]', 0, strlen('[% local_url %]') - 4)}
-[% END %][% END %]
-
-[% END %]
-    
-[% IF n_sav_files gt 0 %]
-.sav files, [% n_sav_files %] files
-
-[% FOREACH f IN sav_files %][% SCOPE f %]
-\include{strmid('[% local_url %]', 0, strlen('[% local_url %]') - 4)}
-[% END %][% END %]
-  
-[% END %]
-    
-[% IF n_idldoc_files %]
-.idldoc files, [% n_idldoc_files %] files
-
-[% FOREACH f IN idldoc_files %][% SCOPE f %]
-\include{strmid('[% local_url %]', 0, strlen('[% local_url %]') - 4)}
-[% END %][% END %] 
-   
-[% END %]
             

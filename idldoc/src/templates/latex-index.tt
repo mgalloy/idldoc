@@ -29,6 +29,13 @@
 [% FOREACH d IN dirs %][% SCOPE d %]
 \chapter{Directory: [% mg_escape_latex(fullname) %]}
 
+[% IF n_idldoc_files gt 0 %]
+[% FOREACH f IN idldoc_files %][% SCOPE f %]
+\input{[% output_path %]}
+\vspace{2em}
+[% END %][% END %]
+[% END %]
+
 [% IF n_visible_pro_files gt 0 %]
 [% FOREACH f IN visible_pro_files %][% SCOPE f %]
 \input{[% output_path %]}
@@ -38,6 +45,13 @@
 
 [% IF n_dlm_files gt 0 %]
 [% FOREACH f IN dlm_files %][% SCOPE f %]
+\input{[% output_path %]}
+\vspace{2em}
+[% END %][% END %]
+[% END %]
+
+[% IF n_sav_files gt 0 %]
+[% FOREACH f IN sav_files %][% SCOPE f %]
 \input{[% output_path %]}
 \vspace{2em}
 [% END %][% END %]
