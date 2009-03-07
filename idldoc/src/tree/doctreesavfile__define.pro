@@ -42,7 +42,7 @@ function doctreesavfile::getVariable, name, found=found
     'output_path': begin      
          self.directory->getProperty, url=url     
          self.system->getProperty, extension=ext
-         return, url + file_basename(self.basename, '.sav') + '.' + ext
+         return, url + file_basename(self.basename, '.sav') + '-sav.' + ext
        end
              
     'creation_date': begin

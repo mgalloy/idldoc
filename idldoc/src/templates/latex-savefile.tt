@@ -1,0 +1,25 @@
+\section{[% mg_escape_latex(basename) %]}
+
+\begin{description}
+  \item[SAV file attributes]\hspace*{1em} \newline
+	  \begin{tabular}{lr}
+	    Description & [% description %] \\
+	    SAV file type & [% filetype %] \\
+	    Creator & [% user %]@[% host %] on [% os %]/[% arch %] \\
+	    Creation date & [% creation_date %] \\
+	    IDL version & [% release %]	\\
+	  \end{tabular}
+
+  \item[Contents]\hspace*{1em} \newline
+    \begin{tabular}{lr}
+      Procedures & [% n_procedure %] \\
+      Functions & [% n_function %] \\
+      Variables & [% n_var %] \\
+      System variables & [% n_sysvar %] \\
+      Common blocks & [% n_common %] \\
+      Structure definitions & [% n_structdef %] \\
+      Pointers & [% n_pointer_heapvar %] \\
+      Objects & [% n_object_heapvar %] \\
+    \end{tabular}
+
+\end{description}
