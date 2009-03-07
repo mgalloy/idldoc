@@ -50,8 +50,6 @@
 [% END %][% END %]
 [% END %]
 
-Number of save files: [% n_sav_files %]
-
 [% IF n_sav_files gt 0 %]
 [% FOREACH f IN sav_files %][% SCOPE f %]
 \input{[% output_path %]}

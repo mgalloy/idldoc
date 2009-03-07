@@ -229,7 +229,9 @@ pro doctreesavfile::loadSavContents
   for i = 0L, nStructureDefinitions - 1L do begin
     data = self->loadItem(structureNames[i], /structure_definition)
     
-    var = obj_new('DOCtreeSavVar', structureNames[i], data, self, system=self.system)
+    var = obj_new('DOCtreeSavVar', $
+                  structureNames[i], $
+                  data, self, system=self.system)
     self.structureDefinitions->add, var
   endfor
     
@@ -238,7 +240,7 @@ pro doctreesavfile::loadSavContents
     data = self->loadItem(pointerNames[i], /pointer_heapvar)
     
     var = obj_new('DOCtreeSavVar', $
-                  '&lt;PtrHeapVar' + strtrim(pointerNames[i], 2) + '&gt;', $
+                  'PtrHeapVar' + strtrim(pointerNames[i], 2), $
                   data, self, system=self.system)
     self.pointers->add, var
   endfor
@@ -248,7 +250,7 @@ pro doctreesavfile::loadSavContents
     data = self->loadItem(objectNames[i], /object_heapvar)
     
     var = obj_new('DOCtreeSavVar', $
-                  '&lt;ObjHeapVar' + strtrim(objectNames[i], 2) + '&gt;', $
+                  'ObjHeapVar' + strtrim(objectNames[i], 2), $
                   data, self, system=self.system)
     self.objects->add, var
   endfor
