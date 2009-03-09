@@ -5,9 +5,9 @@ Release notes
 IDLdoc 3.2
 ----------
 
-* Added LaTeX output.
+* Added ability to create LaTeX output.
 
-* Added documentation for DLM files.
+* Added ability to create documentation for DLM files.
 
 * Added INDEX_LEVEL keyword to control the granularity of the index.
 
