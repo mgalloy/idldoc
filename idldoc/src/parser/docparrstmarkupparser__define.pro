@@ -57,7 +57,7 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
         directory->getProperty, location=location
         self.system->getProperty, output=output
         
-        tag->addAttribute, 'location', output + location
+        tag->addAttribute, 'location', location
       end
     else: self.system->warning, 'unknown rst directive ' + tokens[0]
   endcase

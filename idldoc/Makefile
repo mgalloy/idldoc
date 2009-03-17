@@ -2,6 +2,8 @@ VERSION=3.2dev
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 IDL=idl
 
+.PHONY: clean doc book regression tests srcdist dist updates
+	
 clean:
 	rm -f *.zip
 	rm -rf updates.idldev.com
@@ -15,8 +17,8 @@ doc:
 
 book:
 	$(IDL) build_idldoc_book
-	pdflatex -halt-on-error -output-directory=api-book api-book/index.tex
-	pdflatex -halt-on-error -output-directory=api-book api-book/index.tex	
+	cd api-book; pdflatex -halt-on-error index.tex
+	cd api-book; pdflatex -halt-on-error index.tex	
 	
 regression:
 	$(IDL) -e "mgunit, 'docrtalltests_uts'"

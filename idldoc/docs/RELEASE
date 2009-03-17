@@ -5,11 +5,22 @@ Release notes
 IDLdoc 3.2
 ----------
 
-* Added ability to create LaTeX output.
+* Added ability to create LaTeX output. Use the TEMPLATE_PREFIX keyword to the
+  IDLDOC command to specify that the LaTeX templates should be used and the
+  COMMENT_STYLE keyword to specify that markup in comments in the source code
+  should be converted to LaTeX in the output::
 
-* Added ability to create documentation for DLM files.
+    idldoc, ..., template_prefix='latex-', comment_style='latex'
 
-* Added INDEX_LEVEL keyword to control the granularity of the index.
+* Added ability to create documentation for DLM files. IDLdoc will
+  automatically find .dlm files in the ROOT subdirectories and create
+  documentation for them. No special comments in the .dlm file are necessary
+  (or used).
+
+* Added INDEX_LEVEL keyword to IDLDOC command to control the granularity of
+  the index: 0 for no index; 1 for directories, classes, files, and routines;
+  2 for level 1 items plus parameters, keywords, fields, properties, and sav
+  file variables
 
 * Miscellaneous small bug fixes.
 
