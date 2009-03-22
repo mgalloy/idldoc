@@ -15,7 +15,7 @@
 .compile src/introspection/doc_typename
 .compile src/introspection/doc_variable_declaration
 
-.compile src/math/mg_linear_function
+.compile src/analysis/mg_linear_function
 
 .compile src/parser/docparformatparser__define
 .compile src/parser/docparidldocfileparser__define
