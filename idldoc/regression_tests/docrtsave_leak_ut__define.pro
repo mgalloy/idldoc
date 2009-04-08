@@ -3,20 +3,20 @@
 ;+
 ; Basic IDLdoc run of on save files.
 ;-
-function docrtsave_problem_ut::test_basic
+function docrtsave_leak_ut::test_basic
   compile_opt strictarr
   
-  idldoc, root=filepath('save_problem', root=self.root), $
-          output=filepath('save_problem-docs', root=self.root), $
+  idldoc, root=filepath('save_leak', root=self.root), $
+          output=filepath('save_leak-docs', root=self.root), $
           title='Problem with save file', $
           subtitle='Basic test', $
           /silent, n_warnings=nWarnings, error=error, $
-          log_file=filepath('idldoc.log', subdir='save_problem-docs', root=self.root)
+          log_file=filepath('idldoc.log', subdir='save_leak-docs', root=self.root)
           
   assert, error eq 0, 'failed with error ' + !error_state.msg
 
   if (self.showResults) then begin
-    filename = filepath('index.html', subdir='save_problem-docs', root=self.root)
+    filename = filepath('index.html', subdir='save_leak-docs', root=self.root)
     mg_open_url, 'file://' + filename
   endif
     
@@ -31,8 +31,8 @@ end
 ;+
 ; Define instance variables.
 ;-
-pro docrtsave_problem_ut__define
+pro docrtsave_leak_ut__define
   compile_opt strictarr
   
-  define = { DOCrtSave_Problem_ut, inherits DOCrtTestCase }
+  define = { DOCrtSave_Leak_ut, inherits DOCrtTestCase }
 end
