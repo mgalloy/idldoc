@@ -8,8 +8,8 @@
 ; Create full test suite for IDLdoc.
 ; 
 ; :Keywords:
-;    `_ref_extra` : in, out, optional, type=keyword
-;                   keywords to MGutTestSuite::init
+;    _ref_extra : in, out, optional, type=keyword
+;       keywords to MGutTestSuite::init
 ;-
 function docrtalltests_uts::init, _ref_extra=e
   compile_opt strictarr

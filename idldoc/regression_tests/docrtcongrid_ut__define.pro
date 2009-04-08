@@ -15,9 +15,12 @@ function docrtcongrid_ut::test_basic
           log_file=filepath('idldoc.log', subdir='congrid-docs', root=self.root)
           
   assert, error eq 0, 'failed with error ' + !error_state.msg
-  
-  mg_open_url, 'file://' + filepath('index.html', subdir='congrid-docs', root=self.root)
-  
+
+  if (self.showResults) then begin
+    filename = filepath('index.html', subdir='congrid-docs', root=self.root)
+    mg_open_url, 'file://' + filename
+  endif
+
   assert, nWarnings eq 0, 'failed with warnings'
   
   return, 1

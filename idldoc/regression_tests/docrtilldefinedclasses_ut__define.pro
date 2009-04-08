@@ -14,8 +14,11 @@ function docrtilldefinedclasses_ut::test_basic
           log_file=filepath('idldoc.log', subdir='illdefinedclasses-docs', root=self.root)
           
   assert, error eq 0, 'failed with error ' + !error_state.msg
-  
-  mg_open_url, 'file://' + filepath('index.html', subdir='illdefinedclasses-docs', root=self.root)
+
+  if (self.showResults) then begin
+    filename = filepath('index.html', subdir='illdefinedclasses-docs', root=self.root)
+    mg_open_url, 'file://' + filename
+  endif
 
   assert, nWarnings lt 2 eq 0, 'failed with not enough warnings'
   assert, nWarnings gt 2 eq 0, 'failed with too many warnings'
