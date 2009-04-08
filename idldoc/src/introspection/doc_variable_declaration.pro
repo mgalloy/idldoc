@@ -4,7 +4,8 @@
 ; Returns a string that gives the IDL declaration for the type of the given 
 ; variable.
 ; 
-; :Returns: string
+; :Returns: 
+;    string
 ;
 ; :Params:
 ;    var : in, required, type=any
@@ -29,7 +30,7 @@ function doc_variable_declaration, var
       for t = 0L, n_elements(tNames) - 1L do begin
         decls[t] = doc_variable_declaration(var.(t))
       endfor
-      return, '{ ' + (structureName eq '' ? '' : structureName + ', ') + ', ' + strjoin(tNames + ': ' + decls, ', ') + ' }'
+      return, '{ ' + (structureName eq '' ? '' : (structureName + ', ')) + strjoin(tNames + ': ' + decls, ', ') + ' }'
     endelse
   endif
   
