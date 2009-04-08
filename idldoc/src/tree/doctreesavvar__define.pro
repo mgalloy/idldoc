@@ -13,7 +13,9 @@
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: variable
+; :Returns: 
+;    variable
+;    
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable
@@ -29,10 +31,9 @@ function doctreesavvar::getVariable, name, found=found
   switch strlowcase(name) of
     'name': return, self.name
     'declaration': return, self.declaration
+    
     'has_thumbnail': return, self.hasThumbnail
-    'thumbnail_url': begin
-        return, self.localThumbnailUrl
-      end
+    'thumbnail_url': return, self.localThumbnailUrl
       
     'index_name': return, self.name
     'index_type': return, 'variable in .sav file ' + self.savFile->getVariable('basename')
@@ -66,7 +67,8 @@ end
 ;+
 ; All sav variables are visible.
 ;
-; :Returns: 1 if visible, 0 if not visible
+; :Returns: 
+;    1 if visible, 0 if not visible
 ;-
 function doctreesavvar::isVisible
   compile_opt strictarr
@@ -87,7 +89,8 @@ end
 ;+
 ; Creates a sav variable object.
 ;
-; :Returns: 1 for success, 0 for failure
+; :Returns: 
+;    1 for success, 0 for failure
 ;
 ; :Params:
 ;    name : in, required, type=string
@@ -120,6 +123,9 @@ function doctreesavvar::init, name, data, savFile, system=system
   endif
   
   self.declaration = doc_variable_declaration(data)
+  
+  ; free data
+  heap_free, data
   
   return, 1
 end
