@@ -13,10 +13,10 @@ clean:
 	rm -rf unit_tests/*-docs
 	
 doc:
-	$(IDL) build_idldoc_docs
+	$(IDL) idldoc_build_docs
 
 book:
-	$(IDL) build_idldoc_book
+	$(IDL) idldoc_build_book
 	cd api-book; pdflatex -halt-on-error index.tex
 	cd api-book; pdflatex -halt-on-error index.tex	
 	
@@ -41,7 +41,7 @@ dist:
 	
 	mkdir idldoc-$(VERSION)
 	
-	$(IDL) -IDL_STARTUP "" build_idldoc
+	$(IDL) -IDL_STARTUP "" idldoc_build
 	mv idldoc.sav idldoc-$(VERSION)/
 	
 	svn export docs idldoc-$(VERSION)/docs/
@@ -59,7 +59,7 @@ updates:
 
 	mkdir -p updates.idldev.com/{features,plugins}
 
-	$(IDL) -e build_updates_site
+	$(IDL) -e idldoc_build_updates_site
 
 	cp updates-resources/features/about.html updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 	cp updates-resources/features/feature.properties updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
@@ -67,7 +67,7 @@ updates:
 	jar cvf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION).jar -C updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/ .
 	rm -rf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 
-	$(IDL) -IDL_STARTUP "" build_idldoc
+	$(IDL) -IDL_STARTUP "" idldoc_build
 
 	mkdir updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
 	cp idldoc.sav updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
