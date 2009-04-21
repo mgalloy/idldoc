@@ -22,6 +22,9 @@ IDLdoc 3.2
   2 for level 1 items plus parameters, keywords, fields, properties, and sav
   file variables
 
+* Adds links to names of routines and classes found in the Uses section for 
+  routines and files.
+
 * Miscellaneous small bug fixes.
 
 

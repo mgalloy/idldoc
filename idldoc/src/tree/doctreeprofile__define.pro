@@ -371,7 +371,16 @@ function doctreeprofile::getVariable, name, found=found
     'todo': return, self.system->processComments(self.todo)
         
     'has_uses': return, obj_valid(self.uses)
-    'uses': return, self.system->processComments(self.uses)
+    'uses': begin
+        self.directory->getProperty, url=dirUrl
+        if (dirUrl eq './') then begin
+          root = '.'
+        endif else begin
+          dummy = strsplit(dirUrl, '/', count=ndirs)
+          root = strjoin(strarr(ndirs) + '..', '/')
+        endelse
+        return, self.system->processUses(self.uses, root=root)
+      end
 
     'plain_attributes': begin
         attributes = [self.bugs, self.version, self.history, self.copyright, $
@@ -528,6 +537,10 @@ pro doctreeprofile::process
     routine = self.routines->get(position=r)
     routine->markArguments
     routine->checkDocumentation
+    routine->getProperty, name=routineName
+    if (routine->isVisible()) then begin
+      self.system->addVisibleRoutine, routineName, routine
+    endif
   endfor
 end
 

@@ -102,9 +102,10 @@ end
 
 
 ;+
-; Easy to use accessor for URL.
+; Easy to use accessor for URL to class file relative to doc root.
 ;
-; :Returns: string
+; :Returns: 
+;    string
 ;-
 function doctreeclass::getUrl
   compile_opt strictarr

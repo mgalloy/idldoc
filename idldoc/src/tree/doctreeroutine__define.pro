@@ -341,8 +341,18 @@ function doctreeroutine::getVariable, name, found=found
     'restrictions': return, self.system->processComments(self.restrictions)
 
     'has_uses': return, obj_valid(self.uses)
-    'uses': return, self.system->processComments(self.uses)
-                            
+    'uses': begin
+        self.file->getProperty, directory=directory
+        directory->getProperty, url=dirUrl
+        if (dirUrl eq './') then begin
+          root = '.'
+        endif else begin
+          dummy = strsplit(dirUrl, '/', count=ndirs)
+          root = strjoin(strarr(ndirs) + '..', '/')
+        endelse
+        return, self.system->processUses(self.uses, root=root)
+      end
+                           
     'has_requires': return, obj_valid(self.requires)
     'requires': return, self.system->processComments(self.requires)
     

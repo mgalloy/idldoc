@@ -548,6 +548,107 @@ end
 
 
 ;+
+; Add a routine to the visible routines list.
+; 
+; :Params:
+;    name : in, required, type=string
+;       name of routine
+;    routine : in, required, type=object
+;       DOCtreeRoutine object
+;-
+pro doc_system::addVisibleRoutine, name, routine
+  compile_opt strictarr
+
+  self.visibleRoutines->put, strlowcase(name), routine
+end
+
+
+;+
+; Find link to given resource.
+; 
+; :Returns:
+;    string, returns empty string if no resource found
+;    
+; :Params:
+;    resource : in, required, type=string   
+;-
+function doc_system::_findResourceLink, resource
+  compile_opt strictarr
+  
+  class = self.classes->get(strlowcase(resource), found=found)
+  if (found) then begin
+    if (class->hasUrl()) then return, class->getUrl()
+  endif
+  
+  routine = self.visibleRoutines->get(strlowcase(resource), found=found)
+  if (found) then begin
+    return, routine->getVariable('index_url')
+  endif
+  
+  return, ''
+end
+
+
+;+
+; Convert the uses clause into a string array using the current comment style.
+; 
+; :Returns:
+;    strarr
+;
+; :Params:
+;    tree : in, required, type=object
+;       parse tree object
+;  
+; :Keywords:
+;    root : in, required, type=string
+;       relative location of root from the calling routine or file
+;-
+function doc_system::processUses, tree, root=root
+  compile_opt strictarr
+  
+  if (~obj_valid(tree)) then return, ''
+  
+  ; get plain text
+  crlf = string(!version.os_family eq 'unix' ? [10B] : [13B, 10B])
+  plainParser = self->getParser('plainoutput')
+  s = plainParser->process(tree)
+  s = strjoin(s, crlf)
+  resources = strsplit(s, '[[:space:],]', /regex, /extract, count=nresources)
+  
+  ; get new tree based with links to resources used
+  _tree = obj_new('MGtmTag', type='paragraph')
+  for r = 0L, nresources - 1L do begin
+    href = self->_findResourceLink(resources[r])
+    if (href eq '') then begin
+      parent = _tree
+    endif else begin
+      link = obj_new('MGtmTag', type='link')
+      link->addAttribute, 'reference', root + '/' + href
+      _tree->addchild, link
+      parent = link
+    endelse
+    
+    resourceName = obj_new('MGtmText', text=resources[r])
+    parent->addChild, resourceName
+    
+    if (r ne nresources - 1L) then begin
+      comma = obj_new('MGtmText', text=', ')
+      _tree->addChild, comma
+    endif
+  endfor
+
+  ; create output using current comment style
+  commentParser = self->getParser(self.commentStyle + 'output')
+  comments = commentParser->process(_tree)
+    
+  ; destroy new tree
+  obj_destroy, _tree
+  
+  return, comments
+end
+
+
+;+
 ; Convert a parse tree into a string array using the plain output parser.
 ;
 ; :Returns: 
@@ -967,6 +1068,7 @@ pro doc_system::cleanup
   if (self.logLun ne '') then free_lun, self.logLun
   
   obj_destroy, [self.index, self.proFiles, self.dlmFiles, self.savFiles, self.idldocFiles]
+  obj_destroy, self.visibleRoutines
   
   classes = self.classes->values(count=nClasses)
   if (nClasses gt 0) then obj_destroy, classes
@@ -1187,6 +1289,8 @@ function doc_system::init, root=root, output=output, $
   self.savFiles = obj_new('MGcoArrayList', type=11, block_size=20)  
   self.idldocFiles = obj_new('MGcoArrayList', type=11, block_size=20)
   
+  self.visibleRoutines = obj_new('MGcoHashTable', key_type=7, value_type=11)
+  
   self.requiresItems = obj_new('MGcoArrayList', type=11, block_size=20)
   
   ; initialize some data structures
@@ -1375,6 +1479,8 @@ pro doc_system__define
              dlmFiles: obj_new(), $
              savFiles: obj_new(), $
              idldocFiles: obj_new(), $
+             
+             visibleRoutines: obj_new(), $
              
              requiresVersion: '', $
              requiresItems: obj_new() $                              
