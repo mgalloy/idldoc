@@ -4,7 +4,7 @@
 ; Build all the files necessary for the updates.idldev.com site to give 
 ; updates for IDLdoc through the IDL Workbench.
 ;-
-pro build_updates_site
+pro idldoc_build_updates_site
   compile_opt strictarr
   
   root = mg_src_root()
