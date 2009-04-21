@@ -11,9 +11,8 @@
 .compile src/dist_tools/mg_cmp_version
 .compile src/dist_tools/mg_src_root
 
-.compile src/introspection/doc_thumbnail
-.compile src/introspection/doc_typename
-.compile src/introspection/doc_variable_declaration
+.compile src/introspection/mg_thumbnail
+.compile src/introspection/mg_variable_declaration
 
 .compile src/analysis/mg_linear_function
 

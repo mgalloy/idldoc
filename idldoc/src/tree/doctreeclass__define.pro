@@ -365,7 +365,7 @@ pro doctreeclass::findParents
     endif
     if (nAncestorFieldNames eq 0 || nMatches eq 0) then begin
       field = self->addField(fieldNames[f])
-      field->setProperty, type=doc_variable_declaration(s.(f))
+      field->setProperty, type=mg_variable_declaration(s.(f))
     endif
   endfor  
   

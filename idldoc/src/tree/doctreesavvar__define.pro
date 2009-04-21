@@ -110,7 +110,7 @@ function doctreesavvar::init, name, data, savFile, system=system
   self.system->getProperty, index_level=indexLevel
   if (indexLevel ge 2L) then self.system->createIndexEntry, self.name, self
   
-  im = doc_thumbnail(data, valid=valid)
+  im = mg_thumbnail(data, valid=valid)
   self.hasThumbnail = valid
   if (self.hasThumbnail) then begin 
     self.savFile->getProperty, directory=directory, basename=basename
@@ -122,7 +122,7 @@ function doctreesavvar::init, name, data, savFile, system=system
     write_png, filename, im
   endif
   
-  self.declaration = doc_variable_declaration(data)
+  self.declaration = mg_variable_declaration(data)
   
   ; free data
   heap_free, data
