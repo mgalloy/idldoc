@@ -348,7 +348,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     ; if starting begin/end block (switch/case implicitly start a block) then 
     ; increase code level
     if (lastToken eq 'begin' && ~insideComment) then codeLevel++
-    if (firstToken eq 'case' || firstToken eq 'switch') then codeLevel++
+    if (lastToken eq 'of') then codeLevel++
     
     ; if firstToken is one of the end variants then codeLevel--
     ind = where(firstToken eq endVariants, nEndsFound)
