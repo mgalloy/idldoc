@@ -25,6 +25,10 @@ IDLdoc 3.2
 * Adds links to names of routines and classes found in the Uses section for 
   routines and files.
 
+* Added color output in the output log for errors and warnings if the 
+  COLOR_OUTPUTLOG keyword is set or if the MG_TERMISTTY routine is present and
+  returns true. 
+
 * Miscellaneous small bug fixes.
 
 

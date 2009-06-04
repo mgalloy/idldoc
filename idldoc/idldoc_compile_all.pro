@@ -2,6 +2,8 @@
 .compile src/doc_system__define
 .compile src/idldoc_version
 
+.compile src/cmdline_tools/mg_ansicode
+
 .compile src/collection/mgcoabstractlist__define
 .compile src/collection/mgcoarraylist__define
 .compile src/collection/mgcoabstractiterator__define
