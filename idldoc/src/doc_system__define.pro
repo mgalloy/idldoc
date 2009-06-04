@@ -292,8 +292,11 @@ pro doc_system::error, msg
 
   if (self.logFile ne '') then printf, self.logLun, 'IDLDOC: ' + msg
 
-    
-  message, msg, /noname
+  if (self.isTty) then begin
+    message, mg_ansicode(msg, /red), /noname
+  endif else begin
+    message, msg, /noname
+  endelse
 end
 
 
@@ -309,7 +312,14 @@ pro doc_system::warning, msg
   
   if (self.logFile ne '') then printf, self.logLun, 'IDLDOC: ' + msg
   
-  if (~self.silent) then message, 'IDLDOC: '+ msg, /informational, /noname
+  if (~self.silent) then begin
+    if (self.isTty) then begin
+      message, mg_ansicode('IDLDOC: '+ msg, /red), /informational, /noname
+    endif else begin
+      message, 'IDLDOC: '+ msg, /informational, /noname
+    endelse
+  endif
+  
   ++self.nWarnings
 end
 
@@ -1059,6 +1069,26 @@ pro doc_system::makeDirectory, dir, error=error
 end
 
 
+
+;+
+; Safe method of determining if the current terminal is TTY.
+;
+; :Returns:
+;    1 if the terminal is TTY, 0 if not
+;-
+function doc_system::_findIfTty
+  compile_opt strictarr
+  
+  catch, error
+  if (error ne 0L) then begin
+    catch, /cancel
+    return, 0
+  endif
+  
+  return, mg_termIsTty()
+end
+
+
 ;+
 ; Free resources.
 ;-
@@ -1162,6 +1192,9 @@ end
 ;       directory to find templates in
 ;    charset : in, optional, type=string, default=utf-8
 ;       character set to use
+;       
+;    color_outputlog : in, optional, type=boolean
+;       set to color output log messages
 ;-
 function doc_system::init, root=root, output=output, $
                            quiet=quiet, silent=silent, n_warnings=nWarnings, $
@@ -1177,10 +1210,13 @@ function doc_system::init, root=root, output=output, $
                            preformat=preformat, browse_routines=browseRoutines, $
                            template_prefix=templatePrefix, $
                            template_location=templateLocation, $
-                           help=help, version=version, charset=charset                  
+                           help=help, version=version, charset=charset, $
+                           color_outputlog=colorOutputlog                  
   compile_opt strictarr
   
   self.version = idldoc_version()
+  
+  self.isTty = keyword_set(colorOutputlog) ? 1B : self->_findIfTty()
   
   if (keyword_set(version)) then begin
     self->print, 'IDLdoc ' + self.version
@@ -1459,6 +1495,7 @@ pro doc_system__define
              
              logFile: '', $
              logLun: 0L, $
+             isTty: 0B, $
              
              templatePrefix: '', $
              templateLocation: '', $

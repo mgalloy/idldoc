@@ -89,6 +89,9 @@
 ;       if set, print out a help message instead of running IDLdoc
 ;    version : in, optional, type=boolean
 ;       if set, print the IDLdoc version instead of running IDLdoc
+;
+;    color_outputlog : in, optional, type=boolean
+;       set to color output log messages
 ;-
 pro idldoc, root=root, $
             output=output, $
@@ -118,7 +121,8 @@ pro idldoc, root=root, $
             charset=charset, $
             error=error, debug=debug, $
             help=help, $
-            version=version
+            version=version, $
+            color_outputlog=colorOutputlog 
   compile_opt strictarr
 
   origPath = !path
@@ -170,7 +174,8 @@ pro idldoc, root=root, $
                    template_location=templateLocation, $
                    charset=charset, $
                    help=help, $
-                   version=version)
+                   version=version, $
+                   color_outputlog=colorOutputlog)
   
   !path = origPath
   path_cache, /clear, /rebuild
