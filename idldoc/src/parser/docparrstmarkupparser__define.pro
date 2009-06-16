@@ -5,11 +5,17 @@
 ; 
 ; The markup parser recognizes:
 ;   1. paragraphs separated by a blank line
+;   
 ;   2. (not implemented) lists (numbered, bulleted, and definition)
+;   
 ;   3. (not implemented) *emphasis* and **bold**
+;   
 ;   4. (not implemented) code can be marked as `a = findgen(10)`
-;   5. (not implemented) links: single word and phrase links
-;   5. images
+;   
+;   5. (not implemented) links like: `my site <michaelgalloy.com>`_
+;   
+;        .. image:: people.jpg
+;   
 ;   7. code callouts like::
 ;  
 ;        pro test, a
@@ -129,12 +135,27 @@ function docparrstmarkupparser::_processText, line, code=code
     else:
   endcase
     
-
-  
   return, output
 end
 
 
+;+
+; Handle an indentation level.
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       lines to be parsed
+;    start : in, required, type=long
+;       start index in lines
+;    indent : in, required, type=long
+;       number of spaces in indentation level
+;       
+; :Keywords:
+;    tree : in, required, type=object
+;       current parse tree
+;    file : in, optional, type=object
+;       file object to add image to
+;-
 pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=file
   compile_opt strictarr
 
@@ -200,6 +221,10 @@ end
 ; :Params:
 ;    lines : in, required, type=strarr
 ;       lines to be parsed
+;  
+; :Keywords:
+;    file : in, required, type=object
+;       file object
 ;-
 function docparrstmarkupparser::parse, lines, file=file
   compile_opt strictarr
