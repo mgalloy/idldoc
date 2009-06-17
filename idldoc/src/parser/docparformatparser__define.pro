@@ -29,7 +29,7 @@
 ;-
 pro docparformatparser::parseRoutineComments, lines, routine=routine, $
                                                markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
 end
 
@@ -51,7 +51,7 @@ end
 ;-
 pro docparformatparser::parseFileComments, lines, file=file, $
                                            markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
 end
 
@@ -71,7 +71,7 @@ end
 ;-
 pro docparformatparser::parseIDLdocComments, lines, file=file, $
                                              markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   comments = markupParser->parse(lines)
   file->setProperty, comments=comments  
@@ -93,7 +93,7 @@ end
 ;-
 pro docparformatparser::parseOverviewComments, lines, system=system, $
                                                markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
 end
 
@@ -107,7 +107,7 @@ end
 ;        routine tree object
 ;-
 pro docparformatparser::checkForClass, routine
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; before starting on any of the comments associated with the routine, see if
   ; there are any "heldProperties" from a previous file comment that should be
@@ -134,7 +134,7 @@ end
 ;       name of the property
 ;-
 function docparformatparser::_addToHeldProperties, propertyName
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; check for property already existing before creating a new one
   for p = 0L, self.heldProperties->count() - 1L do begin
@@ -156,7 +156,7 @@ end
 ; Start parsing a new file, so clear any stuff remembered about the last file.
 ;-
 pro docparformatparser::startNewFile
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   self.heldProperties->remove, /all
 end
@@ -166,7 +166,7 @@ end
 ; Free resources.
 ;-
 pro docparformatparser::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   obj_destroy, self.heldProperties
 end
@@ -178,7 +178,7 @@ end
 ; :Returns: 1 for success, 0 for failure
 ;-
 function docparformatparser::init, system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.system = system
   self.heldProperties = obj_new('MGcoArrayList', type=11, block_size=5)
@@ -197,7 +197,7 @@ end
 ;       properties waiting to be claimed by a class
 ;-
 pro docparformatparser__define 
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCparFormatParser, $
              system: obj_new(), $

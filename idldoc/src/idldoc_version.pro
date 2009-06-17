@@ -12,7 +12,7 @@
 ;       set to return Subversion revision as well
 ;-
 function idldoc_version, full=full
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   version = '3.2'
   revision = '-r595'

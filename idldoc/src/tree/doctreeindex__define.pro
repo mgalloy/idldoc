@@ -11,13 +11,15 @@
 ;+
 ; Returns an array of first letters of the names of the items in the index.
 ;
-; :Returns: strarr
+; :Returns: 
+;    strarr
+;    
 ; :Keywords: 
 ;    count : out, optional, type=long
 ;       number of first letters for items in the index
 ;-
 function doctreeindex::getFirstLetters, count=count
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ind = where(self.letters, count)
   if (count gt 0) then begin
@@ -37,7 +39,7 @@ end
 ;       and 'index_type' available from getVariable can be added
 ;- 
 pro doctreeindex::add, item
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   item->getProperty, name=name
   self.items->put, { name: name, item: item }
@@ -49,7 +51,7 @@ end
 ; Free resources of index.
 ;-
 pro doctreeindex::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   obj_destroy, self.items
 end
@@ -61,7 +63,7 @@ end
 ; :Returns: 1 for success, 0 for failure
 ;-
 function doctreeindex::init
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   ; strings -> objects
   self.items = obj_new('MGcoArraylist', example={ name:'', item: obj_new() }, $
@@ -82,7 +84,7 @@ end
 ;       histogram of letter usage
 ;-
 pro doctreeindex__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   define = { DOCtreeIndex, $
              items: obj_new(), $

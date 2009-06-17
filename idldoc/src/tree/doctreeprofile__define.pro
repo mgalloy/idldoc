@@ -29,7 +29,7 @@ pro doctreeprofile::getProperty, basename=basename, $
                                  comments=comments, $
                                  n_routines=nRoutines, routines=routines, $
                                  n_lines=nLines, directory=directory                                 
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (arg_present(basename)) then basename = self.basename
   if (arg_present(directory)) then directory = self.directory
@@ -64,7 +64,7 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
                                  restrictions=restrictions, $
                                  todo=todo, $
                                  uses=uses                                 
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (n_elements(code) gt 0) then begin
     ; translate strarr to parse tree, also mark comments
@@ -185,7 +185,7 @@ end
 ;       classname of the class
 ;-
 function doctreeprofile::getClass, classname
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; first, check the file: if it's there, everything is set up already
   for c = 0L, self.classes->count() - 1L do begin
@@ -226,7 +226,7 @@ end
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreeprofile::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   found = 1B
   case strlowcase(name) of
@@ -411,10 +411,11 @@ end
 ; Uses file hidden/private attributes and system wide user/developer level to
 ; determine if this file should be visible.
 ;
-; :Returns: boolean
+; :Returns: 
+;    boolean
 ;-
 function doctreeprofile::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (self.isHidden) then return, 0B
   
@@ -434,7 +435,7 @@ end
 ;       routine object
 ;-
 pro doctreeprofile::addRoutine, routine
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.routines->add, routine
 end
@@ -455,7 +456,7 @@ end
 ;       class tree object in which to check properties
 ;-
 pro doctreeprofile::_propertyCheck, methodname, propertyname, comments, class
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   class->getProperty, classname=classname
   
@@ -489,7 +490,7 @@ end
 ;       name of category to add to this file
 ;-
 pro doctreeprofile::addCategory, name
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   self.categories->add, name
 end
@@ -501,7 +502,7 @@ end
 ; phase.
 ;-
 pro doctreeprofile::process
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (self.classes->count() gt 0) then begin
     ; if has properties, then place properties' comment into keyword comments
@@ -546,7 +547,7 @@ end
 
 
 pro doctreeprofile::addImageRef, filename
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.imagerefs->add, filename
 end
@@ -562,7 +563,7 @@ end
 ;       directory name relative to the root for the .pro file
 ;-
 pro doctreeprofile::generateOutput, outputRoot, directory
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; don't produce output if not visible
   if (~self->isVisible()) then return
@@ -613,7 +614,7 @@ end
 ; Free resources.
 ;-
 pro doctreeprofile::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   obj_destroy, self.firstline
   obj_destroy, self.comments
@@ -638,7 +639,8 @@ end
 ;+
 ; Create file tree object.
 ;
-; :Returns: 1 for success, 0 for failure
+; :Returns: 
+;    1 for success, 0 for failure
 ;
 ; :Keywords:
 ;    basename : in, required, type=string
@@ -652,7 +654,7 @@ end
 ;-
 function doctreeprofile::init, basename=basename, directory=directory, $
                                system=system, fullpath=fullpath
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.basename = basename
   self.directory = directory
@@ -689,7 +691,7 @@ end
 ;       list of routine objects
 ;-
 pro doctreeprofile__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeProFile, $
              system: obj_new(), $

@@ -49,7 +49,7 @@
 ;       pass a named variable to get whether the variable was found
 ;-
 function doctreeargument::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   on_error, 2
   
   ; make sure name is present, a string, and only 1 element
@@ -128,7 +128,7 @@ pro doctreeargument::getProperty, routine=routine, name=name, $
     type=type, default_value=defaultValue, is_hidden=isHidden, $
     is_private=isPrivate, is_obsolete=isObsolete, $
     comments=comments, documented=documented  
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (arg_present(routine)) then routine = self.routine
   if (arg_present(name)) then name = self.name
@@ -164,7 +164,7 @@ pro doctreeargument::setProperty, is_keyword=isKeyword, $
                                   is_private=isPrivate, $
                                   is_obsolete=isObsolete, $
                                   comments=comments
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (n_elements(isFirst) gt 0) then self.isFirst = isFirst
   if (n_elements(isLast) gt 0) then self.isLast = isLast  
@@ -229,7 +229,7 @@ end
 ; :Returns: 1 if visible, 0 if not
 ;-
 function doctreeargument::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   ; each argument in a not-visible routine is not visible
   if (~self.routine->isVisible()) then return, 0B
@@ -248,7 +248,7 @@ end
 ; Free resources lower in the hierarchy.
 ;-
 pro doctreeargument::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   obj_destroy, self.comments
 end
@@ -265,7 +265,7 @@ end
 ;-
 function doctreeargument::init, routine, name=name, is_keyword=isKeyword, $
                                 system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.system = system
   self.routine = routine
@@ -316,7 +316,7 @@ end
 ;       text node hierarchy
 ;-
 pro doctreeargument__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeArgument, $
              system: obj_new(), $

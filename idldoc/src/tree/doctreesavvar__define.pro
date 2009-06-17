@@ -25,7 +25,7 @@
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreesavvar::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   found = 1B
   switch strlowcase(name) of
@@ -58,7 +58,7 @@ end
 ; Set properties.
 ;-
 pro doctreesavvar::setProperty, declaration=declaration
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   if (n_elements(declaration) gt 0) then self.declaration = declaration
 end
@@ -71,7 +71,7 @@ end
 ;    1 if visible, 0 if not visible
 ;-
 function doctreesavvar::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, 1B
 end
@@ -81,7 +81,7 @@ end
 ; Free resources.
 ;-
 pro doctreesavvar::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
 end
 
@@ -101,7 +101,7 @@ end
 ;       sav file tree object
 ;-
 function doctreesavvar::init, name, data, savFile, system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.name = name
   self.savFile = savFile
@@ -149,7 +149,7 @@ end
 ;       1 if a thumbnail image for the variable could be derived
 ;-
 pro doctreesavvar__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeSavVar, $
              system: obj_new(), $

@@ -12,7 +12,7 @@
 ;       relative or absolute path
 ;-
 function mg_getdrive, path
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   on_error, 2
   
   if (strlowcase(!version.os_family) ne 'windows') then return, ''

@@ -16,7 +16,7 @@
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreedlmfile::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   found = 1B
   case strlowcase(name) of
@@ -83,7 +83,7 @@ end
 ;-
 pro doctreedlmfile::getProperty, basename=basename, directory=directory, $
                                  has_class=hasClass
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (arg_present(basename)) then basename = self.basename
   if (arg_present(directory)) then directory = self.directory
@@ -95,7 +95,7 @@ end
 ; Set properties.
 ;-
 pro doctreedlmfile::setProperty
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
 end
 
@@ -107,14 +107,14 @@ end
 ;    1 if visible, 0 if not visible
 ;-
 function doctreedlmfile::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, 1B
 end
 
 
 pro doctreedlmfile::_addRoutine, line, is_function=isFunction
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   tokens = strsplit(line, /extract, count=ntokens)
   
@@ -152,7 +152,7 @@ end
 
 
 pro doctreedlmfile::_loadDLMContents
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; read DLM file
   nlines = file_lines(self.dlmFilename)
@@ -181,7 +181,7 @@ end
 
 
 pro doctreedlmfile::generateOutput, outputRoot, directory
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   self.system->print, '  Generating output for ' + self.basename + '...'
   
@@ -202,7 +202,7 @@ end
 ; Free resources.
 ;-
 pro doctreedlmfile::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
     
   obj_destroy, self.routines
   
@@ -213,7 +213,8 @@ end
 ;+
 ; Create DLM file tree object.
 ;
-; :Returns: 1 for success, 0 for failure
+; :Returns: 
+;    1 for success, 0 for failure
 ;
 ; :Keywords:
 ;    basename : in, required, type=string
@@ -225,7 +226,7 @@ end
 ;-
 function doctreedlmfile::init, basename=basename, directory=directory, $
                                system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.basename = basename
   self.directory = directory
@@ -250,7 +251,7 @@ end
 
 
 pro doctreedlmfile__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeDLMFile, $
              system: obj_new(), $

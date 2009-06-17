@@ -73,7 +73,7 @@ pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
                                  undocumented=undocumented, $
                                  partially_documented=partiallyDocumented
                                  
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (arg_present(file)) then file = self.file
   if (arg_present(name)) then name = self.name
@@ -103,7 +103,7 @@ end
 ; documented.
 ;-
 pro doctreeroutine::checkDocumentation
-  compile_opt strictarr
+  compile_opt strictarr, hidden
  
   fullyDocumented = 1B
   partiallyDocumented = 0B
@@ -163,7 +163,7 @@ pro doctreeroutine::setProperty, name=name, $
                                  uses=uses, $
                                  requires=requires, $
                                  n_lines=nLines
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (n_elements(name) gt 0) then begin
     self.name = name
@@ -259,7 +259,8 @@ end
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: variable
+; :Returns: 
+;    variable
 ;
 ; :Params:
 ;    name : in, required, type=string
@@ -270,7 +271,7 @@ end
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreeroutine::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   found = 1B
   case strlowcase(name) of
@@ -474,10 +475,11 @@ end
 ; the status of the containing file to determine if this routine should be 
 ; visible.
 ;
-; :Returns: 1 if visible, 0 if not visible
+; :Returns: 
+;    1 if visible, 0 if not visible
 ;-
 function doctreeroutine::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   ; each routine in a not-visible file is not visible
   if (~self.file->isVisible()) then return, 0B
@@ -500,7 +502,7 @@ end
 ;       argument tree object
 ;-
 pro doctreeroutine::addParameter, param
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.parameters->add, param
 end
@@ -509,7 +511,8 @@ end
 ;+
 ; Get a positional parameter by name.
 ;
-; :Returns: argument tree object
+; :Returns: 
+;    argument tree object
 ;
 ; :Params:
 ;    name : in, required, type=string
@@ -520,7 +523,7 @@ end
 ;       set to a named variable to find out if the parameter was found
 ;-
 function doctreeroutine::getParameter, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   found = 1B
   for i = 0L, self.parameters->count() - 1L do begin
@@ -541,7 +544,7 @@ end
 ;       argument tree object
 ;-
 pro doctreeroutine::addKeyword, keyword
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.keywords->add, keyword
 
@@ -586,7 +589,8 @@ end
 ;+
 ; Get a keyword by name.
 ;
-; :Returns: argument tree object
+; :Returns: 
+;    argument tree object
 ;
 ; :Params:
 ;    name : in, required, type=string
@@ -597,7 +601,7 @@ end
 ;       set to a named variable to find out if the keyword was found
 ;-
 function doctreeroutine::getKeyword, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   found = 1B
   for i = 0L, self.keywords->count() - 1L do begin
@@ -618,7 +622,7 @@ end
 ;       name of category to add to this routine
 ;-
 pro doctreeroutine::addCategory, name
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   self.categories->add, name
 end
@@ -629,7 +633,7 @@ end
 ; the routine, but before the output is started.
 ;-
 pro doctreeroutine::markArguments
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   nArgs = self.parameters->count() + self.keywords->count()
   if (nArgs le 0) then return
@@ -653,7 +657,7 @@ end
 ; Free resources.
 ;-
 pro doctreeroutine::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   obj_destroy, self.firstline
   obj_destroy, self.comments
@@ -683,7 +687,7 @@ end
 ;       file tree object
 ;-
 function doctreeroutine::init, file, system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.file = file
   self.system = system
@@ -760,7 +764,7 @@ end
 ;       level of documentation for the routine: 0 (none), 1 (partial), 2 (fully)
 ;-
 pro doctreeroutine__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeRoutine, $
              system: obj_new(), $

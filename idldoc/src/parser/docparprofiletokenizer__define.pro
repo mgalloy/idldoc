@@ -10,7 +10,8 @@
 ; Strip comments from a line of code. Returns the line of code without the 
 ; comments.
 ; 
-; :Returns: string
+; :Returns: 
+;    string
 ;
 ; :Params:
 ;    line : in, required, type=string
@@ -22,7 +23,7 @@
 ;       whitespace)
 ;-
 function docparprofiletokenizer::_stripComments, line, empty=empty
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   semicolonPosition = strpos(line, ';')
   while (semicolonPosition ne -1L) do begin
@@ -67,10 +68,11 @@ end
 ;+
 ; Returns whether there is another command.
 ;
-; :Returns: 1 if has another token, 0 if not
+; :Returns: 
+;    1 if has another token, 0 if not
 ;-
 function docparprofiletokenizer::hasNext
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (self.currentLineIndex lt self.nLines - 1L) then return, 1B
   if (self.currentCommandIndex lt self.nCommands) then return, 1B
@@ -84,14 +86,15 @@ end
 ;+
 ; Returns the next command.
 ;
-; :Returns: string
+; :Returns: 
+;    string
 ;
 ; :Keywords:
 ;    current_line_number : out, optional, type=long
 ;       returns the line number of the current (possibly partial) returned line
 ;-
 function docparprofiletokenizer::next, current_line_number=currentLineNumber
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   on_error, 2
   
   ; there is a command left on the current line
@@ -131,7 +134,7 @@ end
 ; Free resources.
 ;-
 pro docparprofiletokenizer::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ptr_free, self.pLines
 end
@@ -140,14 +143,15 @@ end
 ;+
 ; Create a tokenizer.
 ;
-; :Returns: 1 for success, 0 for failure
+; :Returns: 
+;    1 for success, 0 for failure
 ;
 ; :Params:
 ;    lines : in, required, type=strarr
 ;       text of the .pro file
 ;-
 function docparprofiletokenizer::init, lines
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.pLines = ptr_new(lines)
   self.nLines = n_elements(lines)
@@ -178,7 +182,7 @@ end
 ;       index of the current command on the current line
 ;-
 pro docparprofiletokenizer__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCparProFileTokenizer, $
              pLines: ptr_new(), $

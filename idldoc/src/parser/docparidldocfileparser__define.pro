@@ -21,7 +21,7 @@
 ;-
 function docparidldocfileparser::parse, filename, found=found, $
                                         directory=directory
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   file = obj_new('DOCtreeIDLdocFile', $
                  basename=file_basename(filename), $
@@ -58,7 +58,7 @@ end
 ;       system object
 ;-
 function docparidldocfileparser::init, system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.system = system
   
@@ -74,7 +74,7 @@ end
 ;       system tree object
 ;-
 pro docparidldocfileparser__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
 	define = { DOCparIDLdocFileParser, $
 	           system: obj_new() $

@@ -17,7 +17,7 @@
 ;       12,345
 ;-
 function mg_int_format, n
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; handle negative values
   if (n lt 0) then return, '-' + mg_int_format(abs(n))

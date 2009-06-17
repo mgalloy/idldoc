@@ -20,7 +20,9 @@
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: variable value
+; :Returns: 
+;    variable value
+;    
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable
@@ -30,7 +32,7 @@
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreeclass::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   found = 1B
   case strlowcase(name) of
@@ -80,10 +82,11 @@ end
 ;+
 ; Easy to use accessor for classname.
 ;
-; :Returns: string
+; :Returns: 
+;    string
 ;-
 function doctreeclass::getClassname
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, self.classname
 end
@@ -95,7 +98,7 @@ end
 ; :Returns: boolean
 ;-
 function doctreeclass::hasUrl
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, obj_valid(self.proFile)
 end
@@ -108,7 +111,7 @@ end
 ;    string
 ;-
 function doctreeclass::getUrl
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (~obj_valid(self.proFile)) then return, ''
   
@@ -122,10 +125,11 @@ end
 ;+
 ; Easy to use accessor for number of fields.
 ;
-; :Returns: strarr or string
+; :Returns: 
+;    strarr or string
 ;-
 function doctreeclass::getFieldCount
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, self.fields->count()
 end
@@ -134,10 +138,11 @@ end
 ;+
 ; Easy to use accessor for field names.
 ;
-; :Returns: strarr or string
+; :Returns: 
+;    strarr or string
 ;-
 function doctreeclass::getFieldNames
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   nFields = self.fields->count()
   if (nFields eq 0) then return, ''
@@ -156,10 +161,11 @@ end
 ;+
 ; Easy to use accessor for field types.
 ;
-; :Returns: strarr or string
+; :Returns: 
+;    strarr or string
 ;-
 function doctreeclass::getFieldTypes
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   nFields = self.fields->count()
   if (nFields eq 0) then return, ''
@@ -179,7 +185,7 @@ end
 ; Set properties.
 ;-
 pro doctreeclass::setProperty, pro_file=proFile, classname=classname
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (n_elements(proFile) gt 0) then self.proFile = proFile
   if (n_elements(classname) gt 0) then self.classname = classname
@@ -191,7 +197,7 @@ end
 ;-
 pro doctreeclass::getProperty, ancestors=ancestors, classname=classname, $
                                properties=properties
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   if (arg_present(ancestors)) then ancestors = self.ancestors
   if (arg_present(classname)) then classname = self.classname
@@ -207,7 +213,7 @@ end
 ;       class tree object
 ;-
 pro doctreeclass::addChild, child
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.children->add, child
 end
@@ -216,10 +222,11 @@ end
 ;+
 ; Classes are visible if their files are visible.
 ;
-; :Returns: 1 if visible, 0 if not visible
+; :Returns: 
+;    1 if visible, 0 if not visible
 ;-
 function doctreeclass::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, obj_valid(self.proFile) ? self.proFile->isVisible() : 1B
 end
@@ -238,7 +245,7 @@ end
 ;       name of procedure to compile
 ;-
 pro doctreeclass::_compileRoutine, routineName
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   error = 0L
   catch, error
@@ -259,7 +266,7 @@ end
 ;       name of the procedure to compile
 ;-
 pro doctreeclass::_compileFile, routineName
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   error = 0L
   catch, error
@@ -272,7 +279,8 @@ end
 ;+
 ; Create a structure containing the fields of the class.
 ;
-; :Returns: structure
+; :Returns: 
+;    structure
 ;
 ; :Params:
 ;    classname : in, required, type=string
@@ -286,7 +294,7 @@ end
 ;-
 function doctreeclass::_createClassStructure, classname, error=error, $
                                               compile_file=compileFile
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   error = 0L
   catch, error
@@ -309,7 +317,7 @@ end
 ; Find parent classes for class and figure out where each field was defined.
 ;-
 pro doctreeclass::findParents
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; get all fields defined in class
   s = self->_createClassStructure(self.classname, error=error)
@@ -378,7 +386,8 @@ end
 ;+
 ; Add a field to the class.
 ; 
-; :Returns: field tree object
+; :Returns: 
+;    field tree object
 ;
 ; :Params:
 ;    fieldname : in, required, type=string
@@ -389,7 +398,7 @@ end
 ;       if set, do not create a field tree object; just return an exising field
 ;-
 function doctreeclass::addField, fieldName, get_only=getOnly
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   field = self.fields->get(strlowcase(fieldName), found=found)
   if (~found && ~keyword_set(getOnly)) then begin
@@ -413,7 +422,7 @@ end
 ;       name of the property
 ;-
 pro doctreeclass::addProperty, property, property_name=propertyName
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (n_elements(propertyName) ne 0) then begin
     property = self.properties->get(strlowcase(propertyName), found=found)
@@ -434,7 +443,7 @@ end
 ; Free resources.
 ;-
 pro doctreeclass::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   obj_destroy, [self.parents, self.ancestors, self.children]
   
@@ -449,14 +458,15 @@ end
 ;+
 ; Create a class tree object.
 ;
-; :Returns: 1 for success, 0 otherwise
+; :Returns: 
+;    1 for success, 0 otherwise
 ;
 ; :Params:
 ;    classname : in, required, type=string
 ;       name of the class
 ;-
 function doctreeclass::init, classname, pro_file=proFile, system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.classname = classname
   if (n_elements(proFile) gt 0) then self.proFile = proFile
@@ -506,7 +516,7 @@ end
 ;       hash table of property tree classes
 ;-
 pro doctreeclass__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeClass, $
              system: obj_new(), $

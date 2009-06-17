@@ -17,7 +17,8 @@
 ; The getVariable method is required for objects passed as an input to a
 ; template.
 ;
-; :Returns: value or -1L if variable name not found
+; :Returns: 
+;    value or -1L if variable name not found
 ;
 ; :Params:
 ;    name : in, required, type=string
@@ -28,7 +29,7 @@
 ;       pass a named variable to get whether the variable was found
 ;-
 function doctreefield::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   on_error, 2
   
   ; make sure name is present, a string, and only 1 element
@@ -66,7 +67,7 @@ end
 ; Get properties of the field.
 ;-
 pro doctreefield::getProperty, name=name, type=type
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (arg_present(name)) then name = self.name
   if (arg_present(type)) then type = self.type
@@ -77,7 +78,7 @@ end
 ; Set properties of the field.
 ;-
 pro doctreefield::setProperty, name=name, type=type, comments=comments
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   if (n_elements(name) gt 0) then self.name = name
   if (n_elements(type) gt 0) then self.type = type
@@ -91,7 +92,7 @@ end
 ; :Returns: 1 if visible, 0 if not visible
 ;-
 function doctreefield::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, self.class->isVisible()
 end
@@ -101,7 +102,7 @@ end
 ; Free resources.
 ;-
 pro doctreefield::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   obj_destroy, self.comments
 end
@@ -110,13 +111,15 @@ end
 ;+
 ; Creates a field.
 ;
-; :Returns: 1 for success, 0 for failure
+; :Returns: 
+;    1 for success, 0 for failure
+;    
 ; :Params:
 ;    name : in, required, type=string
 ;       name of the field
 ;-
 function doctreefield::init, name, class=class, system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.name = name
   self.class = class
@@ -145,7 +148,7 @@ end
 ;       parse tree object
 ;-
 pro doctreefield__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeField, $
              system: obj_new(), $

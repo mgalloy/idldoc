@@ -72,7 +72,7 @@
 ;       set to a named variable, returns if variable name was found
 ;-
 function doc_system::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   found = 1B
   case strlowcase(name) of
@@ -240,7 +240,7 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              directories=directories, $
                              nosource=nosource, source_link=sourceLink, $
                              user=user, index_level=indexLevel
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   if (arg_present(root)) then root = self.root
   if (arg_present(output)) then output = self.output
@@ -262,7 +262,7 @@ end
 ; Set properties of the system.
 ;-
 pro doc_system::setProperty, overview_comments=overviewComments
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   if (n_elements(overviewComments) gt 0) then begin
     self.overviewComments = overviewComments
@@ -274,7 +274,7 @@ end
 ; Print out debugging information about the system object.
 ;-
 pro doc_system::debug
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
 end
 
@@ -287,7 +287,7 @@ end
 ;       error message to print 
 ;-
 pro doc_system::error, msg
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   on_error, 2
 
   if (self.logFile ne '') then printf, self.logLun, 'IDLDOC: ' + msg
@@ -308,7 +308,7 @@ end
 ;       warning message to print 
 ;-
 pro doc_system::warning, msg
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (self.logFile ne '') then printf, self.logLun, 'IDLDOC: ' + msg
   
@@ -332,7 +332,7 @@ end
 ;       message to print 
 ;-
 pro doc_system::print, msg
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (self.logFile ne '') then printf, self.logLun, msg
   
@@ -344,7 +344,7 @@ end
 ; Print basic help message.
 ;-
 pro doc_system::printHelp
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   msg = ['IDLdoc ' + self.version, $
          '', $
@@ -374,7 +374,7 @@ end
 ; phase.
 ;-
 pro doc_system::process
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; first, organize the pro/sav/idldoc files
   index = self.index->get(/all, count=nEntries)
@@ -430,7 +430,7 @@ end
 ; Build the tree of directories, files, routines, and parameters.
 ;-
 pro doc_system::parseTree
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; search for special files
   proFiles = file_search(self.root, '*.pro', /test_regular, count=nProFiles)
@@ -506,7 +506,7 @@ end
 ;       indicates if the template name was found and returned
 ;-
 function doc_system::getTemplate, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.currentTemplate = name
   return, self.templates->get(name, found=found)
@@ -518,7 +518,7 @@ end
 ; templates in a hash table.
 ;-
 pro doc_system::loadTemplates
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   templates = ['file-listing', 'all-files', 'dir-listing',  $
                'index', 'overview', 'help', 'warnings', 'index-entries', $
@@ -548,7 +548,7 @@ end
 ;       parse tree object
 ;-
 function doc_system::processComments, tree
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (~obj_valid(tree)) then return, ''
   
@@ -567,7 +567,7 @@ end
 ;       DOCtreeRoutine object
 ;-
 pro doc_system::addVisibleRoutine, name, routine
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   self.visibleRoutines->put, strlowcase(name), routine
 end
@@ -583,7 +583,7 @@ end
 ;    resource : in, required, type=string   
 ;-
 function doc_system::_findResourceLink, resource
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   class = self.classes->get(strlowcase(resource), found=found)
   if (found) then begin
@@ -614,7 +614,7 @@ end
 ;       relative location of root from the calling routine or file
 ;-
 function doc_system::processUses, tree, root=root
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (~obj_valid(tree)) then return, ''
   
@@ -669,7 +669,7 @@ end
 ;       parse tree object with the plain output parser
 ;-
 function doc_system::processPlainComments, tree
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (~obj_valid(tree)) then return, ''
   
@@ -704,7 +704,7 @@ end
 ;       indicates if the parser name was found and returned
 ;-
 function doc_system::getParser, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, self.parsers->get(strlowcase(name), found=found)
 end
@@ -715,7 +715,7 @@ end
 ; the templates in a hash table.
 ;-
 pro doc_system::loadParsers
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; file parsers
   self.parsers->put, 'profile', obj_new('DOCparProFileParser', system=self)
@@ -745,7 +745,7 @@ end
 ; Generate all output for the run.
 ;-
 pro doc_system::generateOutput
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; generate files per directory
   for d = 0L, self.directories->count() - 1L do begin
@@ -829,7 +829,7 @@ end
 ;       tree object (i.e. directory, file, param)
 ;-
 pro doc_system::createIndexEntry, name, value
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.index->add, { name: strlowcase(name), item: value }
 end
@@ -839,7 +839,7 @@ end
 ; Remove items that are not visible from the index.
 ;-
 pro doc_system::processIndex
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   entries = self.index->get(/all, count=nEntries)
     
@@ -866,7 +866,7 @@ end
 ;       first letter of items to return
 ;-
 function doc_system::getIndexEntries, letter
-  compile_opt strictarr
+  compile_opt strictarr, hidden
     
   entries = self.index->get(/all)
   ind = where(strmid(entries.name, 0, 1) eq strlowcase(letter), count)
@@ -888,7 +888,7 @@ end
 ;       routine or file tree object
 ;-
 pro doc_system::createCategoryEntry, name, item
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   lname = strlowcase(name)
   categoryList = self.categories->get(lname, found=found)
@@ -911,7 +911,7 @@ end
 ;       category name
 ;-
 function doc_system::getCategoryEntries, name
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   lname = strlowcase(name)
   categoryList = self.categories->get(lname, found=found)
@@ -929,7 +929,7 @@ end
 ;       routine tree object which has an attached todo tag
 ;-
 pro doc_system::createTodoEntry, routine
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.todos->add, routine
 end
@@ -943,7 +943,7 @@ end
 ;       routine or file tree object which is obsolete
 ;-
 pro doc_system::createObsoleteEntry, item
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.obsolete->add, item
 end
@@ -957,7 +957,7 @@ end
 ;       routine or file tree object which contains a bug
 ;-
 pro doc_system::createBugEntry, item
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.bugs->add, item
 end
@@ -971,7 +971,7 @@ end
 ;       routine tree object which is missing documentation
 ;-
 pro doc_system::createDocumentationEntry, routine
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.undocumented->add, routine
 end
@@ -988,7 +988,7 @@ end
 ;       routine or file tree object
 ;-
 pro doc_system::checkRequiredVersion, version, item
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   case mg_cmp_version(version, self.requiresVersion) of
     -1: ; don't do anything if version is not at least equal to requires version
@@ -1009,7 +1009,7 @@ end
 ; :Returns: error code (0 indicates no error)
 ;-
 function doc_system::testOutput
-  compile_opt strictarr
+  compile_opt strictarr, hidden
     
   testfile = self.output + 'idldoc.test'
   openw, lun, testfile, error=error, /get_lun
@@ -1025,7 +1025,7 @@ end
 ; the idldoc-resources directory in the output root.
 ;-
 pro doc_system::copyResources
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; copy *.* to avoid .svn/ if running from a Subversion checkout 
   resourceLocation = filepath('*.*', subdir=['resources'], $
@@ -1056,7 +1056,7 @@ end
 ;       error code; 0 indicates no error
 ;-
 pro doc_system::makeDirectory, dir, error=error
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   error = 0L
   catch, error
@@ -1077,7 +1077,7 @@ end
 ;    1 if the terminal is TTY, 0 if not
 ;-
 function doc_system::_findIfTty
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   catch, error
   if (error ne 0L) then begin
@@ -1093,7 +1093,7 @@ end
 ; Free resources.
 ;-
 pro doc_system::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (self.logLun ne '') then free_lun, self.logLun
   
@@ -1212,7 +1212,7 @@ function doc_system::init, root=root, output=output, $
                            template_location=templateLocation, $
                            help=help, version=version, charset=charset, $
                            color_outputlog=colorOutputlog                  
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.version = idldoc_version()
   
@@ -1453,7 +1453,7 @@ end
 ;       array list of .idldoc files in current run
 ;-
 pro doc_system__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOC_System, $
              version: '', $

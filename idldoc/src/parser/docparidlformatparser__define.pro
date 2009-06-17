@@ -32,7 +32,7 @@ pro docparidlformatparser::_handleArguments, lines, routine=routine, $
                                              optional=optional, $
                                              input=input, $
                                              tag=tag
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   argLines = lines
     
@@ -94,7 +94,7 @@ end
 pro docparidlformatparser::_handleFileTag, tag, lines, $
                                            file=file,  $
                                            markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   case strlowcase(tag) of    
     'name': ; might be able to use this to find correct routine
@@ -159,7 +159,7 @@ end
 pro docparidlformatparser::_handleRoutineTag, tag, lines, $
                                               routine=routine,  $
                                               markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   routine->getProperty, file=file
   
@@ -231,7 +231,7 @@ end
 ;-
 pro docparidlformatparser::parseRoutineComments, lines, routine=routine, $
                                                  markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (n_elements(lines) eq 0) then return
   
@@ -277,7 +277,7 @@ end
 ;-
 pro docparidlformatparser::parseFileComments, lines, file=file, $
                                               markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (n_elements(lines) eq 0) then return
   
@@ -323,7 +323,7 @@ end
 ;-
 pro docparidlformatparser::parseOverviewComments, lines, system=system, $
                                                      markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; DIRECTORIES:
   ;   ./: Description goes here. This must be followed by a blank line.
@@ -338,7 +338,7 @@ end
 ; Define instance variables.
 ;-
 pro docparidlformatparser__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   define = { DOCparIDLFormatParser, inherits DOCparFormatParser }
 end

@@ -8,13 +8,14 @@
 ;+
 ; Parse the lines from a tag; simply removes the tag and passes along the rest.
 ; 
-; :Returns: strarr
+; :Returns: 
+;    strarr
 ;
 ; :Params:
 ;    lines : in, out, required, type=strarr
 ;-
 function docparrstformatparser::_parseTag, lines
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   mylines = lines
   pos = stregex(lines[0], '^[[:space:]]*:[[:alpha:]_]+:[[:space:]]*', length=len)
@@ -46,7 +47,7 @@ end
 pro docparrstformatparser::_handleFileTag, tag, lines, $
                                            file=file, $
                                            markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   case strlowcase(tag) of
     'file_comments' : begin
@@ -223,7 +224,7 @@ end
 ;-
 pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
                                               markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   routine->getProperty, file=file
   
@@ -397,7 +398,7 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
                                                routine=routine, $
                                                markup_parser=markupParser, $
                                                keyword=keyword
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; find params/keywords
   tag = keyword_set(keyword) ? 'keyword' : 'param'
@@ -515,7 +516,7 @@ end
 ;       routine tree object
 ;-
 pro docparrstformatparser::_handleAttribute, param, attribute, routine=routine
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (attribute eq '') then return
   
@@ -560,7 +561,7 @@ end
 ;-
 pro docparrstformatparser::parseRoutineComments, lines, routine=routine,  $
                                                  markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; find tags enclosed by ":"s that are the first non-whitespace character on 
   ; the line
@@ -603,7 +604,7 @@ end
 ;-
 pro docparrstformatparser::parseFileComments, lines, file=file,  $
                                               markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; find tags enclosed by ":"s that are the first non-whitespace character on 
   ; the line
@@ -646,7 +647,7 @@ end
 ;-
 pro docparrstformatparser::parseOverviewComments, lines, system=system, $
                                                   markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   ; find tags enclosed by ":"s that are the first non-whitespace character on 
   ; the line
@@ -740,7 +741,7 @@ end
 ; Define instance variables.
 ;- 
 pro docparrstformatparser__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   define = { DOCparRstFormatParser, inherits DOCparFormatParser }
 end

@@ -27,7 +27,7 @@
 ;       ../../bin/idl
 ;-
 function mg_relative_path, src, dst, web=web
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   on_error, 2
   
   ; the web always uses /

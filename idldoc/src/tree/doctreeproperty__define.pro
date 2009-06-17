@@ -29,7 +29,7 @@
 ;-
 pro doctreeproperty::getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
                                   comments=comments, name=name, type=type
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (arg_present(isGet)) then isGet = self.isGet
   if (arg_present(isSet)) then isSet = self.isSet
@@ -45,7 +45,7 @@ end
 ;-
 pro doctreeproperty::setProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
                                   comments=comments, class=class, type=type
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (n_elements(isGet) gt 0) then self.isGet = isGet
   if (n_elements(isSet) gt 0) then self.isSet = isSet
@@ -81,7 +81,7 @@ end
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreeproperty::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   found = 1B
   case strlowcase(name) of
@@ -117,10 +117,11 @@ end
 ;+
 ; Properties are visible if their class is visible.
 ;
-; :Returns: 1 if visible, 0 if not visible
+; :Returns: 
+;    1 if visible, 0 if not visible
 ;-
 function doctreeproperty::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, obj_valid(self.class) ? self.class->isVisible() : 0B
 end
@@ -130,7 +131,7 @@ end
 ; Free up resources.
 ;-
 pro doctreeproperty::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   obj_destroy, self.comments
 end
@@ -139,7 +140,9 @@ end
 ;+
 ; Create a DOCtreeProperty class.
 ;
-; :Returns: 1 if successful, 0 for failure
+; :Returns: 
+;    1 if successful, 0 for failure
+;    
 ; :Params:
 ;    name : in, required, type=string
 ;       name of the property
@@ -149,7 +152,7 @@ end
 ;       system object
 ;-
 function doctreeproperty::init, name, system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   self.name = name
   self.system = system
@@ -183,7 +186,7 @@ end
 ;       parse tree object
 ;-
 pro doctreeproperty__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeProperty, $
              system: obj_new(), $

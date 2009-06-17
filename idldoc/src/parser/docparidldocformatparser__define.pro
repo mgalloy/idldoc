@@ -13,7 +13,7 @@
 ;       line from which to remove leading blank lines
 ;-
 pro docparidldocformatparser::_removeSpace, lines
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   ; line is all space
   re = '^[[:space:]]*$'
@@ -57,7 +57,7 @@ function docparidldocformatparser::_parseTag, lines, $
                                               n_attributes=nAttributes, $
                                               attribute_names=attributeNames, $
                                               attribute_values=attributeValues
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   myLines = lines
   
@@ -137,7 +137,7 @@ end
 pro docparidldocformatparser::_handleArgumentTag, lines, $
                                                   routine=routine, $
                                                   markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   lines = self->_parseTag(lines, /has_argument, $
                           tag=tag, argument=argument, $
@@ -202,7 +202,7 @@ end
 pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
                                                  routine=routine,  $
                                                  markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   routine->getProperty, file=file
   
@@ -338,7 +338,7 @@ end
 pro docparidldocformatparser::_handleFileTag, tag, lines, $
                                               file=file, $
                                               markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   case strlowcase(tag) of
     'file_comments': begin
@@ -475,7 +475,7 @@ end
 ;-
 pro docparidldocformatparser::parseRoutineComments, lines, routine=routine, $
                                                     markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; find @ symbols that are the first non-whitespace character on the line
   tagLocations = where(stregex(lines, '^[[:space:]]*@') ne -1, nTags)
@@ -516,7 +516,7 @@ end
 ;-
 pro docparidldocformatparser::parseFileComments, lines, file=file, $
                                                  markup_parser=markupParser                          
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; find @ symbols that are the first non-whitespace character on the line
   tagLocations = where(stregex(lines, '^[[:space:]]*@') ne -1L, nTags)
@@ -556,7 +556,7 @@ end
 ;-
 pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
                                                      markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   ; find @ symbols that are the first non-whitespace character on the line
   tagLocations = where(stregex(lines, '^[[:space:]]*@') ne -1, nTags)
@@ -619,7 +619,7 @@ end
 ; Define instance variables.
 ;-
 pro docparidldocformatparser__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   define = { DOCparIDLdocFormatParser, inherits DOCparFormatParser }
 end

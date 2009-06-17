@@ -21,7 +21,7 @@
 ;-
 pro docparverbatimformatparser::parseRoutineComments, lines, routine=routine, $
                                                       markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   comments = markupParser->parse(lines)
   routine->setProperty, comments=comments
@@ -44,7 +44,7 @@ end
 ;-
 pro docparverbatimformatparser::parseFileComments, lines, file=file, $
                                                    markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   comments = markupParser->parse(lines)
   file->setProperty, comments=comments
@@ -67,7 +67,7 @@ end
 ;-
 pro docparverbatimformatparser::parseOverviewComments, lines, system=system, $
                                                        markup_parser=markupParser
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   comments = markupParser->parse(lines)
   system->setProperty, overview_comments=comments
@@ -78,7 +78,7 @@ end
 ; Define instance variables.
 ;-
 pro docparverbatimformatparser__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   define = { docparverbatimformatparser, inherits DOCparFormatParser }
 end

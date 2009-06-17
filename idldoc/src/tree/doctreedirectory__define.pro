@@ -22,7 +22,7 @@
 ; Get properties.
 ;-
 pro doctreedirectory::getProperty, location=location, url=url
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (arg_present(location)) then location = self.location
   if (arg_present(url)) then url = self.url
@@ -33,7 +33,7 @@ end
 ; Set properties.
 ;-
 pro doctreedirectory::setProperty, overview_comments=overviewComments
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   if (n_elements(overviewComments) gt 0) then self.overviewComments = overviewComments
 end
@@ -54,7 +54,7 @@ end
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreedirectory::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   found = 1B
   case strlowcase(name) of
@@ -119,10 +119,11 @@ end
 ;+
 ; Directories are always visible.
 ;
-; :Returns: 1 if visible, 0 if not visible
+; :Returns: 
+;    1 if visible, 0 if not visible
 ;-
 function doctreedirectory::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, 1B
 end
@@ -133,7 +134,7 @@ end
 ; phase.
 ;-
 pro doctreedirectory::process
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   for f = 0L, self.proFiles->count() - 1L do begin
     file = self.proFiles->get(position=f)
@@ -150,7 +151,7 @@ end
 ;       output root directory (w/ trailing slash)
 ;-
 pro doctreedirectory::generateOutput, outputRoot
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   on_error, 2
   
   self.system->print, 'Generating output for ' + self.location + '...'
@@ -204,7 +205,7 @@ end
 ; Free resources, including items lower in the hierarchy
 ;-
 pro doctreedirectory::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   obj_destroy, self.overviewComments
   obj_destroy, [self.proFiles, self.dlmFiles, self.savFiles, self.idldocFiles]
@@ -218,7 +219,7 @@ end
 ;    1 for success, 0 for failure
 ;-
 function doctreedirectory::init, location=location, files=files, system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.location = location
   self.system = system
@@ -292,7 +293,7 @@ end
 ;       array list of .idldoc file objects
 ;-
 pro doctreedirectory__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeDirectory, $
              system: obj_new(), $

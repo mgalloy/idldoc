@@ -10,7 +10,9 @@
 ; Takes a string array of free text comments and return a parse tree.
 ;
 ; :Abstract:
-; :Returns: object
+; 
+; :Returns: 
+;    object
 ;
 ; :Params:
 ;    lines : in, required, type=strarr
@@ -21,7 +23,7 @@
 ;       type of top-level MGtmTag to create
 ;-
 function docparverbatimmarkupparser::parse, lines, top=top, file=file
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   tree = obj_new('MGtmTag', type=n_elements(top) gt 0 ? top : 'paragraph')
   
@@ -38,7 +40,7 @@ end
 ; Define instance variables.
 ;-
 pro docparverbatimmarkupparser__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCparVerbatimMarkupParser, inherits DOCparMarkupParser }
 end

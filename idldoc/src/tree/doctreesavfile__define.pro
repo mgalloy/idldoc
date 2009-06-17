@@ -29,7 +29,7 @@
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreesavfile::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   found = 1B
   switch strlowcase(name) of
@@ -110,7 +110,7 @@ end
 ; Get properties.
 ;-
 pro doctreesavfile::getProperty, basename=basename, directory=directory
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (arg_present(basename)) then basename = self.basename
   if (arg_present(directory)) then directory = self.directory
@@ -140,7 +140,7 @@ function doctreesavfile::loadItem, itemName, $
                                    structure_definition=structureDefinition, $
                                    pointer_heapvar=pointerHeapvar, $
                                    object_heapvar=objectHeapvar
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   switch 1 of
     keyword_set(systemVariable): begin
@@ -190,7 +190,7 @@ end
 ; Read contents of the .sav file.
 ;-
 pro doctreesavfile::loadSavContents
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   savFile = obj_new('IDL_Savefile', self.savFilename)
   
@@ -263,7 +263,7 @@ end
 ; Set properties.
 ;-
 pro doctreesavfile::setProperty
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
 end
 
@@ -275,7 +275,7 @@ end
 ;    1 if visible, 0 if not visible
 ;-
 function doctreesavfile::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, 1B
 end
@@ -291,7 +291,7 @@ end
 ;       directory name relative to the root for the .sav file
 ;-
 pro doctreesavfile::generateOutput, outputRoot, directory
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   on_error, 2
   
   self.system->print, '  Generating output for .sav file ' + self.basename + '...'
@@ -313,7 +313,7 @@ end
 ; Free resources.
 ;-
 pro doctreesavfile::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   obj_destroy, [self.procedures, $
                 self.functions, $
@@ -329,11 +329,12 @@ end
 ;+
 ; Create file tree object.
 ;
-; :Returns: 1 for success, 0 for failure
+; :Returns: 
+;    1 for success, 0 for failure
 ;-
 function doctreesavfile::init, basename=basename, directory=directory, $
                                system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.basename = basename
   self.directory = directory
@@ -398,7 +399,7 @@ end
 ;       array list of sav variables tree objects
 ;-
 pro doctreesavfile__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeSavFile, $
              system: obj_new(), $

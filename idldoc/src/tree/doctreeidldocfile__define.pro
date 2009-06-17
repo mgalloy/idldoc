@@ -19,7 +19,7 @@
 ; Get properties.
 ;-
 pro doctreeidldocfile::getProperty, basename=basename
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   if (arg_present(basename)) then basename = self.basename
 end
@@ -29,7 +29,7 @@ end
 ; Set properties.
 ;-
 pro doctreeidldocfile::setProperty, comments=comments
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   if (n_elements(comments) gt 0) then begin
     if (obj_valid(self.comments)) then begin
@@ -57,7 +57,7 @@ end
 ;       set to a named variable, returns if variable name was found
 ;-
 function doctreeidldocfile::getVariable, name, found=found
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   found = 1B
   case strlowcase(name) of
@@ -111,7 +111,7 @@ end
 ;    1 if visible, 0 if not visible.
 ;-
 function doctreeidldocfile::isVisible
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, 1B
 end
@@ -128,7 +128,7 @@ end
 ;       root)
 ;-
 pro doctreeidldocfile::generateOutput, outputRoot, directory
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.system->print, '  Generating output for ' + self.basename
   self.system->getProperty, extension=outputExtension
@@ -147,7 +147,7 @@ end
 ; Free resources.
 ;-
 pro doctreeidldocfile::cleanup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   obj_destroy, self.comments
 end
@@ -161,7 +161,7 @@ end
 ;-
 function doctreeidldocfile::init, basename=basename, directory=directory, $
                                   system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.basename = basename
   self.directory = directory
@@ -193,7 +193,7 @@ end
 ;       system object
 ;-
 pro doctreeidldocfile__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCtreeIDLdocFile, $
              system: obj_new(), $

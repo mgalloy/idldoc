@@ -16,7 +16,8 @@
 ;+
 ; Return the contents of a .pro file.
 ;
-; :Returns: strarr or -1L if empty file
+; :Returns: 
+;    strarr or -1L if empty file
 ;
 ; :Params:
 ;    filename : in, required, type=string
@@ -32,7 +33,7 @@
 ;-
 function docparprofileparser::_readFile, filename, empty=empty, $
                                          n_lines=nLines, modification_time=mTime
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   mTime = systime(0, (file_info(filename)).mtime)
   nLines = file_lines(filename)
@@ -55,7 +56,8 @@ end
 ;+
 ; Strips the end-of-line comments from a line.
 ;
-; :Returns: string
+; :Returns: 
+;    string
 ;
 ; :Params:
 ;    line : in, required, type=string
@@ -66,7 +68,7 @@ end
 ;       returns the comments stripped from the line
 ;-
 function docparprofileparser::_stripComments, line, comments=comments
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   comments = ''
   if (strpos(line, ';') lt 0) then return, line
@@ -108,7 +110,8 @@ end
 ;+
 ; Finds docformat string.
 ;
-; :Returns: 1B if docformat found, 0 if not
+; :Returns: 
+;    1B if docformat found, 0 if not
 ;
 ; :Params:
 ;    line : in, required, type=string
@@ -124,7 +127,7 @@ end
 function docparprofileparser::_checkDocformatLine, line, $
                                                    format=format, $
                                                    markup=markup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   ; if first non-whitespace character is not a semicolon, then not a comment 
   ; and no docformat
@@ -188,7 +191,7 @@ end
 ;-
 pro docparprofileparser::_parseRoutineComments, routine, comments, $
                                                 format=format, markup=markup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   formatParser = self.system->getParser(format + 'format')
   markupParser = self.system->getParser(markup + 'markup')
@@ -215,7 +218,7 @@ end
 ;-
 pro docparprofileparser::_parseFileComments, file, comments, $
                                              format=format, markup=markup
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   formatParser = self.system->getParser(format + 'format')
   markupParser = self.system->getParser(markup + 'markup')
@@ -239,7 +242,7 @@ end
 ;       set if this is the first line of the routine header
 ;-
 pro docparprofileparser::_parseHeader, routine, cmd, first_line=firstLine
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   args = strsplit(cmd, ',', /extract, /regex, count=nargs)
   
@@ -280,7 +283,7 @@ end
 ;       markup format for comments
 ;-
 pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
-  compile_opt strictarr, logical_predicate
+  compile_opt strictarr, hidden, logical_predicate
   
   formatParser = self.system->getParser(format + 'format')
   formatParser->startNewFile
@@ -439,7 +442,9 @@ end
 ;+
 ; Parse the given .pro file.
 ; 
-; :Returns: file tree object
+; :Returns: 
+;    file tree object
+;    
 ; :Params:
 ;    filename : in, required, type=string
 ;       absolute path to .pro file to be parsed
@@ -451,7 +456,7 @@ end
 ;       directory tree object
 ;-
 function docparprofileparser::parse, filename, found=found, directory=directory
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   ; sanity check
   found = file_test(filename)
@@ -495,10 +500,11 @@ end
 ;+
 ; Create a file parser.
 ;
-; :Returns: 1 for success, 0 for failure
+; :Returns: 
+;    1 for success, 0 for failure
 ;-
 function docparprofileparser::init, system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.system = system
   
@@ -514,7 +520,7 @@ end
 ;       system object
 ;-
 pro docparprofileparser__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCparProFileParser, $
              system: obj_new() $

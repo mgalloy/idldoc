@@ -22,7 +22,7 @@
 ;       lines to be parsed
 ;-
 function docparmarkupparser::parse, lines, file=file
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   return, obj_new()
 end
@@ -34,7 +34,7 @@ end
 ; :Returns: 1 for success, 0 for failure
 ;-
 function docparmarkupparser::init, system=system
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   self.system = system
   
@@ -46,7 +46,7 @@ end
 ; Define instance variables.
 ;-
 pro docparmarkupparser__define 
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCparMarkupParser, system: obj_new() }
 end

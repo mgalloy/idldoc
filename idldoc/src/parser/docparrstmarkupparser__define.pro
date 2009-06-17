@@ -49,7 +49,7 @@
 ;-
 pro docparrstmarkupparser::_processDirective, line, pos, len, $
                                               tree=tree, file=file
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   fullDirective = strmid(line, pos + 3L, len)
   tokens = strsplit(fullDirective, '::[[:space:]]+', /regex, /extract)
@@ -94,7 +94,7 @@ end
 ;       indicates the line is in code (so escapes might be different)
 ;-
 function docparrstmarkupparser::_processText, line, code=code
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   output = ''
   self.system->getProperty, comment_style=commentStyle
@@ -157,7 +157,7 @@ end
 ;       file object to add image to
 ;-
 pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=file
-  compile_opt strictarr
+  compile_opt strictarr, hidden
 
   code = 0B
   nextIsCode = 0B
@@ -227,7 +227,7 @@ end
 ;       file object
 ;-
 function docparrstmarkupparser::parse, lines, file=file
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   start = 0L  
   indent = 0L
@@ -244,7 +244,7 @@ end
 ; Define instance variables.
 ;-
 pro docparrstmarkupparser__define
-  compile_opt strictarr
+  compile_opt strictarr, hidden
   
   define = { DOCparRstMarkupParser, inherits DOCparMarkupParser }
 end
