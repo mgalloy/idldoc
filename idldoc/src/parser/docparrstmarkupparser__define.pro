@@ -53,19 +53,31 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
   
   fullDirective = strmid(line, pos + 3L, len)
   tokens = strsplit(fullDirective, '::[[:space:]]+', /regex, /extract)
+  directive = tokens[0]
+  filename = tokens[1]
   
-  case strlowcase(tokens[0]) of
+  case strlowcase(directive) of
     'image': begin
         tag = obj_new('MGtmTag', type='image')
         
-        tag->addAttribute, 'source', tokens[1]
+        tag->addAttribute, 'source', filename
         file->getProperty, directory=directory
         directory->getProperty, location=location
         self.system->getProperty, output=output
         
         tag->addAttribute, 'location', location
       end
-    else: self.system->warning, 'unknown rst directive ' + tokens[0]
+    'embed': begin
+        tag = obj_new('MGtmTag', type='embed')
+        
+        tag->addAttribute, 'source', filename
+        file->getProperty, directory=directory
+        directory->getProperty, location=location
+        self.system->getProperty, output=output
+        
+        tag->addAttribute, 'location', location
+      end
+    else: self.system->warning, 'unknown rst directive ' + directive
   endcase
 
   beforeDirective = strmid(line, 0, pos)
@@ -75,7 +87,7 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
   tree->addChild, obj_new('MGtmText', text=afterDirective)
   tree->addChild, obj_new('MGtmTag', type='newline')
   
-  if (obj_valid(file)) then file->addImageRef, tokens[1]
+  if (obj_valid(file)) then file->addImageRef, filename
 end
 
 

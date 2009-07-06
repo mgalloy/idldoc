@@ -1126,7 +1126,9 @@ end
 ;+
 ; Create system object.
 ; 
-; :Returns: 1 for success, 0 for failure
+; :Returns: 
+;    1 for success, 0 for failure
+;
 ; :Keywords:
 ;    root : in, required, type=string
 ;       root of directory hierarchy to document

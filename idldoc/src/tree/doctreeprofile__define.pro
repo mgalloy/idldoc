@@ -579,10 +579,23 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   proFileTemplate->reset
   proFileTemplate->process, self, outputFilename  
 
+  self.system->getProperty, comment_style=commentStyle
+
   ; copy images references in the documentation
   for i = 0L, self.imagerefs->count() - 1L do begin
     path = file_dirname(self.fullpath, /mark_directory)
     filename = self.imagerefs->get(position=i)
+
+    ; if extension of imageref is svg, then look for a PDF file if 
+    ; commentstyle is LaTeX
+    if (commentStyle eq 'latex') then begin
+      dotpos = strpos(filename, '.', /reverse_search)
+      ext = strmid(filename, dotpos + 1L)
+      if (strlowcase(ext) eq 'svg') then begin
+        filename = strmid(filename, 0, dotpos) + '.pdf'
+      endif
+    endif
+    
     if (file_test(path + filename)) then begin
       file_copy, path + filename, outputDir + filename, /allow_same, /overwrite
     endif else begin
