@@ -294,7 +294,7 @@ pro doctreesavfile::generateOutput, outputRoot, directory
   compile_opt strictarr, hidden
   on_error, 2
   
-  self.system->print, '  Generating output for .sav file ' + self.basename + '...'
+  self.system->print, '  Generating output for ' + self.basename + '...'
   self.system->getProperty, extension=outputExtension
   
   self->loadSavContents
