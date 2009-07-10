@@ -52,6 +52,30 @@ end
 
 
 ;+
+; Handles parsing of the directory overview comment block with no special 
+; syntax: all comments are passed through to the markup parser. 
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
+;    directory : in, required, type=object
+;       directory object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
+pro docparverbatimformatparser::parseDirOverviewComments, lines, $
+                                                          directory=directory, $
+                                                          markup_parser=markupParser
+  compile_opt strictarr, hidden
+  
+  comments = markupParser->parse(lines)
+  directory->setProperty, overview_comments=comments
+end
+
+
+;+
 ; Handles parsing of the overview comment block with no special syntax: all 
 ; comments are passed through to the markup parser. 
 ;

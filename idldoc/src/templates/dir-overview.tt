@@ -35,7 +35,13 @@
   
   	<div class="content">
   		<h1>Directory: [% location %]</h1>
-  		
+
+      [% IF has_overview_comments %]
+      <div id="file_comments">
+      	<div class="small [% IF preformat %]pre[% END %]">[% overview_comments %]</div>
+      </div>
+      [% END %]
+        		
   		[% IF n_visible_pro_files gt 0 %]
   		<h3>.pro files</h3>
   		

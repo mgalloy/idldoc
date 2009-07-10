@@ -35,7 +35,14 @@ end
 pro doctreedirectory::setProperty, overview_comments=overviewComments
   compile_opt strictarr, hidden
 
-  if (n_elements(overviewComments) gt 0) then self.overviewComments = overviewComments
+  if (n_elements(overviewComments) gt 0) then begin
+    if (obj_valid(self.overviewComments)) then begin
+      parent = obj_new('MGtmTag')
+      parent->addChild, self.overviewComments
+      parent->addChild, overviewComments
+      self.overviewComments = parent
+    endif else self.overviewComments = overviewComments
+  endif
 end
 
 
@@ -67,6 +74,8 @@ function doctreedirectory::getVariable, name, found=found
       end
       
     'overview_comments': return, self.system->processComments(self.overviewComments)  
+    'has_overview_comments': return, obj_valid(self.overviewComments)
+    
     'n_pro_files' : return, self.proFiles->count()
     'pro_files' : return, self.proFiles->get(/all)
     'n_visible_pro_files': begin
@@ -140,6 +149,27 @@ pro doctreedirectory::process
     file = self.proFiles->get(position=f)
     file->process
   endfor  
+  
+  ; look for a .idldoc file in this directory
+  self.system->getProperty, root=root
+  dirOverviewFile = root + self.location + '.idldoc'
+  if (file_test(dirOverviewFile)) then begin
+    nLines = file_lines(dirOverviewFile)
+    if (nLines le 0) then return
+    
+    lines = strarr(nLines)
+    openr, lun, dirOverviewFile, /get_lun
+    readf, lun, lines
+    free_lun, lun
+    
+    self.system->getProperty, format=format, markup=markup
+    formatParser = self.system->getParser(format + 'format')
+    markupParser = self.system->getParser(markup + 'markup')
+    
+    formatParser->parseDirOverviewComments, lines, $
+                                            directory=self, $
+                                            markup_parser=markupParser
+  endif 
 end
 
 

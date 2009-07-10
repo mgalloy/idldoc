@@ -79,6 +79,27 @@ end
 
 
 ;+
+; Handles parsing of a comment block in the directory overview file using 
+; IDLdoc syntax. 
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
+;    directory : in, required, type=object
+;       system object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
+pro docparformatparser::parseDirOverviewComments, lines, directory=directory, $
+                                                  markup_parser=markupParser
+  compile_opt strictarr, hidden
+  
+end
+
+
+;+
 ; Handles parsing of a comment block in the overview file using IDLdoc syntax. 
 ;
 ; :Params:
