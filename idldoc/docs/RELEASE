@@ -8,6 +8,9 @@ IDLdoc 3.3
 * Added embed directive to embed SVG or other graphics formats. For the
   "latex" comment style, .svg will be replaced with .pdf.
 
+* Directory overview comments can be picked up from a .idldoc file in each
+  directory.
+
 
 IDLdoc 3.2
 ----------
