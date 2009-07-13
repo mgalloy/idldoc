@@ -649,9 +649,39 @@ end
 pro docparrstformatparser::parseDirOverviewComments, lines, directory=directory, $
                                                      markup_parser=markupParser
   compile_opt strictarr, hidden
+
+  ; find tags enclosed by ":"s that are the first non-whitespace character on 
+  ; the line
+  re = '^[[:space:]]*:[[:alpha:]_]+:'
+  tagLocations = where(stregex(lines, re) ne -1L, nTags)
   
-  comments = markupParser->parse(lines)
-  directory->setProperty, overview_comments=comments
+  ; parse normal comments
+  tagsStart = nTags gt 0 ? tagLocations[0] : n_elements(lines)
+  if (tagsStart ne 0) then begin
+    comments = markupParser->parse(lines[0:tagsStart - 1L])
+    directory->setProperty, overview_comments=comments
+  endif
+  
+  ; go through each tag
+  for t = 0L, nTags - 1L do begin
+    tagStart = tagLocations[t]
+    re = ':[[:alpha:]_]+:'
+    fullTag = stregex(lines[tagStart], re, /extract)
+    tag = strmid(fullTag, 1, strlen(fullTag) - 2L)
+    tagEnd = t eq nTags - 1L $
+               ? n_elements(lines) - 1L $
+               : tagLocations[t + 1L] - 1L
+    tagLines = self->_parseTag(lines[tagStart:tagEnd])
+    
+    case strlowcase(tag) of
+      'private': directory->setProperty, private=1B
+      'hidden': directory->setProperty, hidden=1B
+      else: begin
+          system->getProperty, overview=overview
+          system->warning, 'unknown tag "' + tag + '" in overview file ' + overview
+        end
+    endcase
+  endfor  
 end
 
 

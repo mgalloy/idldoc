@@ -15,24 +15,32 @@
 ;       system object
 ;    url
 ;       location of the directory as an URL
+;    private
+;       set to make the directory hidden in user output
+;    hidden
+;       set to make the directory hidden in the output
 ;-
 
 
 ;+
 ; Get properties.
 ;-
-pro doctreedirectory::getProperty, location=location, url=url
+pro doctreedirectory::getProperty, location=location, url=url, $
+                                   private=private, hidden=hidden
   compile_opt strictarr, hidden
   
   if (arg_present(location)) then location = self.location
   if (arg_present(url)) then url = self.url
+  if (arg_present(private)) then private = self.private
+  if (arg_present(hidden)) then hidden = self.hidden
 end
 
 
 ;+
 ; Set properties.
 ;-
-pro doctreedirectory::setProperty, overview_comments=overviewComments
+pro doctreedirectory::setProperty, overview_comments=overviewComments, $
+                                   private=private, hidden=hidden
   compile_opt strictarr, hidden
 
   if (n_elements(overviewComments) gt 0) then begin
@@ -43,6 +51,9 @@ pro doctreedirectory::setProperty, overview_comments=overviewComments
       self.overviewComments = parent
     endif else self.overviewComments = overviewComments
   endif
+  
+  if (n_elements(private) gt 0L) then self.private = private
+  if (n_elements(hidden) gt 0L) then self.hidden = hidden
 end
 
 
@@ -139,17 +150,9 @@ end
 
 
 ;+
-; Do any analysis necessary on information gathered during the "parseTree"
-; phase.
+; Handle .idldoc file in directory.
 ;-
-pro doctreedirectory::process
-  compile_opt strictarr, hidden
-  
-  for f = 0L, self.proFiles->count() - 1L do begin
-    file = self.proFiles->get(position=f)
-    file->process
-  endfor  
-  
+pro doctreedirectory::handleDirOverview
   ; look for a .idldoc file in this directory
   self.system->getProperty, root=root
   dirOverviewFile = root + self.location + '.idldoc'
@@ -170,6 +173,20 @@ pro doctreedirectory::process
                                             directory=self, $
                                             markup_parser=markupParser
   endif 
+end
+
+
+;+
+; Do any analysis necessary on information gathered during the "parseTree"
+; phase.
+;-
+pro doctreedirectory::process
+  compile_opt strictarr, hidden
+  
+  for f = 0L, self.proFiles->count() - 1L do begin
+    file = self.proFiles->get(position=f)
+    file->process
+  endfor  
 end
 
 
@@ -329,6 +346,8 @@ pro doctreedirectory__define
              system: obj_new(), $
              location: '', $
              url: '', $
+             private: 0B, $
+             hidden: 0B, $
              overviewComments: obj_new(), $
              proFiles: obj_new(), $
              dlmFiles: obj_new(), $
