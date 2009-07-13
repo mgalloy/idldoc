@@ -237,6 +237,19 @@ end
 
 
 ;+
+; Indicates if the class definition for this class is in the documented library.
+;
+; :Returns:
+;    1 if in library, 0 if not
+;-
+function doctreeclass::isInLibrary
+  compile_opt strictarr
+
+  return, obj_valid(self.proFile)
+end
+
+
+;+
 ; Compile a given procedure. This is in a separate routine because if it's done
 ; directly in _createClassStructure, then errors like::
 ; 
@@ -477,7 +490,9 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
   self.system = system
    
   self.system->getProperty, index_level=indexLevel
-  if (indexLevel ge 1L) then self.system->createIndexEntry, self.classname, self
+  if (indexLevel ge 1L && self->isInLibrary()) then begin
+    self.system->createIndexEntry, self.classname, self
+  endif
   
   self.system->getProperty, classes=classes
   self.classes = classes
