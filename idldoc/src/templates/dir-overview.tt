@@ -41,7 +41,28 @@
       	<div class="small [% IF preformat %]pre[% END %]">[% overview_comments %]</div>
       </div>
       [% END %]
-        		
+
+      [% IF has_author_info %]
+      <h2>Author information</h2>
+
+        <dl class="attribute small" summary="File author information">
+          [% IF has_author %]
+            <dt>Author</dt>
+            <dd>[% author %]</dd>        
+          [% END %]
+          
+          [% IF has_copyright %]
+            <dt>Copyright</dt>
+            <dd>[% copyright %]</dd>       
+          [% END %]
+          
+          [% IF has_history %]
+            <dt>History</dt>
+            <dd>[% history %]</dd>       
+          [% END %]
+        </dl>          
+      [% END %]
+              		
   		[% IF n_visible_pro_files gt 0 %]
   		<h3>.pro files</h3>
   		

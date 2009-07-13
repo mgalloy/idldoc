@@ -9,7 +9,8 @@ IDLdoc 3.3
   "latex" comment style, .svg will be replaced with .pdf.
 
 * Directory overview comments can be picked up from a .idldoc file in each
-  directory.
+  directory. Tags include private and hidden to control the level of visibility
+  of the directory and its contents, as well as author, copyright, and history.
 
 
 IDLdoc 3.2

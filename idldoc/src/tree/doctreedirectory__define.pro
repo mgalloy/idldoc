@@ -40,7 +40,9 @@ end
 ; Set properties.
 ;-
 pro doctreedirectory::setProperty, overview_comments=overviewComments, $
-                                   is_private=isPrivate, is_hidden=isHidden
+                                   is_private=isPrivate, is_hidden=isHidden, $
+                                   author=author, copyright=copyright, $
+                                   history=history
   compile_opt strictarr, hidden
 
   if (n_elements(overviewComments) gt 0) then begin
@@ -54,6 +56,22 @@ pro doctreedirectory::setProperty, overview_comments=overviewComments, $
   
   if (n_elements(isPrivate) gt 0L) then self.isPrivate = isPrivate
   if (n_elements(isHidden) gt 0L) then self.isHidden = isHidden
+
+  ; "author info" attributes
+  if (n_elements(author) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.author = author
+  endif
+
+  if (n_elements(copyright) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.copyright = copyright
+  endif
+  
+  if (n_elements(history) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.history = history
+  endif    
 end
 
 
@@ -119,7 +137,19 @@ function doctreedirectory::getVariable, name, found=found
     'idldoc_files' : return, self.idldocFiles->get(/all)
     
     'fullname' : return, strjoin(strsplit(self.location, path_sep(), /extract), '.')
+
+    'has_author_info': return, self.hasAuthorInfo
     
+    'has_author': return, obj_valid(self.author)
+    'author': return, self.system->processComments(self.author)
+    'plain_author': return, self.system->processPlainComments(self.author)
+
+    'has_copyright': return, obj_valid(self.copyright)
+    'copyright': return, self.system->processComments(self.copyright)
+    
+    'has_history': return, obj_valid(self.history)
+    'history': return, self.system->processComments(self.history)
+        
     'index_name': return, self.location
     'index_type': return, 'directory'
     'index_url': return, self.url + 'dir-overview.html'
@@ -264,6 +294,7 @@ pro doctreedirectory::cleanup
   compile_opt strictarr, hidden
   
   obj_destroy, self.overviewComments
+  obj_destroy, [self.author, self.copyright, self.history]
   obj_destroy, [self.proFiles, self.dlmFiles, self.savFiles, self.idldocFiles]
 end
 
@@ -359,9 +390,17 @@ pro doctreedirectory__define
              system: obj_new(), $
              location: '', $
              url: '', $
+             
              isPrivate: 0B, $
              isHidden: 0B, $
+             
+             hasAuthorInfo: 0B, $             
+             author: obj_new(), $
+             copyright: obj_new(), $
+             history: obj_new(), $
+                          
              overviewComments: obj_new(), $
+             
              proFiles: obj_new(), $
              dlmFiles: obj_new(), $
              savFiles: obj_new(), $

@@ -13,6 +13,7 @@
 ;
 ; :Params:
 ;    lines : in, out, required, type=strarr
+;       lines of text to parse
 ;-
 function docparrstformatparser::_parseTag, lines
   compile_opt strictarr, hidden
@@ -676,6 +677,9 @@ pro docparrstformatparser::parseDirOverviewComments, lines, directory=directory,
     case strlowcase(tag) of
       'private': directory->setProperty, is_private=1B
       'hidden': directory->setProperty, is_hidden=1B
+      'author': directory->setProperty, author=markupParser->parse(tagLines)
+      'copyright': directory->setProperty, copyright=markupParser->parse(tagLines)
+      'history': directory->setProperty, history=markupParser->parse(tagLines)
       else: begin
           directory->getProperty, location=location
           self.system->warning, 'unknown tag "' + tag + '" in directory overview file for ' + location

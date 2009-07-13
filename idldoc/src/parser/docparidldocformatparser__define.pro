@@ -581,6 +581,9 @@ pro docparidldocformatparser::parseDirOverviewComments, lines, directory=directo
     case strlowcase(tag) of
       'private': directory->setProperty, is_private=1B
       'hidden': directory->setProperty, is_hidden=1B
+      'author': directory->setProperty, author=markupParser->parse(tagLines)
+      'copyright': directory->setProperty, copyright=markupParser->parse(tagLines)
+      'history': directory->setProperty, history=markupParser->parse(tagLines)      
       else: begin
           directory->getProperty, location=location
           self.system->warning, 'unknown tag "' + tag + '" in directory overview file for ' + location
