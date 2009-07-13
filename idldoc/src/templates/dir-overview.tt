@@ -73,7 +73,9 @@
   			 [% END %][% END %]
   		  </dl>
   		[% END %]
-
+      
+      <h2>Contents</h2>
+      
       [% IF n_dlm_files gt 0 %]
         <h3>.dlm files</h3>
         
