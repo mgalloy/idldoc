@@ -26,13 +26,13 @@
 ; Get properties.
 ;-
 pro doctreedirectory::getProperty, location=location, url=url, $
-                                   private=private, hidden=hidden
+                                   is_private=isPrivate, is_hidden=isHidden
   compile_opt strictarr, hidden
   
   if (arg_present(location)) then location = self.location
   if (arg_present(url)) then url = self.url
-  if (arg_present(private)) then private = self.private
-  if (arg_present(hidden)) then hidden = self.hidden
+  if (arg_present(isPrivate)) then isPrivate = self.isPrivate
+  if (arg_present(isHidden)) then isHidden = self.isHidden
 end
 
 
@@ -40,7 +40,7 @@ end
 ; Set properties.
 ;-
 pro doctreedirectory::setProperty, overview_comments=overviewComments, $
-                                   private=private, hidden=hidden
+                                   is_private=isPrivate, is_hidden=isHidden
   compile_opt strictarr, hidden
 
   if (n_elements(overviewComments) gt 0) then begin
@@ -52,8 +52,8 @@ pro doctreedirectory::setProperty, overview_comments=overviewComments, $
     endif else self.overviewComments = overviewComments
   endif
   
-  if (n_elements(private) gt 0L) then self.private = private
-  if (n_elements(hidden) gt 0L) then self.hidden = hidden
+  if (n_elements(isPrivate) gt 0L) then self.isPrivate = isPrivate
+  if (n_elements(isHidden) gt 0L) then self.isHidden = isHidden
 end
 
 
@@ -137,13 +137,20 @@ end
 
 
 ;+
-; Directories are always visible.
+; Uses file hidden/private attributes and system wide user/developer level to
+; determine if this file should be visible.
 ;
 ; :Returns: 
-;    1 if visible, 0 if not visible
+;    boolean
 ;-
 function doctreedirectory::isVisible
   compile_opt strictarr, hidden
+  
+  if (self.isHidden) then return, 0B
+  
+  ; if creating user-level docs and private then not visible
+  self.system->getProperty, user=user
+  if (self.isPrivate && user) then return, 0B
   
   return, 1B
 end
@@ -152,7 +159,7 @@ end
 ;+
 ; Handle .idldoc file in directory.
 ;-
-pro doctreedirectory::handleDirOverview
+pro doctreedirectory::_handleDirOverview
   ; look for a .idldoc file in this directory
   self.system->getProperty, root=root
   dirOverviewFile = root + self.location + '.idldoc'
@@ -200,6 +207,8 @@ end
 pro doctreedirectory::generateOutput, outputRoot
   compile_opt strictarr, hidden
   on_error, 2
+  
+  if (~self->isVisible()) then return
   
   self.system->print, 'Generating output for ' + self.location + '...'
 
@@ -282,6 +291,10 @@ function doctreedirectory::init, location=location, files=files, system=system
   self.url = strjoin(strsplit(self.location, path_sep(), /extract), '/') + '/'
   
   self.system->getProperty, root=root  
+
+  self->_handleDirOverview
+  if (~self->isVisible()) then return, 1
+  
   self.system->print, 'Parsing ' + self.location + '...'
   
   for f = 0L, n_elements(files) - 1L do begin
@@ -346,8 +359,8 @@ pro doctreedirectory__define
              system: obj_new(), $
              location: '', $
              url: '', $
-             private: 0B, $
-             hidden: 0B, $
+             isPrivate: 0B, $
+             isHidden: 0B, $
              overviewComments: obj_new(), $
              proFiles: obj_new(), $
              dlmFiles: obj_new(), $

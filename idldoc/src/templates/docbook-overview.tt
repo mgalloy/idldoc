@@ -22,7 +22,7 @@
           </row>
         </thead>
         <tbody>
-        [% FOREACH d IN dirs %][% SCOPE d %]
+        [% FOREACH d IN visible_dirs %][% SCOPE d %]
           <row rowsep="0">
             <entry><filename>[% location %]</filename></entry>
             <entry>[% overview_comments %]</entry>

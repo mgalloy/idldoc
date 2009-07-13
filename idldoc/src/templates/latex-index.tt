@@ -26,7 +26,7 @@
 
 \part{API}
                    
-[% FOREACH d IN dirs %][% SCOPE d %]
+[% FOREACH d IN visible_dirs %][% SCOPE d %]
 \chapter{Directory: [% mg_escape_latex(fullname) %]}
 
 [% IF n_idldoc_files gt 0 %]

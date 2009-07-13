@@ -100,14 +100,36 @@ function doc_system::getVariable, name, found=found
     'relative_root': return, ''
         
     'n_dirs': return, self.directories->count()
-    'dirs': return, self.directories->get(/all)    
+    'dirs': return, self.directories->get(/all)   
+    'n_visible_dirs': begin
+        nVisible = 0L
+        for d = 0L, self.directories->count() - 1L do begin
+          dir = self.directories->get(position=d)                   
+          nVisible += dir->isVisible()          
+        endfor
+        return, nVisible    
+      end
+    'visible_dirs': begin
+        dirs = self.directories->get(/all, count=nDirs)
+        if (nDirs eq 0L) then return, -1L
+        
+        isVisibleDirs = bytarr(nDirs)
+        for d = 0L, nDirs - 1L do begin
+          isVisibleDirs[d] = dirs[d]->isVisible()
+        endfor
+        
+        ind = where(isVisibleDirs eq 1B, nVisibleDirs)
+        if (nVisibleDirs eq 0L) then return, -1L
+              
+        return, dirs[ind]    
+      end 
     'n_pro_files': return, self.proFiles->count()
     'pro_files': return, self.proFiles->get(/all)
     'just_files': return, self.directories->count() le 1
     'n_visible_pro_files': begin
         nVisible = 0L
         for f = 0L, self.proFiles->count() - 1L do begin
-          file = self.proFiles->get(position=r)          
+          file = self.proFiles->get(position=f)          
           nVisible += file->isVisible()          
         endfor
         return, nVisible

@@ -674,11 +674,11 @@ pro docparrstformatparser::parseDirOverviewComments, lines, directory=directory,
     tagLines = self->_parseTag(lines[tagStart:tagEnd])
     
     case strlowcase(tag) of
-      'private': directory->setProperty, private=1B
-      'hidden': directory->setProperty, hidden=1B
+      'private': directory->setProperty, is_private=1B
+      'hidden': directory->setProperty, is_hidden=1B
       else: begin
-          system->getProperty, overview=overview
-          system->warning, 'unknown tag "' + tag + '" in overview file ' + overview
+          directory->getProperty, location=location
+          self.system->warning, 'unknown tag "' + tag + '" in directory overview file for ' + location
         end
     endcase
   endfor  

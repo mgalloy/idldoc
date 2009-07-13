@@ -423,6 +423,8 @@ function doctreeprofile::isVisible
   self.system->getProperty, user=user
   if (self.isPrivate && user) then return, 0B
   
+  if (~self.directory->isVisible()) then return, 0B
+  
   return, 1B
 end
 

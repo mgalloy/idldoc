@@ -11,7 +11,7 @@
 
 <part><title>API</title>
                    
-[% FOREACH d IN dirs %][% SCOPE d %]
+[% FOREACH d IN visible_dirs %][% SCOPE d %]
 &[% fullname %];
 [% END %][% END %]
 

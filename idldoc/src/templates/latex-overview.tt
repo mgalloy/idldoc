@@ -9,7 +9,7 @@
 \section*{Directories}
 
 \begin{tabular}[t]{lp{4in}}
-[% FOREACH d IN dirs %][% SCOPE d %]
+[% FOREACH d IN visible_dirs %][% SCOPE d %]
 \tt [% mg_escape_latex(location) %] & [% overview_comments %] \\
 [% END %][% END %]
 \end{tabular}
@@ -19,7 +19,7 @@
 \section*{Project statistics}
 
 \begin{tabular}[t]{ll}
-Directories: & [% n_dirs %] \\
+Directories: & [% n_visible_dirs %] \\
 .pro files: & [% n_visible_pro_files %] \\
 .sav files: & [% n_sav_files %] \\
 Routines: & [% n_routines %] \\

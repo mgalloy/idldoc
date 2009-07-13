@@ -316,6 +316,32 @@ end
 ;       all lines of the comment block
 ;
 ; :Keywords:
+;    directory : in, required, type=object
+;       directory object 
+;    markup_parser : in, required, type=object
+;       markup parser object
+;-
+pro docparidlformatparser::parseDirOverviewComments, lines, directory=directory, $
+                                                     markup_parser=markupParser
+  compile_opt strictarr, hidden
+  
+  ; DIRECTORIES:
+  ;   ./: Description goes here. This must be followed by a blank line.
+  ;
+  ;   collection/: Description goes here. Note that the description can flow
+  ;                onto following lines. It is the blank line that delimits
+  ;                directories.
+end
+
+
+;+
+; Handles parsing of a comment block in the overview file using IDLdoc syntax. 
+;
+; :Params:
+;    lines : in, required, type=strarr
+;       all lines of the comment block
+;
+; :Keywords:
 ;    system : in, required, type=object
 ;       system object 
 ;    markup_parser : in, required, type=object
