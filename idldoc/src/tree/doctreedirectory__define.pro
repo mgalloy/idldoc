@@ -102,9 +102,16 @@ function doctreedirectory::getVariable, name, found=found
         return, strjoin(replicate('..' + path_sep(), nUps))
       end
       
-    'overview_comments': return, self.system->processComments(self.overviewComments)  
     'has_overview_comments': return, obj_valid(self.overviewComments)
-    
+    'overview_comments': return, self.system->processComments(self.overviewComments)  
+
+    'has_comments': return, obj_valid(self.overviewComments)
+    'comments': return, self.system->processComments(self.overviewComments)
+    'comments_first_line': begin
+        if (~obj_valid(self.overviewComments)) then return, ''
+        firstline = mg_tm_firstline(self.overviewComments)
+        return, self.system->processComments(firstline) 
+      end 
     'n_pro_files' : return, self.proFiles->count()
     'pro_files' : return, self.proFiles->get(/all)
     'n_visible_pro_files': begin

@@ -109,7 +109,13 @@ function doctreeargument::getVariable, name, found=found
       return, (isFunction && self.isLast) ? '' : ''
     end
     
+    'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)       
+    'comments_first_line': begin
+        if (~obj_valid(self.comments)) then return, ''
+        firstline = mg_tm_firstline(self.comments)
+        return, self.system->processComments(firstline) 
+      end    
     
     else : begin
       found = 0B

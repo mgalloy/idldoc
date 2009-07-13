@@ -67,6 +67,10 @@ function doctreeclass::getVariable, name, found=found
     'index_type': return, 'class'
     'index_url': return, self->getVariable('url')
     
+    'has_comments': return, 0B
+    'comments': return, self.system->processComments(obj_new())   
+    'comments_first_line': return, ''
+    
     else: begin
         ; search in the system object if the variable is not found here
         var = self.proFile->getVariable(name, found=found)

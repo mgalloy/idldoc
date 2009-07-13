@@ -41,7 +41,17 @@ function doctreesavvar::getVariable, name, found=found
         self.savFile->getProperty, directory=directory
         return, directory->getVariable('url') + self.savFile->getVariable('local_url')
       end
-          
+    
+    'has_comments': begin
+        return, 0B
+        break
+      end
+    'comments':
+    'comments_first_line': begin
+        return, ''
+        break
+      end
+    
     else: begin
         ; search in the system object if the variable is not found here
         var = self.savFile->getVariable(name, found=found)

@@ -40,10 +40,10 @@
     	
     	[% FOREACH letter IN index_first_letters %]
     	<h3 id="[% letter %]">[% letter %]</h3>    	
-    	  <dl>
+    	  <dl class="index_listing">
     	  [% FOREACH item IN system->getIndexEntries(letter) %][% SCOPE item %]
-    	    <dt><a href="[% index_url %]">[% index_name %]</a><dt>
-    	    <dd class="small">[% index_type %]</dd>
+    	    <dt><a href="[% index_url %]">[% index_name %]</a> <span class="index_type">[% index_type %]</span><dt>
+    	    <dd class="small">[% IF has_comments %][% comments_first_line %][% END %]</dd>
     	  [% END %][% END %]
     	  </dl>
     	[% END %]

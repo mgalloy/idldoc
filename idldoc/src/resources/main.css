@@ -97,6 +97,11 @@ table.navbar td.selected, table.navbar td.selected a { color: white; }
 table.navbar a:hover, table.navbar a:focus { background: inherit; border-bottom: 1px solid #303099; }
 p.localnavbar { text-align: right; margin: 0.2em 1em 0.2em 0.2em; padding: 0; }
 
+/* index styles */
+span.index_type { margin-left: 3em; font-size: smaller; }
+dl.index_listing dd { margin-bottom: 0.5em; }
+dl.index_listing dd p { margin-top: 0em; margin-bottom: 0em; }
+
 /* search styles */
 fieldset { border: #ddd 1px solid; padding: 1em; margin-top: 3em; }
 legend { color: #900000; font-size: 120%; }
