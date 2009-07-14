@@ -26,9 +26,12 @@ regression:
 tests:
 	$(IDL) -e "mgunit, 'docutalltests_uts'"
 	
-srcdist:
+version:
 	sed "s/version = '.*'/version = '$(VERSION)'/" < src/idldoc_version.pro | sed "s/revision = '.*'/revision = '$(REVISION)'/" > idldoc_version.pro
 	mv idldoc_version.pro src/
+	
+srcdist:
+	make version
 
 	svn export . idldoc-$(VERSION)-src/
 
@@ -36,8 +39,7 @@ srcdist:
 	rm -rf idldoc-$(VERSION)-src
 	
 dist:
-	sed "s/version = '.*'/version = '$(VERSION)'/" < src/idldoc_version.pro | sed "s/revision = '.*'/revision = '$(REVISION)'/" > idldoc_version.pro
-	mv idldoc_version.pro src/
+	make version
 	
 	mkdir idldoc-$(VERSION)
 	
