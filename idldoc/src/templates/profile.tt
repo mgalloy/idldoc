@@ -325,7 +325,7 @@
 		        <table class="attribute small" summary="Routine statistics">
 		          <tr>
 		            <td class="name">Lines:</td>
-		            <td>[% n_lines %]</td>
+		            <td>[% n_lines %]<div class="box [% n_lines_color %]"/></td>
 		          </tr> 
 
 		          <tr>

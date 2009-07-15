@@ -272,6 +272,7 @@ function doctreeprofile::getVariable, name, found=found
     
     'modification_time': return, self.modificationTime
     'n_lines': return, mg_int_format(self.nLines)
+    
     'format': return, self.format
     'markup': return, self.markup
 

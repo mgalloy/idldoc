@@ -58,6 +58,8 @@
 ;       level of index generation: 0 for no index; 1 for directories, classes,
 ;       files, and routines; 2 for level 1 items plus parameters, keywords,
 ;       fields, properties, and sav file variables
+;    routine_line_cutoffs : in, optional, type=lonarr(3), default="[75, 150]"
+;       number of lines before warning or flagged number of lines in a routine
 ;
 ;    format_style : in, optional, type=string, default='idldoc'
 ;       style to use to parse file and routine comments ("idl", "idldoc", 
@@ -111,6 +113,7 @@ pro idldoc, root=root, $
             user=user, $
             statistics=statistics, $
             index_level=indexLevel, $
+            routine_line_cutoffs=routineLineCutoffs, $
             format_style=formatStyle, $
             markup_style=markupStyle, $
             comment_style=commentStyle, $
@@ -165,6 +168,7 @@ pro idldoc, root=root, $
                    user=user, $
                    statistics=statistics, $
                    index_level=indexLevel, $
+                   routine_line_cutoffs=routineLineCutoffs, $
                    format_style=formatStyle, $
                    markup_style=markupStyle, $
                    comment_style=commentStyle, $

@@ -97,6 +97,18 @@ table.navbar td.selected, table.navbar td.selected a { color: white; }
 table.navbar a:hover, table.navbar a:focus { background: inherit; border-bottom: 1px solid #303099; }
 p.localnavbar { text-align: right; margin: 0.2em 1em 0.2em 0.2em; padding: 0; }
 
+/* CSS graphics styles */
+div.box { 
+  margin-left: 0.25em; 
+  display: inline-block; 
+  width: 0.9em; 
+  height: 0.9em; 
+  vertical-align: -1px;
+}
+.red { background-color: #A00; }
+.orange { background-color: #F40; }
+.green { background-color: #480; }
+
 /* index styles */
 span.index_type { margin-left: 3em; font-size: smaller; }
 dl.index_listing dd { margin-bottom: 0.5em; }

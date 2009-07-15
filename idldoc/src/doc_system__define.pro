@@ -261,7 +261,8 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              overview=overview, $
                              directories=directories, $
                              nosource=nosource, source_link=sourceLink, $
-                             user=user, index_level=indexLevel
+                             user=user, index_level=indexLevel, $
+                             routine_line_cutoffs=routineLineCutoffs
   compile_opt strictarr, hidden
 
   if (arg_present(root)) then root = self.root
@@ -277,6 +278,7 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(sourceLink)) then sourceLink = self.sourceLink
   if (arg_present(user)) then user = self.user
   if (arg_present(indexLevel)) then indexLevel = self.indexLevel
+  if (arg_present(routineLineCutoffs)) then routineLineCutoffs = self.routineLineCutoffs
 end
 
 
@@ -1195,6 +1197,8 @@ end
 ;       level of index generation: 0 for no index; 1 for directories, classes,
 ;       files, and routines; 2 for level 1 items plus parameters, keywords,
 ;       fields, properties, and sav file variables
+;    routine_line_cutoffs : in, optional, type=lonarr(3), default="[75, 150]"
+;       number of lines before warning or flagged number of lines in a routine
 ;    format_style : in, optional, type=string, default='idldoc'
 ;       style to use to parse file and routine comments ("idl", "idldoc", 
 ;       "verbatim", or "rst")
@@ -1228,7 +1232,8 @@ function doc_system::init, root=root, output=output, $
                            nonavbar=nonavbar, $
                            nosource=nosource, source_link=sourceLink, $
                            user=user, statistics=statistics, $
-                           index_level=indexLevel, $                           
+                           index_level=indexLevel, $   
+                           routine_line_cutoffs=routineLineCutoffs, $
                            format_style=formatStyle, markup_style=markupStyle, $
                            comment_style=commentStyle, $
                            preformat=preformat, browse_routines=browseRoutines, $
@@ -1294,7 +1299,12 @@ function doc_system::init, root=root, output=output, $
   self.user = keyword_set(user)
   self.statistics = keyword_set(statistics)  
   self.indexLevel = n_elements(indexLevel) eq 0L ? 2L : indexLevel
-  
+  case n_elements(routineLineCutoffs) of
+    0: self.routineLineCutoffs = [0, 75, 150]
+    1: self.routineLineCutoffs = [0, lonarr(2) + routineLineCutoffs[0]]
+    else: self.routineLineCutoffs = [0, routineLineCutoffs[0:1]]
+  endcase
+
   self.preformat = keyword_set(preformat)
   self.assistant = keyword_set(assistant)
   self.embed = keyword_set(embed)
@@ -1528,6 +1538,7 @@ pro doc_system__define
              
              index: obj_new(), $
              indexLevel: 0L, $
+             routineLineCutoffs: lonarr(3), $
              
              classes: obj_new(), $ 
              categories: obj_new(), $

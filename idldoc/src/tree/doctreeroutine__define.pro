@@ -286,6 +286,10 @@ function doctreeroutine::getVariable, name, found=found
     'is_method': return, self.isMethod
     
     'n_lines': return, self.nLines
+    'n_lines_color': begin
+        self.system->getProperty, routine_line_cutoffs=cutoffs
+        return, (['green', 'orange', 'red'])[value_locate(cutoffs, self.nlines)]
+      end
     
     'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)
