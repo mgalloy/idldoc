@@ -179,6 +179,8 @@ function doc_system::getVariable, name, found=found
     'obsolete': return, self.obsolete->get(/all)
     'n_undocumented': return, self.undocumented->count()
     'undocumented': return, self.undocumented->get(/all)
+    'n_complex_routines': return, self.complexRoutines->count()
+    'complex_routines': return, self.complexRoutines->get(/all)
     'n_bugs': return, self.bugs->count()
     'bugs': return, self.bugs->get(/all)
     
@@ -1006,6 +1008,20 @@ end
 
 
 ;+
+; Remember that the given routine is complex.
+;
+; :Params:
+;    routine : in, required, type=object
+;       routine tree object which is complex
+;-
+pro doc_system::createComplexityEntry, routine
+  compile_opt strictarr, hidden
+  
+  self.complexRoutines->add, routine
+end
+
+
+;+
 ; Compare given version to the current highest version. Keeps track of the 
 ; routines that have the highest version.
 ;
@@ -1140,7 +1156,8 @@ pro doc_system::cleanup
   
   obj_destroy, self.overviewComments
   
-  obj_destroy, [self.todos, self.obsolete, self.undocumented, self.bugs]
+  obj_destroy, [self.todos, self.obsolete, self.undocumented, $
+                self.complexRoutines, self.bugs]
   obj_destroy, self.requiresItems
   
   obj_destroy, self.templates->values()
@@ -1367,6 +1384,7 @@ function doc_system::init, root=root, output=output, $
   self.todos = obj_new('MGcoArrayList', type=11, block_size=10)
   self.obsolete = obj_new('MGcoArrayList', type=11, block_size=20)
   self.undocumented = obj_new('MGcoArrayList', type=11, block_size=20)
+  self.complexRoutines = obj_new('MGcoArrayList', type=11, block_size=20)
   self.bugs = obj_new('MGcoArrayList', type=11, block_size=20)
   
   self.proFiles = obj_new('MGcoArrayList', type=11, block_size=20)
@@ -1561,6 +1579,7 @@ pro doc_system__define
              todos: obj_new(), $
              obsolete: obj_new(), $
              undocumented: obj_new(), $
+             complexRoutines: obj_new(), $
              bugs: obj_new(), $
              
              proFiles: obj_new(), $

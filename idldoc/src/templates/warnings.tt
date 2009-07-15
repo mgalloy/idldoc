@@ -92,9 +92,14 @@
     	
     	[% IF statistics %]
     	<div id="statistics">
-    		<h2>Statistics</h2>
+    		<h2>Routines with complexity warnings</h2>
     		
-    		<p>This section is not yet included in the output.</p>
+        <dl>
+        [% FOREACH r IN complex_routines %][% SCOPE r %]
+          <dt><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></dt>
+          <dd><div class="box [% n_lines_color %]"/> [% n_lines %] lines, <div class="box [% complexity_color %]"/> [% complexity %] complexity</dd>        
+        [% END %][% END %]
+        </dl> 
     	</div>
     	[% END %]
     	

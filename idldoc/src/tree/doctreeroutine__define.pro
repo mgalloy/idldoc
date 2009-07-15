@@ -649,11 +649,18 @@ end
 pro doctreeroutine::_computeComplexity, lines
   compile_opt strictarr
   
-  self.system->getProperty, statistics=statistics
+  self.system->getProperty, statistics=statistics, $
+                            routine_line_cutoffs=routineLineCutoffs, $
+                            complexity_cutoffs=complexityCutoffs
   if (~statistics) then return
 
   ; TODO: implement
   self.complexity = 0L
+  
+  if (value_locate(routineLineCutoffs, self.nlines) gt 0L $
+        || value_locate(complexityCutoffs, self.complexity) gt 0L) then begin
+    self.system->createComplexityEntry, self
+  endif
 end
 
 
