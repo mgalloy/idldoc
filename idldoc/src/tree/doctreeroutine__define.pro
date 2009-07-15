@@ -162,7 +162,8 @@ pro doctreeroutine::setProperty, name=name, $
                                  restrictions=restrictions, $
                                  uses=uses, $
                                  requires=requires, $
-                                 n_lines=nLines
+                                 n_lines=nLines, $
+                                 lines=lines
   compile_opt strictarr, hidden
   
   if (n_elements(name) gt 0) then begin
@@ -188,9 +189,10 @@ pro doctreeroutine::setProperty, name=name, $
     endif else self.comments = comments
   endif
 
-  if (n_elements(returns) gt 0) then self.returns = returns  
-  if (n_elements(examples) gt 0) then self.examples = examples
-  if (n_elements(nLines) gt 0) then self.nLines = nLines
+  if (n_elements(returns) gt 0L) then self.returns = returns  
+  if (n_elements(examples) gt 0L) then self.examples = examples
+  if (n_elements(nLines) gt 0L) then self.nLines = nLines
+  if (n_elements(lines) gt 0L) then self->_computeComplexity, lines
   
   ; "author info" attributes
   if (n_elements(author) gt 0) then begin
@@ -285,6 +287,11 @@ function doctreeroutine::getVariable, name, found=found
     'is_obsolete': return, self.isObsolete
     'is_method': return, self.isMethod
     
+    'complexity': return, self.complexity
+    'complexity_color': begin
+        self.system->getProperty, complexity_cutoffs=cutoffs
+        return, (['green', 'orange', 'red'])[value_locate(cutoffs, self.complexity)]
+      end
     'n_lines': return, self.nLines
     'n_lines_color': begin
         self.system->getProperty, routine_line_cutoffs=cutoffs
@@ -633,6 +640,24 @@ end
 
 
 ;+
+; Compute McCabe complexity for the routine.
+;
+; :Params:
+;    lines : in, optional, type=strarr
+;       code to analyze
+;-
+pro doctreeroutine::_computeComplexity, lines
+  compile_opt strictarr
+  
+  self.system->getProperty, statistics=statistics
+  if (~statistics) then return
+
+  ; TODO: implement
+  self.complexity = 0L
+end
+
+
+;+
 ; Mark first and last arguments of a routine. Needs to be called after parsing
 ; the routine, but before the output is started.
 ;-
@@ -782,6 +807,7 @@ pro doctreeroutine__define
              isHidden: 0B, $
              isPrivate: 0B, $
              nLines: 0L, $
+             complexity: 0L, $
              
              parameters: obj_new(), $
              keywords: obj_new(), $

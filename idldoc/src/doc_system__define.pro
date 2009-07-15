@@ -262,7 +262,9 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              directories=directories, $
                              nosource=nosource, source_link=sourceLink, $
                              user=user, index_level=indexLevel, $
-                             routine_line_cutoffs=routineLineCutoffs
+                             routine_line_cutoffs=routineLineCutoffs, $
+                             complexity_cutoffs=complexityCutoffs, $
+                             statistics=statistics
   compile_opt strictarr, hidden
 
   if (arg_present(root)) then root = self.root
@@ -279,6 +281,8 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(user)) then user = self.user
   if (arg_present(indexLevel)) then indexLevel = self.indexLevel
   if (arg_present(routineLineCutoffs)) then routineLineCutoffs = self.routineLineCutoffs
+  if (arg_present(complexityCutoffs)) then complexityCutoffs = self.complexityCutoffs
+  if (arg_present(statistics)) then statistics = self.statistics
 end
 
 
@@ -1197,8 +1201,11 @@ end
 ;       level of index generation: 0 for no index; 1 for directories, classes,
 ;       files, and routines; 2 for level 1 items plus parameters, keywords,
 ;       fields, properties, and sav file variables
-;    routine_line_cutoffs : in, optional, type=lonarr(3), default="[75, 150]"
+;    routine_line_cutoffs : in, optional, type=lonarr(2), default="[75, 150]"
 ;       number of lines before warning or flagged number of lines in a routine
+;    complexity_cutoffs : in, optional, type=lonarr(2), default="[10, 20]"
+;       McCabe complexity to exceed for a warning or flagged
+;
 ;    format_style : in, optional, type=string, default='idldoc'
 ;       style to use to parse file and routine comments ("idl", "idldoc", 
 ;       "verbatim", or "rst")
@@ -1234,6 +1241,7 @@ function doc_system::init, root=root, output=output, $
                            user=user, statistics=statistics, $
                            index_level=indexLevel, $   
                            routine_line_cutoffs=routineLineCutoffs, $
+                           complexity_cutoffs=complexityCutoffs, $                           
                            format_style=formatStyle, markup_style=markupStyle, $
                            comment_style=commentStyle, $
                            preformat=preformat, browse_routines=browseRoutines, $
@@ -1299,10 +1307,17 @@ function doc_system::init, root=root, output=output, $
   self.user = keyword_set(user)
   self.statistics = keyword_set(statistics)  
   self.indexLevel = n_elements(indexLevel) eq 0L ? 2L : indexLevel
+  
   case n_elements(routineLineCutoffs) of
     0: self.routineLineCutoffs = [0, 75, 150]
     1: self.routineLineCutoffs = [0, lonarr(2) + routineLineCutoffs[0]]
     else: self.routineLineCutoffs = [0, routineLineCutoffs[0:1]]
+  endcase
+
+  case n_elements(complexityCutoffs) of
+    0: self.complexityCutoffs = [0, 10, 20]
+    1: self.complexityCutoffs = [0, lonarr(2) + complexityCutoffs[0]]
+    else: self.complexityCutoffs = [0, complexityCutoffs[0:1]]
   endcase
 
   self.preformat = keyword_set(preformat)
@@ -1539,6 +1554,7 @@ pro doc_system__define
              index: obj_new(), $
              indexLevel: 0L, $
              routineLineCutoffs: lonarr(3), $
+             complexityCutoffs: lonarr(3), $
              
              classes: obj_new(), $ 
              categories: obj_new(), $

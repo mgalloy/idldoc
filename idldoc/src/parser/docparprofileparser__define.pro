@@ -362,7 +362,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       if (codeLevel eq 0L) then begin
         if (obj_valid(routine)) then begin
           nLines = currentLineNumber - routineLineStart + 1L
-          routine->setProperty, n_lines=nLines
+          routine->setProperty, n_lines=nLines, lines=lines[routineLineStart:currentLineNumber]
         endif
       endif 
     endif

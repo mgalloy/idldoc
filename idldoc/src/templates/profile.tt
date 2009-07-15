@@ -330,7 +330,7 @@
 
 		          <tr>
 		            <td class="name">McCabe complexity:</td>
-		            <td></td>
+		            <td>[% complexity %]<div class="box [% complexity_color %]"/></td>
 		          </tr>   		            		                
 		        </table>
           [% END %]

@@ -16,8 +16,13 @@ IDLdoc 3.3
 * Added ROUTINE_LINE_CUTOFFS keyword to control level of warning for number of
   lines in a routine (only used when STATISTICS is set). Set
   ROUTINE_LINE_CUTOFFS to a two-element array indicating the number of lines
-  that need to be exceeded before the routine has a warning or is flagged.
+  that needs to be exceeded before the routine has a warning or is flagged.
 
+* McCabe complexity computed for each routine when STATISTICS set. Added 
+  COMPLEXITY_CUTOFFS keyword to control level of warning for complexity. Set
+  COMPLEXITY_CUTOFFS to a two-element array indicating the complexity that
+  needs to be exceeded before the routine has a warning or is flagged.
+  
 
 IDLdoc 3.2
 ----------

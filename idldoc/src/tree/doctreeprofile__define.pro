@@ -541,6 +541,7 @@ pro doctreeprofile::process
     routine = self.routines->get(position=r)
     routine->markArguments
     routine->checkDocumentation
+        
     routine->getProperty, name=routineName
     if (routine->isVisible()) then begin
       self.system->addVisibleRoutine, routineName, routine
