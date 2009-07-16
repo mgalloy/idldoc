@@ -97,7 +97,7 @@
         <dl>
         [% FOREACH r IN complex_routines %][% SCOPE r %]
           <dt><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></dt>
-          <dd><div class="box [% n_lines_color %]"/> [% n_lines %] lines, <div class="box [% complexity_color %]"/> [% complexity %] complexity</dd>        
+          <dd><div class="box [% n_lines_color %]"></div> [% n_lines %] lines, <div class="box [% complexity_color %]"></div> [% complexity %] complexity</dd>        
         [% END %][% END %]
         </dl> 
     	</div>

@@ -325,12 +325,12 @@
 		        <table class="attribute small" summary="Routine statistics">
 		          <tr>
 		            <td class="name">Lines:</td>
-		            <td>[% n_lines %]<div class="box [% n_lines_color %]"/></td>
+		            <td><div class="box [% n_lines_color %]"></div> [% n_lines %] lines</td>
 		          </tr> 
 
 		          <tr>
 		            <td class="name">McCabe complexity:</td>
-		            <td>[% complexity %]<div class="box [% complexity_color %]"/></td>
+		            <td><div class="box [% complexity_color %]"></div> [% complexity %]</td>
 		          </tr>   		            		                
 		        </table>
           [% END %]
