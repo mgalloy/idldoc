@@ -62,3 +62,4 @@
 .compile src/util/mg_int_format
 .compile src/util/mg_is_int
 .compile src/util/mg_relative_path
+.compile src/util/doc_complexity

@@ -654,8 +654,7 @@ pro doctreeroutine::_computeComplexity, lines
                             complexity_cutoffs=complexityCutoffs
   if (~statistics) then return
 
-  ; TODO: implement
-  self.complexity = 0L
+  self.complexity = doc_complexity(lines)
   
   if (value_locate(routineLineCutoffs, self.nlines) gt 0L $
         || value_locate(complexityCutoffs, self.complexity) gt 0L) then begin
