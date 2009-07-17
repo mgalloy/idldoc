@@ -122,9 +122,13 @@ pro doctreedlmfile::_addRoutine, line, is_function=isFunction
   self.routines->add, routine  
 
   routine->setProperty, name=tokens[1], is_function=keyword_set(isFunction)
-  
   minParams = long(tokens[2])
-  maxParams = long(tokens[3])
+  if (tokens[3] eq 'IDL_MAXPARAMS') then begin
+    routine->setProperty, accepts_max_params=1B
+    maxParams = 0L
+  endif else begin
+    maxParams = long(tokens[3])
+  endelse
   
   for p = 0L, maxParams - 1L do begin
     paramName = 'param' + strtrim(p, 2)

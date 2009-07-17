@@ -75,7 +75,11 @@
         <dl class="routine-summary">
           [% FOREACH r IN visible_routines %][% SCOPE r %]
             <dt class="syntax" id="[% name %]">[% name %]<span class="routine-attributes">[% IF is_obsolete %]obsolete [% END %]</span></dt>
+            [% IF accepts_max_params %]
+            <dd class="small"><code>[% IF is_function %]<span class="var">result</span> = [% END %][% name %][% IF is_function %]([% ELSE %], [% END %]<span class="argument">param0, ...</span>[% IF n_visible_keywords gt 0 %][% IF is_function %], [% END %][% FOREACH k IN visible_keywords %][% SCOPE k %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %][% name %][% IF ~is_boolean %]=<span class="var">[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</span>[% END %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></dd>
+            [% ELSE %]
             <dd class="small"><code>[% IF is_function %]<span class="var">result</span> = [% END %][% name %][% IF is_function %]([% END %][% IF n_visible_parameters gt 0 %][% FOREACH p IN visible_parameters %][% SCOPE p %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% name %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF n_visible_keywords gt 0 %][% FOREACH k IN visible_keywords %][% SCOPE k %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %][% name %][% IF ~is_boolean %]=<span class="var">[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</span>[% END %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></dd>
+            [% END %]
           [% END %][% END %]
         </dl>
       </div>

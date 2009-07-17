@@ -69,6 +69,7 @@
 ;-
 pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
                                  is_method=isMethod, parameters=parameters, $
+                                 accepts_max_params=acceptsMaxParams, $
                                  keywords=keywords, classname=classname, $
                                  undocumented=undocumented, $
                                  partially_documented=partiallyDocumented
@@ -81,6 +82,7 @@ pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
   if (arg_present(isMethod)) then isMethod = self.isMethod
   if (arg_present(parameters)) then parameters = self.parameters
   if (arg_present(keywords)) then keywords = self.keywords
+  if (arg_present(acceptsMaxParams)) then acceptsMaxParams = self.acceptsMaxParams
   if (arg_present(classname)) then begin
     isDefine = strlowcase(strmid(self.name, 7, /reverse_offset)) eq '__define'
     colonPos = strpos(self.name, ':')
@@ -152,6 +154,7 @@ pro doctreeroutine::setProperty, name=name, $
                                  is_private=isPrivate, $
                                  comments=comments, $
                                  returns=returns, $
+                                 accepts_max_params=acceptsMaxParams, $
                                  examples=examples, $
                                  bugs=bugs, pre=pre, post=post, $
                                  customer_id=customerId, $
@@ -190,6 +193,7 @@ pro doctreeroutine::setProperty, name=name, $
   endif
 
   if (n_elements(returns) gt 0L) then self.returns = returns  
+  if (n_elements(acceptsMaxParams) gt 0L) then self.acceptsMaxParams = acceptsMaxParams
   if (n_elements(examples) gt 0L) then self.examples = examples
   if (n_elements(nLines) gt 0L) then self.nLines = nLines
   if (n_elements(lines) gt 0L) then self->_computeComplexity, lines
@@ -310,7 +314,9 @@ function doctreeroutine::getVariable, name, found=found
 
     'has_returns': return, obj_valid(self.returns)
     'returns': return, self.system->processComments(self.returns)
-
+    
+    'accepts_max_params': return, self.acceptsMaxParams
+    
     'has_categories': return, self.categories->count() gt 0
     'categories': return, self.categories->get(/all)
     
@@ -817,6 +823,7 @@ pro doctreeroutine__define
              
              parameters: obj_new(), $
              keywords: obj_new(), $
+             acceptsMaxParams: 0B, $
              
              comments: obj_new(), $
              firstline: obj_new(), $
