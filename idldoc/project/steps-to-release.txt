@@ -1,8 +1,8 @@
 Steps to release IDLdoc
 -----------------------
 
-#. Go through bug database and mark *every* bug either fixed or postponed until
-   the next release. 
+#. Go through bug database and mark *every* bug either fixed or postponed
+   until the next release.
 
 #. Check off on each TODO in the code.
 
