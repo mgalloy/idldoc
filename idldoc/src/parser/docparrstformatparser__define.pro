@@ -660,7 +660,7 @@ pro docparrstformatparser::parseDirOverviewComments, lines, directory=directory,
   tagsStart = nTags gt 0 ? tagLocations[0] : n_elements(lines)
   if (tagsStart ne 0) then begin
     comments = markupParser->parse(lines[0:tagsStart - 1L])
-    directory->setProperty, overview_comments=comments
+    directory->setProperty, comments=comments
   endif
   
   ; go through each tag

@@ -71,7 +71,7 @@ pro docparverbatimformatparser::parseDirOverviewComments, lines, $
   compile_opt strictarr, hidden
   
   comments = markupParser->parse(lines)
-  directory->setProperty, overview_comments=comments
+  directory->setProperty, comments=comments
 end
 
 

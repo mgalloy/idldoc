@@ -36,9 +36,9 @@
   	<div class="content">
   		<h1>Directory: [% location %]</h1>
 
-      [% IF has_overview_comments %]
+      [% IF has_comments %]
       <div id="file_comments">
-      	<div class="small [% IF preformat %]pre[% END %]">[% overview_comments %]</div>
+      	<div class="small [% IF preformat %]pre[% END %]">[% comments %]</div>
       </div>
       [% END %]
 

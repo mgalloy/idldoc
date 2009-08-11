@@ -40,6 +40,7 @@ end
 ; Set properties.
 ;-
 pro doctreedirectory::setProperty, overview_comments=overviewComments, $
+                                   comments=comments, $
                                    is_private=isPrivate, is_hidden=isHidden, $
                                    author=author, copyright=copyright, $
                                    history=history
@@ -53,7 +54,16 @@ pro doctreedirectory::setProperty, overview_comments=overviewComments, $
       self.overviewComments = parent
     endif else self.overviewComments = overviewComments
   endif
-  
+
+  if (n_elements(comments) gt 0) then begin
+    if (obj_valid(self.comments)) then begin
+      parent = obj_new('MGtmTag')
+      parent->addChild, self.comments
+      parent->addChild, comments
+      self.comments = parent
+    endif else self.comments = comments
+  endif
+    
   if (n_elements(isPrivate) gt 0L) then self.isPrivate = isPrivate
   if (n_elements(isHidden) gt 0L) then self.isHidden = isHidden
 
@@ -102,14 +112,42 @@ function doctreedirectory::getVariable, name, found=found
         return, strjoin(replicate('..' + path_sep(), nUps))
       end
       
-    'has_overview_comments': return, obj_valid(self.overviewComments)
-    'overview_comments': return, self.system->processComments(self.overviewComments)  
+    'has_overview_comments': return, obj_valid(self.overviewComments) || obj_valid(self.comments)
+    'overview_comments': begin
+        if (obj_valid(self.overviewComments)) then begin
+          return, self.system->processComments(self.overviewComments)
+        endif
 
-    'has_comments': return, obj_valid(self.overviewComments)
-    'comments': return, self.system->processComments(self.overviewComments)
+        if (obj_valid(self.comments)) then begin
+          return, self.system->processComments(self.comments)
+        endif
+        
+        return, ''
+      end
+      
+    'has_comments': return, obj_valid(self.comments) || obj_valid(self.overviewComments)
+    'comments': begin
+        if (obj_valid(self.comments)) then begin
+          return, self.system->processComments(self.comments)
+        endif
+        
+        if (obj_valid(self.overviewComments)) then begin
+          return, self.system->processComments(self.overviewComments)
+        endif
+        
+        return, obj_new()
+      end
     'comments_first_line': begin
-        if (~obj_valid(self.overviewComments)) then return, ''
-        firstline = mg_tm_firstline(self.overviewComments)
+        comments = obj_valid(self.comments) $
+                     ? self.comments $
+                     : (obj_valid(self.overviewComments) $
+                          ? self.overviewComments $
+                          : obj_new()) 
+
+        if (~obj_valid(comments)) then return, ''
+        
+        firstline = mg_tm_firstline(comments)
+        
         return, self.system->processComments(firstline) 
       end 
     'n_pro_files' : return, self.proFiles->count()
@@ -300,7 +338,7 @@ end
 pro doctreedirectory::cleanup
   compile_opt strictarr, hidden
   
-  obj_destroy, self.overviewComments
+  obj_destroy, [self.overviewComments, self.comments]
   obj_destroy, [self.author, self.copyright, self.history]
   obj_destroy, [self.proFiles, self.dlmFiles, self.savFiles, self.idldocFiles]
 end
@@ -382,7 +420,11 @@ end
 ;       location of the directory relative to the ROOT as an URL (w/ trailing 
 ;       slash) 
 ;    overviewComments
-;       markup tree representing the overview comments for the directory
+;       markup tree representing the overview comments for the directory found
+;       in the OVERVIEW file
+;    comments
+;       markup tree representing the comments for the directory found in an
+;       .idldoc file
 ;    proFiles
 ;       array list of .pro file objects
 ;    savFiles
@@ -407,6 +449,7 @@ pro doctreedirectory__define
              history: obj_new(), $
                           
              overviewComments: obj_new(), $
+             comments: obj_new(), $
              
              proFiles: obj_new(), $
              dlmFiles: obj_new(), $
