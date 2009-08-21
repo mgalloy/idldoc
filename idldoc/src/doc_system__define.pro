@@ -383,14 +383,17 @@ pro doc_system::printHelp
          '  IDL> idldoc, ROOT=string [, OUTPUT=string] $', $
          '               [, TITLE=string] [, SUBTITLE=string] $', $
          '               [, /EMBED] [, OVERVIEW=string] [, FOOTER] $', $
-         '               [, /NONAVBAR], [, /NOSOURCE] [, SOURCE_LINK={0, 1, 2}]', $
-         '               [, /USER] [, /STATISTICS] $', $
+         '               [, /NONAVBAR], [, /NOSOURCE] [, SOURCE_LINK={0, 1, 2}] $', $
+         '               [, /USER] [, INDEX_LEVEL={0, 1, 2}] $', $
+         '               [, /STATISTICS] [, COMPLEXITY_CUTOFFS=lonarr(2)] $', $
+         '               [, ROUTINE_LINE_CUTOFFS=lonarr(2)] $', $
          '               [, /QUIET] [, /SILENT] $', $
          '               [, FORMAT_STYLE=string] [, MARKUP_STYLE=string] $', $
          '               [, COMMENT_STYLE=string] [, CHARSET=string] $', $
          '               [, TEMPLATE_PREFIX=string] [, TEMPLATE_LOCATION=string] $', $
          '               [, ERROR=named variable] [, /DEBUG] [N_WARNINGS=named variable] $', $
-         '               [, LOG_FILE=string]', $
+         '               [, LOG_FILE=string] $', $
+         '               [, /COLOR_OUTPUTLOG] $', $
          '               [, /HELP] [, /VERSION] $', $
          '', $
          'See the help for more detailed information about the keywords.']
