@@ -26,6 +26,7 @@ IDLdoc 3.3
 
 IDLdoc 3.2
 ----------
+*Released June 5, 2009*
 
 * Added ability to create LaTeX output. Use the TEMPLATE_PREFIX keyword to the
   IDLDOC command to specify that the LaTeX templates should be used and the
@@ -56,6 +57,7 @@ IDLdoc 3.2
 
 IDLdoc 3.1
 ----------
+*Released June 18, 2008*
 
 * Added ability to reference images in rst markup. IDLdoc will automatically
   copy referenced images into the output.
@@ -72,6 +74,7 @@ IDLdoc 3.1
 
 IDLdoc 3.0
 ----------
+*Released January 21, 2008*
 
 * IDLdoc 3.0 is completely rewritten from scatch. It is released under a 
   BSD-style open source license (see COPYING file for legal details). Feel 
