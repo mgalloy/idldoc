@@ -43,7 +43,7 @@
       [% IF is_batch %]<span class="file_attribute small">batch file</span>[% END %]
       [% IF has_main_level %]<span class="file_attribute small">includes main-level program</span>[% END %]
 	    [% IF is_private %]<span class="file_attribute small">private</span>[% END %]
-			
+
       [% IF has_comments %]
       <div id="file_comments">
       	<div class="small [% IF preformat %]pre[% END %]">[% comments %]</div>
@@ -206,7 +206,7 @@
         
         [% FOREACH r IN visible_routines %][% SCOPE r %]
         <div class="routine-details details" id="[% name %]">
-        	<h2 class="routine-name"><a href="#root" class="top">top</a>[% name %]<span class="routine-attributes">[% IF is_private %]private [% END %][% IF is_obsolete %]obsolete [% END %][% IF is_abstract %]abstract [% END %]</span></h2>
+        	<h2 class="routine-name"><a href="#root" class="top">top</a>[% name %]<span class="routine-attributes">[% IF is_private %]private [% END %][% IF is_obsolete %]obsolete [% END %][% IF is_abstract %]abstract [% END %][% IF ~nosource %]<a href="[% source_url %]#[% name %]:source">source</a>[% END %]</span></h2>
         	[% IF has_categories %]
         	<p class="small categories">[% strjoin(categories, ', ') %]</p>
         	[% END %]

@@ -71,7 +71,9 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
     
     proFileParser = self.system->getParser('profile')
     self.code = obj_new('MGtmTag')
-      
+    
+    nameRe = '^[[:space:]]*(pro|function)[[:space:]]([^ ,]*)'
+    
     for l = 0L, n_elements(code) - 1L do begin
       line = code[l]
       lessPos = strpos(line, '<')
@@ -85,6 +87,15 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
       endwhile
       
       regularLines = proFileParser->_stripComments(line, comments=commentsLines)
+            
+      if (stregex(line, nameRe, /boolean)) then begin        
+        tokens = stregex(line, nameRe, /subexpr, /extract) 
+        
+        anchor = obj_new('MGtmTag', type='anchor')
+        anchor->addAttribute, 'identifier', tokens[2] + ':source'
+         
+        self.code->addChild, anchor        
+      endif
             
       self.code->addChild, obj_new('MGtmText', text=regularLines)
       
