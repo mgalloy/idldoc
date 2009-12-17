@@ -73,7 +73,7 @@ pro docparformatparser::parseIDLdocComments, lines, file=file, $
                                              markup_parser=markupParser
   compile_opt strictarr, hidden
 
-  comments = markupParser->parse(lines)
+  comments = markupParser->parse(lines, file=file)
   file->setProperty, comments=comments  
 end
 

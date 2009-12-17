@@ -18,10 +18,11 @@
 ;+
 ; Get properties.
 ;-
-pro doctreeidldocfile::getProperty, basename=basename
+pro doctreeidldocfile::getProperty, basename=basename, directory=directory
   compile_opt strictarr, hidden
   
   if (arg_present(basename)) then basename = self.basename
+  if (arg_present(directory)) then directory = self.directory
 end
 
 
@@ -117,6 +118,13 @@ function doctreeidldocfile::isVisible
 end
 
 
+pro doctreeidldocfile::addImageRef, filename
+  compile_opt strictarr, hidden
+  
+  self.imagerefs->add, filename
+end
+
+
 ;+
 ; Generate the output for the .idldoc file.
 ; 
@@ -132,7 +140,24 @@ pro doctreeidldocfile::generateOutput, outputRoot, directory
   
   self.system->print, '  Generating output for ' + self.basename
   self.system->getProperty, extension=outputExtension
+
+  ; copy images references in the documentation
+  outputDir = outputRoot + directory
+  outputFilename = outputDir + file_basename(self.basename, '.pro') + '.' + outputExtension
   
+  self.system->getProperty, root=root    
+  self.directory->getProperty, location=dirLocation
+  fullpath = filepath(self.basename, subdir=dirLocation, root=root)
+  for i = 0L, self.imagerefs->count() - 1L do begin
+    path = file_dirname(fullpath, /mark_directory)
+    filename = self.imagerefs->get(position=i)
+    if (file_test(path + filename)) then begin
+      file_copy, path + filename, outputDir + filename, /allow_same, /overwrite
+    endif else begin
+      self.system->warning, 'image at ' + path + filename + ' not found'
+    endelse
+  endfor
+    
   idldocFileTemplate = self.system->getTemplate('idldocfile')
     
   outputDir = outputRoot + directory
@@ -149,7 +174,7 @@ end
 pro doctreeidldocfile::cleanup
   compile_opt strictarr, hidden
   
-  obj_destroy, self.comments
+  obj_destroy, [self.comments, self.imagerefs]
 end
 
 
@@ -166,6 +191,8 @@ function doctreeidldocfile::init, basename=basename, directory=directory, $
   self.basename = basename
   self.directory = directory
   self.system = system
+
+  self.imagerefs = obj_new('MGcoArrayList', type=7, block_size=3)
   
   self.system->getProperty, index_level=indexLevel
   if (indexLevel ge 1L) then self.system->createIndexEntry, self.basename, self
@@ -200,6 +227,8 @@ pro doctreeidldocfile__define
              directory: obj_new(), $
              
              basename: '', $
-             comments: obj_new() $
+             comments: obj_new(), $
+             
+             imagerefs: obj_new() $
            }
 end
