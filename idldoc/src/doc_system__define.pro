@@ -763,6 +763,7 @@ pro doc_system::loadParsers
   
   ; markup parsers
   self.parsers->put, 'verbatimmarkup', obj_new('DOCparVerbatimMarkupParser', system=self)
+  self.parsers->put, 'preformattedmarkup', obj_new('DOCparPreformattedMarkupParser', system=self)
   self.parsers->put, 'rstmarkup', obj_new('DOCparRSTMarkupParser', system=self)
   
   ; tree node parsers
