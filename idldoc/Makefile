@@ -13,7 +13,7 @@ clean:
 	rm -rf unit_tests/*-docs
 	
 doc:
-	$(IDL) idldoc_build_docs
+	$(IDL) < idldoc_build_docs.pro
 
 book:
 	$(IDL) idldoc_build_book
@@ -43,7 +43,7 @@ dist:
 	
 	mkdir idldoc-$(VERSION)
 	
-	$(IDL) -IDL_STARTUP "" idldoc_build
+	$(IDL) -IDL_STARTUP "" < idldoc_build.pro
 	mv idldoc.sav idldoc-$(VERSION)/
 	
 	svn export docs idldoc-$(VERSION)/docs/
@@ -69,7 +69,7 @@ updates:
 	jar cvf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION).jar -C updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/ .
 	rm -rf updates.idldev.com/features/com.idldev.idl.idldoc.feature_$(VERSION)/
 
-	$(IDL) -IDL_STARTUP "" idldoc_build
+	$(IDL) -IDL_STARTUP "" < idldoc_build
 
 	mkdir updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
 	cp idldoc.sav updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/

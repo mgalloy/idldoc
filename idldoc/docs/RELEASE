@@ -25,9 +25,11 @@ IDLdoc 3.3
 
 * Added a link in each routine's details to its source code.
 
-* Added a preformatted markup style which is nearly equivalant to verbatim, 
+* Added a preformatted markup style which is nearly equivalent to verbatim, 
   but also makes HTML output respect line-breaks.
   
+* Added author, copyright, history, and version tags to the overview file
+
 
 IDLdoc 3.2
 ----------

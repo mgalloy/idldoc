@@ -78,7 +78,7 @@ function doc_system::getVariable, name, found=found
   case strlowcase(name) of
     'system': return, self
     
-    'idldoc_version': return, self.version
+    'idldoc_version': return, self.idldoc_version
     'charset': return, self.charset
     'date': return, systime()
     'title': return, self.title
@@ -98,6 +98,21 @@ function doc_system::getVariable, name, found=found
     
     'output_root': return, self.output
     'relative_root': return, ''
+
+    'has_author_info': return, self.hasAuthorInfo
+    
+    'has_author': return, obj_valid(self.author)
+    'author': return, self->processComments(self.author)
+    'plain_author': return, self->processPlainComments(self.author)
+
+    'has_copyright': return, obj_valid(self.copyright)
+    'copyright': return, self->processComments(self.copyright)
+    
+    'has_history': return, obj_valid(self.history)
+    'history': return, self->processComments(self.history)
+
+    'has_version': return, obj_valid(self.version)
+    'version': return, self->processComments(self.version)
         
     'n_dirs': return, self.directories->count()
     'dirs': return, self.directories->get(/all)   
@@ -291,12 +306,35 @@ end
 ;+
 ; Set properties of the system.
 ;-
-pro doc_system::setProperty, overview_comments=overviewComments
+pro doc_system::setProperty, overview_comments=overviewComments, $
+                             author=author, copyright=copyright, $
+                             history=history, version=version
   compile_opt strictarr, hidden
 
   if (n_elements(overviewComments) gt 0) then begin
     self.overviewComments = overviewComments
   endif
+  
+  ; "author info" attributes
+  if (n_elements(author) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.author = author
+  endif
+
+  if (n_elements(copyright) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.copyright = copyright
+  endif
+  
+  if (n_elements(history) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.history = history
+  endif
+
+  if (n_elements(version) gt 0) then begin
+    self.hasAuthorInfo = 1B
+    self.version = version
+  endif  
 end
 
 
@@ -376,7 +414,7 @@ end
 pro doc_system::printHelp
   compile_opt strictarr, hidden
   
-  msg = ['IDLdoc ' + self.version, $
+  msg = ['IDLdoc ' + self.idldoc_version, $
          '', $
          'Usage:', $
          '', $
@@ -1157,7 +1195,9 @@ pro doc_system::cleanup
   categoryLists = self.categories->values(count=nCategories)
   if (nCategories gt 0) then obj_destroy, categoryLists
   obj_destroy, self.categories
-  
+
+  obj_destroy, [self.author, self.copyright, self.history, self.version]
+    
   obj_destroy, self.overviewComments
   
   obj_destroy, [self.todos, self.obsolete, self.undocumented, $
@@ -1272,12 +1312,12 @@ function doc_system::init, root=root, output=output, $
                            color_outputlog=colorOutputlog                  
   compile_opt strictarr, hidden
   
-  self.version = idldoc_version()
+  self.idldoc_version = idldoc_version()
   
   self.isTty = keyword_set(colorOutputlog) ? 1B : self->_findIfTty()
   
   if (keyword_set(version)) then begin
-    self->print, 'IDLdoc ' + self.version
+    self->print, 'IDLdoc ' + self.idldoc_version
     return, 0
   endif
   
@@ -1466,7 +1506,7 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    version
+;    idldoc_version
 ;       IDLdoc version
 ;    root 
 ;       root directory of hierarchy to document; full path ending with slash
@@ -1527,7 +1567,7 @@ pro doc_system__define
   compile_opt strictarr, hidden
   
   define = { DOC_System, $
-             version: '', $
+             idldoc_version: '', $
              
              root: '', $
              output: '', $
@@ -1538,7 +1578,13 @@ pro doc_system__define
              silent: 0B, $
              
              sourceLocation: '', $
-             
+
+             hasAuthorInfo: 0B, $
+             author: obj_new(), $
+             copyright: obj_new(), $
+             history: obj_new(), $
+             version: obj_new(), $
+                          
              directories: obj_new(), $ 
               
              templates: obj_new(), $

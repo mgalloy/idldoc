@@ -318,7 +318,7 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
     'hidden_file': begin
         routine->getProperty, file=file
         file->setProperty, is_hidden=1B
-      end
+      end               
     'history': routine->setProperty, history=markupParser->parse(self->_parseTag(lines), file=file)
     'inherits':  begin
         routine->getProperty, name=name
@@ -730,6 +730,11 @@ pro docparrstformatparser::parseOverviewComments, lines, system=system, $
     tagLines = self->_parseTag(lines[tagStart:tagEnd])
     
     case strlowcase(tag) of
+      'author': system->setProperty, author=markupParser->parse(tagLines)
+      'copyright': system->setProperty, copyright=markupParser->parse(tagLines)
+      'history': system->setProperty, history=markupParser->parse(tagLines)
+      'version': system->setProperty, version=markupParser->parse(tagLines)
+      
       'dirs': begin
           system->getProperty, directories=directories
           

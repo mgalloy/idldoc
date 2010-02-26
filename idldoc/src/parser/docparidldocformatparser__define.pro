@@ -632,8 +632,13 @@ pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
     tagLines = self->_parseTag(lines[tagStart:tagEnd])
     
     case strlowcase(tag) of
+      'author': system->setProperty, author=markupParser->parse(tagLines)
+      'copyright': system->setProperty, copyright=markupParser->parse(tagLines)
+      'history': system->setProperty, history=markupParser->parse(tagLines)
+      'version': system->setProperty, version=markupParser->parse(tagLines)
+
       'dir': begin
-          re = '^[[:space:]]*([[:alpha:]._$\-\/]+)[[:space:]]+'
+          re = '^[[:space:]]*([[:alnum:]._$\-\/]+)[[:space:]]*'
           argStart = stregex(tagLines[0], re, /subexpr, length=argLength)
           if (argStart[0] eq -1L) then begin
             system->getProperty, overview=overview
@@ -647,6 +652,7 @@ pro docparidldocformatparser::parseOverviewComments, lines, system=system, $
           endif
           
           tagLines[0] = strmid(tagLines[0], argStart[1] + argLength[1])
+          self->_removeSpace, tagLines
                     
           for d = 0L, directories->count() - 1L do begin
             dir = directories->get(position=d)

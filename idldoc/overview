@@ -4,29 +4,34 @@ The IDLdoc project source code can be accessed via Subversion with the command::
   
    svn co http://svn.idldev.com/idldoc/trunk/idldoc
     
-Developer: Michael Galloy (http://michaelgalloy.com)
 
 IDLdoc project site at::
 
-       http://idldev.com
+       idldev.com
 
 
+:Author:
+   Michael Galloy, michaelgalloy.com
+
+   
 :Dirs:
    ./ 
       Main-level programs such as IDLdoc itself, the system object, and the 
       version function.
   
    analysis
-      routines used to proper scaling for the visualization of data in a `.sav1` file
+      routines used to proper scaling for the visualization of data in a 
+      `.sav` file
       
    cmdline_tools
-      
+      used for the color text output
       
    collection 
       Collection classes (imported from mg library).
       
    dist_tools 
-      Routines for handling distributing applications (imported from mg library).
+      Routines for handling distributing applications (imported from mg 
+      library).
       
    dist_tools/collection
       not needed since collection is already a direct external for IDLdoc
@@ -44,8 +49,8 @@ IDLdoc project site at::
       Template class and helpers (imported from mg library).
       
    textmarkup
-      Classes to convert a markup tree to a particular markup language (imported 
-      from mg library).
+      Classes to convert a markup tree to a particular markup language 
+      (imported from mg library).
       
    tree
       Classes representing IDL constructs: directories, files, routines, etc.

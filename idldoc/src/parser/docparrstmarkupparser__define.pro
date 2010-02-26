@@ -53,6 +53,13 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
                                               tree=tree, file=file
   compile_opt strictarr, hidden
   
+  catch, error
+  if (error ne 0L) then begin
+    catch, /cancel
+    self.system->warning, 'unable to handle rst directive ' + directive
+    return
+  endif
+  
   fullDirective = strmid(line, pos + 3L, len)
   tokens = strsplit(fullDirective, '::[[:space:]]+', /regex, /extract)
   directive = tokens[0]
