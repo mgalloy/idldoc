@@ -14,7 +14,9 @@
 ;   
 ;   5. (not implemented) links like: `my site <michaelgalloy.com>`_
 ;   
-;        .. image:: people.jpg
+;   6. Inserting images via:
+;
+;      .. image:: people.jpg
 ;   
 ;   7. code callouts like::
 ;  
