@@ -4,14 +4,9 @@ The IDLdoc project source code can be accessed via Subversion with the command::
   
    svn co http://svn.idldev.com/idldoc/trunk/idldoc
     
-Resources
----------
-    
-  * Developer site::
+Developer: Michael Galloy (http://michaelgalloy.com)
 
-       http://michaelgalloy.com
-
-  * Hosting site:: 
+IDLdoc project site at::
 
        http://idldev.com
 
@@ -20,6 +15,12 @@ Resources
    ./ 
       Main-level programs such as IDLdoc itself, the system object, and the 
       version function.
+  
+   analysis
+      routines used to proper scaling for the visualization of data in a `.sav1` file
+      
+   cmdline_tools
+      
       
    collection 
       Collection classes (imported from mg library).
@@ -27,6 +28,9 @@ Resources
    dist_tools 
       Routines for handling distributing applications (imported from mg library).
       
+   dist_tools/collection
+      not needed since collection is already a direct external for IDLdoc
+   
    introspection 
       Routines for providing information about an IDL variable.
       
