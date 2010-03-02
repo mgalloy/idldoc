@@ -18,6 +18,8 @@
 
 .compile src/analysis/mg_linear_function
 
+.compile src/objects/idl_object__define
+
 .compile src/parser/docparformatparser__define
 .compile src/parser/docparidldocfileparser__define
 .compile src/parser/docparidldocformatparser__define
