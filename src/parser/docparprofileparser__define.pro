@@ -344,7 +344,17 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       
       continue          
     endif
-    
+
+    ; "interior" comment
+    if (~headerContinued $
+          && justFinishedComment eq 2 $
+          && codeLevel eq 1 $
+          && currentComments->count() gt 0) then begin
+      self->_parseRoutineComments, routine, currentComments->get(/all), $
+                                   format=format, markup=markup  
+      currentComments->remove, /all  
+    endif
+        
     firstToken = strlowcase(tokens[0])
     lastToken = strlowcase(tokens[nTokens - 1L])   
     
@@ -413,13 +423,6 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
         
         currentComments->remove, /all
       endif
-    endif
-    
-    ; "interior" comment
-    if (~headerContinued && justFinishedComment eq 2 && codeLevel eq 1 && currentComments->count() gt 0) then begin
-      self->_parseRoutineComments, routine, currentComments->get(/all), $
-                                   format=format, markup=markup  
-      currentComments->remove, /all  
     endif
     
     justFinishedComment--
