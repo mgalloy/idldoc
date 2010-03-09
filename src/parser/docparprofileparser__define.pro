@@ -299,7 +299,7 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
   tokenizer = obj_new('DOCparProFileTokenizer', lines)
   
   endVariants = ['end', 'endif', 'endelse', 'endcase', 'endswitch', 'endfor', $
-                 'endwhile', 'endrep']
+                 'endforeach', 'endwhile', 'endrep']
                  
   while (tokenizer->hasNext()) do begin
     ; determine if line has: ;+, ;-, pro/function, begin, end*

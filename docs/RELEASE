@@ -30,6 +30,10 @@ IDLdoc 3.3
   
 * Added author, copyright, history, and version tags to the overview file
 
+* Small changes to ensure compatible with IDL 8.0.
+
+* Miscellaneous bug fixes.
+
 
 IDLdoc 3.2
 ----------
