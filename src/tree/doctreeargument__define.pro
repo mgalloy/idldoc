@@ -113,7 +113,11 @@ function doctreeargument::getVariable, name, found=found
     'comments': return, self.system->processComments(self.comments)       
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
-        firstline = mg_tm_firstline(self.comments)
+        
+        if (~obj_valid(self.firstline)) then begin
+          self.firstline = mg_tm_firstline(self.comments)
+        endif
+        
         return, self.system->processComments(firstline) 
       end    
     
@@ -256,6 +260,7 @@ end
 pro doctreeargument::cleanup
   compile_opt strictarr, hidden
   
+  obj_destroy, self.firstline
   obj_destroy, self.comments
 end
 
@@ -341,6 +346,7 @@ pro doctreeargument__define
              isPrivate: 0B, $
              isObsolete: 0B, $
              comments: obj_new(), $
+             firstline: obj_new(), $
              documented: 0B $
            }
 end
