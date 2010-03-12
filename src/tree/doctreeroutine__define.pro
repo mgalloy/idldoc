@@ -307,7 +307,10 @@ function doctreeroutine::getVariable, name, found=found
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
         
-        self.firstline = mg_tm_firstline(self.comments)
+        if (~obj_valid(self.firstline)) then begin
+          self.firstline = mg_tm_firstline(self.comments)
+        endif
+        
         return, self.system->processComments(self.firstline)        
       end
     'plain_comments': return, self.system->processPlainComments(self.comments)
