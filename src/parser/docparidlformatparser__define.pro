@@ -30,6 +30,7 @@ pro docparidlformatparser::_handleArguments, lines, routine=routine, $
                                              markup_parser=markupParser, $
                                              keyword=keyword, $
                                              optional=optional, $
+                                             required=required, $
                                              input=input, $
                                              tag=tag
   compile_opt strictarr, hidden
@@ -65,7 +66,7 @@ pro docparidlformatparser::_handleArguments, lines, routine=routine, $
     
     ; set attributes of the argument
     arg->setProperty, is_optional=keyword_set(optional), $
-                      is_required=~keyword_set(optional)
+                      is_required=keyword_set(required)
     if (keyword_set(input)) then arg->setProperty, is_input=1B
     
     ; set comments for the argument
@@ -178,7 +179,7 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
     'calling sequence':   ; ignore, not used    
     'inputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, tag='input'
     'optional inputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, /optional, tag='optional input'
-    'keyword parameters': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, /keyword, /optional, tag='keyword' 
+    'keyword parameters': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /input, /keyword, tag='keyword' 
     'outputs': routine->setProperty, returns=markupParser->parse(lines , file=file)      
     'optional outputs': self->_handleArguments, lines, routine=routine, markup_parser=markupParser, /optional, tag='optional output'
     'common blocks': routine->setProperty, comments=markupParser->parse(lines, file=file)
