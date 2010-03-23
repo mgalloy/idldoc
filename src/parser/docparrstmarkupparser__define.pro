@@ -186,11 +186,55 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
   para = obj_new('MGtmTag', type='paragraph')
   tree->addChild, para
   
+  lastLineLength = 0L
+  header_level = 0L
+  
   for l = start, n_elements(lines) - 1L do begin    
     cleanline = strtrim(lines[l], 0)   ; remove trailing blanks
     dummy = stregex(lines[l], ' *[^[:space:]]', length=currentIndent)
     
-    if (cleanLine eq '' && ~code) then begin
+    if (lastLineLength gt 0L) then begin
+      header_level = 0
+      
+      if (lines[l] eq string(replicate(byte('='), lastLineLength))) then begin
+        header_level = 1
+      endif
+
+      if (lines[l] eq string(replicate(byte('-'), lastLineLength))) then begin
+        header_level = 2
+      endif
+
+      if (lines[l] eq string(replicate(byte('~'), lastLineLength))) then begin
+        header_level = 3
+      endif
+      
+      if (header_level gt 0) then begin
+        newline = para->getChild(/last)
+        para->removeChild, /last
+        title = para->getChild(/last)
+        para->removeChild, /last
+                
+        emptyPara = para->isEmpty()
+
+        if (emptyPara) then begin
+          tree->removeChild, /last          
+        endif        
+        
+        header = obj_new('MGtmTag', type='heading' + strtrim(header_level, 2))
+        tree->addChild, header
+        
+        header->addChild, title
+        
+        tree->addChild, newline
+        tree->addChild, obj_new('MGtmTag', type='newline')
+        
+        if (emptyPara) then begin
+          tree->addChild, para
+        endif
+      endif
+    endif
+  
+    if (cleanLine eq '' && ~code && ~para->isEmpty()) then begin
       para = obj_new('MGtmTag', type='paragraph')
       tree->addChild, para      
     endif
@@ -216,9 +260,15 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
         listing->addChild, obj_new('MGtmTag', type='newline')
       endif else begin     
         code = 0B
-        para->addChild, obj_new('MGtmText', $
-                                text=self->_processText(cleanline, code=code))
-        para->addChild, obj_new('MGtmTag', type='newline')
+        if (header_level gt 0L) then begin
+          header_level = 0
+        endif else begin
+          if (cleanline ne '') then begin
+            para->addChild, obj_new('MGtmText', $
+                                    text=self->_processText(cleanline, code=code))
+            para->addChild, obj_new('MGtmTag', type='newline')
+          endif
+        endelse
       endelse
     endelse
     
@@ -229,6 +279,8 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
       listing = obj_new('MGtmTag', type='listing')
       para->addChild, listing
     endif
+    
+    lastLineLength = strlen(lines[l])
   endfor  
 end
 
