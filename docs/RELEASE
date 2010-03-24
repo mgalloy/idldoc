@@ -1,6 +1,5 @@
--------------
 Release notes
--------------
+=============
 
 IDLdoc 3.3
 ----------
@@ -24,6 +23,9 @@ IDLdoc 3.3
   needs to be exceeded before the routine has a warning or is flagged.
 
 * Added a link in each routine's details to its source code.
+
+* Improved rst markup style. Headings can be created by underlining with "="
+  (for level 1 headings), "-" (level 2), or "~" (level 3).
 
 * Added a preformatted markup style which is nearly equivalent to verbatim, 
   but also makes HTML output respect line-breaks.
