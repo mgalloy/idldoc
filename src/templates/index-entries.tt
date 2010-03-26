@@ -33,7 +33,7 @@
     [% INCLUDE_TEMPLATE idldoc_header_location %]
     
     <div class="content">
-    
+      [% IF ~index_empty %]
     	<h2>Index</h2>
     	
     	<p>[% FOREACH letter IN index_first_letters %]<a href="#[% letter %]">[% letter %]</a> &nbsp;&nbsp;&nbsp; [% END %]</p>
@@ -49,6 +49,7 @@
     	[% END %]
     	
     	[% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
+    	[% END %]
 		</div>    
 
     [% INCLUDE_TEMPLATE idldoc_footer_location %]

@@ -31,9 +31,11 @@
       </ul>
       
       <ul>
+        [% IF n_visible_dirs gt 0 %]
         [% FOREACH d IN visible_dirs %][% SCOPE d %]
         <li><a href="[% url %]dir-files.html" target="files_frame">[% location %]</a></li>
         [% END %][% END %]
+        [% END %]
       </ul>
   </body>
 </html>

@@ -44,12 +44,14 @@
     	<h2 id="directories">Directories</h2>
     	
       <table class="attribute box small" summary="Directories">
+        [% IF n_visible_dirs gt 0 %]
         [% FOREACH d IN visible_dirs %][% SCOPE d %]
         <tr>
           <td class="name"><a href="[% url %]dir-overview.html">[% location %]</a></td>
           <td>[% overview_comments %]</td>
         </tr>
         [% END %][% END %]
+        [% END %]
       </table>               
       [% END %]
       
