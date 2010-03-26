@@ -287,7 +287,7 @@ end
 function doctreesavfile::isVisible
   compile_opt strictarr, hidden
   
-  return, 1B
+  return, self.directory->isVisible(/no_check_children)
 end
 
 

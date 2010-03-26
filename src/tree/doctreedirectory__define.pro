@@ -217,8 +217,12 @@ end
 ;
 ; :Returns: 
 ;    boolean
+;    
+; :Keywords:
+;    no_check_children : in, optional, type=boolean
+;       set to not check children, i.e., .pro files, .sav files, etc.
 ;-
-function doctreedirectory::isVisible
+function doctreedirectory::isVisible, no_check_children=noCheckChildren
   compile_opt strictarr, hidden
   
   if (self.isHidden) then return, 0B
@@ -227,7 +231,31 @@ function doctreedirectory::isVisible
   self.system->getProperty, user=user
   if (self.isPrivate && user) then return, 0B
   
-  return, 1B
+  if (keyword_set(noCheckChildren)) then return, 1
+  
+  ; not visible if nothing in it that is visible
+  
+  for p = 0L, self.profiles->count() - 1L do begin
+    profile = self.profiles->get(position=p)
+    if (profile->isVisible()) then return, 1B
+  endfor
+  
+  for s = 0L, self.savfiles->count() - 1L do begin
+    savfile = self.savfiles->get(position=s)
+    if (savfile->isVisible()) then return, 1B
+  endfor
+
+  for d = 0L, self.dlmfiles->count() - 1L do begin
+    dlmfile = self.dlmfiles->get(position=d)
+    if (dlmfile->isVisible()) then return, 1B
+  endfor
+
+  for i = 0L, self.idldocfiles->count() - 1L do begin
+    idldocfile = self.idldocfiles->get(position=i)
+    if (idldocfile->isVisible()) then return, 1B
+  endfor
+      
+  return, 0B
 end
 
 
@@ -369,7 +397,7 @@ function doctreedirectory::init, location=location, files=files, system=system
   self.system->getProperty, root=root  
 
   self->_handleDirOverview
-  if (~self->isVisible()) then return, 1
+  if (~self->isVisible(/no_check_children)) then return, 1
   
   self.system->print, 'Parsing ' + self.location + '...'
   
