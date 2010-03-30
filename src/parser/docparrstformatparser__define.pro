@@ -93,18 +93,34 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
           propattrs = strmid(propLines[propertyDefinitionLines[p]], $
                              propertyNamesStart[1, propertyDefinitionLines[p]] $ 
                                + propertyNamesLength[1, propertyDefinitionLines[p]])
-          eqpos = strpos(propattrs, '=')
-          if (eqpos ge 0L) then begin
-            attrnameTokens = strsplit(strmid(propattrs, 0, eqpos), /extract, count=nAttrnameTokens)
-            attrname = attrnameTokens[nAttrnameTokens - 1L]
-            if (strlowcase(attrname) ne 'type') then begin
-              self.system->warning, 'invalid property attribute: ' + attrname
-            endif else begin
-              proptype = strtrim(strmid(propattrs, eqpos + 1), 2)                                
-              property->setProperty, type=proptype
-            endelse
+                                                                        
+          if (propattrs ne '') then begin
+            colonpos = strpos(propattrs, ':')
+            if (colonpos gt 0L && colonpos lt strlen(propattrs) - 1L) then begin
+              propattrs = strmid(propattrs, colonpos + 1L)
+              propattrs = strsplit(propattrs, ',', /extract, count=npropatts)  
+              for pa = 0L, npropatts - 1L do begin                  
+                eqpos = strpos(propattrs[pa], '=')
+                if (eqpos ge 0L) then begin
+                  attrnameTokens = strsplit(strmid(propattrs[pa], 0, eqpos), /extract, $
+                                            count=nAttrnameTokens)
+                  attrname = attrnameTokens[nAttrnameTokens - 1L]
+                  if (strlowcase(attrname) ne 'type') then begin
+                    self.system->warning, 'invalid property attribute: ' + attrname
+                  endif else begin
+                    proptype = strtrim(strmid(propattrs[pa], eqpos + 1), 2)                                
+                    property->setProperty, type=proptype
+                  endelse
+                endif else begin
+                  case strtrim(strlowcase(propattrs[pa]), 2) of
+                    'hidden': property->setProperty, is_hidden=1B
+                    'private': property->setProperty, is_private=1B
+                    else:
+                  endcase
+                endelse
+              endfor
+            endif
           endif
-          
           propertyDefinitionEnd = p eq nProperties - 1L $
                                     ? n_elements(propLines) - 1L $
                                     : propertyDefinitionLines[p + 1L] - 1L

@@ -28,13 +28,16 @@
 ; Retrieve properties.
 ;-
 pro doctreeproperty::getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
-                                  comments=comments, name=name, type=type
+                                  comments=comments, name=name, type=type, $
+                                  is_private=isPrivate, is_hidden=isHidden
   compile_opt strictarr, hidden
   
   if (arg_present(isGet)) then isGet = self.isGet
   if (arg_present(isSet)) then isSet = self.isSet
   if (arg_present(isInit)) then isInit = self.isInit
   if (arg_present(type)) then type = self.type
+  if (arg_present(isPrivate)) then isPrivate = self.isPrivate
+  if (arg_present(isHidden)) then isHidden = self.isHidden
   if (arg_present(comments)) then comments = self.comments
   if (arg_present(name)) then name = self.name
 end
@@ -44,7 +47,8 @@ end
 ; Set properties.
 ;-
 pro doctreeproperty::setProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
-                                  comments=comments, class=class, type=type
+                                  comments=comments, class=class, type=type, $
+                                  is_private=isPrivate, is_hidden=isHidden
   compile_opt strictarr, hidden
   
   if (n_elements(isGet) gt 0) then self.isGet = isGet
@@ -52,6 +56,8 @@ pro doctreeproperty::setProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
   if (n_elements(IsInit) gt 0) then self.IsInit = IsInit
   
   if (n_elements(type) gt 0) then self.type = type
+  if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
+  if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
   
   if (n_elements(comments) gt 0) then begin
     if (obj_valid(self.comments)) then begin
@@ -127,7 +133,12 @@ end
 ;-
 function doctreeproperty::isVisible
   compile_opt strictarr, hidden
+
+  if (self.isHidden) then return, 0B
   
+  self.system->getProperty, user=user
+  if (self.isPrivate && user) then return, 0B  
+    
   return, obj_valid(self.class) ? self.class->isVisible() : 0B
 end
 
@@ -203,6 +214,8 @@ pro doctreeproperty__define
              isInit: 0B, $
              
              type: '', $
+             isPrivate: 0B, $
+             isHidden: 0B, $
              comments: obj_new() $
            }
 end

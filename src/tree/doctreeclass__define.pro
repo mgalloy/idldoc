@@ -62,7 +62,32 @@ function doctreeclass::getVariable, name, found=found
     
     'n_properties': return, self.properties->count()
     'properties': return, self.properties->values()
-            
+
+    'n_visible_properties': begin
+        nVisible = 0
+        values = self.properties->values()
+        for p = 0L, self.properties->count() - 1L do begin
+          prop = values[p]
+          nVisible += prop->isVisible()
+        endfor
+        
+        return, nVisible
+      end
+    'visible_properties': begin
+        properties = self.properties->values(count=nProperties)
+        if (nProperties eq 0L) then return, -1L
+        
+        isVisibleProperties = bytarr(nProperties)
+        for p = 0L, nProperties - 1L do begin
+          isVisibleProperties[p] = properties[p]->isVisible()
+        endfor
+        
+        ind = where(isVisibleProperties eq 1B, nVisibleProperties)
+        if (nVisibleProperties eq 0L) then return, -1L
+        
+        return, properties[ind]
+      end         
+             
     'index_name': return, self.classname
     'index_type': return, 'class'
     'index_url': return, self->getVariable('url')

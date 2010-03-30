@@ -85,11 +85,11 @@
             </p>      
           [% END %]
       
-          [% IF n_properties gt 0 %]
+          [% IF n_visible_properties gt 0 %]
           <h3>Properties</h3>
           	<div class="details">
     	        <dl>
-    	          [% FOREACH p IN properties %][% SCOPE p %]
+    	          [% FOREACH p IN visible_properties %][% SCOPE p %]
     	          <dt>[% name %] <span class="smaller">[% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %][% IF has_type %]type=[% type %][% END %]</span></dt>
     	          <dd class="small">[% comments %]</dd>
     	          [% END %][% END %]

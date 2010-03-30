@@ -32,6 +32,8 @@ IDLdoc 3.3
   
 * Added author, copyright, history, and version tags to the overview file
 
+* Allow properties of a class to be marked as hidden or private in rst format.
+
 * Small changes to ensure compatible with IDL 8.0.
 
 * Miscellaneous bug fixes.
