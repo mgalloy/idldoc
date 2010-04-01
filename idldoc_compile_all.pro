@@ -9,7 +9,6 @@
 .compile src/collection/mgcoabstractiterator__define
 .compile src/collection/mgcoarraylistiterator__define
 .compile src/collection/mgcohashtable__define
-.compile src/collection/mg_n_elements
 
 .compile src/dist_tools/mg_cmp_version
 .compile src/dist_tools/mg_src_root
@@ -20,6 +19,7 @@
 .compile src/analysis/mg_linear_function
 
 .compile src/objects/idl_object__define
+.compile src/objects/mg_n_elements
 
 .compile src/parser/docparformatparser__define
 .compile src/parser/docparidldocfileparser__define
