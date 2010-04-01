@@ -9,6 +9,7 @@
 .compile src/collection/mgcoabstractiterator__define
 .compile src/collection/mgcoarraylistiterator__define
 .compile src/collection/mgcohashtable__define
+.compile src/collection/mg_n_elements
 
 .compile src/dist_tools/mg_cmp_version
 .compile src/dist_tools/mg_src_root
