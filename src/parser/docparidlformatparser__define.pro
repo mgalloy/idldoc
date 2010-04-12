@@ -166,7 +166,7 @@ pro docparidlformatparser::_handleRoutineTag, tag, lines, $
   
   case strlowcase(tag) of
     'name':   ; ignore, not used
-    'purpose': routine->setProperty, comments=markupParser->parse(lines)
+    'purpose': routine->setProperty, comments=markupParser->parse(lines, file=file)
     'category': begin
         categories = strtrim(strsplit(strjoin(lines), '[,.]', /extract, /regex), 2)
         for i = 0L, n_elements(categories) - 1L do begin
