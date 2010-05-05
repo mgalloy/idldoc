@@ -10,7 +10,9 @@
 ;   
 ;   3. (not implemented) *emphasis* and **bold**
 ;   
-;   4. (not implemented) code can be marked as `a = findgen(10)`
+;   4. (not implemented) code can be marked as `a = findgen(10)`, this can also
+;      give a link to an item like a paramater, routine, file, or directory, 
+;      i.e., `my_routine`, `my_routine.pro`.
 ;   
 ;   5. (not implemented) links like: `my site <michaelgalloy.com>`_
 ;   
@@ -97,6 +99,59 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
   tree->addChild, obj_new('MGtmTag', type='newline')
   
   if (obj_valid(file)) then file->addImageRef, filename
+end
+
+
+function docparrstmarkupparser::_processLink, text, reference=reference
+  compile_opt strictarr
+
+  tokens = stregex(text, '(.*) <(.*)>', /extract, /subexpr)
+  
+  if (tokens[0] eq '') then begin
+    reference = ''
+    return, text
+  endif
+  
+  link_text = tokens[1]
+  reference = tokens[2]
+  
+  return, link_text
+end
+
+
+;+
+; Handle inline markup like emphasis, bold, and links.
+; 
+; :Params:
+;    para : in, required, type=MGtmTag object
+;       current paragraph
+;    line : in, required, type=string
+;       current line
+;-
+pro docparrstmarkupparser::_processInlines, para, line
+  compile_opt strictarr
+
+  tokens = strsplit(line, '`', /extract, /preserve_null, count=ntokens)
+  
+  ; always should have the first element
+  para->addChild, obj_new('MGtmText', text=self->_processText(tokens[0]))
+  
+  for i = 0L, ntokens / 2L - 1L do begin
+    link_text = self->_processLink(tokens[2 * i + 1], reference=reference)
+    
+    tag = obj_new('MGtmTag', type='link')    
+    tag->addAttribute, 'reference', reference
+    para->addChild, tag
+    
+    tag->addChild, obj_new('MGtmText', text=link_text)
+    
+    if (2 * i + 2 lt ntokens) then begin
+      para->addChild, obj_new('MGtmText', $
+                              text=self->_processText(tokens[2 * i + 2]))
+    endif
+  endfor
+  
+  para->addChild, obj_new('MGtmTag', type='newline')
 end
 
 
@@ -263,10 +318,8 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
         if (header_level gt 0L) then begin
           header_level = 0
         endif else begin
-          if (cleanline ne '') then begin
-            para->addChild, obj_new('MGtmText', $
-                                    text=self->_processText(cleanline, code=code))
-            para->addChild, obj_new('MGtmTag', type='newline')
+          if (cleanline ne '') then begin            
+            self->_processInlines, para, cleanline            
           endif
         endelse
       endelse
