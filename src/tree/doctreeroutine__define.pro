@@ -479,7 +479,7 @@ function doctreeroutine::getVariable, name, found=found
       end
     
     else: begin
-        ; search in the system object if the variable is not found here
+        ; search in the file object if the variable is not found here
         var = self.file->getVariable(name, found=found)
         if (found) then return, var
         
