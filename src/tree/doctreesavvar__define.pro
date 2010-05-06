@@ -88,6 +88,37 @@ end
 
 
 ;+
+; Fill the links in comments for a save file variable.
+;-
+pro doctreesavvar::fillLinks
+  compile_opt strictarr
+  
+  ; nothing to check
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreesavvar::lookupName, name
+  compile_opt strictarr
+  
+  if (strlowcase(name) eq strlowcase(self.name)) then begin
+    return, self->getVariable('index_url') 
+  endif
+  
+  return, self.savFile->lookupName(name)
+end
+
+
+;+
 ; Free resources.
 ;-
 pro doctreesavvar::cleanup

@@ -172,6 +172,34 @@ end
 
 
 ;+
+; Fill the links in comments for a .idldoc file.
+;-
+pro doctreeidldocfile::fillLinks
+  compile_opt strictarr
+  
+  doctree_fill_links, self.comments, self
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreeidldocfile::lookupName, name
+  compile_opt strictarr
+  
+  ; TODO: implement
+  return, ''  
+end
+
+
+;+
 ; Free resources.
 ;-
 pro doctreeidldocfile::cleanup

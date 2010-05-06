@@ -255,6 +255,38 @@ end
 
 
 ;+
+; Fill the links in comments for an argument.
+;-
+pro doctreeargument::fillLinks
+  compile_opt strictarr
+  
+  doctree_fill_links, self.comments, self
+  doctree_fill_links, self.firstline, self
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreeargument::lookupName, name
+  compile_opt strictarr
+  
+  if (strlowcase(name) eq strlowcase(self.name)) then begin
+    return, self->getVariable('index_url')
+  endif
+  
+  return, self.routine->lookupName(name)
+end
+
+
+;+
 ; Free resources lower in the hierarchy.
 ;-
 pro doctreeargument::cleanup

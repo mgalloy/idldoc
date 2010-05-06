@@ -447,6 +447,8 @@ end
 pro doc_system::process
   compile_opt strictarr, hidden
   
+  self->print, 'Processing library structure...'
+  
   ; first, organize the pro/sav/idldoc files
   index = self.index->get(/all, count=nEntries)
 
@@ -494,6 +496,9 @@ pro doc_system::process
   endfor 
   
   if (nEntries gt 0) then self->processIndex 
+  
+  directories = self.directories->get(/all, count=ndirectories)
+  for i = 0L, ndirectories - 1L do (directories[i])->fillLinks
 end
 
 

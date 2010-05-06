@@ -482,6 +482,38 @@ end
 
 
 ;+
+; Fill the links in comments for a class.
+;-
+pro doctreeclass::fillLinks
+  compile_opt strictarr
+  
+  fields = self.fields->values(count=nfields)
+  for f = 0L, nfields - 1L do (fields[f])->fillLinks
+  
+  properties = self.properties->values(count=nproperties)
+  for p = 0L, nproperties - 1L do (properties[p])->fillLinks
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreeclass::lookupName, name
+  compile_opt strictarr
+  
+  ; TODO: implement
+  return, ''
+end
+
+
+;+
 ; Free resources.
 ;-
 pro doctreeclass::cleanup

@@ -109,7 +109,7 @@ function doctreedirectory::getVariable, name, found=found
     'relative_root' : begin
         if (self.location eq '.' + path_sep()) then return, ''
         dummy = strsplit(self.location, path_sep(), count=nUps)
-        return, strjoin(replicate('..' + path_sep(), nUps))
+        return, strjoin(replicate('../', nUps))
       end
       
     'has_overview_comments': return, obj_valid(self.overviewComments) || obj_valid(self.comments)
@@ -357,6 +357,47 @@ pro doctreedirectory::generateOutput, outputRoot
   listingTemplate = self.system->getTemplate('file-listing')
   listingTemplate->reset
   listingTemplate->process, self, listingFilename
+end
+
+
+;+
+; Fill the links in comments for a directory.
+;-
+pro doctreedirectory::fillLinks
+  compile_opt strictarr
+  
+  doctree_fill_links, self.comments, self  
+  doctree_fill_links, self.overviewComments, self
+  
+  proFiles = self.proFiles->get(/all, count=nproFiles)
+  for i = 0L, nproFiles - 1L do (proFiles[i])->fillLinks
+  
+  dlmFiles = self.dlmFiles->get(/all, count=ndlmFiles)
+  for i = 0L, ndlmFiles - 1L do (dlmFiles[i])->fillLinks
+
+  savFiles = self.savFiles->get(/all, count=nsavFiles)
+  for i = 0L, nsavFiles - 1L do (savFiles[i])->fillLinks
+
+  idldocFiles = self.idldocFiles->get(/all, count=nidldocFiles)
+  for i = 0L, nidldocFiles - 1L do (idldocFiles[i])->fillLinks
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreedirectory::lookupName, name
+  compile_opt strictarr
+  
+  ; TODO: implement
+  return, ''  
 end
 
 

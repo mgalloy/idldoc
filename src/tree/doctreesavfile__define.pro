@@ -320,6 +320,50 @@ end
 
 
 ;+
+; Fill the links in comments for a save file.
+;-
+pro doctreesavfile::fillLinks
+  compile_opt strictarr
+  
+  variables = self.variables->get(/all, count=nvariables)
+  for i = 0L, nvariables - 1L do (variables[i])->fillLinks
+
+  systemVariables = self.systemVariables->get(/all, count=nsystemVariables)
+  for i = 0L, nsystemVariables - 1L do (systemVariables[i])->fillLinks
+
+  commonBlocks = self.commonBlocks->get(/all, count=ncommonBlocks)
+  for i = 0L, ncommonBlocks - 1L do (commonBlocks[i])->fillLinks
+
+  structureDefinitions = self.structureDefinitions->get(/all, count=nstructureDefinitions)
+  for i = 0L, nstructureDefinitions - 1L do (structureDefinitions[i])->fillLinks
+
+  pointers = self.pointers->get(/all, count=npointers)
+  for i = 0L, npointers - 1L do (pointers[i])->fillLinks
+
+  objects = self.objects->get(/all, count=nobjects)
+  for i = 0L, nobjects - 1L do (variables[i])->fillLinks
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreesavfile::lookupName, name
+  compile_opt strictarr
+  
+  ; TODO: implement
+  return, ''  
+end
+
+
+;+
 ; Free resources.
 ;-
 pro doctreesavfile::cleanup

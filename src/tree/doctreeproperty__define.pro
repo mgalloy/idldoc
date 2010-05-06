@@ -144,6 +144,37 @@ end
 
 
 ;+
+; Fill the links in comments for a property.
+;-
+pro doctreeproperty::fillLinks
+  compile_opt strictarr
+  
+  doctree_fill_links, self.comments, self
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreeproperty::lookupName, name
+  compile_opt strictarr
+  
+  if (strlowcase(name) eq strlowcase(self.name)) then begin
+    return, self->getVariable('index_url')
+  endif
+    
+  return, self.class->lookupName(name)  
+end
+
+
+;+
 ; Free up resources.
 ;-
 pro doctreeproperty::cleanup
@@ -154,7 +185,7 @@ end
 
 
 ;+
-; Create a DOCtreeProperty class.
+; Create a DOCtreeProperty object.
 ;
 ; :Returns: 
 ;    1 if successful, 0 for failure

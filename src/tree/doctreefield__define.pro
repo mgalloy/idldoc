@@ -105,6 +105,37 @@ end
 
 
 ;+
+; Fill the links in comments for a field.
+;-
+pro doctreefield::fillLinks
+  compile_opt strictarr
+  
+  doctree_fill_links, self.comments, self
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreefield::lookupName, name
+  compile_opt strictarr
+  
+  if (strlowcase(name) eq strlowcase(self.name)) then begin
+    return, self->getVariable('index_url')
+  endif
+    
+  return, self.class->lookupName(name)   
+end
+
+
+;+
 ; Free resources.
 ;-
 pro doctreefield::cleanup

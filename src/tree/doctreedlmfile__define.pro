@@ -203,13 +203,41 @@ end
 
 
 ;+
+; Fill the links in comments for a .dlm file.
+;-
+pro doctreedlmfile::fillLinks
+  compile_opt strictarr
+  
+  routines = self.routines->get(/all, count=nroutines)
+  for i = 0L, nroutines - 1L do (routines[i])->fillLinks
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreedlmfile::lookupName, name
+  compile_opt strictarr
+  
+  ; TODO: implement
+  return, ''  
+end
+
+
+;+
 ; Free resources.
 ;-
 pro doctreedlmfile::cleanup
   compile_opt strictarr, hidden
     
   obj_destroy, self.routines
-  
   obj_destroy, self.code
 end
 

@@ -642,6 +642,54 @@ end
 
 
 ;+
+; Fill the links in comments for a .pro file.
+;-
+pro doctreeprofile::fillLinks
+  compile_opt strictarr
+  
+  doctree_fill_links, self.comments, self
+  doctree_fill_links, self.firstline, self
+  doctree_fill_links, self.examples, self
+
+  doctree_fill_links, self.author, self
+  doctree_fill_links, self.copyright, self
+  doctree_fill_links, self.history, self
+  doctree_fill_links, self.version, self
+
+  doctree_fill_links, self.bugs, self
+  doctree_fill_links, self.customerId, self
+  doctree_fill_links, self.restrictions, self
+  doctree_fill_links, self.requires, self
+  doctree_fill_links, self.todo, self
+  doctree_fill_links, self.uses, self
+                            
+  routines = self.routines->get(/all, count=nroutines)
+  for i = 0L, nroutines - 1L do (routines[i])->fillLinks
+  
+  classes = self.classes->get(/all, count=nclasses)
+  for i = 0L, nclasses - 1L do (classes[i])->fillLinks
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreeprofile::lookupName, name
+  compile_opt strictarr
+  
+  ; TODO: implement
+  return, ''  
+end
+
+
+;+
 ; Free resources.
 ;-
 pro doctreeprofile::cleanup

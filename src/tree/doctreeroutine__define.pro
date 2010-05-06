@@ -721,6 +721,123 @@ end
 
 
 ;+
+; Fill the links in comments for a routine.
+;-
+pro doctreeroutine::fillLinks
+  compile_opt strictarr
+  
+  doctree_fill_links, self.comments, self
+  doctree_fill_links, self.firstline, self
+  
+  doctree_fill_links, self.returns, self
+  doctree_fill_links, self.examples, self
+
+  doctree_fill_links, self.author, self
+  doctree_fill_links, self.copyright, self
+  doctree_fill_links, self.history, self
+  doctree_fill_links, self.version, self
+
+  doctree_fill_links, self.bugs, self
+  doctree_fill_links, self.pre, self
+  doctree_fill_links, self.post, self
+  doctree_fill_links, self.uses, self
+  doctree_fill_links, self.requires, self
+  doctree_fill_links, self.customerId, self
+  doctree_fill_links, self.todo, self
+  doctree_fill_links, self.restrictions, self                         
+               
+  parameters = self.parameters->get(/all, count=nparameters)
+  for i = 0L, nparameters - 1L do (parameters[i])->fillLinks
+  
+  keywords = self.keywords->get(/all, count=nkeywords)
+  for i = 0L, nkeywords - 1L do (keywords[i])->fillLinks
+end
+
+
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;-
+function doctreeroutine::lookupName, name
+  compile_opt strictarr
+  
+  case strmid(name, /reverse_offset, 4) of
+    '.pro': begin
+        self.file->getProperty, basename=basename
+        if (basename eq name) then return, self.file->getVariable('index_url')
+        
+        ; TODO: search for another .pro file
+      end
+    '.dlm': begin
+        self.file->getProperty, basename=basename
+        if (basename eq name) then return, self.file->getVariable('index_url')
+
+        ; TODO: search for another .dlm file
+      end
+    '.sav': begin
+        ; TODO: search for a .sav file
+      end
+    else:
+  endcase
+  
+  if (strmid(name, /reverse_offset, 7) eq '.idldoc') then begin
+    ; TODO: search for a .idldoc file
+  endif
+       
+  _name = strlowcase(name)
+    
+  if (_name eq strlowcase(self.name)) then return, self->getVariable('index_url')
+  
+  ; search parameters
+  parameters = self.parameters->get(/all, count=nparameters)
+  for i = 0L, nparameters - 1L do begin
+    (parameters[i])->getProperty, name=paramName
+    if (strlowcase(paramName) eq _name) then begin
+      return, (parameters[i])->getVariables('index_url')
+    endif 
+  endfor
+  
+  ; search keywords
+  keywords = self.keywords->get(/all, count=nkeywords)
+  for i = 0L, nkeywords - 1L do begin
+    (keywords[i])->getProperty, name=paramName
+    if (strlowcase(paramName) eq _name) then begin
+      return, (keywords[i])->getVariable('index_url')
+    endif 
+  endfor
+    
+  ; TODO: search for classes in file
+  
+  ; check directory name
+  self.file->getProperty, directory=directory
+  directory->getProperty, location=location
+  
+  if (location eq name) then return, directory->getVariable('index_url')
+  
+  case path_sep() of
+    '/': _location = strjoin(strsplit(location, '/', /preserve_null), '\')
+    '\': _location = strjoin(strsplit(location, '\', /preserve_null), '/')
+    else:
+  endcase
+  if (_location eq name) then return, directory->getVariable('index_url')
+  if (file_basename(location) eq name) then return, directory->getVariable('index_url')
+  
+  ; TODO: search for other classes
+  
+  ; TODO: search for other routines in file
+  ; TODO: search for other routines in directory
+  
+  return, ''  
+end
+
+
+;+
 ; Create a routine object.
 ;
 ; :Returns:
