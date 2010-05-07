@@ -571,7 +571,8 @@ end
 ;+
 ; Get a template by name (as used when loaded in loadTemplates).
 ; 
-; :Returns: template object or -1 if not found
+; :Returns: 
+;    template object or -1 if not found
 ;
 ; :Params:
 ;    name : in, required, type=string
@@ -1175,7 +1176,7 @@ function doc_system::_findIfTty
     catch, /cancel
     return, 0
   endif
-  
+
   return, mg_termIsTty()
 end
 
