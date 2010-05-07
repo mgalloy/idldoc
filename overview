@@ -1,63 +1,135 @@
-This is the documentation for the IDLdoc project source code.
+This is the documentation for the `IDLdoc project <http://idldoc.idldev.com>` 
+source code. The source code can be accessed via Subversion with the command::
   
-The IDLdoc project source code can be accessed via Subversion with the command::
+   svn co http://svn.idldev.com/idldoc/trunk idldoc
+
+An IDLdoc run passes through three stages:
+
+  1. parsing: uses the appropriate classes in the `parser` directory to parse 
+     source files and the comments contained in them to create a tree of 
+     objects, found in the `tree` directory, representing IDL constructs
   
-   svn co http://svn.idldev.com/idldoc/trunk/idldoc
-    
+  2. processing: analyze the tree created in step 1 to create connections 
+     between objects, the index, etc.
+  
+  3. generating output: the templating mechanism found in the `templating`
+     directory uses the appropriate templates in the `templates` directory to 
+     produce the output
+     
+IDLdoc uses a "system" object that contains all the top-level information 
+about a run. The `IDLDOC` routine itself is only a thin wrapper around the 
+creation of the system object. The system object has methods corresponding to 
+the three stages of the run: `parseTree`, `process`, and `generateOutput`.
 
-IDLdoc project site at::
-
-       idldev.com
+Profiler statistics for the run that produced these API docs can be found
+`here <profiler.csv>`.
 
 
 :Author:
-   Michael Galloy, michaelgalloy.com
+   `Michael Galloy <michaelgalloy.com>`
 
-   
+:History:
+  IDLdoc 3.0 was completely re-written from scratch and released on 1 January
+  2008.
+  
+  IDLdoc 3.1 was released on 18 June 2008.
+  
+  IDLdoc 3.2 was released on 5 June 2009.
+
+:Copyright:
+   IDLdoc is released under a BSD-type license.
+
+   Copyright (c) 2007-2009, Michael Galloy <mgalloy@idldev.com>
+
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without 
+   modification, are permitted provided that the following conditions are met:
+
+      a. Redistributions of source code must retain the above copyright 
+         notice, this list of conditions and the following disclaimer.
+      b. Redistributions in binary form must reproduce the above copyright 
+         notice, this list of conditions and the following disclaimer in the 
+         documentation and/or other materials provided with the distribution.
+      c. Neither the name of Michael Galloy nor the names of its contributors 
+         may be used to endorse or promote products derived from this software 
+         without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
+   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+   POSSIBILITY OF SUCH DAMAGE.
+
+
 :Dirs:
    ./ 
-      Main-level programs such as IDLdoc itself, the system object, and the 
-      version function.
+      main-level programs such as IDLdoc itself, the system object, and the 
+      version function
   
    analysis
-      routines used to proper scaling for the visualization of data in a 
-      `.sav` file
+      routines used to calculate proper scaling for the visualization of data 
+      in a `.sav` file (external)
       
    cmdline_tools
-      used for the color text output
+      used to produce color text output, if available and desired (external)
       
    collection 
-      Collection classes (imported from mg library).
+      collection classes (external): `MGcoArrayList` and `MGcoHashTable` are
+      used extensively
       
    dist_tools 
-      Routines for handling distributing applications (imported from mg 
-      library).
+      routines for handling distributing applications like `MG_SRC_ROOT` and
+      `MG_CMP_VERSION` (external)
       
    dist_tools/collection
-      not needed since collection is already a direct external for IDLdoc
-   
+      not needed since `collection` is already a direct external for IDLdoc
+
+   dist_tools/objects
+      not needed since `objects` is already a direct external for IDLdoc
+         
    introspection 
-      Routines for providing information about an IDL variable.
-      
-   math
-      Misc computational routines (imported from mg library).
+      routines for providing information about an IDL variable (external)
+   
+   objects
+      routines and classes required for handling collection classes in IDL 
+      8.0 (external)
       
    parser 
-      Parser classes for parsing files, formats, and comments.
+      parser classes for parsing `.pro`, `.dlm`, `.sav`, `.idldoc` files, and
+      the comments contained in them into a tree of IDL constructs using the
+      classes in the `tree` directory 
       
    templating 
-      Template class and helpers (imported from mg library).
+      template class and its helpers (external); this is the library which is
+      able to fill in the blanks in the templates in the `templates` directory
+      when IDLdoc is in the generating output stage
+      
+      The `tree` classes are passed directly to the templating engine when 
+      IDLdoc is producing output. They are queried by the templating engine
+      via their `getVariable` method.
       
    textmarkup
-      Classes to convert a markup tree to a particular markup language 
-      (imported from mg library).
+      classes to convert a markup tree to a particular markup language 
+      (external)
       
    tree
-      Classes representing IDL constructs: directories, files, routines, etc.
+      classes representing IDL constructs such as directories, files,
+      routines, etc.; the goal of the parsing stage of an IDLdoc run is to 
+      create the tree of IDL constructs
+      
+      Each class in the `tree` directory has `fillLinks` and `lookupName`
+      methods used during the processing stage of an IDLdoc run. Each class
+      also has a `getVariable` method so that it can be queried for
+      information by the templating engine.
       
    util 
-      Utility classes (formating integers, etc).
-      
-   web
-      Routines to handle retrieving web content.
+      utility routines/classes (formatting integers, etc)
+
       
