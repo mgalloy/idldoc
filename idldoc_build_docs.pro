@@ -1,4 +1,7 @@
+orig_quiet = !quiet
+!quiet = 1
 @idldoc_compile_all
+!quiet = orig_quiet
 
 profiler
 profiler, /system
