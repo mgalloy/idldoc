@@ -799,7 +799,7 @@ function doctreeroutine::lookupName, name
   for i = 0L, nparameters - 1L do begin
     (parameters[i])->getProperty, name=paramName
     if (strlowcase(paramName) eq _name) then begin
-      return, (parameters[i])->getVariables('index_url')
+      return, (parameters[i])->getVariable('index_url')
     endif 
   endfor
   
