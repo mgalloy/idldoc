@@ -33,6 +33,8 @@
 .compile src/parser/docparverbatimmarkupparser__define
 .compile src/parser/docparverbatimformatparser__define
 
+.compile src/strings/mg_streplace
+
 .compile src/templating/mgfftemplate__define
 .compile src/templating/mgfftokenizer__define
 
