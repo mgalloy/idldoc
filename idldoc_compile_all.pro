@@ -50,6 +50,7 @@
 .compile src/textmarkup/mgtmtag__define
 .compile src/textmarkup/mgtmtext__define
 
+.compile src/tree/doctree_fill_links
 .compile src/tree/doctreeargument__define
 .compile src/tree/doctreeclass__define
 .compile src/tree/doctreedirectory__define
