@@ -508,8 +508,48 @@ end
 function doctreeclass::lookupName, name
   compile_opt strictarr
   
-  ; TODO: implement
-  return, ''
+  if (strlowcase(name) eq strlowcase(self.classname)) then begin
+    return, self->getVariable('index_url')
+  endif
+
+  ; check properties
+  propNames = self.properties->keys(count=nprops)
+  for p = 0L, nprops - 1L do begin
+    if (strlowcase(name) eq strlowcase(propNames[p])) then begin
+      property = self.properties->get(propNames[p])
+      return, property->getVariable('index_url')
+    endif
+  endfor
+    
+  ; check fields
+  fieldNames = self.fields->keys(count=nfields)
+  for f = 0L, nfields - 1L do begin
+    if (strlowcase(name) eq strlowcase(fieldNames[f])) then begin
+      field = self.fields->get(fieldNames[f])
+      return, field->getVariable('index_url')
+    endif
+  endfor
+  
+  ; check ancestors
+  nancestors = self.ancestors->count()
+  for a = 0L, nancestors - 1L do begin
+    ancestor = self.ancestors->get(position=a)
+    if (strlowcase(name) eq strlowcase(ancestor.classname)) then begin
+      return, ancestor->getVariable('index_url')
+    endif
+  endfor
+  
+  ; check children
+  nchildren = self.children->count()
+  for c = 0L, nchildren - 1L do begin
+    child = self.children->get(position=c)
+    if (strlowcase(name) eq strlowcase(child.classname)) then begin
+      return, child->getVariable('index_url')
+    endif
+  endfor
+  
+  ; if nothing found yet, pass along to file
+  return, self.profile->lookupName(name)
 end
 
 

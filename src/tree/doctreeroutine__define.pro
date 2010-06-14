@@ -813,6 +813,7 @@ function doctreeroutine::lookupName, name
   endfor
     
   ; TODO: search for classes in file
+  ;self.file
   
   ; check directory name
   self.file->getProperty, directory=directory

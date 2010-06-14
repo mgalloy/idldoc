@@ -194,8 +194,7 @@ end
 function doctreeidldocfile::lookupName, name
   compile_opt strictarr
   
-  ; TODO: implement
-  return, ''  
+  return, self.directory->lookupName(name)
 end
 
 
