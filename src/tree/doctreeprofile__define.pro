@@ -680,8 +680,13 @@ end
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
+;       
+; :Keywords:
+;    down : in, optional, type=boolean
+;       set to indicate to just check the argument, not search up the tree 
+;       hierarchy
 ;-
-function doctreeprofile::lookupName, name
+function doctreeprofile::lookupName, name, down=down
   compile_opt strictarr
   
   ; TODO: implement

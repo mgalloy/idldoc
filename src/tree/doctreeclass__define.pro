@@ -504,8 +504,13 @@ end
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
+;       
+; :Keywords:
+;    down : in, optional, type=boolean
+;       set to indicate to just check the argument, not search up the tree 
+;       hierarchy
 ;-
-function doctreeclass::lookupName, name
+function doctreeclass::lookupName, name, down=down
   compile_opt strictarr
   
   if (strlowcase(name) eq strlowcase(self.classname)) then begin
@@ -515,19 +520,17 @@ function doctreeclass::lookupName, name
   ; check properties
   propNames = self.properties->keys(count=nprops)
   for p = 0L, nprops - 1L do begin
-    if (strlowcase(name) eq strlowcase(propNames[p])) then begin
-      property = self.properties->get(propNames[p])
-      return, property->getVariable('index_url')
-    endif
+    property = self.properties->get(propNames[p])
+    url = property->lookupName(name, /down)
+    if (url ne '') then return, url
   endfor
     
   ; check fields
   fieldNames = self.fields->keys(count=nfields)
   for f = 0L, nfields - 1L do begin
-    if (strlowcase(name) eq strlowcase(fieldNames[f])) then begin
-      field = self.fields->get(fieldNames[f])
-      return, field->getVariable('index_url')
-    endif
+    field = self.fields->get(fieldNames[f])
+    url = field->lookupName(name, /down)
+    if (url ne '') then return, url
   endfor
   
   ; check ancestors
@@ -549,7 +552,7 @@ function doctreeclass::lookupName, name
   endfor
   
   ; if nothing found yet, pass along to file
-  return, self.profile->lookupName(name)
+  return, keyword_set(down) ? '' : self.profile->lookupName(name)
 end
 
 

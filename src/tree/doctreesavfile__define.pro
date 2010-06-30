@@ -341,7 +341,7 @@ pro doctreesavfile::fillLinks
   for i = 0L, npointers - 1L do (pointers[i])->fillLinks
 
   objects = self.objects->get(/all, count=nobjects)
-  for i = 0L, nobjects - 1L do (variables[i])->fillLinks
+  for i = 0L, nobjects - 1L do (objects[i])->fillLinks
 end
 
 
@@ -355,10 +355,48 @@ end
 ;    name : in, required, type=string
 ;       name of item
 ;-
-function doctreesavfile::lookupName, name
+function doctreesavfile::lookupName, name, up=up
   compile_opt strictarr
   
-  return, self.directory->lookupName(name)
+  if (keyword_set(up)) then begin
+    return, self.directory->lookupName(name)
+  endif begin
+    variables = self.variables->get(/all, count=nvariables)
+    for i = 0L, nvariables - 1L do begin
+      url = (variables[i])->lookupName(/down)
+      if (url ne '') then return, url
+    endfor
+  
+    systemVariables = self.systemVariables->get(/all, count=nsystemVariables)
+    for i = 0L, nsystemVariables - 1L do begin
+      url = (systemVariables[i])->lookupName(/down)
+      if (url ne '') then return, url
+    endfor
+  
+    commonBlocks = self.commonBlocks->get(/all, count=ncommonBlocks)
+    for i = 0L, ncommonBlocks - 1L do begin
+      url = (commonBlocks[i])->lookupName(/down)
+      if (url ne '') then return, url
+    endfor
+  
+    structureDefinitions = self.structureDefinitions->get(/all, count=nstructureDefinitions)
+    for i = 0L, nstructureDefinitions - 1L do begin
+      url = (structureDefinitions[i])->lookupName(/down)
+      if (url ne '') then return, url
+    endfor
+  
+    pointers = self.pointers->get(/all, count=npointers)
+    for i = 0L, npointers - 1L do begin
+      url = (pointers[i])->lookupName(/down)
+      if (url ne '') then return, url
+    endfor
+  
+    objects = self.objects->get(/all, count=nobjects)
+    for i = 0L, nobjects - 1L do begin
+      url = (objects[i])->lookupName(/down)
+      if (url ne '') then return, url
+    endfor
+  endif
 end
 
 

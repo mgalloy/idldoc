@@ -797,19 +797,15 @@ function doctreeroutine::lookupName, name
   ; search parameters
   parameters = self.parameters->get(/all, count=nparameters)
   for i = 0L, nparameters - 1L do begin
-    (parameters[i])->getProperty, name=paramName
-    if (strlowcase(paramName) eq _name) then begin
-      return, (parameters[i])->getVariable('index_url')
-    endif 
+    url = (parameters[i])->lookupName(name, /no_search)
+    if (url ne '') then return, url
   endfor
   
   ; search keywords
   keywords = self.keywords->get(/all, count=nkeywords)
   for i = 0L, nkeywords - 1L do begin
-    (keywords[i])->getProperty, name=paramName
-    if (strlowcase(paramName) eq _name) then begin
-      return, (keywords[i])->getVariable('index_url')
-    endif 
+    url = (keywords[i])->lookupName(name, /no_search)
+    if (url ne '') then return, url
   endfor
     
   ; TODO: search for classes in file

@@ -278,15 +278,20 @@ end
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
+;      
+; :Keywords:
+;    down : in, optional, type=boolean
+;       set to indicate to just check the argument, not search up the tree 
+;       hierarchy
 ;-
-function doctreeargument::lookupName, name
+function doctreeargument::lookupName, name, down=down
   compile_opt strictarr
   
   if (strlowcase(name) eq strlowcase(self.name)) then begin
     return, self->getVariable('index_url')
   endif
   
-  return, self.routine->lookupName(name)
+  return, keyword_set(noSearch) ? '' : self.routine->lookupName(name)
 end
 
 

@@ -162,15 +162,20 @@ end
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
+;
+; :Keywords:
+;    down : in, optional, type=boolean
+;       set to indicate to just check the property, not search up the tree 
+;       hierarchy
 ;-
-function doctreeproperty::lookupName, name
+function doctreeproperty::lookupName, name, down=down
   compile_opt strictarr
   
   if (strlowcase(name) eq strlowcase(self.name)) then begin
     return, self->getVariable('index_url')
   endif
     
-  return, self.class->lookupName(name)  
+  return, keyword_set(down) ? '' : self.class->lookupName(name)  
 end
 
 

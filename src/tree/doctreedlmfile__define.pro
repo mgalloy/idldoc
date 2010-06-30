@@ -222,12 +222,35 @@ end
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
+;
+; :Keywords:
+;    down : in, optional, type=boolean
+;       set to indicate to just check the argument, not search up the tree 
+;       hierarchy
 ;-
-function doctreedlmfile::lookupName, name
+function doctreedlmfile::lookupName, name, down=down
   compile_opt strictarr
   
-  ; TODO: implement
-  return, ''  
+  ; check DLM filename
+  if (name eq self.dlmFilename) then begin
+    return, self->getVariable('index_url')
+  endif
+   
+  ; check module name
+  if (strlowcase(name) eq strlowcase(self.modulename)) then begin
+    return, self->getVariable('index_url')
+  endif
+    
+  ; check routines
+  nroutines = self.routines->count()
+  for r = 0L, nroutines - 1L do begin
+    routine = self.routines->get(position=r)
+    url = routine->lookupName(name, /down)
+    if (url ne '') then return, url
+  endfor
+  
+  ; if nothing found yet, pass along to the directory
+  return, self.directory->lookupName(name)
 end
 
 
