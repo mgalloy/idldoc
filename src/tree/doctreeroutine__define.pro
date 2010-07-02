@@ -797,14 +797,14 @@ function doctreeroutine::lookupName, name
   ; search parameters
   parameters = self.parameters->get(/all, count=nparameters)
   for i = 0L, nparameters - 1L do begin
-    url = (parameters[i])->lookupName(name, /no_search)
+    url = (parameters[i])->lookupName(name, /down)
     if (url ne '') then return, url
   endfor
   
   ; search keywords
   keywords = self.keywords->get(/all, count=nkeywords)
   for i = 0L, nkeywords - 1L do begin
-    url = (keywords[i])->lookupName(name, /no_search)
+    url = (keywords[i])->lookupName(name, /down)
     if (url ne '') then return, url
   endfor
     

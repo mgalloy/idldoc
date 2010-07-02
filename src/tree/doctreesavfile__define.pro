@@ -360,7 +360,7 @@ function doctreesavfile::lookupName, name, up=up
   
   if (keyword_set(up)) then begin
     return, self.directory->lookupName(name)
-  endif begin
+  endif else begin
     variables = self.variables->get(/all, count=nvariables)
     for i = 0L, nvariables - 1L do begin
       url = (variables[i])->lookupName(/down)
@@ -396,7 +396,7 @@ function doctreesavfile::lookupName, name, up=up
       url = (objects[i])->lookupName(/down)
       if (url ne '') then return, url
     endfor
-  endif
+  endelse
 end
 
 
