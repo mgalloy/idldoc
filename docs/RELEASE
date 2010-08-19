@@ -27,7 +27,9 @@ IDLdoc 3.3
 * Improved rst markup style. Headings can be created by underlining with "="
   (for level 1 headings), "-" (level 2), or "~" (level 3). Links can be done
   explicitly via `my website <michaelgalloy.com>` or looked up in the scope
-  of the comment's context, like `my_routine`.
+  of the comment's context, like `my_routine`. Added title directive so that 
+  .idldoc files can have a separate title to be display (instead of just their
+  filename).
 
 * Added a preformatted markup style which is nearly equivalent to verbatim, 
   but also makes HTML output respect line-breaks.
