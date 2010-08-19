@@ -14,7 +14,7 @@
 ;      give a link to an item like a paramater, routine, file, or directory, 
 ;      i.e., `my_routine`, `my_routine.pro`.
 ;   
-;   5. (not implemented) links like: `my site <michaelgalloy.com>`_
+;   5. links like: `my site <michaelgalloy.com>`_
 ;   
 ;   6. Inserting images via:
 ;
@@ -77,6 +77,8 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
         self.system->getProperty, output=output
         
         tag->addAttribute, 'location', location
+        
+        if (obj_valid(file)) then file->addImageRef, filename
       end
     'embed': begin
         tag = obj_new('MGtmTag', type='embed')
@@ -87,18 +89,21 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
         self.system->getProperty, output=output
         
         tag->addAttribute, 'location', location
+        
+        if (obj_valid(file)) then file->addImageRef, filename
       end
+    'title': begin
+        file->setProperty, title=filename
+      end      
     else: self.system->warning, 'unknown rst directive ' + directive
   endcase
 
   beforeDirective = strmid(line, 0, pos)
   afterDirective = strmid(line, pos + len)
   tree->addChild, obj_new('MGtmText', text=beforeDirective)
-  tree->addChild, tag
+  if (n_elements(tag) gt 0L) then tree->addChild, tag
   tree->addChild, obj_new('MGtmText', text=afterDirective)
   tree->addChild, obj_new('MGtmTag', type='newline')
-  
-  if (obj_valid(file)) then file->addImageRef, filename
 end
 
 
@@ -298,7 +303,7 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
     
     if (nextIsCode) then cleanline = strmid(cleanline, 0, strlen(cleanline) - 1)
     
-    directivePos = stregex(cleanline, '\.\. [[:alpha:]]+:: [[:alnum:]_/.\-]+', $
+    directivePos = stregex(cleanline, '\.\. [[:alpha:]]+:: [[:alnum:] _/.\-]+', $
                            length=directiveLen)
     
     if ((~code || (currentIndent gt -1 && currentIndent le indent)) $

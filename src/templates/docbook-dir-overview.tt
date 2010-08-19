@@ -39,7 +39,7 @@
 	  <variablelist>
     [% FOREACH f IN idldoc_files %][% SCOPE f %]
       <varlistentry>
-        <term><filename>[% basename %]</filename></term>
+        <term><filename>[% file_title %]</filename></term>
         <listitem></listitem>
       </varlistentry>
     [% END %][% END %]

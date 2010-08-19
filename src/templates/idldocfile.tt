@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=[% charset %]"/>
-    <title>[% basename %] ([% title %])</title>
+    <title>[% file_title %] ([% title %])</title>
 
     [% IF embed %]
     <style type="text/css" media="all">
@@ -24,7 +24,7 @@
     
     <script type="text/javascript">
       function setTitle() {
-        parent.document.title="[% basename %] ([% title %])";
+        parent.document.title="[% file_title %] ([% title %])";
       }
     </script>
   </head>
@@ -35,7 +35,7 @@
 
     <div class="content">
       <h2 class="directory">[% location %]</h2>
-      <h1 class="basename">[% basename %]</h1>
+      <h1 class="basename">[% file_title %]</h1>
       
       [% IF has_comments %]
       <div id="file_comments">

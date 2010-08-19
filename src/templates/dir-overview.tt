@@ -103,7 +103,7 @@
       
         <dl class="file_listing">
           [% FOREACH f IN idldoc_files %][% SCOPE f %]
-          <dt class="filename">[% basename %]</dt>
+          <dt class="filename">[% file_title %]</dt>
           <dd class="smaller"></dd>  
           [% END %][% END %]
         </dl>

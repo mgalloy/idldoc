@@ -497,8 +497,9 @@ pro doc_system::process
   
   if (nEntries gt 0) then self->processIndex 
   
-  directories = self.directories->get(/all, count=ndirectories)
-  for i = 0L, ndirectories - 1L do (directories[i])->fillLinks
+  ; TODO: put this back into place
+  ;directories = self.directories->get(/all, count=ndirectories)
+  ;for i = 0L, ndirectories - 1L do (directories[i])->fillLinks
 end
 
 

@@ -29,7 +29,7 @@ end
 ;+
 ; Set properties.
 ;-
-pro doctreeidldocfile::setProperty, comments=comments
+pro doctreeidldocfile::setProperty, comments=comments, title=title
   compile_opt strictarr, hidden
 
   if (n_elements(comments) gt 0) then begin
@@ -40,6 +40,8 @@ pro doctreeidldocfile::setProperty, comments=comments
       self.comments = parent
     endif else self.comments = comments
   endif
+  
+  if (n_elements(title) gt 0L) then self.title = title
 end
 
 
@@ -63,6 +65,8 @@ function doctreeidldocfile::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'basename': return, self.basename
+    'file_title': return, self.title
+    
     'local_url': begin
         self.system->getProperty, extension=outputExtension
         return, file_basename(self.basename, '.idldoc') + '.' + outputExtension
@@ -92,7 +96,7 @@ function doctreeidldocfile::getVariable, name, found=found
          self.system->getProperty, extension=ext
          return, url + file_basename(self.basename, '.idldoc') + '.' + ext
        end      
-      
+             
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
@@ -221,7 +225,8 @@ function doctreeidldocfile::init, basename=basename, directory=directory, $
   self.basename = basename
   self.directory = directory
   self.system = system
-
+  self.title = basename
+  
   self.imagerefs = obj_new('MGcoArrayList', type=7, block_size=3)
   
   self.system->getProperty, index_level=indexLevel
@@ -258,6 +263,7 @@ pro doctreeidldocfile__define
              
              basename: '', $
              comments: obj_new(), $
+             title: '', $
              
              imagerefs: obj_new() $
            }
