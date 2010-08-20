@@ -14,8 +14,8 @@
 function idldoc_version, full=full
   compile_opt strictarr, hidden
   
-  version = '3.3dev'
-  revision = '-r659'
+  version = '3.3alpha1'
+  revision = '-r667'
   
   return, version + (keyword_set(full) ? (' ' + revision) : '')
 end
