@@ -26,6 +26,7 @@
 .compile src/parser/docparidldocformatparser__define
 .compile src/parser/docparidlformatparser__define
 .compile src/parser/docparmarkupparser__define
+.compile docparpreformattedmarkupparser__define
 .compile src/parser/docparprofileparser__define
 .compile src/parser/docparprofiletokenizer__define
 .compile src/parser/docparrstformatparser__define
