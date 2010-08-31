@@ -400,7 +400,7 @@ end
 function doctreedirectory::lookupName, name, exclude=exclude
   compile_opt strictarr
   
-  if (name eq self.location) then return, self.getVariable('index_url')
+  if (name eq self.location) then return, self->getVariable('index_url')
   
   proFiles = self.proFiles->get(/all, count=nproFiles) 
   for i = 0L, nproFiles - 1L do begin

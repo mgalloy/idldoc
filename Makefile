@@ -1,6 +1,6 @@
-VERSION=3.3alpha2
+VERSION=3.3beta1
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
-IDL=idl
+IDL=idl64
 
 .PHONY: clean doc book regression tests version srcdist dist updates
 	
