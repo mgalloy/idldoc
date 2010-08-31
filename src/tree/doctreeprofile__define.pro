@@ -682,15 +682,33 @@ end
 ;       name of item
 ;       
 ; :Keywords:
-;    down : in, optional, type=boolean
-;       set to indicate to just check the argument, not search up the tree 
-;       hierarchy
+;    exclude : in, optional, type=object
+;       object to exclude looking at
 ;-
-function doctreeprofile::lookupName, name, down=down
+function doctreeprofile::lookupName, name, exclude=exclude
   compile_opt strictarr
   
-  ; TODO: implement
-  return, ''  
+  if (name eq self.basename) then return, self->getVariable('index_url')
+
+  ; check classes
+  classes = self.classes->get(/all, count=nclasses) 
+  for i = 0L, nclasses - 1L do begin
+    if (obj_valid(exclude) && exclude eq classes[i]) then continue
+    url = (classes[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+   
+  ; check routines
+  routines = self.routines->get(/all, count=nroutines) 
+  for i = 0L, nroutines - 1L do begin
+    if (obj_valid(exclude) && exclude eq routines[i]) then continue
+    url = (routines[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+   
+  return, obj_valid(exclude) && exclude eq self.directory $
+            ? '' $
+            : self.directory->lookupName(name, exclude=self)
 end
 
 

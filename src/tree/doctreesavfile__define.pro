@@ -354,49 +354,61 @@ end
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
+;   
+; :Keywords:
+;    exclude : in, optional, type=object
+;       object to exclude looking at
 ;-
-function doctreesavfile::lookupName, name, up=up
+function doctreesavfile::lookupName, name, exclude=exclude
   compile_opt strictarr
   
-  if (keyword_set(up)) then begin
-    return, self.directory->lookupName(name)
-  endif else begin
-    variables = self.variables->get(/all, count=nvariables)
-    for i = 0L, nvariables - 1L do begin
-      url = (variables[i])->lookupName(/down)
-      if (url ne '') then return, url
-    endfor
+  if (name eq self.basename) then return, self->getVariable('index_url')
   
-    systemVariables = self.systemVariables->get(/all, count=nsystemVariables)
-    for i = 0L, nsystemVariables - 1L do begin
-      url = (systemVariables[i])->lookupName(/down)
-      if (url ne '') then return, url
-    endfor
+  variables = self.variables->get(/all, count=nvariables)
+  for i = 0L, nvariables - 1L do begin
+    if (obj_valid(exclude) && exclude eq variables[i]) then continue
+    url = (variables[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+
+  systemVariables = self.systemVariables->get(/all, count=nsystemVariables)
+  for i = 0L, nsystemVariables - 1L do begin
+    if (obj_valid(exclude) && exclude eq systemVariables[i]) then continue
+    url = (systemVariables[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+
+  commonBlocks = self.commonBlocks->get(/all, count=ncommonBlocks)
+  for i = 0L, ncommonBlocks - 1L do begin
+    if (obj_valid(exclude) && exclude eq commonBlocks[i]) then continue
+    url = (commonBlocks[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+
+  structureDefinitions = self.structureDefinitions->get(/all, count=nstructureDefinitions)
+  for i = 0L, nstructureDefinitions - 1L do begin
+    if (obj_valid(exclude) && exclude eq structureDefinitions[i]) then continue
+    url = (structureDefinitions[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+
+  pointers = self.pointers->get(/all, count=npointers)
+  for i = 0L, npointers - 1L do begin
+    if (obj_valid(exclude) && exclude eq pointers[i]) then continue
+    url = (pointers[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+
+  objects = self.objects->get(/all, count=nobjects)
+  for i = 0L, nobjects - 1L do begin
+    if (obj_valid(exclude) && exclude eq objects[i]) then continue
+    url = (objects[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
   
-    commonBlocks = self.commonBlocks->get(/all, count=ncommonBlocks)
-    for i = 0L, ncommonBlocks - 1L do begin
-      url = (commonBlocks[i])->lookupName(/down)
-      if (url ne '') then return, url
-    endfor
-  
-    structureDefinitions = self.structureDefinitions->get(/all, count=nstructureDefinitions)
-    for i = 0L, nstructureDefinitions - 1L do begin
-      url = (structureDefinitions[i])->lookupName(/down)
-      if (url ne '') then return, url
-    endfor
-  
-    pointers = self.pointers->get(/all, count=npointers)
-    for i = 0L, npointers - 1L do begin
-      url = (pointers[i])->lookupName(/down)
-      if (url ne '') then return, url
-    endfor
-  
-    objects = self.objects->get(/all, count=nobjects)
-    for i = 0L, nobjects - 1L do begin
-      url = (objects[i])->lookupName(/down)
-      if (url ne '') then return, url
-    endfor
-  endelse
+  return, obj_valid(exclude) && exclude eq self.directory $
+            ? '' $
+            : self.directory->lookupName(name, exclude=self)
 end
 
 

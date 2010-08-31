@@ -224,11 +224,10 @@ end
 ;       name of item
 ;
 ; :Keywords:
-;    down : in, optional, type=boolean
-;       set to indicate to just check the argument, not search up the tree 
-;       hierarchy
+;    exclude : in, optional, type=object
+;       object to exclude looking at
 ;-
-function doctreedlmfile::lookupName, name, down=down
+function doctreedlmfile::lookupName, name, exclude=exclude
   compile_opt strictarr
   
   ; check DLM filename
@@ -245,12 +244,15 @@ function doctreedlmfile::lookupName, name, down=down
   nroutines = self.routines->count()
   for r = 0L, nroutines - 1L do begin
     routine = self.routines->get(position=r)
-    url = routine->lookupName(name, /down)
+    if (obj_valid(exclude) && routine eq exclude) then continue
+    url = routine->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
   
   ; if nothing found yet, pass along to the directory
-  return, self.directory->lookupName(name)
+  return, obj_valid(exclude) && exclude eq self.directory $
+            ? '' $
+            : self.directory->lookupName(name, exclude=self)
 end
 
 

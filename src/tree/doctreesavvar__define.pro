@@ -108,18 +108,19 @@ end
 ;       name of item
 ;       
 ; :Keywords:
-;    down : in, optional, type=boolean
-;       set to indicate to just check the variable, not search up the tree 
-;       hierarchy
+;    exclude : in, optional, type=object
+;       object to exclude looking at
 ;-
-function doctreesavvar::lookupName, name, down=down
+function doctreesavvar::lookupName, name, exclude=exclude
   compile_opt strictarr
   
   if (strlowcase(name) eq strlowcase(self.name)) then begin
     return, self->getVariable('index_url') 
   endif
   
-  return, keyword_set(down) ? '' : self.savFile->lookupName(name, /up)
+  return, obj_valid(exclude) && exclude eq self.directory $
+            ? '' $
+            : self.savFile->lookupName(name, exclude=self)
 end
 
 

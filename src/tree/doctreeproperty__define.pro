@@ -164,18 +164,19 @@ end
 ;       name of item
 ;
 ; :Keywords:
-;    down : in, optional, type=boolean
-;       set to indicate to just check the property, not search up the tree 
-;       hierarchy
+;    exclude : in, optional, type=object
+;       object to exclude looking at
 ;-
-function doctreeproperty::lookupName, name, down=down
+function doctreeproperty::lookupName, name, exclude=exclude
   compile_opt strictarr
   
   if (strlowcase(name) eq strlowcase(self.name)) then begin
     return, self->getVariable('index_url')
   endif
     
-  return, keyword_set(down) ? '' : self.class->lookupName(name)  
+  return, obj_valid(exclude) && exclude eq self.class $
+            ? '' $
+            : self.class->lookupName(name, exclude=self)  
 end
 
 

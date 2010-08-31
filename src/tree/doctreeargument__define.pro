@@ -280,18 +280,19 @@ end
 ;       name of item
 ;      
 ; :Keywords:
-;    down : in, optional, type=boolean
-;       set to indicate to just check the argument, not search up the tree 
-;       hierarchy
+;    exclude : in, optional, type=object
+;       object to exclude looking at
 ;-
-function doctreeargument::lookupName, name, down=down
+function doctreeargument::lookupName, name, exclude=exclude
   compile_opt strictarr
   
   if (strlowcase(name) eq strlowcase(self.name)) then begin
     return, self->getVariable('index_url')
   endif
   
-  return, keyword_set(noSearch) ? '' : self.routine->lookupName(name)
+  return, obj_valid(exclude) && exclude eq self.routine $
+            ? '' $
+            : self.routine->lookupName(name, exclude=self)
 end
 
 

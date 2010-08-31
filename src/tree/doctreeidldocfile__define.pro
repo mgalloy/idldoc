@@ -194,11 +194,17 @@ end
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
+;       
+; :Keywords:
+;    exclude : in, optional, type=object
+;       object to exclude looking at
 ;-
-function doctreeidldocfile::lookupName, name
+function doctreeidldocfile::lookupName, name, exclude=exclude
   compile_opt strictarr
   
-  return, self.directory->lookupName(name)
+  return, obj_valid(exclude) && exclude eq self.directory $
+            ? '' $
+            : self.directory->lookupName(name, exclude=self)
 end
 
 

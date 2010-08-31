@@ -392,12 +392,47 @@ end
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
+;      
+; :Keywords:
+;    exclude : in, optional, type=object
+;       object to exclude looking at
 ;-
-function doctreedirectory::lookupName, name
+function doctreedirectory::lookupName, name, exclude=exclude
   compile_opt strictarr
   
-  ; TODO: implement
-  return, ''  
+  if (name eq self.location) then return, self.getVariable('index_url')
+  
+  proFiles = self.proFiles->get(/all, count=nproFiles) 
+  for i = 0L, nproFiles - 1L do begin
+    if (obj_valid(exclude) && exclude eq proFiles[i]) then continue
+    url = (proFiles[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+    
+  dlmFiles = self.dlmFiles->get(/all, count=ndlmFiles) 
+  for i = 0L, ndlmFiles - 1L do begin
+    if (obj_valid(exclude) && exclude eq dlmFiles[i]) then continue
+    url = (dlmFiles[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+  
+  savFiles = self.savFiles->get(/all, count=nsavFiles) 
+  for i = 0L, nsavFiles - 1L do begin
+    if (obj_valid(exclude) && exclude eq savFiles[i]) then continue
+    url = (savFiles[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+  
+  idldocFiles = self.idldocFiles->get(/all, count=nidldocFiles) 
+  for i = 0L, nidldocFiles - 1L do begin
+    if (obj_valid(exclude) && exclude eq idldocFiles[i]) then continue
+    url = (idldocFiles[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+      
+  return, obj_valid(exclude) && exclude eq self.system $
+            ? '' $
+            : self.system->lookupName(name, exclude=self)
 end
 
 

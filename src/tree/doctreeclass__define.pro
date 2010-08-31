@@ -506,11 +506,10 @@ end
 ;       name of item
 ;       
 ; :Keywords:
-;    down : in, optional, type=boolean
-;       set to indicate to just check the argument, not search up the tree 
-;       hierarchy
+;    exclude : in, optional, type=object
+;       object to exclude looking at
 ;-
-function doctreeclass::lookupName, name, down=down
+function doctreeclass::lookupName, name, exclude=exclude
   compile_opt strictarr
   
   if (strlowcase(name) eq strlowcase(self.classname)) then begin
@@ -521,7 +520,8 @@ function doctreeclass::lookupName, name, down=down
   propNames = self.properties->keys(count=nprops)
   for p = 0L, nprops - 1L do begin
     property = self.properties->get(propNames[p])
-    url = property->lookupName(name, /down)
+    if (obj_valid(exclude) && exclude eq property) then continue
+    url = property->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
     
@@ -529,7 +529,8 @@ function doctreeclass::lookupName, name, down=down
   fieldNames = self.fields->keys(count=nfields)
   for f = 0L, nfields - 1L do begin
     field = self.fields->get(fieldNames[f])
-    url = field->lookupName(name, /down)
+    if (obj_valid(exclude) && exclude eq field) then continue
+    url = field->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
   
@@ -552,7 +553,9 @@ function doctreeclass::lookupName, name, down=down
   endfor
   
   ; if nothing found yet, pass along to file
-  return, keyword_set(down) ? '' : self.profile->lookupName(name)
+  return, obj_valid(exclude) && exclude eq self.profile $
+            ? '' $
+            : self.profile->lookupName(name, exclude=self)
 end
 
 

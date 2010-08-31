@@ -763,74 +763,35 @@ end
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
+;  
+; :Keywords:
+;    exclude : in, optional, type=object
+;       object to exclude looking at
 ;-
-function doctreeroutine::lookupName, name
+function doctreeroutine::lookupName, name, exclude=exclude
   compile_opt strictarr
-  
-  case strmid(name, /reverse_offset, 4) of
-    '.pro': begin
-        self.file->getProperty, basename=basename
-        if (basename eq name) then return, self.file->getVariable('index_url')
-        
-        ; TODO: search for another .pro file
-      end
-    '.dlm': begin
-        self.file->getProperty, basename=basename
-        if (basename eq name) then return, self.file->getVariable('index_url')
-
-        ; TODO: search for another .dlm file
-      end
-    '.sav': begin
-        ; TODO: search for a .sav file
-      end
-    else:
-  endcase
-  
-  if (strmid(name, /reverse_offset, 7) eq '.idldoc') then begin
-    ; TODO: search for a .idldoc file
-  endif
-       
-  _name = strlowcase(name)
     
-  if (_name eq strlowcase(self.name)) then return, self->getVariable('index_url')
+  if (strlowcase(name) eq strlowcase(self.name)) then return, self->getVariable('index_url')
   
   ; search parameters
   parameters = self.parameters->get(/all, count=nparameters)
   for i = 0L, nparameters - 1L do begin
-    url = (parameters[i])->lookupName(name, /down)
+    if (obj_valid(exclude) && exclude eq parameters[i]) then continue
+    url = (parameters[i])->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
   
   ; search keywords
   keywords = self.keywords->get(/all, count=nkeywords)
   for i = 0L, nkeywords - 1L do begin
-    url = (keywords[i])->lookupName(name, /down)
+    if (obj_valid(exclude) && exclude eq keywords[i]) then continue
+    url = (keywords[i])->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
-    
-  ; TODO: search for classes in file
-  ;self.file
   
-  ; check directory name
-  self.file->getProperty, directory=directory
-  directory->getProperty, location=location
-  
-  if (location eq name) then return, directory->getVariable('index_url')
-  
-  case path_sep() of
-    '/': _location = strjoin(strsplit(location, '/', /preserve_null), '\')
-    '\': _location = strjoin(strsplit(location, '\', /preserve_null), '/')
-    else:
-  endcase
-  if (_location eq name) then return, directory->getVariable('index_url')
-  if (file_basename(location) eq name) then return, directory->getVariable('index_url')
-  
-  ; TODO: search for other classes
-  
-  ; TODO: search for other routines in file
-  ; TODO: search for other routines in directory
-  
-  return, ''  
+  return, obj_valid(exclude) && exclude eq self.file $
+            ? '' $
+            : self.file->lookupName(name, exclude=self) 
 end
 
 

@@ -497,12 +497,39 @@ pro doc_system::process
   
   if (nEntries gt 0) then self->processIndex 
   
-  ; TODO: put this back into place
-  ;directories = self.directories->get(/all, count=ndirectories)
-  ;for i = 0L, ndirectories - 1L do (directories[i])->fillLinks
+  directories = self.directories->get(/all, count=ndirectories)
+  for i = 0L, ndirectories - 1L do (directories[i])->fillLinks
 end
 
 
+;+
+; Return an URL from the root for the given item name.
+; 
+; :Returns:
+;    string
+;    
+; :Params:
+;    name : in, required, type=string
+;       name of item
+;      
+; :Keywords:
+;    exclude : in, optional, type=object
+;       object to exclude looking at
+;-
+function doc_system::lookupName, name, exclude=exclude
+  compile_opt strictarr
+  
+  dirs = self.directories->get(/all, count=ndirs) 
+  for i = 0L, ndirs - 1L do begin
+    if (obj_valid(exclude) && exclude eq dirs[i]) then continue
+    url = (dirs[i])->lookupName(name, exclude=self)
+    if (url ne '') then return, url
+  endfor
+  
+  return, ''  
+end
+
+  
 ;+
 ; Build the tree of directories, files, routines, and parameters.
 ;-
