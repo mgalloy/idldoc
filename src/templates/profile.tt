@@ -206,8 +206,7 @@
         
         [% FOREACH r IN visible_routines %][% SCOPE r %]
         <div class="routine-details details" id="[% name %]">
-        	<h2 class="routine-name"><a href="#root" class="top">top</a>[% name %]<span class="routine-attributes">[% IF is_private %]private [% END %][% IF is_obsolete %]obsolete [% END %][% IF is_abstract %]abstract [% END %]</span></h2>
-        	[% IF ~nosource %]<a href="[% source_url %]#[% name %]:source">source</a>[% END %]
+        	<h2 class="routine-name"><a href="#root" class="top">top</a> [% IF ~nosource %]<a href="[% source_url %]#[% name %]:source" class="top">source</a> [% END %][% name %]<span class="routine-attributes">[% IF is_private %]private [% END %][% IF is_obsolete %]obsolete [% END %][% IF is_abstract %]abstract [% END %]</span></h2>
         	
         	[% IF has_categories %]
         	<p class="small categories">[% strjoin(categories, ', ') %]</p>
