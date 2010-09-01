@@ -26,30 +26,21 @@ files examined: `.pro`, `.sav`, `.dlm`, `.idldoc`
 
 
 
-rst format/markup
------------------
+Comment format
+--------------
 
 difference between format and markup
 
-"rst" is the standard for both format and markup in current versions of IDLdoc
+"rst" is the standard for both format and markup in current versions of IDLdoc (although not the default); legacy format/markup is described in the reference manual.
 
 
+Comment markup
+--------------
 
-Legacy markup styles
---------------------
-
-idldoc format
-
-
-
-Customizing the output
-----------------------
-
-The output from IDLdoc is controlled via templates and the `COMMENT_STYLE` keyword to `IDLDOC`
-
+directory overview files
 
 
 References
 ----------
 
-`project site <http://idldoc.idldev.com>`
+The `project site <http://idldoc.idldev.com>`_ for IDLdoc contains more information about IDLdoc including the ticket system where bugs can be reported and new features requested. The mailing list, downloads of all versions along with their release notes, etc. 
