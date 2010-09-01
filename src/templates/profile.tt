@@ -43,6 +43,7 @@
       [% IF is_batch %]<span class="file_attribute small">batch file</span>[% END %]
       [% IF has_main_level %]<span class="file_attribute small">includes main-level program</span>[% END %]
 	    [% IF is_private %]<span class="file_attribute small">private</span>[% END %]
+	    <br/>
 
       [% IF has_comments %]
       <div id="file_comments">
