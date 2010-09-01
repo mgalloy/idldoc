@@ -9,8 +9,18 @@ IDLdoc Tutorial
 Introduction
 ------------
 
-What is IDLdoc? Features? Similar things? History?
+IDLdoc generates nicely formatted API documentation directly from source code. The idea is to keep the documentation close to the code and to have as much as possible be generated directly from the source code itself.
 
+Features? 
+
+  #. analyze code like complexity
+
+Similar things? 
+
+  #. Javadoc
+  #. Doxygen
+
+History? IDLdoc 2.0 vs. IDLdoc 3.0
 
 
 Basics
@@ -33,11 +43,15 @@ difference between format and markup
 
 "rst" is the standard for both format and markup in current versions of IDLdoc (although not the default); legacy format/markup is described in the reference manual.
 
+directory overview files
+
 
 Comment markup
 --------------
 
-directory overview files
+links and inline code, preformatted code blocks, images
+
+title of an IDLdoc file
 
 
 References
