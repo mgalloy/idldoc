@@ -474,10 +474,17 @@ pro doctreeclass::addProperty, property, property_name=propertyName
     endif
     property->setProperty, class=self
   endif
-  
-  property->setProperty, class=self
+
   property->getProperty, name=propertyName
-  self.properties->put, strlowcase(propertyName), property
+      
+  ; check before adding property, this works around an IDL bug
+  prop = self.properties->get(strlowcase(propertyName), found=found)
+  if (~found) then begin
+    property->setProperty, class=self
+    self.properties->put, strlowcase(propertyName), property
+  endif else begin
+    if (prop ne property) then obj_destroy, property
+  endelse
 end
 
 
