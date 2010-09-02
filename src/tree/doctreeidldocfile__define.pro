@@ -96,7 +96,16 @@ function doctreeidldocfile::getVariable, name, found=found
          self.system->getProperty, extension=ext
          return, url + file_basename(self.basename, '.idldoc') + '.' + ext
        end      
-             
+
+    'index_name': return, self.basename
+    'index_type': begin
+        return, '.idldoc file in ' + self.directory->getVariable('location') + ' directory'
+      end      
+    'index_url': begin
+        self.directory->getProperty, url=dirUrl
+        return, dirUrl + file_basename(self.basename, '.idldoc') + '.html'
+      end
+                   
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
@@ -201,6 +210,8 @@ end
 ;-
 function doctreeidldocfile::lookupName, name, exclude=exclude
   compile_opt strictarr
+
+  if (name eq self.basename) then return, self->getVariable('index_url')
   
   return, obj_valid(exclude) && exclude eq self.directory $
             ? '' $
