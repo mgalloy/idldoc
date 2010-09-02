@@ -210,14 +210,20 @@ function doctreeprofile::getClass, classname
   self.system->getProperty, classes=classes
   class = classes->get(strlowcase(classname), found=found)
   if (found) then begin
-    class->setProperty, pro_file=self, classname=classname
-    self.classes->add, class
+    class->getProperty, pro_file=proFile
+    
+    if (~obj_valid(proFile)) then begin
+      class->setProperty, pro_file=self, classname=classname
+      self.classes->add, class
+    endif
+    
     return, class
   endif
     
   ; create the class if there is no record of it
   class = obj_new('DOCtreeClass', classname, pro_file=self, system=self.system)
   self.classes->add, class
+  
   return, class
 end
 

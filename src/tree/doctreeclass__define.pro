@@ -225,12 +225,13 @@ end
 ; Get properties.
 ;-
 pro doctreeclass::getProperty, ancestors=ancestors, classname=classname, $
-                               properties=properties
+                               properties=properties, pro_file=proFile
   compile_opt strictarr, hidden
 
   if (arg_present(ancestors)) then ancestors = self.ancestors
   if (arg_present(classname)) then classname = self.classname
   if (arg_present(properties)) then properties = self.properties
+  if (arg_present(proFile)) then proFile = self.proFile
 end
 
 
