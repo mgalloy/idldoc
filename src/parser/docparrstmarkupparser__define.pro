@@ -260,11 +260,11 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
         header_level = 1
       endif
 
-      if (lines[l] eq string(replicate(byte('-'), lastLineLength))) then begin
+      if (strmid(lines[l], lastLineStart) eq string(replicate(byte('-'), lastLineLength - lastLineStart))) then begin
         header_level = 2
       endif
 
-      if (lines[l] eq string(replicate(byte('~'), lastLineLength))) then begin
+      if (strmid(lines[l], lastLineStart) eq string(replicate(byte('~'), lastLineLength - lastLineStart))) then begin
         header_level = 3
       endif
       
