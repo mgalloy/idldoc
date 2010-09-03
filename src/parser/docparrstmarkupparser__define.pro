@@ -256,7 +256,7 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
     if (lastLineLength gt 0L) then begin
       header_level = 0
       
-      if (lines[l] eq string(replicate(byte('='), lastLineLength))) then begin
+      if (strmid(lines[l], lastLineStart) eq string(replicate(byte('='), lastLineLength - lastLineStart))) then begin
         header_level = 1
       endif
 
@@ -339,6 +339,7 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
     endif
     
     lastLineLength = strlen(lines[l])
+    lastLineStart = stregex(lines[l], '[^[:space:]]')
   endfor  
 end
 
