@@ -2,9 +2,8 @@ IDLdoc 3.3 Tutorial
 ===================
 
 :Author: Michael Galloy
-:Date: 24 August 2010
-
-
+:Revision: $Revision$
+:Date: $Date$
 
 Introduction
 ------------
