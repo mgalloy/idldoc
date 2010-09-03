@@ -5,6 +5,7 @@ IDLdoc 3.3 Tutorial
 :Revision: $Revision$
 :Date: $Date$
 
+
 Introduction
 ------------
 
@@ -12,8 +13,8 @@ IDLdoc generates nicely formatted API documentation directly from source code. T
 
 Features? 
 
-  #. API documentation for both developers of the code base and users of the code base
-  #. analyze code like complexity
+  #. API documentation for both developers and users of the code base
+  #. analyze code for things like code complexity
 
 Similar things? 
 
@@ -134,22 +135,34 @@ image directive::
     
 File formats?
 
+embed directive::
+
+    .. embed:: filename
+    
+File formats?
+
 title of an `.idldoc` file, title directive::
 
     .. title:: This is the title of the file
 
 Appears in navigation links on the left/title of the page
 
-headers
+headers, =, -, or ~ anywhere, but most useful in `.idldoc` files
+
 
 IDLdoc options
 --------------
 
 user vs. developer documentation, `USER` keyword, private/hidden tags (and attributes)
 
-overview='overview', footer='footer'
+The `FOOTER` keyword can specify a file to include at the bottom of each page of output.
 
-/embed and /nonavbar (standalone vs. web server)
+When producing HTML documentation, there are often two cases that need to be handled: 
+
+  #. documentation served on a web site and intended to be served as a full collection
+  #. documentation pages intended to be handed out individually, e.g., giving someone a `.pro` file and its generated HTML documentation file
+  
+In the later case, it is often useful to set the `EMBED` and `NONAVBAR` keywords. The `EMBED` keyword embeds the, rather large, CSS file into each HTML page. This is inefficient for a full documentation set on a web site because in that situation, each page can just refer to a common `.css` file. The `NONAVBAR` keyword simply omits the navigation bar at the top of the page which is not needed when only one HTML page is given but useful to navigate a full documentation set.
 
 index_level=1
 
