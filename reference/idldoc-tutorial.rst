@@ -1,5 +1,5 @@
-IDLdoc Tutorial
-===============
+IDLdoc 3.3 Tutorial
+===================
 
 :Author: Michael Galloy
 :Date: 24 August 2010
@@ -24,6 +24,8 @@ Similar things?
 Inspired by reStructuredText and Sphinx projects
 
 History? IDLdoc 2.0 vs. IDLdoc 3.0
+
+This tutorial intends to get a new user up to speed in using IDLdoc in the simplest way using the newer, more modern style of IDLdoc commenting. Don't worry, though, IDLdoc still supports legacy commenting styles so you don't have to go changing existing documentation (unless you want to make use of some of the cool, new features!). Experienced users will probably learn some new things too, since documentation for IDLdoc has been spotty in the past.
 
 
 Basics
@@ -57,7 +59,17 @@ difference between format and markup, `FORMAT_STYLE` and `MARKUP_STYLE` keywords
 
 "rst" is the modern supported style for both format and markup in current versions of IDLdoc (although not the default); legacy format/markup is described in the reference manual.
 
-Files documented in different styles can be placed in the same directory hierarchy. The default IDLdoc styles, or those provided by the `FORMAT_STYLE` and `MARKUP_STYLE` keywords, can be overridden for a single file by placing a special comment on the first line of the file::
+
+Source code files
+~~~~~~~~~~~~~~~~~
+
+file vs routine comments
+
+common file tags: `Examples`, `Author`, `Copyright`, `History`
+
+common routine tags: `Returns`, `Params`, `Keywords`, `Examples`, `Uses`, `Requires`, `Author`, `Copyright`, `History`
+
+Source code files documented in different styles can be placed in the same directory hierarchy. The default IDLdoc styles, or those provided by the `FORMAT_STYLE` and `MARKUP_STYLE` keywords, can be overridden for a single file by placing a special comment on the first line of the file::
 
     ; docformat = 'rst'
 
@@ -67,17 +79,49 @@ This indicates that the rst format style should be used for this file. Since the
     
 It is a good idea to place the `docformat` line on the beginning of every file that is shared with others, then IDLdoc will always use the correct styles even if the file is placed in another library.
 
+
+The overview file
+~~~~~~~~~~~~~~~~~
+
 The overview file, specified with the `OVERVIEW` keyword to IDLdoc, contains comments describing the entire directory hierarchy. It is displayed near the front of the documentation, e.g., in the HTML documentation it is shown on the first page of the output.
 
+TODO: overview file tags: `Author`, `Copyright`, `History`, `Version`, `Dirs`
+
+
 `.idldoc` files
+~~~~~~~~~~~~~~~
+
+There are no special tags in `.idldoc` files; the entire file is just one big comment block. The one special syntax for `.idldoc` files is the `title` directive described in the markup section.
+
+NOTE: "`.idldoc` files" refers to files with an `.idldoc` extension, like `cptcity-catalog.idldoc`. Files the name `.idldoc` are directory overview files, described below.
+
+
+Directory overview files
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Directory overview files are special `.idldoc` files that describe the contents of a particular directory. They are named `.idldoc` and placed in the corresponding directory. `Private`, `Hidden`, `Author`, `Copyright`, and `History` tags are allowed in a directory overview file.
 
-user vs. developer documentation, `USER` keyword, private/hidden tags (and attributes)
+For example, the `collection/` directory of the IDLdoc source contains the following `.idldoc` file::
+
+    The collection framework defines classes to provide various types of
+    containers, primarily list (`MGcoArrayList`) and hash table 
+    (`MGcoHashTable`) implementation. These containers are more general than 
+    `IDL_Container`, in that they allow elements of any IDL type instead of 
+    just objects.
+
+    :Author:
+       Michael Galloy
+
+    :Copyright:
+      BSD-licensed
+
+The comments from the above directory overview file, along with a listing of the files in the directory, appear somewhere near the beginning of the documentation for the directory. In the HTML output, the link from the main overview page or the link in the lower-left navigation window when the directory has been selected in the upper-right navigation window lead to the directory overview page.
 
 
 Comment markup
---------------
+-------------- 
+
+Several markup styles are available to annotate comment text with typesetting instructions. The "verbatim" and "preformatted" markup styles are the simplest, the comments are copied straight to the documentation with the "preformatted" style displaying the comments as monospaced, plain text also. The more modern "rst" markup style defines a simple syntax for annotating the comment text with links, images, or code samples. While the "verbatim" and "preformatted" markup styles can be useful for legacy code comments, the "rst" markup style is easier to read and is recommended for all new comments.
 
 TODO: The comment markup style defines how text can be annotated. Once the format style has defined a place for "put comments here" for a particular item, the markup style describes the syntax of those comments.
 
@@ -91,11 +135,28 @@ image directive::
     
 File formats?
 
-title of an IDLdoc file, title directive::
+title of an `.idldoc` file, title directive::
 
     .. title:: This is the title of the file
 
 Appears in navigation links on the left/title of the page
+
+headers
+
+IDLdoc options
+--------------
+
+user vs. developer documentation, `USER` keyword, private/hidden tags (and attributes)
+
+overview='overview', footer='footer'
+
+/embed and /nonavbar (standalone vs. web server)
+
+index_level=1
+
+source code options
+
+/statistics and cutoffs
 
 
 References
