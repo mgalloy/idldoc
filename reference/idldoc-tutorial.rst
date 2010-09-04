@@ -2,8 +2,6 @@ IDLdoc 3.3 Tutorial
 ===================
 
 :Author: Michael Galloy
-:Revision: $Revision$
-:Date: $Date$
 
 
 Introduction
