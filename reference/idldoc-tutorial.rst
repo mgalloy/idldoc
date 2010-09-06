@@ -49,6 +49,8 @@ Two keywords you most likely will want to specify are `TITLE` and `SUBTITLE`. Se
 
 This places the IDLdoc version information into the title/subtitle of the documentation. We'll talk about some of the other options in the following sections.
 
+Note: By default, IDLdoc 3.0 copies source code into the output directory, so placing the output directory in your `!PATH` can cause IDL to choose the (possibly outdated) copy in the docs over the correct source file. It is recommended to either place your docs outside your `!PATH` or use the `NOSOURCE` keyword.
+
 
 Comment format
 --------------
