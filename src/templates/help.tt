@@ -173,7 +173,7 @@
             
   		    <tr>
   		      <td class="name">N_WARNINGS</td>
-  		      <td>set to a named variable to return the number of warnings for the</td>
+  		      <td>set to a named variable to return the number of warnings for the IDLdoc run</td>
   		    </tr>
   		    	    
   		    <tr>
