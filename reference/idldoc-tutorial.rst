@@ -3,6 +3,8 @@ IDLdoc 3.3 Tutorial
 
 :Author: Michael Galloy
 
+:Abstract: This tutorial attempts to provide a friendly guide to start using IDLdoc. See the reference guide for a more detailed listing of all the options that IDLdoc provides.
+
 
 Introduction
 ------------
