@@ -296,9 +296,18 @@ Markup styles
 rst markup style
 ~~~~~~~~~~~~~~~~
 
+The *rst* markup style is the default markup style for the *rst* format style.
 
-plain markup style
+verbatim markup style
+~~~~~~~~~~~~~~~~~~~~~
+
+The *verbatim* markup style is the default markup style for the *IDLdoc* or *IDL* format styles.
+
+
+preformatted style
 ~~~~~~~~~~~~~~~~~~
+
+The *preformatted* markup style must be specified as a markup style, it is not the default for any format style. Comments are copied directly into the output and wrapped with markup to display them in a fixed width font.
 
 
 Customizing output
