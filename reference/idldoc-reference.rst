@@ -95,7 +95,7 @@ The following tags are available in file comments (i.e. comment headers not imme
                                            documentation
   `:History:`    comments     none         lists the history for the file
   `:Private:`    none         none         if present, indicates the file 
-                                           should not shown in user-level 
+                                           should not be shown in user-level 
                                            documentation 
                                            (set with the `USER` keyword to 
                                            IDLdoc)
@@ -134,8 +134,8 @@ The following tags are available for comments immediately preceding or following
                                             present
   `:Examples:`      comments     none       specifies examples of using the 
                                             routine
-  `:Fields:`        fieldname    none       specifies the names of the field 
-                    and comments            followed by a description of the 
+  `:Fields:`        fields       none       specifies the names of the field 
+                                            followed by a description of the 
                                             field
   `:File_comments:` comments     none       equivalent to the main section in 
                                             file-level comments
@@ -148,17 +148,17 @@ The following tags are available for comments immediately preceding or following
   `:History:`       comments     none       specifies the history of the 
                                             routine
   `:Inherits:`      none         none       not used
-  `:Keywords:`      keyword name see below	documents keywords of the routine
+  `:Keywords:`      params       see below  documents keywords of the routine
   `:Obsolete:`      none         none       if present, indicates the routine 
                                             is obsolete
-  `:Params:`        param name   see below  documents positional parameters of 
+  `:Params:`        params       see below  documents positional parameters of 
                                             the routine
   `:Post:`          comments     none       specifies any post-conditions of 
                                             the routine
   `:Pre:`           comments     none       specifies any pre-conditions of 
                                             the routine
   `:Private:`       none         none       if present, indicates the routine 
-                                            should not shown in user-level 
+                                            should not be shown in user-level 
                                             documentation (set with the `USER` 
                                             keyword to IDLdoc)
   `:Private_file:`  comments     none       if present, indicates the file 
@@ -202,9 +202,46 @@ The `keyword` and `param` tags above accept attributes. The available attributes
   =============== ================= ==========================================
 
 
-TODO: overview files tags
+The tags available in an overview file describe the entire library. There are a few tags shared with the file tags and the additional `:Dirs:` tag which provides a simple table of contents for the directories in the library.
 
-TODO: directory overview file tags
+.. table:: rst format style tags for overview files
+
+  ================= ============ ========== =================================
+  Tag name          Arguments    Attributes Description
+  ================= ============ ========== =================================
+  `:Author:`        comments     none       specifies the author of the 
+                                            library
+  `:Copyright:`     comments     none       specifies the copyright for the 
+                                            library
+  `:Dirs:`          dirs         none       lists directories in the library
+                                            along with a description for each
+  `:History:`       comments     none       specifies the history of the 
+                                            library
+  `:Version:`       comments     none       specifies the version of the 
+                                            library
+  ================= ============ ========== =================================
+
+Directory overview files also have a few tags shared with file tags.
+
+.. table:: rst format style tags for overview files
+
+  ================= ============ ========== =================================
+  Tag name          Arguments    Attributes Description
+  ================= ============ ========== =================================
+  `:Author:`        comments     none       specifies the author of the 
+                                            files in the directory
+  `:Copyright:`     comments     none       specifies the copyright for the 
+                                            files in the directory
+  `:Hidden:`        none         none       if present, indicate the routine 
+                                            should not be shown in the 
+                                            documentation                                            
+  `:History:`       comments     none       specifies the history of the 
+                                            library
+  `:Private:`       none         none       if present, indicates the 
+                                            directory should not be shown in 
+                                            user-level documentation (set with 
+                                            the `USER` keyword to IDLdoc)
+  ================= ============ ========== =================================
 
 
 IDLdoc format style
@@ -226,7 +263,7 @@ The following tags are available in file comments (i.e. comment headers not imme
                                             documentation
   `@history`      comments     none         lists the history for the file
   `@private`      none         none         if present, indicates the file 
-                                            should not shown in user-level 
+                                            should not be shown in user-level 
                                             documentation (set with the `USER` 
                                             keyword to IDLdoc)
   `@property`     property     none         describes a property of a class, 
@@ -287,7 +324,7 @@ The following tags are available for comments immediately preceding or following
   `@pre`           comments     none        specifies any pre-conditions of 
                                             the routine
   `@private`       none         none        if present, indicates the routine 
-                                            should not shown in user-level 
+                                            should not be shown in user-level 
                                             documentation (set with the `USER` 
                                             keyword to IDLdoc)
   `@private_file`  comments     none        if present, indicates the file 
@@ -330,33 +367,187 @@ The keyword and param tags above accept attributes. The available attributes are
   default         default=comments  default value of the argument
   =============== ================= ==========================================
 
-TODO: overview files tags
+The tags available in an overview file describe the entire library. There are a few tags shared with the file tags and the additional `@dir` tag which provides a simple table of contents for the directories in the library.
 
-TODO: directory overview file tags
+.. table:: rst format style tags for overview files
+
+  ================= ============ ========== =================================
+  Tag name          Arguments    Attributes Description
+  ================= ============ ========== =================================
+  `@author`         comments     none       specifies the author of the 
+                                            library
+  `@copyright`      comments     none       specifies the copyright for the 
+                                            library
+  `@dir`            dir          none       lists directory in the library
+                                            along with a description for each
+  `@history`        comments     none       specifies the history of the 
+                                            library
+  `@version`        comments     none       specifies the version of the 
+                                            library
+  ================= ============ ========== =================================
+
+Directory overview files also have a few tags shared with file tags.
+
+.. table:: rst format style tags for overview files
+
+  ================= ============ ========== =================================
+  Tag name          Arguments    Attributes Description
+  ================= ============ ========== =================================
+  `@author`         comments     none       specifies the author of the 
+                                            files in the directory
+  `@copyright`      comments     none       specifies the copyright for the 
+                                            files in the directory
+  `@hidden`         none         none       if present, indicate the routine 
+                                            should not be shown in the 
+                                            documentation                                            
+  `@history`        comments     none       specifies the history of the 
+                                            library
+  `@private`        none         none       if present, indicates the 
+                                            directory should not be shown in 
+                                            user-level documentation (set with 
+                                            the `USER` keyword to IDLdoc)
+  ================= ============ ========== =================================
 
 
 IDL format style
 ~~~~~~~~~~~~~~~~
 
-TODO: file tags
+The IDL format style attempts to extract information from code using the IDL template, i.e., the form shown in `template.pro` in the `examples` directory of the IDL distribution. ::
 
-TODO: routine tags
+  ;+
+  ; NAME:
+  ;	ROUTINE_NAME
+  ;
+  ; PURPOSE:
+  ;	Tell what your routine does here.  I like to start with the words:
+  ;	"This function (or procedure) ..."
+  ;	Try to use the active, present tense.
+  ;
+  ; CATEGORY:
+  ;	Put a category (or categories) here.  For example:
+  ;	Widgets.
+  ;
+  ; CALLING SEQUENCE:
+  ;	Write the calling sequence here. Include only positional parameters
+  ;	(i.e., NO KEYWORDS). For procedures, use the form:
+  ;
+  ;	ROUTINE_NAME, Parameter1, Parameter2, Foobar
+  ;
+  ;	Note that the routine name is ALL CAPS and arguments have Initial
+  ;	Caps.  For functions, use the form:
+  ; 
+  ;	Result = FUNCTION_NAME(Parameter1, Parameter2, Foobar)
+  ;
+  ;	Always use the "Result = " part to begin. This makes it super-obvious
+  ;	to the user that this routine is a function!
+  ;
+  ; INPUTS:
+  ;	Parm1:	Describe the positional input parameters here. Note again
+  ;		that positional parameters are shown with Initial Caps.
+  ;
+  ; OPTIONAL INPUTS:
+  ;	Parm2:	Describe optional inputs here. If you don't have any, just
+  ;		delete this section.
+  ;	
+  ; KEYWORD PARAMETERS:
+  ;	KEY1:	Document keyword parameters like this. Note that the keyword
+  ;		is shown in ALL CAPS!
+  ;
+  ;	KEY2:	Yet another keyword. Try to use the active, present tense
+  ;		when describing your keywords.  For example, if this keyword
+  ;		is just a set or unset flag, say something like:
+  ;		"Set this keyword to use foobar subfloatation. The default
+  ;		 is foobar superfloatation."
+  ;
+  ; OUTPUTS:
+  ;	Describe any outputs here.  For example, "This function returns the
+  ;	foobar superflimpt version of the input array."  This is where you
+  ;	should also document the return value for functions.
+  ;
+  ; OPTIONAL OUTPUTS:
+  ;	Describe optional outputs here.  If the routine doesn't have any, 
+  ;	just delete this section.
+  ;
+  ; COMMON BLOCKS:
+  ;	BLOCK1:	Describe any common blocks here. If there are no COMMON
+  ;		blocks, just delete this entry.
+  ;
+  ; SIDE EFFECTS:
+  ;	Describe "side effects" here.  There aren't any?  Well, just delete
+  ;	this entry.
+  ;
+  ; RESTRICTIONS:
+  ;	Describe any "restrictions" here.  Delete this section if there are
+  ;	no important restrictions.
+  ;
+  ; PROCEDURE:
+  ;	You can describe the foobar superfloatation method being used here.
+  ;	You might not need this section for your routine.
+  ;
+  ; EXAMPLE:
+  ;	Please provide a simple example here. An example from the
+  ;	DIALOG_PICKFILE documentation is shown below. Please try to
+  ;	include examples that do not rely on variables or data files
+  ;	that are not defined in the example code. Your example should
+  ;	execute properly if typed in at the IDL command line with no
+  ;	other preparation. 
+  ;
+  ;       Create a DIALOG_PICKFILE dialog that lets users select only
+  ;       files with the extension `pro'. Use the `Select File to Read'
+  ;       title and store the name of the selected file in the variable
+  ;       file. Enter:
+  ;
+  ;       file = DIALOG_PICKFILE(/READ, FILTER = '*.pro') 
+  ;
+  ; MODIFICATION HISTORY:
+  ; 	Written by:	Your name here, Date.
+  ;	July, 1994	Any additional mods get described here.  Remember to
+  ;			change the stuff above if you add a new keyword or
+  ;			something!
+  ;-
+  
+The routine and file headings are shown in the table below.
 
-TODO: overview files tags
+.. table:: IDL format style routine and file headings
 
-TODO: directory overview file tags
+  ======================== ==================================================
+  Heading name             Description
+  ======================== ==================================================
+  `calling sequence`       calling sequence for the routine; unneeded since
+                           IDLdoc gets the calling sequence from the routine
+                           declaration
+  `category`               TODO:
+  `common blocks`          TODO:
+  `example`                TODO:
+  `inputs`                 TODO:
+  `keyword parameters`     TODO:
+  `modification history`   TODO:
+  `name`                   name of the routine; unneeded since IDLdoc gets
+                           the name of the routine from the routine
+                           declaration
+  `optional inputs`        TODO:
+  `optional outputs`       TODO:
+  `outputs`                TODO:
+  `procedure`              TODO:
+  `purpose`                TODO:
+  `restrictions`           TODO:
+  `side effects`           TODO:
+  ======================== ==================================================
+
+There are no special headers for overview files or directory overview files using the IDL format style.
 
 
 Markup styles
 -------------
 
-TODO: what are markup styles?
+Markup styles specify annotations of text comments. The valid markup styles are: "rst", "verbatim", and "preformattted".
 
 
 rst markup style
 ~~~~~~~~~~~~~~~~
 
 The *rst* markup style is the default markup style for the *rst* format style.
+
 
 verbatim markup style
 ~~~~~~~~~~~~~~~~~~~~~
@@ -373,4 +564,9 @@ The *preformatted* markup style must be specified as a markup style, it is not t
 Customizing output
 ------------------
 
-TODO: write this section
+The output produced by IDLdoc can be customized by modifying the template files provides in the `templates/` directory of the IDLdoc distribution.
+
+TODO: template description
+
+TODO: new output type
+
