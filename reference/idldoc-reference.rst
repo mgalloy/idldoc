@@ -6,14 +6,6 @@ IDLdoc 3.3 Reference Guide
 :Abstract: This reference guide simply lists options available for running IDLdoc and documenting code. See the tutorial for a more friendly introduction to using IDLdoc.
 
 
-Installation
--------------------
-
-To install IDLdoc, simply unzip and place the IDLdoc `.sav` file, or the `src/` directory if you are installing the IDLdoc source distribution, in your IDL path.
-
-Do not separate the contents of the distribution; the code looks for files in locations relative to itself.
-
-
 `IDLDOC` routine keywords
 -------------------------
 
@@ -21,56 +13,71 @@ There are quite a few keywords to IDLdoc to set various specifications for the o
 
 .. table:: Keywords for the `IDLDOC` routine
 
-  =================== ========================================================
-  Keyword             Description
-  =================== ========================================================
-  `ASSISTANT`         obsolete; no longer used
-  `BROWSE_ROUTINES`   obsolete; no longer used
-  `CHARSET`           set to the character set to be used for the output, 
-                      default is "utf-8"
-  `COMMENT_STYLE`     output format for comments ("html", "rst", or "latex"); 
-                      default is "html"
-  `DEBUG`             set to allow crashes with a stack trace instead of the 
-                      default simple message
-  `EMBED`             embed CSS stylesheet instead of linking to it (useful 
-                      for documentation where individual pages must stand by 
-                      themselves)
-  `ERROR`             set to a named variable to return the error state of the 
-                      IDLdoc call; 0 indicates no error, anything else is an 
-                      error
-  `FOOTER`            filename of file to insert into the bottom of each page 
-                      of docs
-  `FORMAT_STYLE`      style to use to parse file and routine comments ("idl",
-                      "idldoc", "verbatim", or "rst"); default is "idldoc"
-  `HELP`              set to print out the syntax of an IDLdoc call
-  `LOG_FILE`          if present, send messages to this filename instead of 
-                      *stdout*
-  `MARKUP_STYLE`      markup used in comments ("rst" or "verbatim"); default 
-                      is "verbatim" unless `FORMAT_STYLE` is set to "rst", in 
-                      which case, the default is "rst"
-  `N_WARNINGS`        set to a named variable to return the number of warnings 
-                      for the IDLdoc run
-  `NONAVBAR`          set to not display the navbar
-  `NOSOURCE`          set to not put source code into output
-  `OUTPUT`            directory to place output; if not present, output will 
-                      be placed in the `ROOT` directory           
-  `OVERVIEW`          filename of overview text and directory information
-  `PREFORMAT`         obsolete; no longer used
-  `QUIET`             if set, don't print info messages, only print warnings 
-                      and errors
-  `ROOT`              root of directory hierarchy to document; this is the 
-                      only required keyword
-  `SILENT`            if set, don't print any messages
-  `STATISTICS`        set to generate complexity statistics for routines
-  `SUBTITLE`          subtitle for docs
-  `TEMPLATE_PREFIX`   prefix for template's names
-  `TEMPLATE_LOCATION` set to directory to find templates in
-  `TITLE`             title of docs
-  `USER`              set to generate user-level docs (private parameters, 
-                      files are not shown); the default is developer-level 
-                      docs showing files and parameters
-  `VERSION`           set to print out the version of IDLdoc
-  =================== ========================================================
+  ====================== =====================================================
+  Keyword                Description
+  ====================== =====================================================
+  `ASSISTANT`            obsolete; no longer used
+  `BROWSE_ROUTINES`      obsolete; no longer used
+  `CHARSET`              set to the character set to be used for the output, 
+                         default is "utf-8"
+  `COLOR_OUTPUTLOG`      set to color output log messages, i.e., warning 
+                         messages are displayed in red; IDLdoc will attempt to 
+                         detect whether it is running from a terminal capable 
+                         of displaying color text, but this keyword can force 
+                         IDLdoc to attempt color display
+  `COMMENT_STYLE`        output format for comments ("html", "rst", or 
+                         "latex"); default is "html"
+  `COMPLEXITY_CUTOFFS`   McCabe complexity to exceed for a warning or flagged;
+                         default is `[10, 20]`
+  `DEBUG`                set to allow crashes with a stack trace instead of 
+                         the default simple message
+  `EMBED`                embed CSS stylesheet instead of linking to it (useful 
+                         for documentation where individual pages must stand 
+                         by themselves)
+  `ERROR`                set to a named variable to return the error state of 
+                         the IDLdoc call; 0 indicates no error, anything else 
+                         is an error
+  `FOOTER`               filename of file to insert into the bottom of each 
+                         page of docs
+  `FORMAT_STYLE`         style to use to parse file and routine comments 
+                         ("idl", "idldoc", "verbatim", or "rst"); default is 
+                         "idldoc"
+  `HELP`                 set to print out the syntax of an IDLdoc call
+  `LOG_FILE`             if present, send messages to this filename instead of 
+                         *stdout*
+  `MARKUP_STYLE`         markup used in comments ("rst" or "verbatim"); 
+                         default is "verbatim" unless `FORMAT_STYLE` is set to 
+                         "rst", in which case, the default is "rst"
+  `N_WARNINGS`           set to a named variable to return the number of 
+                         warnings for the IDLdoc run
+  `NONAVBAR`             set to not display the navbar
+  `NOSOURCE`             set to not put source code into output
+  `OUTPUT`               directory to place output; if not present, output 
+                         will be placed in the `ROOT` directory           
+  `OVERVIEW`             filename of overview text and directory information
+  `PREFORMAT`            obsolete; no longer used
+  `QUIET`                if set, don't print info messages, only print 
+                         warnings and errors
+  `ROOT`                 root of directory hierarchy to document; this is the 
+                         only required keyword
+  `SILENT`               if set, don't print any messages
+  `ROUTINE_LINE_CUTOFFS` number of lines in a routine before warning or 
+                         flagged; default is `[75, 150]`
+  `SOURCE_LINK`          by default, IDLdoc copies the source code into the 
+                         output; if this keyword is set to 1 (relative link) 
+                         or 2 (absolute link), then the output documentation 
+                         will point to the ROOT location of the original 
+                         source code
+  `STATISTICS`           set to generate complexity statistics for routines
+  `SUBTITLE`             subtitle for docs
+  `TEMPLATE_PREFIX`      prefix for template's names
+  `TEMPLATE_LOCATION`    set to directory to find templates in
+  `TITLE`                title of docs
+  `USER`                 set to generate user-level docs (private parameters, 
+                         files are not shown); the default is developer-level 
+                         docs showing files and parameters
+  `VERSION`              set to print out the version of IDLdoc
+  ====================== =====================================================
 
 
 

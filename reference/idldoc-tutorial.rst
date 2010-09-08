@@ -11,7 +11,7 @@ Introduction
 
 IDLdoc generates nicely formatted API documentation directly from source code. If the documentation is close to the code it is much more likely to be kept up-to-date. As much as possible is generated directly from the source code itself.
 
-Features? 
+TODO: Features? 
 
   #. API documentation for both developers and users of the code base
   #. analyze code for things like code complexity
@@ -27,6 +27,14 @@ The rst format and markup styles are inspired by reStructuredText and Markdown p
 IDLdoc 3.0 was completely rewritten separately from the IDLdoc 2.x code base.
 
 This tutorial intends to get a new user up to speed in using IDLdoc in the simplest way using the newer, more modern style of IDLdoc commenting. Don't worry, though, IDLdoc still supports legacy commenting styles so you don't have to go changing existing documentation (unless you want to make use of some of the cool, new features!). Experienced users will probably learn some new things too, since documentation for IDLdoc has been spotty in the past.
+
+
+Installation
+-------------------
+
+To install IDLdoc, simply unzip and place the IDLdoc `.sav` file, or the `src/` directory if you are installing the IDLdoc source distribution, in your IDL path.
+
+Do not separate the contents of the distribution; the code looks for files in locations relative to itself.
 
 
 Basics
@@ -52,25 +60,25 @@ Two keywords you most likely will want to specify are `TITLE` and `SUBTITLE`. Se
 
 This places the IDLdoc version information into the title/subtitle of the documentation. We'll talk about some of the other options in the following sections.
 
-Note: By default, IDLdoc 3.0 copies source code into the output directory, so placing the output directory in your `!PATH` can cause IDL to choose the (possibly outdated) copy in the docs over the correct source file. It is recommended to either place your docs outside your `!PATH` or use the `NOSOURCE` keyword.
+Note: By default, IDLdoc 3.0 copies source code into the output directory, so placing the output directory in your `!PATH` can cause IDL to choose the (possibly outdated) copy in the doc output directory over the correct source file. It is recommended to either place your docs outside your `!PATH` or use the `NOSOURCE` keyword.
 
 
 Comment format
 --------------
 
-difference between format and markup, `FORMAT_STYLE` and `MARKUP_STYLE` keywords; format styles = idldoc (the default), rst, idl, verbatim; markup styles = verbatim (the default, unless rst format style), rst (default for rst format style), preformatted
+TODO: difference between format and markup, `FORMAT_STYLE` and `MARKUP_STYLE` keywords; format styles = idldoc (the default), rst, idl, verbatim; markup styles = verbatim (the default, unless rst format style), rst (default for rst format style), preformatted
 
-"rst" is the modern supported style for both format and markup in current versions of IDLdoc (although not the default); legacy format/markup is described in the reference manual.
+TODO: "rst" is the modern supported style for both format and markup in current versions of IDLdoc (although not the default); legacy format/markup is described in the reference manual.
 
 
 Source code files
 ~~~~~~~~~~~~~~~~~
 
-file vs routine comments
+TODO: file vs routine comments
 
-common file tags: `Examples`, `Author`, `Copyright`, `History`
+TODO: common file tags: `Examples`, `Author`, `Copyright`, `History`
 
-common routine tags: `Returns`, `Params`, `Keywords`, `Examples`, `Uses`, `Requires`, `Author`, `Copyright`, `History`
+TODO: common routine tags: `Returns`, `Params`, `Keywords`, `Examples`, `Uses`, `Requires`, `Author`, `Copyright`, `History`
 
 Source code files documented in different styles can be placed in the same directory hierarchy. The default IDLdoc styles, or those provided by the `FORMAT_STYLE` and `MARKUP_STYLE` keywords, can be overridden for a single file by placing a special comment on the first line of the file::
 
@@ -128,53 +136,53 @@ Several markup styles are available to annotate comment text with typesetting in
 
 TODO: The comment markup style defines how text can be annotated. Once the format style has defined a place for "put comments here" for a particular item, the markup style describes the syntax of those comments.
 
-links and inline code, rules for named links?
+TODO: links and inline code, rules for named links?
 
-preformatted code blocks
+TODO: preformatted code blocks
 
-image directive::
+TODO: image directive::
 
     .. image:: filename.png
     
 File formats?
 
-embed directive::
+TODO: embed directive::
 
     .. embed:: filename
     
 File formats?
 
-title of an `.idldoc` file, title directive::
+TODO: title of an `.idldoc` file, title directive::
 
     .. title:: This is the title of the file
 
 Appears in navigation links on the left/title of the page
 
-headers, =, -, or ~ anywhere, but most useful in `.idldoc` files
+TODO: headers, =, -, or ~ anywhere, but most useful in `.idldoc` files
 
 
 IDLdoc options
 --------------
 
-user vs. developer documentation, `USER` keyword, private/hidden tags (and attributes)
+TODO: user vs. developer documentation, `USER` keyword, private/hidden tags (and attributes)
 
-The `FOOTER` keyword can specify a file to include at the bottom of each page of output.
+TODO: The `FOOTER` keyword can specify a file to include at the bottom of each page of output.
 
-When producing HTML documentation, there are often two cases that need to be handled: 
+TODO: When producing HTML documentation, there are often two cases that need to be handled: 
 
   #. documentation served on a web site and intended to be served as a full collection
   #. documentation pages intended to be handed out individually, e.g., giving someone a `.pro` file and its generated HTML documentation file
   
 In the later case, it is often useful to set the `EMBED` and `NONAVBAR` keywords. The `EMBED` keyword embeds the, rather large, CSS file into each HTML page. This is inefficient for a full documentation set on a web site because in that situation, each page can just refer to a common `.css` file. The `NONAVBAR` keyword simply omits the navigation bar at the top of the page which is not needed when only one HTML page is given but useful to navigate a full documentation set.
 
-index_level=1
+TODO: index_level=1
 
-source code options
+TODO: source code options
 
-/statistics and cutoffs
+TODO: If the `STATISTICS` keywords is set, IDLdoc will compute certain measures of the code's complexity like the number of lines in a routine or the cyclomatic complexity. `COMPLEXITY_CUTOFFS`, `ROUTINE_LINE_CUTOFFS`
 
 
 References
 ----------
 
-The `project site <http://idldoc.idldev.com>`_ for IDLdoc contains more information about IDLdoc including the ticket system where bugs can be reported and new features requested. The mailing list, downloads of all versions along with their release notes, etc. 
+TODO: The `project site <http://idldoc.idldev.com>`_ for IDLdoc contains more information about IDLdoc including the ticket system where bugs can be reported and new features requested. The mailing list, downloads of all versions along with their release notes, etc. 
