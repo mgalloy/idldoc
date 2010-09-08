@@ -1,19 +1,21 @@
-IDLdoc 3.3 Reference
-====================
+IDLdoc 3.3 Reference Guide
+==========================
 
 :Author: Michael Galloy
 
 :Abstract: This reference guide simply lists options available for running IDLdoc and documenting code. See the tutorial for a more friendly introduction to using IDLdoc.
 
 
-IDLdoc installation
+Installation
 -------------------
 
-To install IDLdoc, simply unzip and place the IDLdoc distribution in your IDL path. Do not separate the contents of the distribution; the code looks for files in locations relative to itself.
+To install IDLdoc, simply unzip and place the IDLdoc `.sav` file, or the `src/` directory if you are installing the IDLdoc source distribution, in your IDL path.
+
+Do not separate the contents of the distribution; the code looks for files in locations relative to itself.
 
 
-IDLdoc routine keywords
------------------------
+`IDLDOC` routine keywords
+-------------------------
 
 There are quite a few keywords to IDLdoc to set various specifications for the output. Also see the "Customizing Output" section for using templates for customized output.
 
@@ -74,6 +76,8 @@ There are quite a few keywords to IDLdoc to set various specifications for the o
 
 Format styles
 -------------
+
+TODO: what is a format style? legacy format styles "IDLdoc", "IDL"; not recommended for new comments
 
 
 rst format style
@@ -574,6 +578,13 @@ The *rst* markup style is the default markup style for the *rst* format style.
 
 TODO: describe rst markup style
 
+#. links, both kinds
+#. code blocks
+#. headers
+#. image directive
+#. embed directive
+#. title directive
+
 verbatim markup style
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -593,4 +604,4 @@ The output produced by IDLdoc can be customized by modifying the template files 
 
 Instead of modifying the existing templates, it is best to copy the templates and specify their location with the `TEMPLATE_LOCATION` keyword to `IDLDOC`. If you have multiple template families, the `TEMPLATE_PREFIX` keyword can be used to specify a string that prefixes each filename of the template family. For example, IDLdoc itself uses the "latex-" prefix to specify the templates used to produce LaTeX output.
 
-If IDLdoc is intended to produce some type of output besides HTML, the `COMMENT_STYLE` keyword must be used to specify the engine to produce that type of output. For example, IDLdoc provides the "latex" comment style to produce LaTeX output. Creating new comment style engines is beyond the scope of this reference guide.
+If IDLdoc is intended to produce some type of output besides HTML, the `COMMENT_STYLE` keyword must be used to specify the engine to produce that type of output. IDLdoc provides the "html", "latex", and "rst" comment styles. Creating new comment style engines is beyond the scope of this reference guide.
