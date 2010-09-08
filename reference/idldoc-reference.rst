@@ -572,6 +572,7 @@ rst markup style
 
 The *rst* markup style is the default markup style for the *rst* format style.
 
+TODO: describe rst markup style
 
 verbatim markup style
 ~~~~~~~~~~~~~~~~~~~~~
