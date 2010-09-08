@@ -83,7 +83,7 @@ TODO: what is a format style? legacy format styles "IDLdoc", "IDL"; not recommen
 rst format style
 ~~~~~~~~~~~~~~~~
 
-The following tags are available in file comments (i.e. comment headers not immediately preceeding/following a routine header).
+The following tags are available in file comments, i.e., comment headers not immediately preceeding/following a routine header.
 
 .. table:: rst format style file tags
 
@@ -252,7 +252,7 @@ Directory overview files also have a few tags shared with file tags.
 IDLdoc format style
 ~~~~~~~~~~~~~~~~~~~
 
-The following tags are available in file comments (i.e. comment headers not immediately preceeding/following a routine header).
+The following tags are available in file comments, i.e. comment headers not immediately preceeding/following a routine header.
 
 .. table:: IDLdoc format style file tags
 
