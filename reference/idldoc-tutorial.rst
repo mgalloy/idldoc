@@ -3,13 +3,13 @@ IDLdoc 3.3 Tutorial
 
 :Author: Michael Galloy
 
-:Abstract: This tutorial attempts to provide a friendly guide to start using IDLdoc. See the reference guide for a more detailed listing of all the options that IDLdoc provides.
+:Abstract: This tutorial attempts to provide a friendly guide to start using IDLdoc. See the companion reference guide for a more detailed listing of all the options that IDLdoc provides.
 
 
 Introduction
 ------------
 
-IDLdoc generates nicely formatted API documentation directly from source code. The idea is to keep the documentation close to the code and to have as much as possible be generated directly from the source code itself.
+IDLdoc generates nicely formatted API documentation directly from source code. If the documentation is close to the code it is much more likely to be kept up-to-date. As much as possible is generated directly from the source code itself.
 
 Features? 
 
@@ -18,12 +18,13 @@ Features?
 
 Similar things? 
 
-  #. Javadoc
-  #. Doxygen
+  #. Javadoc (Java)
+  #. Doxygen (multiple Languages)
+  #. Sphinx (Python)
 
-Inspired by reStructuredText and Sphinx projects
+The rst format and markup styles are inspired by reStructuredText and Markdown projects
 
-History? IDLdoc 2.0 vs. IDLdoc 3.0
+IDLdoc 3.0 was completely rewritten separately from the IDLdoc 2.x code base.
 
 This tutorial intends to get a new user up to speed in using IDLdoc in the simplest way using the newer, more modern style of IDLdoc commenting. Don't worry, though, IDLdoc still supports legacy commenting styles so you don't have to go changing existing documentation (unless you want to make use of some of the cool, new features!). Experienced users will probably learn some new things too, since documentation for IDLdoc has been spotty in the past.
 
