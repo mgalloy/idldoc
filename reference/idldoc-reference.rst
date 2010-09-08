@@ -186,20 +186,21 @@ The `keyword` and `param` tags above accept attributes. The available attributes
 
 .. table:: rst format style tag attributes
 
-  =============== ================= ==========================================
-  Attribute name  Syntax            Description
-  =============== ================= ==========================================
-  in              in                indicates the parameter is an input
-  out             out               indicates the parameter is an output
-  optional        optional          indicates argument is optional
-  private         private           indicates argument is not shown if IDLdoc 
-                                    is run in user mode (`USER` keyword to 
-                                    IDLdoc is set)
-  hidden          hidden            indicates the argument is not to be shown
-  required	      required          indicates argument is required
-  type            type=comments     IDL data type of the argument
-  default         default=comments  default value of the argument
-  =============== ================= ==========================================
+  =============== ==================== =======================================
+  Attribute name  Syntax               Description
+  =============== ==================== =======================================
+  in              ``in``               indicates the parameter is an input
+  out             ``out``              indicates the parameter is an output
+  optional        ``optional``         indicates argument is optional
+  private         ``private``          indicates argument is not shown if 
+                                       IDLdoc is run in user mode (`USER` 
+                                       keyword to IDLdoc is set)
+  hidden          ``hidden``           indicates the argument is not to be 
+                                       shown
+  required	      ``required``         indicates argument is required
+  type            ``type=comments``    IDL data type of the argument
+  default         ``default=comments`` default value of the argument
+  =============== ==================== =======================================
 
 
 The tags available in an overview file describe the entire library. There are a few tags shared with the file tags and the additional `:Dirs:` tag which provides a simple table of contents for the directories in the library.
@@ -352,20 +353,21 @@ The keyword and param tags above accept attributes. The available attributes are
 
 .. table:: IDLdoc format style tag attributes
 
-  =============== ================= ==========================================
-  Attribute name  Syntax            Description
-  =============== ================= ==========================================
-  in              in                indicates the parameter is an input
-  out             out               indicates the parameter is an output
-  optional        optional          indicates argument is optional
-  private         private           indicates argument is not shown if IDLdoc 
-                                    is run in user mode (`USER` keyword to 
-                                    IDLdoc is set)
-  hidden          hidden            indicates the argument is not to be shown
-  required	      required          indicates argument is required
-  type            type=comments     IDL data type of the argument
-  default         default=comments  default value of the argument
-  =============== ================= ==========================================
+  =============== ==================== =======================================
+  Attribute name  Syntax               Description
+  =============== ==================== =======================================
+  in              ``in``               indicates the parameter is an input
+  out             ``out``              indicates the parameter is an output
+  optional        ``optional``         indicates argument is optional
+  private         ``private``          indicates argument is not shown if 
+                                       IDLdoc is run in user mode (`USER` 
+                                       keyword to IDLdoc is set)
+  hidden          ``hidden``           indicates the argument is not to be 
+                                       shown
+  required	      ``required``         indicates argument is required
+  type            ``type=comments``    IDL data type of the argument
+  default         ``default=comments`` default value of the argument
+  =============== ==================== =======================================
 
 The tags available in an overview file describe the entire library. There are a few tags shared with the file tags and the additional `@dir` tag which provides a simple table of contents for the directories in the library.
 
@@ -516,22 +518,44 @@ The routine and file headings are shown in the table below.
   `calling sequence`       calling sequence for the routine; unneeded since
                            IDLdoc gets the calling sequence from the routine
                            declaration
-  `category`               TODO:
-  `common blocks`          TODO:
-  `example`                TODO:
-  `inputs`                 TODO:
-  `keyword parameters`     TODO:
-  `modification history`   TODO:
+  `category`               list of comma or period separated categories
+  `common blocks`          List common blocks, as in::
+
+                             BLOCK1: description.
+                             
+  `example`                list a simple example
+  `inputs`                 list positional input parameters here as::
+  
+                             Param1: describe param1 here
+
+                             Param2: describe param2 here
+                          
+  `keyword parameters`     document the keyword parameters here, listed as::
+  
+                             KEY1: key1 description
+
+                             KEY2: key2 description
+                          
+  `modification history`   list history of modifications to the routine::
+  
+                             Written by: author name
+                             July 1994 Describe modifications done on this 
+                                       date 
+
   `name`                   name of the routine; unneeded since IDLdoc gets
                            the name of the routine from the routine
                            declaration
-  `optional inputs`        TODO:
-  `optional outputs`       TODO:
-  `outputs`                TODO:
-  `procedure`              TODO:
-  `purpose`                TODO:
-  `restrictions`           TODO:
-  `side effects`           TODO:
+  `optional inputs`        list optional input parameters here, like::
+  
+                             Param3: describe param3 here
+
+  `optional outputs`       describe the optional outputs here
+  `outputs`                documentation of the return value
+  `procedure`              describe/cite any algorithms being used in this 
+                           routine
+  `purpose`                main description of the routine
+  `restrictions`           describe restrictions
+  `side effects`           describe side effects
   ======================== ==================================================
 
 There are no special headers for overview files or directory overview files using the IDL format style.
@@ -566,7 +590,6 @@ Customizing output
 
 The output produced by IDLdoc can be customized by modifying the template files provides in the `templates/` directory of the IDLdoc distribution.
 
-TODO: template description
+Instead of modifying the existing templates, it is best to copy the templates and specify their location with the `TEMPLATE_LOCATION` keyword to `IDLDOC`. If you have multiple template families, the `TEMPLATE_PREFIX` keyword can be used to specify a string that prefixes each filename of the template family. For example, IDLdoc itself uses the "latex-" prefix to specify the templates used to produce LaTeX output.
 
-TODO: new output type
-
+If IDLdoc is intended to produce some type of output besides HTML, the `COMMENT_STYLE` keyword must be used to specify the engine to produce that type of output. For example, IDLdoc provides the "latex" comment style to produce LaTeX output. Creating new comment style engines is beyond the scope of this reference guide.
