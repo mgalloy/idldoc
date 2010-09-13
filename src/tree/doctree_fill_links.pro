@@ -21,6 +21,10 @@ pro doctree_fill_links, comments, tree
     reference = comments->getAttribute('reference')
     if (reference eq '' && nChildren gt 0L) then begin
       nameNode = comments->getChild(0L)
+      
+      ; check to make sure we haven't already made this code
+      if (~obj_isa(nameNode, 'MGtmText')) then return
+      
       nameNode->getProperty, text=name      
       reference = tree->lookupName(name)
       

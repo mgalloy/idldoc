@@ -145,10 +145,9 @@ pro docparrstmarkupparser::_processInlines, para, line
     link_text = self->_processLink(tokens[2 * i + 1], reference=reference)
     
     tag = obj_new('MGtmTag', type='link')    
-    tag->addAttribute, 'reference', reference
-    para->addChild, tag
-    
+    tag->addAttribute, 'reference', reference    
     tag->addChild, obj_new('MGtmText', text=link_text)
+    para->addChild, tag
     
     if (2 * i + 2 lt ntokens) then begin
       para->addChild, obj_new('MGtmText', $
