@@ -84,8 +84,6 @@ There are quite a few keywords to IDLdoc to set various specifications for the o
 Format styles
 -------------
 
-TODO: what is a format style? legacy format styles "IDLdoc", "IDL"; not recommended for new comments
-
 
 rst format style
 ~~~~~~~~~~~~~~~~
@@ -588,9 +586,29 @@ TODO: describe rst markup style
 #. links, both kinds
 #. code blocks
 #. headers
-#. image directive
-#. embed directive
-#. title directive
+
+*Directives* provide a more general markup syntax. Currently, there are three directives defined:
+
+  #. image directive
+  #. embed directive
+  #. title directive
+
+The "image" directive allows images to be placed into comments. To use, put the following on the end of a line::
+
+    .. image:: filename
+    
+where `filename` is any image file format read by `READ_IMAGE`. The `filename` specified will be copied into the output directory.
+
+The "embed" directive allows `.svg` files to be embedded in the documentation. To use, put the following on the end of a line::
+
+    .. embed:: filename
+
+The "title" directive is available to provide a title for `.idldoc` files::
+
+    .. title:: cpt-city color tables
+    
+This title is used for the `.idldoc` file in the table of contents of available documentation.
+
 
 verbatim markup style
 ~~~~~~~~~~~~~~~~~~~~~

@@ -24,7 +24,7 @@ Similar things?
 
 The rst format and markup styles are inspired by reStructuredText and Markdown projects
 
-IDLdoc 3.0 was completely rewritten separately from the IDLdoc 2.x code base.
+In *The Mythical Man Month*, Fred Brooks argues to "build one to throw away." For reasons out of my control, IDLdoc 3.0 was completely rewritten separately from the IDLdoc 2.x code base and now follows Brooks' rule. 
 
 This tutorial intends to get a new user up to speed in using IDLdoc in the simplest way using the newer, more modern style of IDLdoc commenting. Don't worry, though, IDLdoc still supports legacy commenting styles so you don't have to go changing existing documentation (unless you want to make use of some of the cool, new features!). Experienced users will probably learn some new things too, since documentation for IDLdoc has been spotty in the past.
 
@@ -69,6 +69,16 @@ Comment format
 TODO: difference between format and markup, `FORMAT_STYLE` and `MARKUP_STYLE` keywords; format styles = idldoc (the default), rst, idl, verbatim; markup styles = verbatim (the default, unless rst format style), rst (default for rst format style), preformatted
 
 TODO: "rst" is the modern supported style for both format and markup in current versions of IDLdoc (although not the default); legacy format/markup is described in the reference manual.
+
+The format style defines the format for comments within specially marked comment headers. Comment blocks which start with `;+` and end with `;-` are considered by IDLdoc::
+
+    ;+
+    ; This is a comment block.
+    ;-
+
+These comments start with a general description of the file or routine they are documenting, but the format styles define a format for adding comments about particular aspects such as individual parameters/keywords of a routine or author of a file.
+
+There are three format styles allowed in IDLdoc comments: "rst", "IDLdoc", and "IDL." The "IDLdoc" and "IDL" format styles are for provided for legacy documentation headers; new comments should be written in the "rst" format style.
 
 
 Source code files
