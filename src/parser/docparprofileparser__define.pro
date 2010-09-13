@@ -288,11 +288,11 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
   formatParser = self.system->getParser(format + 'format')
   formatParser->startNewFile
   
-  insideComment = 0B
-  justFinishedComment = 0L   ; 0, 1 (in header), 2 (just finished)
-  justFinishedHeader = 0B
-  headerContinued = 0B
-  codeLevel = 0L
+  insideComment = 0B         ; inside comment header
+  justFinishedComment = 0L   ; 0 (not in a comment), 1 (in header), 2 (just finished)
+  justFinishedHeader = 0B    ; just finished pro/function declaration header
+  headerContinued = 0B       ; in pro/function declaration header
+  codeLevel = 0L             ; level of "indention", i.e., begin-end blocks
   routineLineStart = 0
   currentComments = obj_new('MGcoArrayList', type=7, block_size=20)
   
@@ -328,6 +328,8 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
     delims = ' ' + string(9B) + ',:'
     cmd = self->_stripComments(command)
     tokens = strsplit(cmd, delims, /extract, count=nTokens)
+    
+    ; handle blank line (w/ possible comments)
     if (nTokens eq 0) then begin
       if (justFinishedComment eq 2 && currentComments->count() gt 0) then begin
         if (~headerContinued && codeLevel eq 0) then begin
