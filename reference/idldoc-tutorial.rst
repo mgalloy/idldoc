@@ -23,7 +23,7 @@ There are similar tools for other languages, notably:
   #. Doxygen for multiple Languages
   #. Sphinx for Python
 
-IDLdoc is capable of easily doing more code introspection because it is written in IDL.
+IDLdoc can easily do code introspection because it is written in IDL.
 
 The rst format and markup styles are inspired by the `reStructuredText <http://docutils.sourceforge.net/rst.html>`_ and `Markdown <http://daringfireball.net/projects/markdown/>`_ projects, though the syntax is not exactly the same as either one.
 
