@@ -11,20 +11,21 @@ Introduction
 
 IDLdoc generates nicely formatted API documentation directly from source code. If the documentation is close to the code it is much more likely to be kept up-to-date. As much as possible is generated directly from the source code itself.
 
-TODO: Features? 
+IDLdoc goals are to:
 
-  #. API documentation for both developers and users of the code base
-  #. analyze code for things like code complexity
+  #. provide browsable API documentation for both developers and users of the code base
+  #. indicate portions of the API that are not documented
+  #. analyze code for aspects like complexity
 
-Similar things? 
+There are similar tools for other languages, notably:
 
-  #. Javadoc (Java)
-  #. Doxygen (multiple Languages)
-  #. Sphinx (Python)
+  #. Javadoc for Java
+  #. Doxygen for multiple Languages
+  #. Sphinx for Python
 
-The rst format and markup styles are inspired by reStructuredText and Markdown projects
+IDLdoc is capable of easily doing more code introspection because it is written in IDL.
 
-In *The Mythical Man Month*, Fred Brooks argues to "build one to throw away." For reasons out of my control, IDLdoc 3.0 was completely rewritten separately from the IDLdoc 2.x code base and now follows Brooks' rule. 
+The rst format and markup styles are inspired by the `reStructuredText <http://docutils.sourceforge.net/rst.html>`_ and `Markdown <http://daringfireball.net/projects/markdown/>`_ projects, though the syntax is not exactly the same as either one.
 
 This tutorial intends to get a new user up to speed in using IDLdoc in the simplest way using the newer, more modern style of IDLdoc commenting. Don't worry, though, IDLdoc still supports legacy commenting styles so you don't have to go changing existing documentation (unless you want to make use of some of the cool, new features!). Experienced users will probably learn some new things too, since documentation for IDLdoc has been spotty in the past.
 
