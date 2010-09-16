@@ -46,6 +46,11 @@ dist:
 	$(IDL) -IDL_STARTUP "" < idldoc_build.pro
 	mv idldoc.sav idldoc-$(VERSION)/
 	
+	cp COPYING idldoc-$(VERSION)/
+	cp CREDITS idldoc-$(VERSION)/
+	cp ISSUES idldoc-$(VERSION)/
+	cp RELEASE idldoc-$(VERSION)/
+	
 	svn export docs idldoc-$(VERSION)/docs/
 	svn export src/templates idldoc-$(VERSION)/templates/
 	svn export src/resources idldoc-$(VERSION)/resources/
