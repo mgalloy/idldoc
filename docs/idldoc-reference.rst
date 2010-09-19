@@ -581,72 +581,104 @@ rst markup style
 
 The *rst* markup style is the default markup style for the *rst* format style.
 
-The *rst* markup style attempts to make its format definition similar to what someone would do normally for readability in a text document. For example, paragraphs are created by simply skipping a line::
+.. table:: rst markup style
 
-  ; Merges a string array into a single string separated by carriage 
-  ; return/linefeeds. 
-  ;
-  ; Defaults to use just linefeed on UNIX platforms and both carriage returns 
-  ; and linefeeds on Windows platforms unless the UNIX or WINDOWS keywords are 
-  ; set to force a particular separator.
+  ============== ===========================================================
+  Feature        Description
+  ============== ===========================================================
+  paragraphs     Paragraphs are created by simply skipping a line::
 
-There is other special syntax for some annotations that are common when documenting code. To place a block of code into the documentation, end a line with ``::``, skip a line, indent the block of code, and skip another line::
+                   ; Merges a string array into a single string separated by 
+                   ; carriage return/linefeeds. 
+                   ;
+                   ; Defaults to use just linefeed on UNIX platforms and both 
+                   ; carriage returns and linefeeds on Windows platforms 
+                   ; unless the UNIX or WINDOWS keywords are set to force a 
+                   ; particular separator.
 
-  ; Set the decomposed mode, if available in the current graphics device i.e.
-  ; equivalent to::
-  ; 
-  ;    device, get_decomposed=oldDec
-  ;    device, decomposed=dec
-  ;
-  ; The main advantage of this routine is that it can be used with any graphics
-  ; device; it will be ignored in devices which don't support it.
+  code           To place a block of code into the documentation, end a line 
+                 with ``::``, skip a line, indent the block of code, and skip 
+                 another line::
 
-Another common annotation is to place a link in the documentation. For example, to link "http://michaelgalloy.com" to the phrase "my website", simply do::
+                   ; Set the decomposed mode, if available in the current 
+                   ; graphics device i.e. equivalent to::
+                   ; 
+                   ;    device, get_decomposed=oldDec
+                   ;    device, decomposed=dec
+                   ;
+                   ; The main advantage of this routine is that it can be used 
+                   ; with any graphics device; it will be ignored in devices 
+                   ; which don't support it.
 
-    ; Check out `my website <http://michaelgalloy.com>`.
+  links          Another common annotation is to place a link in the 
+                 documentation. For example, to link 
+                 "http://michaelgalloy.com" to the phrase "my website", simply 
+                 do::
+
+                   ; Check out `my website <http://michaelgalloy.com>`.
     
-But often, links are to other items in the documentation. For example, the comments for a routine, might briefly mention some of its keywords and it would be convenient to link to the documentation for these keywords. In this case, just put the method names in backticks like::
+                 But often, links are to other items in the documentation. For
+                 example, the comments for a routine, might briefly mention
+                 some of its keywords and it would be convenient to link to
+                 the documentation for these keywords. In this case, just put
+                 the method names in backticks like::
 
-    ; :Returns:
-    ;    Returns a triple as a `bytarr(3)` or `bytarr(3, n)` by default if a single
-    ;    color name or n color names are given. Returns a decomposed color index 
-    ;    as a long or lonarr(n) if `INDEX` keyword is set.
-    ; 
-    ;    Returns a string array for the names if `NAMES` keyword is set.
+                   ; :Returns:
+                   ;    Returns a triple as a `bytarr(3)` or `bytarr(3, n)` by 
+                   ;    default if a single color name or n color names are 
+                   ;    given. Returns a decomposed color index as a long or 
+                   ;    lonarr(n) if `INDEX` keyword is set.
+                   ; 
+                   ;    Returns a string array for the names if `NAMES` 
+                   ;    keyword is set.
 
-IDL will search for a name matching the quoted string and link to the closest one it finds. If the name is not found, as in ``bytarr(3)`` above, it will simply be displayed in a monospace space font as code.
+                 IDL will search for a name matching the quoted string and 
+                 link to the closest one it finds. If the name is not found, 
+                 as in ``bytarr(3)`` above, it will simply be displayed in a 
+                 monospace space font as code.
 
-Different level headers can be added to comments, particularly useful for `.idldoc` files. Just underline with ``-``, ``=``, or ``~``. For example, the following beginning to an `.idldoc` file, creates a level 1 header "TxDAP API Introduction", with a level 2 header "Basic Use" immediately after::
+  headings       Different level headers can be added to comments, 
+                 particularly useful for `.idldoc` files. Just underline with 
+                 ``-``, ``=``, or ``~``. For example, the following beginning 
+                 to an `.idldoc` file, creates a level 1 header "TxDAP API 
+                 Introduction", with a level 2 header "Basic Use" immediately 
+                 after::
 
-    TxDAP API Introduction
-    ======================
+                   TxDAP API Introduction
+                   ======================
 
-    Basic Use
-    ---------
+                   Basic Use
+                   ---------
 
-The order of use of the underlining determines the level of the header: the first underlined header is assumed to be level 1. The second, unless it is the same as the first, is assumed to be level 2, etc. From then on, titles underlined with "=" are level 1 headers and those underlined with "-" are level 2 headers.
+                 The order of use of the underlining determines the level of 
+                 the header: the first underlined header is assumed to be 
+                 level 1. The second, unless it is the same as the first, is 
+                 assumed to be level 2, etc. From then on, titles underlined 
+                 with "=" are level 1 headers and those underlined with "-" 
+                 are level 2 headers.
 
-*Directives* provide a more general markup syntax. Currently, there are three directives defined:
+  images         The "image" directive allows images to be placed into 
+                 comments. To use, put the following on the end of a line::
 
-  #. image directive
-  #. embed directive
-  #. title directive
-
-The "image" directive allows images to be placed into comments. To use, put the following on the end of a line::
-
-    .. image:: filename
+                   .. image:: filename
     
-where `filename` is any image file format read by `READ_IMAGE`. The `filename` specified will be copied into the output directory.
+                 where `filename` is any image file format read by 
+                 `READ_IMAGE`. The `filename` specified will be copied into 
+                 the output directory.
 
-The "embed" directive allows `.svg` files to be embedded in the documentation. To use, put the following on the end of a line::
+  embed objects  The "embed" directive allows `.svg` files to be embedded in 
+                 the documentation. To use, put the following on the end of a 
+                 line::
 
-    .. embed:: filename
+                   .. embed:: filename
+  page title     The "title" directive is available to provide a title for 
+                 `.idldoc` files::
 
-The "title" directive is available to provide a title for `.idldoc` files::
-
-    .. title:: cpt-city color tables
+                   .. title:: cpt-city color tables
     
-This title is used for the `.idldoc` file in the table of contents of available documentation.
+                 This title is used for the `.idldoc` file in the table of 
+                 contents of available documentation.
+  ============== ===========================================================
 
 
 verbatim markup style

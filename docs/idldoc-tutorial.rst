@@ -73,9 +73,9 @@ TODO: "rst" is the modern supported style for both format and markup in current 
 
 The format style defines the format for comments within specially marked comment headers. Comment blocks which start with `;+` and end with `;-` are considered by IDLdoc::
 
-    ;+
-    ; This is a comment block.
-    ;-
+  ;+
+  ; This is a comment block.
+  ;-
 
 These comments start with a general description of the file or routine they are documenting, but the format styles define a format for adding comments about particular aspects such as individual parameters/keywords of a routine or author of a file.
 
@@ -107,15 +107,32 @@ The overview file
 
 The overview file, specified with the `OVERVIEW` keyword to IDLdoc, contains comments describing the entire directory hierarchy. It is displayed near the front of the documentation, e.g., in the HTML documentation it is shown on the first page of the output.
 
-TODO: overview file tags: `Author`, `Copyright`, `History`, `Version`, `Dirs`
+For the most part, the file is just a comment block describing the directory hierarchy, but after that it can contain `Author`, `Copyright`, `History`, `Version`, and `Dirs` tags. For example, the overview file my library starts off with::
+
+  Personal IDL library of Michael Galloy. This is code that doesn't have
+  enough "meat" on it to be it's own package.
+
+  :Author:
+     Michael Galloy
+     
+  :Dirs:
+     ./ 
+        Main utility routines
+     analysis/ 
+        Various algorithms (sorting, sampling, etc.) and math helper routines
+     animation/ 
+        Classes to produce animations using object graphics.
+     collection/ 
+        Objects implementing various types of collections.
+      
 
 
 `.idldoc` files
 ~~~~~~~~~~~~~~~
 
-There are no special tags in `.idldoc` files; the entire file is just one big comment block. The one special syntax for `.idldoc` files is the `title` directive described in the markup section.
+Special documentation files, with extension `.idldoc`, can be placed into the output. There are no special tags in `.idldoc` files; the entire file is just one big comment block. The one special syntax for `.idldoc` files is the `title` directive described in the markup section. Headings can be used in any comment block, but are particularly useful in `.idldoc`, overview, and directory overview files.
 
-NOTE: "`.idldoc` files" refers to files with an `.idldoc` extension, like `cptcity-catalog.idldoc`. Files the name `.idldoc` are directory overview files, described below.
+NOTE: "`.idldoc` files" refers to files with an `.idldoc` extension, like `cptcity-catalog.idldoc`. Files named `.idldoc` are directory overview files, described below.
 
 
 Directory overview files
@@ -135,7 +152,7 @@ For example, the `collection/` directory of the IDLdoc source contains the follo
        Michael Galloy
 
     :Copyright:
-      BSD-licensed
+       BSD licensed
 
 The comments from the above directory overview file, along with a listing of the files in the directory, appear somewhere near the beginning of the documentation for the directory. In the HTML output, the link from the main overview page or the link in the lower-left navigation window when the directory has been selected in the upper-right navigation window lead to the directory overview page.
 
@@ -143,57 +160,125 @@ The comments from the above directory overview file, along with a listing of the
 Comment markup
 -------------- 
 
+The comment markup style defines how text can be annotated. Once the format style has defined a place for putting comments for a particular item, the markup style describes the syntax of those comments.
+
 Several markup styles are available to annotate comment text with typesetting instructions. The "verbatim" and "preformatted" markup styles are the simplest, the comments are copied straight to the documentation with the "preformatted" style displaying the comments as monospaced, plain text also. The more modern "rst" markup style defines a simple syntax for annotating the comment text with links, images, or code samples. While the "verbatim" and "preformatted" markup styles can be useful for legacy code comments, the "rst" markup style is easier to read and is recommended for all new comments.
 
-TODO: The comment markup style defines how text can be annotated. Once the format style has defined a place for "put comments here" for a particular item, the markup style describes the syntax of those comments.
+The *rst* markup style attempts to make its format definition similar to what someone would do normally for readability in a text document. For example, paragraphs are created by simply skipping a line::
 
-TODO: links and inline code, rules for named links?
+  ; Merges a string array into a single string separated by carriage 
+  ; return/linefeeds. 
+  ;
+  ; Defaults to use just linefeed on UNIX platforms and both carriage returns 
+  ; and linefeeds on Windows platforms unless the UNIX or WINDOWS keywords are 
+  ; set to force a particular separator.
 
-TODO: preformatted code blocks
+There is other special syntax for some annotations that are common when documenting code. To place a block of code into the documentation, end a line with ``::``, skip a line, indent the block of code, and skip another line::
 
-TODO: image directive::
+  ; Set the decomposed mode, if available in the current graphics device i.e.
+  ; equivalent to::
+  ; 
+  ;    device, get_decomposed=oldDec
+  ;    device, decomposed=dec
+  ;
+  ; The main advantage of this routine is that it can be used with any graphics
+  ; device; it will be ignored in devices which don't support it.
 
-    .. image:: filename.png
+Another common annotation is to place a link in the documentation. For example, to link "http://michaelgalloy.com" to the phrase "my website", simply do::
+
+    ; Check out `my website <http://michaelgalloy.com>`.
     
-File formats?
+But often, links are to other items in the documentation. For example, the comments for a routine, might briefly mention some of its keywords and it would be convenient to link to the documentation for these keywords. In this case, just put the method names in backticks like::
 
-TODO: embed directive::
+    ; :Returns:
+    ;    Returns a triple as a `bytarr(3)` or `bytarr(3, n)` by default if a single
+    ;    color name or n color names are given. Returns a decomposed color index 
+    ;    as a long or lonarr(n) if `INDEX` keyword is set.
+    ; 
+    ;    Returns a string array for the names if `NAMES` keyword is set.
+
+IDL will search for a name matching the quoted string and link to the closest one it finds. If the name is not found, as in ``bytarr(3)`` above, it will simply be displayed in a monospace space font as code.
+
+Different level headers can be added to comments, particularly useful for `.idldoc` files. Just underline with ``-``, ``=``, or ``~``. For example, the following beginning to an `.idldoc` file, creates a level 1 header "TxDAP API Introduction", with a level 2 header "Basic Use" immediately after::
+
+    TxDAP API Introduction
+    ======================
+
+    Basic Use
+    ---------
+
+The order of use of the underlining determines the level of the header: the first underlined header is assumed to be level 1. The second, unless it is the same as the first, is assumed to be level 2, etc. From then on, titles underlined with "=" are level 1 headers and those underlined with "-" are level 2 headers.
+
+*Directives* provide a more general markup syntax. Currently, there are three directives defined:
+
+  #. image directive
+  #. embed directive
+  #. title directive
+
+The "image" directive allows images to be placed into comments. To use, put the following on the end of a line::
+
+    .. image:: filename
+    
+where `filename` is any image file format read by `READ_IMAGE`. The `filename` specified will be copied into the output directory.
+
+The "embed" directive allows `.svg` files to be embedded in the documentation. To use, put the following on the end of a line::
 
     .. embed:: filename
+
+The "title" directive is available to provide a title for `.idldoc` files::
+
+    .. title:: cpt-city color tables
     
-File formats?
-
-TODO: title of an `.idldoc` file, title directive::
-
-    .. title:: This is the title of the file
-
-Appears in navigation links on the left/title of the page
-
-TODO: headers, =, -, or ~ anywhere, but most useful in `.idldoc` files
+This title is used for the `.idldoc` file in the table of contents of available documentation.
 
 
 IDLdoc options
 --------------
 
-TODO: user vs. developer documentation, `USER` keyword, private/hidden tags (and attributes)
+The keywords used when IDLdoc is run provide some options in the type of output produced.
 
-TODO: The `FOOTER` keyword can specify a file to include at the bottom of each page of output.
+The `USER` keyword specifies whether "user" or "developer" documentation is produced. User documentation is appropriate for users of a library. Directories, files, routines, and keywords/parameters can be marked to not show up in user documentation by using the "Private" tag. For example, the `MG_H5_DUMP` routine has a few helper routines that are not intended for end users to call::
 
-TODO: When producing HTML documentation, there are often two cases that need to be handled: 
+  ;+
+  ; Return a string representing an IDL declaration of the given item 
+  ; (attribute or dataset).
+  ;
+  ; :Private:
+  ;
+  ; :Returns: 
+  ;    string
+  ;
+  ; :Params:
+  ;    typeId : in, required, type=long
+  ;       type identifier
+  ;    spaceId : in, required, type=long
+  ;       dataspace identifier
+  ;-
+  function mg_h5_dump_typedecl, typeId, spaceId
+ 
+
+Individual keywords or parameters use a attribute to mark it as private. For instance, the `MG_STREPLACE` has a private keyword `START` that is not intended for users of the library routine, but is used by internal calls to the routine. The keyword's documentation is::
+
+  ;    start : out, optional, type=integral, default=0, private
+  ;       index into string of where to start looking for the pattern
+
+Developer documentation is the default and will show items marked as private (though there is a "Hidden" tag for not showing an item in any documentation).
+
+When producing HTML documentation, there are often two cases that need to be handled: 
 
   #. documentation served on a web site and intended to be served as a full collection
   #. documentation pages intended to be handed out individually, e.g., giving someone a `.pro` file and its generated HTML documentation file
   
 In the later case, it is often useful to set the `EMBED` and `NONAVBAR` keywords. The `EMBED` keyword embeds the, rather large, CSS file into each HTML page. This is inefficient for a full documentation set on a web site because in that situation, each page can just refer to a common `.css` file. The `NONAVBAR` keyword simply omits the navigation bar at the top of the page which is not needed when only one HTML page is given but useful to navigate a full documentation set.
 
-TODO: index_level=1
+The `FOOTER` keyword can specify a file to include at the bottom of each page of output. This file is included verbatim in the output, so it should be already be in the format of the output.
 
-TODO: source code options
+By default, IDLdoc will copy the source code and put a link to it in the output. Use the `NOSOURCE` keyword to indicate that source code should not be copied or linked to. If the source code should be linked to, but not copied use `SOURCE_LINK` to specify relative (``SOURCE_LINK=1``) or absolute (``SOURCE_LINK=2``) links.
 
-TODO: If the `STATISTICS` keywords is set, IDLdoc will compute certain measures of the code's complexity like the number of lines in a routine or the cyclomatic complexity. `COMPLEXITY_CUTOFFS`, `ROUTINE_LINE_CUTOFFS`
+If the `STATISTICS` keywords is set, IDLdoc will compute certain measures of the code's complexity like the number of lines in a routine and the cyclomatic complexity. Use the `COMPLEXITY_CUTOFFS` and `ROUTINE_LINE_CUTOFFS` to specify to 2-element arrays which specify the warning and flagged levels. The defaults are ``[10, 20]`` for `COMPLEXITY_CUTOFFS` and ``[75, 150]`` for `ROUTINE_LINE_CUTOFFS`.
 
 
 References
 ----------
 
-TODO: The `project site <http://idldoc.idldev.com>`_ for IDLdoc contains more information about IDLdoc including the ticket system where bugs can be reported and new features requested. The mailing list, downloads of all versions along with their release notes, etc. 
+The `project site <http://idldoc.idldev.com>`_ for IDLdoc contains more information about IDLdoc including the FAQ, the mailing list, ticket system, and downloads of all versions along with their release notes.
