@@ -67,19 +67,95 @@ Note: By default, IDLdoc 3.0 copies source code into the output directory, so pl
 Comment format
 --------------
 
-TODO: difference between format and markup, `FORMAT_STYLE` and `MARKUP_STYLE` keywords; format styles = idldoc (the default), rst, idl, verbatim; markup styles = verbatim (the default, unless rst format style), rst (default for rst format style), preformatted
-
-TODO: "rst" is the modern supported style for both format and markup in current versions of IDLdoc (although not the default); legacy format/markup is described in the reference manual.
-
-The format style defines the format for comments within specially marked comment headers. Comment blocks which start with `;+` and end with `;-` are considered by IDLdoc::
+IDLdoc parses comment headers which start with ``;+`` and end with ``;``, like::
 
   ;+
-  ; This is a comment block.
+  ; This is a comment header.
   ;-
 
-These comments start with a general description of the file or routine they are documenting, but the format styles define a format for adding comments about particular aspects such as individual parameters/keywords of a routine or author of a file.
+If this comment header is immediately before or after a routine declaration header, then the comment is considered a routine-level comment and associated with the routine in the documentation. If not, then it is considered a file-level comment and associated with the file. For example, some file-level and routine-level comments are shown below::
+
+  ;+
+  ; File-level comments
+  ;-
+
+  ;+
+  ; Routine-level comments
+  ;-
+  pro my_routine1
+  ...
+  end
+  
+  pro my_routine2
+  ;+
+  ; Routine-level comments
+  ;-
+  ...
+  end
+  
+The comments inside the comment headers can just be free-form comments describing the routine, but they can also use various tags recognized by IDLdoc to document a particular aspect of the routine or file. For example, there is a `Keywords` tag allowing specifics about the keywords to be documented. 
+
+A typical comment header for a routine is shown below::
+
+  ;+
+  ; Get an RGB color value for the specified color name. The available colors
+  ; are:
+  ;
+  ; .. image:: vis_colors.png
+  ;
+  ; :Examples:
+  ;    For example::
+  ;
+  ;       IDL> print, vis_color('black')
+  ;          0   0   0
+  ;       IDL> print, vis_color('slateblue')
+  ;        106  90 205
+  ;       IDL> c = vis_color('slateblue', /index) 
+  ;       IDL> print, c, c, format='(I, Z)'
+  ;           13458026      CD5A6A
+  ;       IDL> print, vis_color(['blue', 'red', 'yellow'])
+  ;          0 255 255
+  ;          0   0 255
+  ;        255   0   0
+  ;       IDL> print, vis_color(/names)
+  ;       aliceblue antiquewhite aqua aquamarine azure beige ...
+  ;
+  ;    These commands are in the main-level example program::
+  ;
+  ;       IDL> .run vis_color
+  ;
+  ; :Uses:
+  ;    vis_src_root, vis_index2rgb
+  ;
+  ; :Returns:
+  ;    Returns a triple as a bytarr(3) or bytarr(3, n) by default if a single
+  ;    color name or n color names are given. Returns a decomposed color index 
+  ;    as a long or lonarr(n) if `INDEX` keyword is set.
+  ; 
+  ;    Returns a string array for the names if `NAMES` keyword is set.
+  ;
+  ; :Params:
+  ;    colorname : in, required, type=string/strarr
+  ;       case-insensitive name(s) of the color; note that both "grey" and 
+  ;       "gray" are accepted in all names that incorporate them
+  ;
+  ; :Keywords:
+  ;    names : in, optional, type=boolean
+  ;       set to return a string of color names
+  ;    index : in, optional, type=boolean
+  ;       set to return a long integer with the RGB decomposed into it
+  ;    xkcd : in, optional, type=boolean
+  ;       set to use xkcd color survey color names instead of the HTML color
+  ;       names (see `xkcd color survey <http://xkcd.com/color/rgb/>`)
+  ;-
+  function vis_color, colorname, names=names, index=index, xkcd=xkcd
+
+
+TODO: There are multiple formats for comments to make them understandable by IDLdoc, i.e., format styles. difference between format and markup, `FORMAT_STYLE` and `MARKUP_STYLE` keywords; format styles = idldoc (the default), rst, idl, verbatim; markup styles = verbatim (the default, unless rst format style), rst (default for rst format style), preformatted
 
 There are three format styles allowed in IDLdoc comments: "rst", "IDLdoc", and "IDL." The "IDLdoc" and "IDL" format styles are for provided for legacy documentation headers; new comments should be written in the "rst" format style.
+
+The "rst" format and markup styles are the modern supported style in current versions of IDLdoc (although the "IDLdoc" format style and the "verbatim" markup styles are the defaults). Legacy format and markup styles are described in the reference manual.
 
 
 Source code files
