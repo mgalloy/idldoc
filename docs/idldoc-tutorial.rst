@@ -95,7 +95,7 @@ If this comment header is immediately before or after a routine declaration head
   
 The comments inside the comment headers can just be free-form comments describing the routine, but they can also use various tags recognized by IDLdoc to document a particular aspect of the routine or file. For example, there is a `Keywords` tag allowing specifics about the keywords to be documented. 
 
-A typical comment header for a routine is shown below::
+A typical comment header for a routine is shown below. Don't worry about all syntax in the header, we'll get into more details later. Just notice the general remarks followed by tags like ``:Examples:``, ``:Uses:``, ``:Returns:``, etc.::
 
   ;+
   ; Get an RGB color value for the specified color name. The available colors
@@ -128,9 +128,9 @@ A typical comment header for a routine is shown below::
   ;    vis_src_root, vis_index2rgb
   ;
   ; :Returns:
-  ;    Returns a triple as a bytarr(3) or bytarr(3, n) by default if a single
-  ;    color name or n color names are given. Returns a decomposed color index 
-  ;    as a long or lonarr(n) if `INDEX` keyword is set.
+  ;    Returns a triple as a `bytarr(3)` or `bytarr(3, n)` by default if a 
+  ;    single color name or `n` color names are given. Returns a decomposed 
+  ;    color index as a long or `lonarr(n)` if `INDEX` keyword is set.
   ; 
   ;    Returns a string array for the names if `NAMES` keyword is set.
   ;
@@ -150,22 +150,75 @@ A typical comment header for a routine is shown below::
   ;-
   function vis_color, colorname, names=names, index=index, xkcd=xkcd
 
+There are multiple formats for comments to make them understandable by IDLdoc, i.e., format styles. The three format styles allowed in IDLdoc comments: "rst" (shown above), "IDLdoc", and "IDL." The "rst" format style is the modern style in current versions of IDLdoc. The "IDLdoc" and "IDL" format styles are provided for legacy documentation headers; they are described in the reference manual. Because it was the first format style, the "IDLdoc" style is the default, but new comments are recommended to be written in the "rst" format style.
 
-TODO: There are multiple formats for comments to make them understandable by IDLdoc, i.e., format styles. difference between format and markup, `FORMAT_STYLE` and `MARKUP_STYLE` keywords; format styles = idldoc (the default), rst, idl, verbatim; markup styles = verbatim (the default, unless rst format style), rst (default for rst format style), preformatted
+Indentation and spacing is significant in the `rst` format style. There must be a blank line before a tag, like ``:Examples:`` or ``:Uses:``. Comments after a tag can start on the same line as the tag, but further comments must be indented at least one space and end with a blank line. Some tags, like ``:Params:`` and ``:Keywords:`` take arguments which are indented and comments for the arguments are then further indented
 
-There are three format styles allowed in IDLdoc comments: "rst", "IDLdoc", and "IDL." The "IDLdoc" and "IDL" format styles are for provided for legacy documentation headers; new comments should be written in the "rst" format style.
-
-The "rst" format and markup styles are the modern supported style in current versions of IDLdoc (although the "IDLdoc" format style and the "verbatim" markup styles are the defaults). Legacy format and markup styles are described in the reference manual.
+Note there is also a "rst" *markup style* that can be used to annotate comments in one of the locations that are specified by the "rst" format style. We'll give more details about the markup style in the "Comment markup" section later on.
 
 
 Source code files
 ~~~~~~~~~~~~~~~~~
 
-TODO: file vs routine comments
+Source code files, i.e., `.pro` files, can contain file or routine-level comments. Some common tags for file-level comments are `Examples`, `Author`, `Copyright`, and `History` (the full list is in the reference manual). For example, the `mg_h5_getdata.pro` file contains multiple helper routines followed by the main `MG_h5_GETDATA` routine. The file-level comment at the beginning of the file looks something like::
 
-TODO: common file tags: `Examples`, `Author`, `Copyright`, `History`
+;+
+; Routine for extracting datasets, slices of datasets, or attributes from
+; an HDF 5 file with simple notation.
+; 
+; :Categories: 
+;    file i/o, hdf5, sdf
+;
+; :Examples:
+;    An example file is provided with the IDL distribution::
+;
+;       IDL> f = filepath('hdf5_test.h5', subdir=['examples', 'data'])
+;
+;    A full dataset can be easily extracted::
+;
+;       IDL> fullResult = mg_h5_getdata(f, '/arrays/3D int array')
+;
+;    Slices can also be pulled out::
+;
+;       IDL> bounds = [[3, 3, 1], [5, 49, 2], [0, 49, 3]]
+;       IDL> res1 = mg_h5_getdata(f, '/arrays/3D int array', bounds=bounds)
+;       IDL> help, res1
+;       RESULT1         LONG      = Array[1, 23, 17]
+;
+;    This example is available as a main-level program included in this file::
+; 
+;       IDL> .run mg_h5_getdata
+;
+; :Author:
+;    Michael Galloy
+;
+; :Copyright:
+;    This library is released under a BSD-type license.
+;-
 
-TODO: common routine tags: `Returns`, `Params`, `Keywords`, `Examples`, `Uses`, `Requires`, `Author`, `Copyright`, `History`
+
+Common routine-level tags are `Returns`, `Params`, `Keywords`, `Examples`, `Uses`, `Requires`, `Author`, `Copyright`, and `History`. For example, the `MG_H5_GETDATA` routine's comment header is::
+
+  ;+
+  ; Pulls out a section of a HDF5 variable.
+  ; 
+  ; :Returns: 
+  ;    data array
+  ;
+  ; :Params:
+  ;    filename : in, required, type=string
+  ;       filename of the HDF5 file
+  ;    variable : in, required, type=string
+  ;       variable name (with path if inside a group)
+  ;
+  ; :Keywords:
+  ;    bounds : in, optional, type="lonarr(3, ndims) or string"
+  ;       gives start value, end value, and stride for each dimension of the 
+  ;       variable
+  ;    error : out, optional, type=long
+  ;       error value
+  ;-
+  function mg_h5_getdata, filename, variable, bounds=bounds, error=error
 
 Source code files documented in different styles can be placed in the same directory hierarchy. The default IDLdoc styles, or those provided by the `FORMAT_STYLE` and `MARKUP_STYLE` keywords, can be overridden for a single file by placing a special comment on the first line of the file::
 
