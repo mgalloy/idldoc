@@ -388,11 +388,14 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       
       ; might be continued more
       headerContinued = lastToken eq '$' ? 1B : 0B
-      if (~headerContinued && currentComments->count() gt 0) then begin
-        self->_parseRoutineComments, routine, currentComments->get(/all), $
-                                     format=format, markup=markup
+      if (~headerContinued) then begin
+        if (currentComments->count() gt 0) then begin
+          self->_parseRoutineComments, routine, currentComments->get(/all), $
+                                       format=format, markup=markup
         
-        currentComments->remove, /all
+          currentComments->remove, /all
+        endif
+        
         justFinishedHeader = 1B
       endif      
     endif
