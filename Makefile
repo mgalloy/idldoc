@@ -1,4 +1,4 @@
-VERSION=3.3beta1
+VERSION=3.3
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 IDL=idl64
 
@@ -32,8 +32,13 @@ version:
 	
 srcdist:
 	make version
-
+ 
+	rm -rf idldoc-$(VERSION)-src/
 	svn export . idldoc-$(VERSION)-src/
+
+	cd docs; make
+	cp docs/idldoc-reference.pdf idldoc-$(VERSION)-src/docs/
+	cp docs/idldoc-tutorial.pdf idldoc-$(VERSION)-src/docs/
 
 	zip -r idldoc-$(VERSION)-src.zip idldoc-$(VERSION)-src/*
 	rm -rf idldoc-$(VERSION)-src
@@ -41,6 +46,7 @@ srcdist:
 dist:
 	make version
 	
+	rm -rf idldoc-$(VERSION)	
 	mkdir idldoc-$(VERSION)
 	
 	$(IDL) -IDL_STARTUP "" < idldoc_build.pro
@@ -50,8 +56,12 @@ dist:
 	cp CREDITS idldoc-$(VERSION)/
 	cp ISSUES idldoc-$(VERSION)/
 	cp RELEASE idldoc-$(VERSION)/
+
+	cd docs; make
+	mkdir idldoc-$(VERSION)/docs
+	cp docs/idldoc-reference.pdf idldoc-$(VERSION)/docs/
+	cp docs/idldoc-tutorial.pdf idldoc-$(VERSION)/docs/
 	
-	svn export docs idldoc-$(VERSION)/docs/
 	svn export src/templates idldoc-$(VERSION)/templates/
 	svn export src/resources idldoc-$(VERSION)/resources/
 	
