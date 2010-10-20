@@ -1,9 +1,9 @@
-VERSION=3.3
+VERSION=3.4dev
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 IDL=idl64
 
 .PHONY: clean doc book regression tests version srcdist dist updates
-	
+
 clean:
 	rm -f *.zip
 	rm -rf updates.idldev.com
@@ -11,7 +11,7 @@ clean:
 	rm -rf api-book
 	rm -rf regression_test/*-docs
 	rm -rf unit_tests/*-docs
-	
+
 doc:
 	$(IDL) < idldoc_build_docs.pro
 
@@ -19,20 +19,20 @@ book:
 	$(IDL) idldoc_build_book
 	cd api-book; pdflatex -halt-on-error index.tex
 	cd api-book; pdflatex -halt-on-error index.tex	
-	
+
 regression:
 	$(IDL) -e "mgunit, 'docrtalltests_uts'"
-	
+
 tests:
 	$(IDL) -e "mgunit, 'docutalltests_uts'"
-	
+
 version:
 	sed "s/version = '.*'/version = '$(VERSION)'/" < src/idldoc_version.pro | sed "s/revision = '.*'/revision = '$(REVISION)'/" > idldoc_version.pro
 	mv idldoc_version.pro src/
-	
+
 srcdist:
 	make version
- 
+
 	rm -rf idldoc-$(VERSION)-src/
 	svn export . idldoc-$(VERSION)-src/
 
@@ -42,16 +42,16 @@ srcdist:
 
 	zip -r idldoc-$(VERSION)-src.zip idldoc-$(VERSION)-src/*
 	rm -rf idldoc-$(VERSION)-src
-	
+
 dist:
 	make version
-	
+
 	rm -rf idldoc-$(VERSION)	
 	mkdir idldoc-$(VERSION)
-	
+
 	$(IDL) -IDL_STARTUP "" < idldoc_build.pro
 	mv idldoc.sav idldoc-$(VERSION)/
-	
+
 	cp COPYING idldoc-$(VERSION)/
 	cp CREDITS idldoc-$(VERSION)/
 	cp ISSUES idldoc-$(VERSION)/
@@ -61,10 +61,10 @@ dist:
 	mkdir idldoc-$(VERSION)/docs
 	cp docs/idldoc-reference.pdf idldoc-$(VERSION)/docs/
 	cp docs/idldoc-tutorial.pdf idldoc-$(VERSION)/docs/
-	
+
 	svn export src/templates idldoc-$(VERSION)/templates/
 	svn export src/resources idldoc-$(VERSION)/resources/
-	
+
 	zip -r idldoc-$(VERSION).zip idldoc-$(VERSION)/*
 	rm -rf idldoc-$(VERSION)
 
