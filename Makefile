@@ -2,8 +2,12 @@ VERSION=3.4dev
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 IDL=idl64
 
-.PHONY: clean doc book regression tests version srcdist dist updates
+.PHONY: all clean doc book regression tests version srcdist dist updates
 
+
+all:
+	cd src; make all IDL=$(IDL)
+	
 clean:
 	rm -f *.zip
 	rm -rf updates.idldev.com
