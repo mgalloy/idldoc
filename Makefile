@@ -61,6 +61,7 @@ dist:
 	cp CREDITS idldoc-$(VERSION)/
 	cp ISSUES idldoc-$(VERSION)/
 	cp RELEASE idldoc-$(VERSION)/
+	cp INSTALL idldoc-$(VERSION)/
 
 	cd docs; make
 	mkdir idldoc-$(VERSION)/docs
