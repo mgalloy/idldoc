@@ -9,6 +9,7 @@ all:
 	cd src; make all IDL=$(IDL)
 	
 clean:
+	cd src; make clean
 	rm -f *.zip
 	rm -rf updates.idldev.com
 	rm -rf api-docs
