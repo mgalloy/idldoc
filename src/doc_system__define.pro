@@ -996,6 +996,8 @@ end
 pro doc_system::createCategoryEntry, name, item
   compile_opt strictarr, hidden
   
+  if (~item->isVisible()) then return
+  
   lname = strlowcase(name)
   categoryList = self.categories->get(lname, found=found)
   
