@@ -317,8 +317,10 @@ function doctreeprofile::getVariable, name, found=found
           return, ''
         endif
         
-        self.firstline = mg_tm_firstline(self.comments)
-
+        if (~obj_valid(self.firstline)) then begin
+          self.firstline = mg_tm_firstline(self.comments)
+        endif
+        
         return, self.system->processComments(self.firstline)      
       end
     'plain_comments': return, self.system->processPlainComments(self.comments)

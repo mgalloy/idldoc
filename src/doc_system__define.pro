@@ -932,7 +932,7 @@ end
 ;    name : in, required, type=string
 ;       name to register the entry under
 ;    value : in, required, type=object
-;       tree object (i.e. directory, file, param)
+;       tree object, i.e., directory, file, param, etc.
 ;-
 pro doc_system::createIndexEntry, name, value
   compile_opt strictarr, hidden
@@ -948,25 +948,26 @@ pro doc_system::processIndex
   compile_opt strictarr, hidden
 
   entries = self.index->get(/all, count=nEntries)
-    
+
+  ; filter index for visible entries    
   isVisibleEntries = bytarr(nEntries)
   
   for i = 0L, nEntries - 1L do begin
     isVisibleEntries[i] = entries[i].item->isVisible()
   endfor
-  
+
   ind = where(isVisibleEntries, nVisibleEntries)
   self.index->remove, /all
-  if (nVisibleEntries gt 0) then begin
-    self.index->add, entries[ind]
-  endif
+  if (nVisibleEntries gt 0) then self.index->add, entries[ind]
 end
 
 
 ;+
 ; Return the items which begin with the given letter.
 ;
-; :Returns: objarr
+; :Returns: 
+;    `objarr`
+;
 ; :Params:
 ;    letter : in, required, type=string
 ;       first letter of items to return
