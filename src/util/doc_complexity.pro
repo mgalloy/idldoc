@@ -47,6 +47,7 @@ function doc_complexity, lines
     endcase
   endwhile
   
+  obj_destroy, tokenizer
   return, complexity > 1
 end
 
