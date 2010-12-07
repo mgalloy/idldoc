@@ -147,8 +147,10 @@ function doctreedirectory::getVariable, name, found=found
         if (~obj_valid(comments)) then return, ''
         
         firstline = mg_tm_firstline(comments)
+        text_firstline = self.system->processComments(firstline)
+        obj_destroy, firstline
         
-        return, self.system->processComments(firstline) 
+        return, text_firstline
       end 
     'n_pro_files' : return, self.proFiles->count()
     'pro_files' : return, self.proFiles->get(/all)

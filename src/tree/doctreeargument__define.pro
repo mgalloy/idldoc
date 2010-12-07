@@ -118,7 +118,7 @@ function doctreeargument::getVariable, name, found=found
           self.firstline = mg_tm_firstline(self.comments)
         endif
         
-        return, self.system->processComments(firstline) 
+        return, self.system->processComments(self.firstline) 
       end    
     
     else : begin

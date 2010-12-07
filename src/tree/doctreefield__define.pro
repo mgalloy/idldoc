@@ -47,8 +47,12 @@ function doctreefield::getVariable, name, found=found
     'comments': return, self.system->processComments(self.comments)  
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
+        
         firstline = mg_tm_firstline(self.comments)
-        return, self.system->processComments(firstline) 
+        text_firstline = self.system->processComments(firstline)
+        obj_destroy, firstline
+        
+        return, text_firstline
       end 
               
     'index_name': return, self.name
