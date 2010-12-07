@@ -7,6 +7,8 @@ IDLdoc 3.3.1
 * Fixed memory leaks involved with computing complexity statistics and making
   shortened comments for overview files.
 
+* Fix for bug where private/hidden items show up on categories page.
+
 
 IDLdoc 3.3
 ----------
