@@ -6,18 +6,20 @@ Steps to release IDLdoc
 
 #. Check off on each TODO in the code.
 
-#. Set debug variable in IDLDOC routine to 0.
-
 #. Make sure all unit and regression tests pass. 
 
-#. Update docs/RELEASE file. Add release date under version number.
+#. Update RELEASE file. Add release date under version number.
 
 #. Update version in Makefile.
 
 #. Do a "make dist".
 
+#. Do a "make srcdist".
+
 #. Commit changes to version.
 
 #. Copy trunk to tags in repository. Use tag of the format: IDLDOC_3_0. If it's a major version, start a new branch as well. Make sure to branch/tag externals as well and set svn:externals to point at the branch/tag of the externals.
 
-#. Upload .zip file to michaelgalloy.com and ittvis.com. Announce release on michaelgalloy.com, idldoc.idldev.com, and the newsgroup.
+#. Update version in Makefile to a "dev" version number.
+
+#. Upload .zip file to michaelgalloy.com. Announce release on michaelgalloy.com, idldoc.idldev.com, and the comp.idl-pvwave newsgroup.

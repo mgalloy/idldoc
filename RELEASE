@@ -3,6 +3,7 @@ Release notes
 
 IDLdoc 3.3.1
 ------------
+*Released January 8, 2011*
 
 * Fixed memory leaks involved with computing complexity statistics and making
   shortened comments for overview files.
