@@ -111,8 +111,8 @@ div.box {
 .green { background-color: #480; }
 
 /* index styles */
-span.index_type { margin-left: 1em; font-size: smaller; }
-dl.index_listing dd { margin-bottom: 0.5em; margin-left: 1em; }
+span.index_type { margin-left: 1em; }
+dl.index_listing dd { margin-bottom: 0.5em; margin-left: 2em; }
 dl.index_listing dd p { margin-top: 0.2em; margin-bottom: 0em; }
 
 /* search styles */
