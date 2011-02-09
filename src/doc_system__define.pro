@@ -953,7 +953,7 @@ pro doc_system::processIndex
   isVisibleEntries = bytarr(nEntries)
   
   for i = 0L, nEntries - 1L do begin
-    isVisibleEntries[i] = entries[i].item->isVisible()
+    isVisibleEntries[i] = obj_valid(entries[i].item) ? entries[i].item->isVisible() : 0B
   endfor
 
   ind = where(isVisibleEntries, nVisibleEntries)
