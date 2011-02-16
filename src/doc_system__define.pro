@@ -1155,11 +1155,17 @@ pro doc_system::copyResources
                               root=self.sourceLocation)
   resourceDestination = filepath('', subdir=['idldoc-resources'], $
                                  root=self.output)
-                                 
-  file_delete, resourceDestination, /recursive, /allow_nonexistent
-  file_mkdir, resourceDestination
+
+  ; allow idldoc-resources directory to stay if it is a directory
+  if (~file_test(resourceDestination, /directory)) then begin
+    file_delete, resourceDestination, /recursive, /allow_nonexistent
+    file_mkdir, resourceDestination    
+  endif
+  
+  ; copy the resource files
   file_copy, resourceLocation, resourceDestination, /recursive, /overwrite
   
+  ; move the LaTeX files up a directory if needed
   if (self.commentstyle eq 'latex') then begin
     file_move, resourceDestination + 'idldoc' + ['.cls', '.sty'], $
                resourceDestination + ['..', '..'], $
