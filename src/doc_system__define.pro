@@ -1,8 +1,8 @@
 ; docformat = 'rst'
 
 ;+
-; This class represents the entire IDLdoc run. All information/settings for the
-; run are stored (or at least accessible from) here.
+; This class represents the entire IDLdoc run. All information/settings for 
+; the run are stored (or at least accessible from) here.
 ;
 ; :Author:
 ;    Michael Galloy
@@ -13,7 +13,8 @@
 ;    output
 ;       the directory to which to output the documentation
 ;    classes
-;       hash table (classname -> DOCtreeClass) containing all class definitions
+;       hash table (classname -> `DOCtreeClass`) containing all class 
+;       definitions
 ;    format
 ;       format style
 ;    markup
@@ -94,6 +95,7 @@ function doc_system::getVariable, name, found=found
     
     'has_overview_comments': return, obj_valid(self.overviewComments)
     'overview_comments': return, self->processComments(self.overviewComments)
+
     'footer': return, self.footer
     
     'output_root': return, self.output
@@ -497,6 +499,8 @@ pro doc_system::process
   
   if (nEntries gt 0) then self->processIndex 
   
+  doctree_fill_links, self.overviewComments, self
+  
   directories = self.directories->get(/all, count=ndirectories)
   for i = 0L, ndirectories - 1L do (directories[i])->fillLinks
 end
@@ -518,7 +522,7 @@ end
 ;-
 function doc_system::lookupName, name, exclude=exclude
   compile_opt strictarr
-  
+
   dirs = self.directories->get(/all, count=ndirs) 
   for i = 0L, ndirs - 1L do begin
     if (obj_valid(exclude) && exclude eq dirs[i]) then continue
@@ -656,7 +660,6 @@ function doc_system::processComments, tree
   compile_opt strictarr, hidden
   
   if (~obj_valid(tree)) then return, ''
-  
   commentParser = self->getParser(self.commentStyle + 'output')
   return, commentParser->process(tree)  
 end
