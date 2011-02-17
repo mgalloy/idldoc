@@ -158,6 +158,7 @@ pro xidldoc::buildItems, wTab1, list, isfunction=isfunction, Author=Author, Date
     endif
     void = cw_field(wCommon, title='Date', value=date, /string,uname='Date', ysize=numLines, xsize=xsize)
     ;get the param and keyword info
+    resolve_routine, list[i], /either
     params = routine_info(list[i],/param, functions=isfunction)
     void = widget_label(wCommon,value='Parameters',uname='Parameters')
     if params.num_args eq 0 then void = widget_label(wCommon,value='NONE',uname='NONE')
