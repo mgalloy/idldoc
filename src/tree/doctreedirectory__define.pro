@@ -117,14 +117,28 @@ function doctreedirectory::getVariable, name, found=found
         if (obj_valid(self.overviewComments)) then begin
           return, self.system->processComments(self.overviewComments)
         endif
-        
+
+        if (obj_valid(self.comments)) then begin
+          firstLineTree = mg_tm_firstline(self.comments)
+          comments = self.system->processComments(firstLineTree)
+          obj_destroy, firstLineTree
+          return, comments
+        endif
+                
         return, ''
       end
     'system_overview_comments': begin
         if (obj_valid(self.systemOverviewComments)) then begin
           return, self.system->processComments(self.systemOverviewComments)
         endif
-        
+
+        if (obj_valid(self.systemComments)) then begin
+          firstLineTree = mg_tm_firstline(self.systemComments)
+          comments = self.system->processComments(firstLineTree)
+          obj_destroy, firstLineTree
+          return, comments
+        endif
+                
         return, ''
       end      
     'has_comments': return, obj_valid(self.comments) || obj_valid(self.overviewComments)
@@ -370,12 +384,19 @@ end
 pro doctreedirectory::fillLinks
   compile_opt strictarr
   
-  doctree_fill_links, self.comments, self  
+  if (obj_isa(self.overviewComments, 'MGtmNode')) then begin
+    self.systemOverviewComments = self.overviewComments->_clone()
+    doctree_fill_links, self.overviewComments, self
+    doctree_fill_links, self.systemOverviewComments, self.system
+  endif else begin
+    if (obj_isa(self.comments, 'MGtmNode')) then begin
+      self.systemComments = self.comments->_clone()
+      doctree_fill_links, self.systemComments, self.system
+    endif    
+  endelse
   
-  self.systemOverviewComments = self.overviewComments->_clone()
-  doctree_fill_links, self.overviewComments, self
-  doctree_fill_links, self.systemOverviewComments, self.system
- 
+  doctree_fill_links, self.comments, self
+  
   proFiles = self.proFiles->get(/all, count=nproFiles)
   for i = 0L, nproFiles - 1L do (proFiles[i])->fillLinks
   
@@ -449,7 +470,8 @@ end
 pro doctreedirectory::cleanup
   compile_opt strictarr, hidden
   
-  obj_destroy, [self.overviewComments, self.systemOverviewComments, self.comments]
+  obj_destroy, [self.overviewComments, self.systemOverviewComments]
+  obj_destroy, [self.systemComments, self.comments]
   obj_destroy, [self.author, self.copyright, self.history]
   obj_destroy, [self.proFiles, self.dlmFiles, self.savFiles, self.idldocFiles]
 end
@@ -562,6 +584,7 @@ pro doctreedirectory__define
              overviewComments: obj_new(), $
              systemOverviewComments: obj_new(), $
              comments: obj_new(), $
+             systemComments: obj_new(), $
              
              proFiles: obj_new(), $
              dlmFiles: obj_new(), $
