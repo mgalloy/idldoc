@@ -89,7 +89,20 @@ function doctreesavfile::getVariable, name, found=found
     'objects': return, self.objects->get(/all)
     
     'index_name': return, self.basename
-    'index_type': return, '.sav file in ' + self->getVariable('location')
+    'index_type': begin
+        location = self.directory->getVariable('location')
+        
+        type_tree = obj_new('MGtmTag')
+        type_tree->addChild, obj_new('MGtmText', text='.sav file in ')
+        link_node = obj_new('MGtmTag', type='link')
+        link_node->addAttribute, 'reference', self.directory->getVariable('index_url')
+        link_node->addChild, obj_new('MGtmText', text=location + ' directory')
+        type_tree->addChild, link_node
+        comments = self.system->processComments(type_tree)
+        obj_destroy, type_tree
+
+        return, comments
+      end
     'index_url': begin
         return, self.directory->getVariable('url') + self->getVariable('local_url')
       end

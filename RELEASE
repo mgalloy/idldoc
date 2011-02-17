@@ -7,6 +7,8 @@ IDLdoc 3.3.2
 * Fix for bug where links to routines, files, etc. in directory overview 
   comments on the overview page were not correct.
 
+* Adding links to parent items in index entries.
+
 
 IDLdoc 3.3.1
 ------------

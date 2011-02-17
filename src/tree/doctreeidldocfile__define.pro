@@ -99,7 +99,18 @@ function doctreeidldocfile::getVariable, name, found=found
 
     'index_name': return, self.basename
     'index_type': begin
-        return, '.idldoc file in ' + self.directory->getVariable('location') + ' directory'
+        location = self.directory->getVariable('location')
+        
+        type_tree = obj_new('MGtmTag')
+        type_tree->addChild, obj_new('MGtmText', text='.idldoc file in ')
+        link_node = obj_new('MGtmTag', type='link')
+        link_node->addAttribute, 'reference', self.directory->getVariable('index_url')
+        link_node->addChild, obj_new('MGtmText', text=location + ' directory')
+        type_tree->addChild, link_node
+        comments = self.system->processComments(type_tree)
+        obj_destroy, type_tree
+
+        return, comments
       end      
     'index_url': begin
         self.directory->getProperty, url=dirUrl

@@ -58,7 +58,17 @@ function doctreefield::getVariable, name, found=found
     'index_name': return, self.name
     'index_type': begin
         self.class->getProperty, classname=classname
-        return, 'field in class ' + classname
+        
+        type_tree = obj_new('MGtmTag')
+        type_tree->addChild, obj_new('MGtmText', text='field in class ')
+        link_node = obj_new('MGtmTag', type='link')
+        link_node->addAttribute, 'reference', self.class->getVariable('index_url')
+        link_node->addChild, obj_new('MGtmText', text=classname)
+        type_tree->addChild, link_node
+        comments = self.system->processComments(type_tree)
+        obj_destroy, type_tree
+
+        return, comments
       end     
     'index_url': return, self.class->getVariable('url')
                 

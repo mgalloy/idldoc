@@ -36,7 +36,20 @@ function doctreesavvar::getVariable, name, found=found
     'thumbnail_url': return, self.localThumbnailUrl
       
     'index_name': return, self.name
-    'index_type': return, 'variable in .sav file ' + self.savFile->getVariable('basename')
+    'index_type': begin
+        basename = self.savFile->getVariable('basename')
+        
+        type_tree = obj_new('MGtmTag')
+        type_tree->addChild, obj_new('MGtmText', text='variable in .sav file ')
+        link_node = obj_new('MGtmTag', type='link')
+        link_node->addAttribute, 'reference', self.savFile->getVariable('index_url')
+        link_node->addChild, obj_new('MGtmText', text=basename)
+        type_tree->addChild, link_node
+        comments = self.system->processComments(type_tree)
+        obj_destroy, type_tree
+        
+        return, comments
+      end
     'index_url': begin
         self.savFile->getProperty, directory=directory
         return, directory->getVariable('url') + self.savFile->getVariable('local_url')

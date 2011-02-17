@@ -455,7 +455,17 @@ function doctreeroutine::getVariable, name, found=found
     'index_name': return, self.name
     'index_type': begin
         self.file->getProperty, basename=basename
-        return, 'routine in ' + basename
+        
+        type_tree = obj_new('MGtmTag')
+        type_tree->addChild, obj_new('MGtmText', text='routine in ')
+        link_node = obj_new('MGtmTag', type='link')
+        link_node->addAttribute, 'reference', self.file->getVariable('index_url')
+        link_node->addChild, obj_new('MGtmText', text=basename)
+        type_tree->addChild, link_node
+        comments = self.system->processComments(type_tree)
+        obj_destroy, type_tree
+
+        return, comments
       end
     'index_url': begin
         self.file->getProperty, directory=directory
