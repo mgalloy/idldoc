@@ -117,14 +117,16 @@ function doctreedirectory::getVariable, name, found=found
         if (obj_valid(self.overviewComments)) then begin
           return, self.system->processComments(self.overviewComments)
         endif
-
-        if (obj_valid(self.comments)) then begin
-          return, self.system->processComments(self.comments)
-        endif
         
         return, ''
       end
-      
+    'system_overview_comments': begin
+        if (obj_valid(self.systemOverviewComments)) then begin
+          return, self.system->processComments(self.systemOverviewComments)
+        endif
+        
+        return, ''
+      end      
     'has_comments': return, obj_valid(self.comments) || obj_valid(self.overviewComments)
     'comments': begin
         if (obj_valid(self.comments)) then begin
@@ -369,8 +371,11 @@ pro doctreedirectory::fillLinks
   compile_opt strictarr
   
   doctree_fill_links, self.comments, self  
-  doctree_fill_links, self.overviewComments, self
   
+  self.systemOverviewComments = self.overviewComments->_clone()
+  doctree_fill_links, self.overviewComments, self
+  doctree_fill_links, self.systemOverviewComments, self.system
+ 
   proFiles = self.proFiles->get(/all, count=nproFiles)
   for i = 0L, nproFiles - 1L do (proFiles[i])->fillLinks
   
@@ -444,7 +449,7 @@ end
 pro doctreedirectory::cleanup
   compile_opt strictarr, hidden
   
-  obj_destroy, [self.overviewComments, self.comments]
+  obj_destroy, [self.overviewComments, self.systemOverviewComments, self.comments]
   obj_destroy, [self.author, self.copyright, self.history]
   obj_destroy, [self.proFiles, self.dlmFiles, self.savFiles, self.idldocFiles]
 end
@@ -555,6 +560,7 @@ pro doctreedirectory__define
              history: obj_new(), $
                           
              overviewComments: obj_new(), $
+             systemOverviewComments: obj_new(), $
              comments: obj_new(), $
              
              proFiles: obj_new(), $
