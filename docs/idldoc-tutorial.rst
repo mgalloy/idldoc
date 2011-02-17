@@ -410,4 +410,4 @@ If the `STATISTICS` keywords is set, IDLdoc will compute certain measures of the
 References
 ----------
 
-The `project site <http://idldoc.idldev.com>`_ for IDLdoc contains more information about IDLdoc including the FAQ, the mailing list, ticket system, and downloads of all versions along with their release notes.
+The project site for IDLdoc, `idldoc.idldev.com <http://idldoc.idldev.com>`_, contains more information about IDLdoc including the FAQ, the mailing list, ticket system, and downloads of all versions along with their release notes.
