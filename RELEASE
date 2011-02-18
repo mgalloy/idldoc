@@ -11,6 +11,9 @@ IDLdoc 3.3.2
 
 * Changes to HTML output styling including larger type size.
 
+* Fixed bug where DLM contents could not be references using backtick notation
+  in rst markup syntax.
+  
 
 IDLdoc 3.3.1
 ------------
