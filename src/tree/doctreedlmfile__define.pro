@@ -202,8 +202,6 @@ pro doctreedlmfile::generateOutput, outputRoot, directory
 
   self.system->print, '  Generating output for ' + self.basename + '...'
   
-  self->_loadDLMContents
-  
   dlmFileTemplate = self.system->getTemplate('dlmfile')
   
   outputDir = outputRoot + directory
@@ -216,7 +214,7 @@ end
 
 
 ;+
-; Fill the links in comments for a .dlm file.
+; Fill the links in comments for a `.dlm` file.
 ;-
 pro doctreedlmfile::fillLinks
   compile_opt strictarr
@@ -315,7 +313,8 @@ function doctreedlmfile::init, basename=basename, directory=directory, $
   if (indexLevel ge 1L) then self.system->createIndexEntry, self.basename, self
   
   self.system->print, '  Parsing ' + self.basename + '...'
-  
+  self->_loadDLMContents
+    
   return, 1
 end
 
