@@ -566,13 +566,13 @@ pro doc_system::parseTree
   
   ; create the directory objects
   for d = 0L, n_elements(uniqueDirIndices) - 1L do begin
-     location = dirs[uniqueDirIndices[d]]
-     filesIndices = where(dirs eq location)
-     directory = obj_new('DOCtreeDirectory', $
-                         location=location, $
-                         files=allFiles[filesIndices], $
-                         system=self)
-     self.directories->add, directory
+    location = dirs[uniqueDirIndices[d]]
+    filesIndices = where(dirs eq location)
+    directory = obj_new('DOCtreeDirectory', $
+                        location=location, $
+                        files=allFiles[filesIndices], $
+                        system=self)
+    self.directories->add, directory
   endfor
   
   ; parse overview file if present
