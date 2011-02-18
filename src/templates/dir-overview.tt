@@ -38,7 +38,7 @@
 
       [% IF has_comments %]
       <div id="file_comments">
-      	<div class="small [% IF preformat %]pre[% END %]">[% comments %]</div>
+      	<div [% IF preformat %]class="pre"[% END %]>[% comments %]</div>
       </div>
       [% END %]
 
