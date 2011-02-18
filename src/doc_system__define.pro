@@ -142,7 +142,18 @@ function doc_system::getVariable, name, found=found
       end 
     'n_pro_files': return, self.proFiles->count()
     'pro_files': return, self.proFiles->get(/all)
-    'just_files': return, self.directories->count() le 1
+    'just_files': begin
+        dirs = self.directories->get(/all, count=nDirs)
+        if (nDirs eq 0L) then return, -1L
+        
+        isVisibleDirs = bytarr(nDirs)
+        for d = 0L, nDirs - 1L do begin
+          isVisibleDirs[d] = dirs[d]->isVisible()
+        endfor
+        
+        ind = where(isVisibleDirs eq 1B, nVisibleDirs)      
+        return, nVisibleDirs le 1
+      end
     'n_visible_pro_files': begin
         nVisible = 0L
         for f = 0L, self.proFiles->count() - 1L do begin
@@ -165,13 +176,82 @@ function doc_system::getVariable, name, found=found
         
         return, files[ind]
       end
+      
     'n_dlm_files': return, self.dlmFiles->count()
     'dlm_files': return, self.dlmFiles->get(/all)
+    'n_visible_dlm_files': begin
+        nVisible = 0L
+        for f = 0L, self.dlmFiles->count() - 1L do begin
+          file = self.dlmFiles->get(position=f)          
+          nVisible += file->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_dlm_files': begin        
+        files = self.dlmFiles->get(/all, count=nFiles)
+        if (nFiles eq 0L) then return, -1L
+        
+        isVisibleFiles = bytarr(nFiles)
+        for f = 0L, nFiles - 1L do begin
+          isVisibleFiles[f] = files[f]->isVisible()
+        endfor
+        
+        ind = where(isVisibleFiles eq 1B, nVisibleFiles)
+        if (nVisibleFiles eq 0L) then return, -1L
+        
+        return, files[ind]
+      end
+      
     'n_sav_files': return, self.savFiles->count()
     'sav_files': return, self.savFiles->get(/all)
+    'n_visible_sav_files': begin
+        nVisible = 0L
+        for f = 0L, self.savFiles->count() - 1L do begin
+          file = self.savFiles->get(position=f)          
+          nVisible += file->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_sav_files': begin        
+        files = self.savFiles->get(/all, count=nFiles)
+        if (nFiles eq 0L) then return, -1L
+        
+        isVisibleFiles = bytarr(nFiles)
+        for f = 0L, nFiles - 1L do begin
+          isVisibleFiles[f] = files[f]->isVisible()
+        endfor
+        
+        ind = where(isVisibleFiles eq 1B, nVisibleFiles)
+        if (nVisibleFiles eq 0L) then return, -1L
+        
+        return, files[ind]
+      end
+          
     'n_idldoc_files': return, self.idldocFiles->count()
     'idldoc_files': return, self.idldocFiles->get(/all)
-
+    'n_visible_idldoc_files': begin
+        nVisible = 0L
+        for f = 0L, self.idldocFiles->count() - 1L do begin
+          file = self.idldocFiles->get(position=f)          
+          nVisible += file->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_idldoc_files': begin        
+        files = self.idldocFiles->get(/all, count=nFiles)
+        if (nFiles eq 0L) then return, -1L
+        
+        isVisibleFiles = bytarr(nFiles)
+        for f = 0L, nFiles - 1L do begin
+          isVisibleFiles[f] = files[f]->isVisible()
+        endfor
+        
+        ind = where(isVisibleFiles eq 1B, nVisibleFiles)
+        if (nVisibleFiles eq 0L) then return, -1L
+        
+        return, files[ind]
+      end
+      
     'css_location': return, filepath('main.css', $
                                      subdir='resources', $
                                      root=self.sourceLocation)

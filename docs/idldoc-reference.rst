@@ -224,7 +224,11 @@ The tags available in an overview file describe the entire library. There are a 
   `:Copyright:`     comments     none       specifies the copyright for the 
                                             library
   `:Dirs:`          dirs         none       lists directories in the library
-                                            along with a description for each
+                                            along with a description for each;
+                                            excepts ``private`` and ``hidden``
+                                            attributes in the same manner as 
+                                            the `:Params:` and `:Keywords:`
+                                            tags for routines
   `:History:`       comments     none       specifies the history of the 
                                             library
   `:Version:`       comments     none       specifies the version of the 

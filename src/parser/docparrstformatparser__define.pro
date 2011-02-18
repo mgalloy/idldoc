@@ -784,15 +784,31 @@ pro docparrstformatparser::parseOverviewComments, lines, system=system, $
             if (strmid(dirName, 0, /reverse_offset) ne path_sep()) then begin
               dirName += path_sep()
             endif                                                                  
-            
+          
             dd = 0L
             done = 0B
             while (dd lt directories->count() && ~done) do begin
               dir = directories->get(position=dd)
-              dir->getProperty, location=location
+              dir->getProperty, location=location              
               
               if (dirName eq location) then begin
-
+                def_line = dirLines[dirDefinitionLines[d]]
+                colon_pos = strpos(def_line, ':')
+                if (colon_pos ne -1) then begin
+                  attributes = strmid(def_line, colon_pos + 1L)
+                  attrs = strsplit(attributes, ', ', /extract, count=nAttributes)
+                  for a = 0L, nAttributes - 1L do begin
+                    case strlowcase(attrs[a]) of
+                      'private': dir->setProperty, is_private=1B
+                      'hidden': dir->setProperty, is_hidden=1B
+                      else: begin
+                        system->getProperty, overview=overview
+                        system->warning, 'unknown attribute "' + attrs[a] + '" for directory ' + location + ' in overview file ' + overview                        
+                      end
+                    endcase
+                  endfor
+                endif
+                
                 dirDefinitionEnd = d eq nDirs - 1L $
                                      ? n_elements(dirLines) - 1L $
                                      : dirDefinitionLines[d + 1L] - 1L

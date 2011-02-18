@@ -192,13 +192,82 @@ function doctreedirectory::getVariable, name, found=found
         
         return, files[ind]
       end
+      
     'n_dlm_files' : return, self.dlmFiles->count()
     'dlm_files' : return, self.dlmFiles->get(/all)
+    'n_visible_dlm_files': begin
+        nVisible = 0L
+        for f = 0L, self.dlmFiles->count() - 1L do begin
+          file = self.dlmFiles->get(position=f)          
+          nVisible += file->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_dlm_files': begin        
+        files = self.dlmFiles->get(/all, count=nFiles)
+        if (nFiles eq 0L) then return, -1L
+        
+        isVisibleFiles = bytarr(nFiles)
+        for f = 0L, nFiles - 1L do begin
+          isVisibleFiles[f] = files[f]->isVisible()
+        endfor
+        
+        ind = where(isVisibleFiles eq 1B, nVisibleFiles)
+        if (nVisibleFiles eq 0L) then return, -1L
+        
+        return, files[ind]
+      end
+          
     'n_sav_files' : return, self.savFiles->count()
     'sav_files' : return, self.savFiles->get(/all)
+    'n_visible_sav_files': begin
+        nVisible = 0L
+        for f = 0L, self.savFiles->count() - 1L do begin
+          file = self.savFiles->get(position=f)          
+          nVisible += file->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_sav_files': begin        
+        files = self.savFiles->get(/all, count=nFiles)
+        if (nFiles eq 0L) then return, -1L
+        
+        isVisibleFiles = bytarr(nFiles)
+        for f = 0L, nFiles - 1L do begin
+          isVisibleFiles[f] = files[f]->isVisible()
+        endfor
+        
+        ind = where(isVisibleFiles eq 1B, nVisibleFiles)
+        if (nVisibleFiles eq 0L) then return, -1L
+        
+        return, files[ind]
+      end
+          
     'n_idldoc_files' : return, self.idldocFiles->count()
     'idldoc_files' : return, self.idldocFiles->get(/all)
-    
+    'n_visible_idldoc_files': begin
+        nVisible = 0L
+        for f = 0L, self.idldocFiles->count() - 1L do begin
+          file = self.idldocFiles->get(position=f)          
+          nVisible += file->isVisible()          
+        endfor
+        return, nVisible
+      end
+    'visible_idldoc_files': begin        
+        files = self.idldocFiles->get(/all, count=nFiles)
+        if (nFiles eq 0L) then return, -1L
+        
+        isVisibleFiles = bytarr(nFiles)
+        for f = 0L, nFiles - 1L do begin
+          isVisibleFiles[f] = files[f]->isVisible()
+        endfor
+        
+        ind = where(isVisibleFiles eq 1B, nVisibleFiles)
+        if (nVisibleFiles eq 0L) then return, -1L
+        
+        return, files[ind]
+      end
+          
     'fullname' : return, strjoin(strsplit(self.location, path_sep(), /extract), '.')
 
     'has_author_info': return, self.hasAuthorInfo

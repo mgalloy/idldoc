@@ -76,33 +76,33 @@
       
       <h2>Contents</h2>
       
-      [% IF n_dlm_files gt 0 %]
+      [% IF n_visible_dlm_files gt 0 %]
         <h3>.dlm files</h3>
         
         <dl class="file_listing">
-          [% FOREACH f IN dlm_files %][% SCOPE f %]
+          [% FOREACH f IN visible_dlm_files %][% SCOPE f %]
           <dt class="filename"><a href="[% local_url %]">[% basename %]</a></dt>
           <dd class="smaller">[% description %]</dd>  
           [% END %][% END %]
         </dl>
       [% END %]
       
-      [% IF n_sav_files gt 0 %]
+      [% IF n_visible_sav_files gt 0 %]
         <h3>.sav files</h3>
         
         <dl class="file_listing">
-          [% FOREACH f IN sav_files %][% SCOPE f %]
+          [% FOREACH f IN visible_sav_files %][% SCOPE f %]
           <dt class="filename"><a href="[% local_url %]">[% basename %]</a></dt>
           <dd class="smaller">[% description %]</dd>  
           [% END %][% END %]
         </dl>
       [% END %]
 
-      [% IF n_idldoc_files gt 0 %]
+      [% IF n_visible_idldoc_files gt 0 %]
       <h3>.idldoc files</h3>
       
         <dl class="file_listing">
-          [% FOREACH f IN idldoc_files %][% SCOPE f %]
+          [% FOREACH f IN visible_idldoc_files %][% SCOPE f %]
           <dt class="filename">[% file_title %]</dt>
           <dd class="smaller"></dd>  
           [% END %][% END %]

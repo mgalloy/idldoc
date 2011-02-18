@@ -14,6 +14,8 @@ IDLdoc 3.3.2
 * Fixed bug where DLM contents could not be references using backtick notation
   in rst markup syntax.
   
+* Added private and hidden attributes to directory names in overview file.
+
 
 IDLdoc 3.3.1
 ------------
