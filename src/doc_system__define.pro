@@ -970,11 +970,13 @@ pro doc_system::generateOutput
   endif
     
   ; generate warnings page
-  self->print, 'Generating warnings page...'
-  warningsTemplate = self->getTemplate('warnings')
-  warningsTemplate->reset
-  warningsTemplate->process, self, filepath('idldoc-warnings.' + self.outputExtension, $
-                                            root=self.output)
+  if (~self.user) then begin
+    self->print, 'Generating warnings page...'
+    warningsTemplate = self->getTemplate('warnings')
+    warningsTemplate->reset
+    warningsTemplate->process, self, filepath('idldoc-warnings.' + self.outputExtension, $
+                                              root=self.output)
+  endif
 
   ; generate search page
   self->print, 'Generating search page...'

@@ -16,6 +16,8 @@ IDLdoc 3.3.2
   
 * Added private and hidden attributes to directory names in overview file.
 
+* Not showing warnings page when USER keyword is set.
+
 
 IDLdoc 3.3.1
 ------------

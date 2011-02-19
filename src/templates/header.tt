@@ -38,10 +38,12 @@
     </td>
     [% END %]
     
+    [% IF ~user %]
     <td [% IF current_template eq 'warnings' %]class="selected"[% END %]>
       <a href="[% relative_root %]idldoc-warnings.html">Warnings</a>
     </td>
-        
+    [% END %]
+    
     <td [% IF current_template eq 'help' %]class="selected"[% END %]>
       <a href="[% relative_root %]idldoc-help.html">Help</a>
     </td>
