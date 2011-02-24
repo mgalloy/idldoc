@@ -314,8 +314,7 @@ pro doctreeclass::_compileFile, routineName
   error = 0L
   catch, error
   if (error ne 0L) then return
-  
-  resolve_routine, routineName
+  resolve_routine, routineName, /either, /compile_full_file
 end
 
 
