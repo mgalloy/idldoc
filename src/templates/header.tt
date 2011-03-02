@@ -14,7 +14,7 @@
       Directory
     </td>
     
-    <td [% IF current_template eq 'profile' || current_template eq 'savefile' %]class="selected"[% END %]>File</td>
+    <td [% IF current_template eq 'profile' || current_template eq 'dlmfile' || current_template eq 'savefile' %]class="selected"[% END %]>File</td>
     
     [% IF ~nosource %]
     <td [% IF current_template eq 'source' %]class="selected"[% END %]>
