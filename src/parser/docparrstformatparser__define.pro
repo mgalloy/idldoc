@@ -479,7 +479,8 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
       ;   3:  n)" lost text
       ;   4: required    
       for a = 0L, n_elements(attributes) - 1L do begin
-        if (strmid(attributes[a], strpos(attributes[a], '=') + 1L, 1) eq '"') then begin
+        quote = strmid(attributes[a], strpos(attributes[a], '=') + 1L, 1)
+        if (quote eq '"' || quote eq '`' || quote eq '''') then begin
           ; add following attributes until closing quote or end of line
           i = a + 1L
           while (i lt n_elements(attributes)) do begin
@@ -487,14 +488,14 @@ pro docparrstformatparser::_handleArgumentTag, lines, $
             attributes[a] += ',' + t
             attributes[i] = ''
             
-            if (strpos(t, '"') ne -1L) then break
+            if (strpos(t, quote) ne -1L) then break
             
             i++
           endwhile
           
           ; fix up attributes[a] by removing quotes
-          firstQuote = strpos(attributes[a], '"')
-          secondQuote = strpos(attributes[a], '"', firstQuote + 1L)
+          firstQuote = strpos(attributes[a], quote)
+          secondQuote = strpos(attributes[a], quote, firstQuote + 1L)
           if (secondQuote eq -1L) then secondQuote = strlen(attributes[a])
           valueLength = secondQuote - firstQuote - 1L
           value = strmid(attributes[a], firstQuote + 1L, valueLength)
