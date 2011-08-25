@@ -241,6 +241,7 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
 
   code = 0B
   nextIsCode = 0B
+  lastWasCodeStart = 0B
   
   para = obj_new('MGtmTag', type='paragraph')
   tree->addChild, para
@@ -298,13 +299,14 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
       tree->addChild, para      
     endif
     
+    lastWasCodeStart = nextIsCode
     nextIsCode = strmid(cleanline, 1, /reverse_offset) eq '::'
     
     if (nextIsCode) then cleanline = strmid(cleanline, 0, strlen(cleanline) - 1)
     
     directivePos = stregex(cleanline, '\.\. [[:alpha:]]+:: [[:alnum:] _/.\-]+', $
                            length=directiveLen)
-    
+                           
     if ((~code || (currentIndent gt -1 && currentIndent le indent)) $
           && directivePos ne -1L) then begin
       self->_processDirective, cleanline, directivePos, directiveLen, $
@@ -312,13 +314,23 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
       code = 0B
     endif else begin
       if (code && (currentIndent eq -1 || currentIndent gt indent)) then begin
-        listing->addChild, obj_new('MGtmText', $
-                                   text=self->_processText(strmid(cleanline, $
-                                                                  indent), $
-                                                           code=code))
-        listing->addChild, obj_new('MGtmTag', type='newline')
-      endif else begin     
+        listing_text = self->_processText(strmid(cleanline, indent), code=code)
+        if ((~lastWasCodeStart $
+                || (strcompress(listing_text, /remove_all) ne '')) $
+              && ((strcompress(listing_text, /remove_all) ne '') $
+                || (l lt (n_elements(lines) - 1L)))) then begin
+          listing->addChild, obj_new('MGtmText', text=listing_text)                                                                                                                     
+          listing->addChild, obj_new('MGtmTag', type='newline')
+        endif
+      endif else begin
+        if (code && obj_valid(listing)) then begin
+          blankLine = listing->getChild(/last)
+          listing->removeChild, /last
+          obj_destroy, blankLine
+        endif
+        
         code = 0B
+
         if (header_level gt 0L) then begin
           header_level = 0
         endif else begin
