@@ -1,3 +1,0 @@
-- Finish text markup package
-- Generate output                  
-- Setup some regression tests
