@@ -12,10 +12,6 @@ idldoc, root='src', output='api-docs', $
   overview='overview', footer='footer', /embed, $
   format_style='rst', markup_style='rst'
 
-profiler, /report, data=data
-
-openw, lun, 'api-docs/profiler.csv', /get_lun
-printf, lun, data, format='(%"%s, %d, %f, %f, %d")'
-free_lun, lun
+mg_profiler_report, filename='api-docs/profiler.html', /html
 
 exit

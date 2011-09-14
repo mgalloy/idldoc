@@ -22,7 +22,7 @@ creation of the system object. The system object has methods corresponding to
 the three stages of the run: `parseTree`, `process`, and `generateOutput`.
 
 Profiler statistics for the run that produced these API docs can be found
-`here <profiler.csv>`.
+`here <profiler.html>`.
 
 
 :Author:
