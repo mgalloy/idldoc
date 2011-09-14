@@ -28,6 +28,8 @@
 ;       set to a named variable to return the number of warnings for the run
 ;    log_file : in, optional, type=string
 ;       if present, send messages to this filename instead of stdout
+;    use_latex : in, optional, type=boolean
+;       set to find and display LaTeX style math equations in comments
 ;    embed : in, optional, type=boolean
 ;       embed CSS stylesheet instead of linking to it (useful for documentation
 ;       where individual pages must stand by themselves)
@@ -103,6 +105,7 @@ pro idldoc, root=root, $
             silent=silent, $
             n_warnings=nWarnings, $
             log_file=logFile, $
+            use_latex=useLatex, $
             assistant=assistant, $
             embed=embed, $
             overview=overview, $
@@ -159,6 +162,7 @@ pro idldoc, root=root, $
                    silent=silent, $
                    n_warnings=nWarnings, $
                    log_file=logFile, $
+                   use_latex=useLatex, $
                    assistant=assistant, $
                    embed=embed, $
                    overview=overview, $

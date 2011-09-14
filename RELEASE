@@ -1,8 +1,10 @@
 Release notes
 =============
 
-IDLdoc 3.3.2
-------------
+IDLdoc 3.4
+----------
+
+* Allow LaTeX equation formatting.
 
 * Fix for bug where links to routines, files, etc. in directory overview 
   comments on the overview page were not correct.

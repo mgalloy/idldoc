@@ -87,6 +87,7 @@ function doc_system::getVariable, name, found=found
     'user': return, self.user
     'statistics': return, self.statistics
     'index_level': return, self.indexLevel
+    'use_latex': return, self.useLatex
     
     'preformat': return, self.preformat
     'embed': return, self.embed
@@ -1250,6 +1251,24 @@ pro doc_system::copyResources
   ; copy the resource files
   file_copy, resourceLocation, resourceDestination, /recursive, /overwrite
   
+  ; copy MathJax files
+  if (self.useLatex) then begin
+    mathjaxLocation = expand_path(filepath('mathjax', subdir=['resources'], $
+                                           root=self.sourceLocation))
+    mathjaxFiles = file_search(mathjaxLocation, '*.*')
+    mathjaxRelFiles = strmid(mathjaxFiles, strlen(mathjaxLocation) + 1)
+    mathjaxDestination = filepath(mathjaxRelFiles, $
+                                  subdir='mathjax', $
+                                  root=resourceDestination)
+    
+    ; make subdirectories before copying                         
+    dirs = file_dirname(mathjaxDestination)
+    dirs = dirs[uniq(dirs, sort(dirs))]
+    file_mkdir, dirs
+    
+    file_copy, mathjaxFiles, mathjaxDestination, /overwrite
+  endif
+  
   ; move the LaTeX files up a directory if needed
   if (self.commentstyle eq 'latex') then begin
     file_move, resourceDestination + 'idldoc' + ['.cls', '.sty'], $
@@ -1360,6 +1379,8 @@ end
 ;       set to a named variable to return the number of warnings for the run
 ;    log_file : in, optional, type=string
 ;       if present, send messages to this filename instead of stdout
+;    use_latex : in, optional, type=boolean
+;       set to find and display LaTeX style math equations in comments
 ;    embed : in, optional, type=boolean
 ;       embed CSS stylesheet instead of linking to it (useful for documentation
 ;       where individual pages must stand by themselves)
@@ -1423,6 +1444,7 @@ end
 function doc_system::init, root=root, output=output, $
                            quiet=quiet, silent=silent, n_warnings=nWarnings, $
                            log_file=logFile, $
+                           use_latex=useLatex, $
                            assistant=assistant, embed=embed, overview=overview, $
                            footer=footer, title=title, subtitle=subtitle, $
                            nonavbar=nonavbar, $
@@ -1540,7 +1562,9 @@ function doc_system::init, root=root, output=output, $
     openw, lun, self.logFile, /get_lun
     self.logLun = lun
   endif
-    
+  
+  self.useLatex = keyword_set(useLatex)
+  
   self.templatePrefix = n_elements(templatePrefix) gt 0 ? templatePrefix : ''
   self.templateLocation = n_elements(templateLocation) gt 0 ? templateLocation : ''
   self.charset = n_elements(charset) eq 0 ? 'utf-8' : charset
@@ -1678,6 +1702,8 @@ end
 ;       set to produce IDL Assistant output
 ;    embed
 ;       set to embed CSS in the HTML output
+;    useLatex
+;       set to include MathJax for LaTeX equation rendering
 ;    currentTemplate
 ;       most recently asked for template
 ;    charset
@@ -1741,6 +1767,8 @@ pro doc_system__define
              logFile: '', $
              logLun: 0L, $
              isTty: 0B, $
+             
+             useLatex: 0B, $
              
              templatePrefix: '', $
              templateLocation: '', $

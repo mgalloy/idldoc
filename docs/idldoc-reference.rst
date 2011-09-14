@@ -76,6 +76,8 @@ There are quite a few keywords to IDLdoc to set various specifications for the o
   `USER`                 set to generate user-level docs (private parameters, 
                          files are not shown); the default is developer-level 
                          docs showing files and parameters
+  `USE_LATEX`            set to use MathJax to automatically typeset any LaTeX
+                         style equations in comments
   `VERSION`              set to print out the version of IDLdoc
   ====================== =====================================================
 
