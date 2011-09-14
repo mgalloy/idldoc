@@ -1,6 +1,7 @@
 VERSION=3.4alpha
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 IDL=idl64
+DOC_IDL=idl
 
 .PHONY: all clean doc book regression tests version srcdist dist updates
 
@@ -18,10 +19,10 @@ clean:
 	rm -rf unit_tests/*-docs
 
 doc:
-	$(IDL) < idldoc_build_docs.pro
+	$(DOC_IDL) < idldoc_build_docs.pro
 
 book:
-	$(IDL) idldoc_build_book
+	$(DOC_IDL) idldoc_build_book
 	cd api-book; pdflatex -halt-on-error index.tex
 	cd api-book; pdflatex -halt-on-error index.tex	
 
