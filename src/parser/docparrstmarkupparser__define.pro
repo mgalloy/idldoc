@@ -326,7 +326,7 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
         if (code && obj_valid(listing)) then begin
           blankLine = listing->getChild(/last)
           listing->removeChild, /last
-          obj_destroy, blankLine
+          if (obj_valid(blankLine)) then obj_destroy, blankLine
         endif
         
         code = 0B
