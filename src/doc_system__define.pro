@@ -584,6 +584,74 @@ pro doc_system::process
   
   directories = self.directories->get(/all, count=ndirectories)
   for i = 0L, ndirectories - 1L do (directories[i])->fillLinks
+  
+  ; filter warnings to only show visible items
+  
+  ntodos = self.todos->count()
+  if (ntodos gt 0L) then begin
+    todo_filter = bytarr(ntodos)
+    for t = 0L, ntodos - 1L do begin
+      todo_item = self.todos->get(position=t)
+      todo_filter[t] = todo_item->isVisible()
+    endfor
+    delete_indices = where(todo_filter eq 0L, n_delete)
+    if (n_delete gt 0L) then begin
+      self.todos->remove, position=delete_indices
+    endif
+  endif
+
+  nbugs = self.bugs->count()
+  if (nbugs gt 0L) then begin
+    bug_filter = bytarr(nbugs)
+    for t = 0L, nbugs - 1L do begin
+      bug_item = self.bugs->get(position=t)
+      bug_filter[t] = bug_item->isVisible()
+    endfor
+    delete_indices = where(bug_filter eq 0L, n_delete)
+    if (n_delete gt 0L) then begin
+      self.bugs->remove, position=delete_indices
+    endif
+  endif
+
+  nundocumented = self.undocumented->count()
+  if (nundocumented gt 0L) then begin
+    undocumented_filter = bytarr(nundocumented)
+    for t = 0L, nundocumented - 1L do begin
+      undocumented_item = self.undocumented->get(position=t)
+      undocumented_filter[t] = undocumented_item->isVisible()
+    endfor
+    delete_indices = where(undocumented_filter eq 0L, n_delete)
+    if (n_delete gt 0L) then begin
+      self.undocumented->remove, position=delete_indices
+    endif
+  endif
+
+  
+  nobsolete = self.obsolete->count()
+  if (nobsolete gt 0L) then begin
+    obsolete_filter = bytarr(nobsolete)
+    for t = 0L, nobsolete - 1L do begin
+      obsolete_item = self.obsolete->get(position=t)
+      obsolete_filter[t] = obsolete_item->isVisible()
+    endfor
+    delete_indices = where(obsolete_filter eq 0L, n_delete)
+    if (n_delete gt 0L) then begin
+      self.obsolete->remove, position=delete_indices
+    endif
+  endif
+
+  ncomplexRoutines = self.complexRoutines->count()
+  if (ncomplexRoutines gt 0L) then begin
+    complexRoutines_filter = bytarr(ncomplexRoutines)
+    for t = 0L, ncomplexRoutines - 1L do begin
+      complexRoutines_item = self.complexRoutines->get(position=t)
+      complexRoutines_filter[t] = complexRoutines_item->isVisible()
+    endfor
+    delete_indices = where(complexRoutines_filter eq 0L, n_delete)
+    if (n_delete gt 0L) then begin
+      self.complexRoutines->remove, position=delete_indices
+    endif
+  endif  
 end
 
 
