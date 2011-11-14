@@ -239,7 +239,7 @@ The tags available in an overview file describe the entire library. There are a 
 
 Directory overview files also have a few tags shared with file tags.
 
-.. table:: rst format style tags for overview files
+.. table:: rst format style tags for directory overview files
 
   ================= ============ ========== =================================
   Tag name          Arguments    Attributes Description
