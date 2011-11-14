@@ -371,7 +371,7 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
         endfor
          
         ; if you have a real version then check in with system
-        if (version ne '') then begin
+        if (version ne '' && version ne '.') then begin
           self.system->checkRequiredVersion, version, routine
         endif
         
