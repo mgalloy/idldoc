@@ -20,6 +20,10 @@ IDLdoc 3.4
 
 * Not showing warnings page when USER keyword is set.
 
+* Fixed bug where parsing rst Requires tag would cause IDLdoc to crash.
+
+* Fixed bug where Warnings page showed items from private or hidden items.
+
 
 IDLdoc 3.3.1
 ------------
