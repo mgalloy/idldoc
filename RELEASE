@@ -1,6 +1,13 @@
 Release notes
 =============
 
+IDLdoc 3.4.2
+------------
+*Released December 12, 2011*
+
+* Removed IDL library routines from .sav file distribution of IDLdoc.
+
+
 IDLdoc 3.4.1
 ------------
 *Released November 28, 2011*
