@@ -1,7 +1,7 @@
-VERSION=3.4.1
+VERSION=3.4.2
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 IDL=idl64
-DOC_IDL=idl
+DOC_IDL=idl81
 
 .PHONY: all clean doc book regression tests version srcdist dist updates
 
