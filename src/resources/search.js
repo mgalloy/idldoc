@@ -133,7 +133,7 @@ function putHeader() {
   html += "<div class=\"header smaller\">";
   html += "<h1>" + title + "</h1>";
   html += "<h2>" + subtitle + "</h2>";  
-  html += "</div";
+  html += "</div>";
   
   html += "<div class=\"content\">";
   html += "<h2>Search results for \"" + searchString + "\"</h2>";  
@@ -143,11 +143,14 @@ function putHeader() {
 function putItem(item) {
   mType = libdata[item][MATCH_TYPE];
   width = Math.round(2 * libdata[item][SCORE]);
+  matchType = libdata[item][TYPE]
+  matchTypeRefEnd = matchType.indexOf(">")
+  matchType = matchType.substring(0, matchTypeRefEnd) + "target=\"main_frame\">" + matchType.substring(matchTypeRefEnd + 1, matchType.length);
   
   html += "<li>";
   html += "<img src=\"idldoc-resources/searchbar.png\" height=\"10\" width=\"" + width + "\" />&nbsp;";
   html += "<a href=\"" + libdata[item][URL] + "\" target=\"main_frame\">" + libdata[item][NAME] + "</a><br/>";
-  html += libdata[item][TYPE] + "<br/>";
+  html += matchType + "<br/>";
   
   nPreCharacters = 25;
   nPostCharacters = 40;
