@@ -148,8 +148,7 @@ function putItem(item) {
   matchType = matchType.substring(0, matchTypeRefEnd) + "target=\"main_frame\">" + matchType.substring(matchTypeRefEnd + 1, matchType.length);
   
   html += "<li>";
-  html += "<img src=\"idldoc-resources/searchbar.png\" height=\"10\" width=\"" + width + "\" />&nbsp;";
-  html += "<a href=\"" + libdata[item][URL] + "\" target=\"main_frame\">" + libdata[item][NAME] + "</a><br/>";
+  html += "<a href=\"" + libdata[item][URL] + "\" target=\"main_frame\">" + libdata[item][NAME] + "</a> &mdash; ";
   html += matchType + "<br/>";
   
   nPreCharacters = 25;
@@ -168,9 +167,11 @@ function putItem(item) {
   }
   html += "</span><br/>";
   
+  html += "<img src=\"idldoc-resources/searchbar.png\" height=\"10\" width=\"" + width + "\" />&nbsp;";
+  
   html += "<span class=\"score\">Score: " + Math.round(10 * libdata[item][SCORE]) / 10;
   plural = libdata[item][N_MATCHES] > 1 ? "es" : "";
-  html += " - " + libdata[item][N_MATCHES] + " match" + plural + " in ";
+  html += " (" + libdata[item][N_MATCHES] + " match" + plural + " in ";
   
   if (mType == 3) {
     type = "the filename";
@@ -190,7 +191,7 @@ function putItem(item) {
     type = "an unspecified comment";
   }
      
-  html += type + "</span></li>";
+  html += type + ")</span></li>";
 }
 
 
