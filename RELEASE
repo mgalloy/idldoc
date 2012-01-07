@@ -1,6 +1,13 @@
 Release notes
 =============
 
+IDLdoc 3.4.3
+------------
+*Released January 6, 2012*
+
+* Fixed bug that prevented reporting search results.
+
+
 IDLdoc 3.4.2
 ------------
 *Released December 12, 2011*
