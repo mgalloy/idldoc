@@ -1,0 +1,52 @@
+% setup source listings
+\usepackage{listings}
+\usepackage{textcomp}
+\lstset{language=IDL,upquote=true,showstringspaces=false}
+\lstset{numbers=none, numberstyle=\tiny,numbersep=7pt,xleftmargin=5pt}
+\lstset{basicstyle=\ttfamily,keywordstyle={}}
+
+% no indent, but a bit of space between paragraphs
+\usepackage{parskip}
+
+% widen the page
+\usepackage[text={6.5in,8in},twoside]{geometry}
+
+% set up links
+\usepackage[unicode,colorlinks=true,linkcolor=black,urlcolor=black,citecolor=black]{hyperref}
+\urlstyle{same}
+
+% use Courier for tt font, scaled a bit to match the body font
+\usepackage[scaled=0.88]{couriers}
+
+\usepackage[runin]{abstract}
+
+\usepackage[labelfont=bf,justification=raggedright,labelsep=endash,singlelinecheck=false]{caption}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
+\renewcommand{\headrulewidth}{0pt}
+
+\fancyhead[LE,RO]{\small \thepage} 
+\fancyhead[C]{}
+\fancyhead[LO,RE]{\small \em \rightmark}
+\fancyfoot[C]{}
+\fancyfoot[RE,LO]{} 
+
+
+% fix up the headings
+
+\RequirePackage[calcwidth]{titlesec}
+
+\titleformat{\section}
+  {\normalfont\Large}{\thesection.}{0.5em}{}
+\titleformat{\subsection}
+  {\normalfont\large}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize}{\thesubsubsection}{0.5em}{}
+\titleformat{\paragraph}[runin]
+  {\normalfont\normalsize\scshape}{\theparagraph}{0.5em}{}
+
+

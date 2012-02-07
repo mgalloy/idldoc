@@ -285,7 +285,7 @@ $(docutils.)CONFIG ?=
 # `<toolname>.FLAGS`.  `FLAGS` gives default flags for all tools.
 $(docutils.)FLAGS += $(foreach c,$($(docutils.)CONFIG),--config=$(subst %,$(*D)/,$(findstring %,$(c)))$(subst %,$(*F),$(c)))
 $(docutils.)RST2HTML.FLAGS += $($(docutils.)FLAGS)
-$(docutils.)RST2LATEX.FLAGS += $($(docutils.)FLAGS)
+$(docutils.)RST2LATEX.FLAGS += $($(docutils.)FLAGS) --stylesheet=idldoc-docs.sty --literal-block-env=lstlisting
 $(docutils.)PEPTOOL.FLAGS += $($(docutils.)FLAGS)
 
 

@@ -677,6 +677,7 @@ The *rst* markup style is the default markup style for the *rst* format style.
                  line::
 
                    .. embed:: filename
+
   page title     The "title" directive is available to provide a title for 
                  `.idldoc` files::
 
