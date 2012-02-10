@@ -1,6 +1,14 @@
 Release notes
 =============
 
+IDLdoc 3.4.4
+------------
+
+* Provides workaround for possible bug in IDL where list object contain 
+  strange variables that report as the type code for object, but are not
+  actually objects (they are pointers).
+
+
 IDLdoc 3.4.3
 ------------
 *Released January 6, 2012*
