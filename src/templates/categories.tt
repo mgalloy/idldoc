@@ -44,13 +44,15 @@
     	
     	[% IF n_categories gt 0 %]
     	  [% FOREACH c IN categories %]
-    	    <h3>[% c %]</h3>   
-    	    <dl>
-    	    [% FOREACH r IN system->getCategoryEntries(c) %][% SCOPE r %]
-    	      <dt><a href="[% index_url %]">[% index_name %]</a></dt>
-    	      <dd>[% index_type %]</dd>
-    	    [% END %][% END %]
-    	    </dl> 	    
+    	    [% IF size(system->getCategoryEntriesCount(c), /type) eq 11L %]    	    
+      	    <h3>[% c %]</h3>   
+      	    <dl>
+      	    [% FOREACH r IN system->getCategoryEntries(c) %][% SCOPE r %]
+      	      <dt><a href="[% index_url %]">[% index_name %]</a></dt>
+      	      <dd>[% index_type %]</dd>
+      	    [% END %][% END %]
+      	    </dl> 
+    	    [% END %]	    
     	  [% END %]
     	[% END %]
     	

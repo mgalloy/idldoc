@@ -1180,7 +1180,17 @@ function doc_system::getCategoryEntries, name
   categoryList = self.categories->get(lname, found=found)
   if (~found) then return, ''
   
-  return, categoryList->get(/all)
+  entries = categoryList->get(/all, count=n_entries)
+  visible_entries = bytarr(n_entries)
+  
+  for e = 0L, n_entries - 1L do visible_entries[e] = entries[e]->isVisible()
+  ind = where(visible_entries, n_visible_entries)
+  
+  if (n_visible_entries eq 0L) then begin
+    return, ''
+  endif else begin
+    return, entries[ind]
+  endelse
 end
 
 
