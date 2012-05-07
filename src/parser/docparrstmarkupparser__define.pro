@@ -76,7 +76,6 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
         if (obj_valid(file)) then begin
           file->getProperty, directory=directory
           directory->getProperty, location=location
-          self.system->getProperty, output=output
         endif else location = '.'
         
         tag->addAttribute, 'location', location
@@ -91,7 +90,6 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
         if (obj_valid(file)) then begin
           file->getProperty, directory=directory
           directory->getProperty, location=location
-          self.system->getProperty, output=output
         endif else location = '.'
         
         tag->addAttribute, 'location', location
@@ -218,9 +216,10 @@ function docparrstmarkupparser::_processText, line, code=code
         endfor
         break
       end
+      
     else: output = line
   endswitch
-    
+
   return, output
 end
 
