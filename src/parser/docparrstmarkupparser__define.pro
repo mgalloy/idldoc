@@ -72,9 +72,12 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
         tag = obj_new('MGtmTag', type='image')
         
         tag->addAttribute, 'source', filename
-        file->getProperty, directory=directory
-        directory->getProperty, location=location
-        self.system->getProperty, output=output
+
+        if (obj_valid(file)) then begin
+          file->getProperty, directory=directory
+          directory->getProperty, location=location
+          self.system->getProperty, output=output
+        endif else location = '.'
         
         tag->addAttribute, 'location', location
         
@@ -84,16 +87,19 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
         tag = obj_new('MGtmTag', type='embed')
         
         tag->addAttribute, 'source', filename
-        file->getProperty, directory=directory
-        directory->getProperty, location=location
-        self.system->getProperty, output=output
+        
+        if (obj_valid(file)) then begin
+          file->getProperty, directory=directory
+          directory->getProperty, location=location
+          self.system->getProperty, output=output
+        endif else location = '.'
         
         tag->addAttribute, 'location', location
         
         if (obj_valid(file)) then file->addImageRef, filename
       end
     'title': begin
-        file->setProperty, title=filename
+        if (obj_valid(file)) then file->setProperty, title=filename
       end      
     else: self.system->warning, 'unknown rst directive ' + directive
   endcase
@@ -179,7 +185,7 @@ function docparrstmarkupparser::_processText, line, code=code
   output = ''
   self.system->getProperty, comment_style=commentStyle
   
-  case commentstyle of
+  switch commentstyle of
     'latex': begin
         for pos = 0L, strlen(line) - 1L do begin
           ch = strmid(line, pos, 1)
@@ -212,8 +218,8 @@ function docparrstmarkupparser::_processText, line, code=code
         endfor
         break
       end
-    else:
-  endcase
+    else: output = line
+  endswitch
     
   return, output
 end
