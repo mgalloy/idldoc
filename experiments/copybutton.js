@@ -14,11 +14,11 @@ $(document).ready(function() {
     var button_styles = {
         'cursor':'pointer', 'position': 'absolute', 'top': '0', 'right': '0',
         'border-color': border_color, 'border-style': border_style,
-        'border-width': border_width, 'color': border_color, 'text-size': '75%',
-        'font-family': 'monospace', 'padding-left': '0.2em', 'padding-right': '0.2em'
+        'border-width': border_width, 'color': '#666', 'font-size': '85%',
+        'font-family': 'Verdana', 'padding-left': '0.2em', 'padding-right': '0.2em'
     }
 
-    // create and add the button to all the code blocks that contain >>>
+    // create and add the button to all the code blocks that contain IDL>
     code.each(function(index) {
         var jthis = $(this);
         if (jthis.find('.code-prompt').length > 0) {
