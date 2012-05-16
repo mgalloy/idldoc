@@ -13,6 +13,9 @@
   src="[% relative_root %]idldoc-resources/mathjax/MathJax.js?config=default">
       </script>
     [% END %]
+
+    <script type="text/javascript" src="[% relative_root %]idldoc-resources/js/jquery.js"></script>
+    <script type="text/javascript" src="[% relative_root %]idldoc-resources/js/copybutton.js"></script>
     
     [% IF embed %]
     <style type="text/css" media="all">

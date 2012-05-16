@@ -182,7 +182,7 @@ function docparrstmarkupparser::_processText, line, code=code
   
   output = ''
   self.system->getProperty, comment_style=commentStyle
-  
+
   switch commentstyle of
     'latex': begin
         for pos = 0L, strlen(line) - 1L do begin
@@ -220,6 +220,11 @@ function docparrstmarkupparser::_processText, line, code=code
     else: output = line
   endswitch
 
+  if (keyword_set(code) && output ne '') then begin
+    commentparser = self.system->getParser(commentStyle + 'output', found=found)
+    output = commentparser->markup_listing(output)
+  endif
+  
   return, output
 end
 

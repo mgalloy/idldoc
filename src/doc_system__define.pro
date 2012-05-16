@@ -1328,6 +1328,16 @@ pro doc_system::copyResources
   
   ; copy the resource files
   file_copy, resourceLocation, resourceDestination, /recursive, /overwrite
+
+  ; copy Javascript resource files
+  jsLocation = expand_path(filepath('js', subdir=['resources'], $
+                           root=self.sourceLocation))
+  jsFiles = file_search(jsLocation, '*.js')
+  jsDestination = filepath('', $
+                           subdir='js', $
+                           root=resourceDestination)  
+  file_mkdir, jsDestination
+  file_copy, jsFiles, jsDestination, /overwrite
   
   ; copy MathJax files
   if (self.useLatex) then begin

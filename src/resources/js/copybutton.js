@@ -2,25 +2,24 @@ $(document).ready(function() {
     /* Add a [>>>] button on the top-right corner of code samples to hide
      * the >>> and ... prompts and the output and thus make the code
      * copyable. */
-    var div = $('.highlight-idl .highlight')
-    var pre = div.find('pre');
+    var code = $('.listing')
 
     // get the styles from the current theme
-    pre.parent().parent().css('position', 'relative');
+    code.parent().parent().css('position', 'relative');
     var hide_text = 'Hide the prompts and output';
     var show_text = 'Show the prompts and output';
-    var border_width = pre.css('border-top-width');
-    var border_style = pre.css('border-top-style');
-    var border_color = pre.css('border-top-color');
+    var border_width = code.css('border-top-width');
+    var border_style = code.css('border-top-style');
+    var border_color = code.css('border-top-color');
     var button_styles = {
         'cursor':'pointer', 'position': 'absolute', 'top': '0', 'right': '0',
         'border-color': border_color, 'border-style': border_style,
-        'border-width': border_width, 'color': border_color, 'text-size': '75%',
-        'font-family': 'monospace', 'padding-left': '0.2em', 'padding-right': '0.2em'
+        'border-width': border_width, 'color': '#666', 'font-size': '85%',
+        'font-family': 'Verdana', 'padding-left': '0.2em', 'padding-right': '0.2em'
     }
 
-    // create and add the button to all the code blocks that contain >>>
-    div.each(function(index) {
+    // create and add the button to all the code blocks that contain IDL>
+    code.each(function(index) {
         var jthis = $(this);
         if (jthis.find('.code-prompt').length > 0) {
             var button = $('<span class="copybutton">IDL&gt;</span>');
@@ -30,7 +29,7 @@ $(document).ready(function() {
         }
         // tracebacks (.code-traceback) contain bare text elements that need to be
         // wrapped in a span to work with .nextUntil() (see later)
-        jthis.find('pre:has(.code-traceback)').contents().filter(function() {
+        jthis.find('code:has(.code-traceback)').contents().filter(function() {
             return ((this.nodeType == 3) && (this.data.trim().length > 0));
         }).wrap('<span>');
     });
@@ -40,14 +39,14 @@ $(document).ready(function() {
         function() {
             var button = $(this);
             button.parent().find('.code-output, .code-prompt, .code-traceback').hide();
-            button.next('pre').find('.code-traceback').nextUntil('.code-prompt, .code-output').css('visibility', 'hidden');
+            button.next('code').find('.code-traceback').nextUntil('.code-prompt, .code-output').css('visibility', 'hidden');
             button.css('text-decoration', 'line-through');
             button.attr('title', show_text);
         },
         function() {
             var button = $(this);
             button.parent().find('.code-output, .code-prompt, .code-traceback').show();
-            button.next('pre').find('.code-traceback').nextUntil('.code-prompt, .code-output').css('visibility', 'visible');
+            button.next('code').find('.code-traceback').nextUntil('.code-prompt, .code-output').css('visibility', 'visible');
             button.css('text-decoration', 'none');
             button.attr('title', hide_text);
         });
