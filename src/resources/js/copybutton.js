@@ -23,7 +23,7 @@ $(document).ready(function() {
     code.each(function(index) {
         var jthis = $(this);
         if (jthis.find('.code-prompt').length > 0) {
-            var button = $('<span class="copybutton">IDL&gt;</span>');
+            var button = $('<span class="copybutton">hide prompts</span>');
             button.css(button_styles)
             button.attr('title', hide_text);
             jthis.prepend(button);
@@ -41,14 +41,14 @@ $(document).ready(function() {
             var button = $(this);
             button.parent().find('.code-output, .code-prompt, .code-traceback').hide();
             button.next('code').find('.code-traceback').nextUntil('.code-prompt, .code-output').css('visibility', 'hidden');
-            button.css('text-decoration', 'line-through');
+            button.text('show prompts');
             button.attr('title', show_text);
         },
         function() {
             var button = $(this);
             button.parent().find('.code-output, .code-prompt, .code-traceback').show();
             button.next('code').find('.code-traceback').nextUntil('.code-prompt, .code-output').css('visibility', 'visible');
-            button.css('text-decoration', 'none');
+            button.text('hide prompts');
             button.attr('title', hide_text);
         });
 });
