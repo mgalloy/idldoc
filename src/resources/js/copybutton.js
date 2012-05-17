@@ -13,8 +13,9 @@ $(document).ready(function() {
     var border_color = code.css('border-top-color');
     var button_styles = {
         'cursor':'pointer', 'position': 'absolute', 'top': '0', 'right': '0',
-        'border-color': border_color, 'border-style': border_style,
-        'border-width': border_width, 'color': '#666', 'font-size': '85%',
+        'border-color': '#5070ff', 'border-style': 'solid',
+        'border-width': border_width, 'color': '#5070ff', 'font-size': '8pt',
+        'font-weight': 'bold', 
         'font-family': 'Verdana', 'padding-left': '0.2em', 'padding-right': '0.2em'
     }
 
