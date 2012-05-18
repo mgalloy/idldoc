@@ -10,6 +10,9 @@ IDLdoc 3.4.4
   
 * Fixed bug where Categories page showed private or hidden items.
 
+* Added hide/show prompts in code snippets in HTML output from rst markup
+  comments.
+
 
 IDLdoc 3.4.3
 ------------

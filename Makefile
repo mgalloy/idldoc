@@ -1,4 +1,4 @@
-VERSION=3.4.3
+VERSION=3.4.4dev
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 IDL=idl64
 DOC_IDL=idl81
