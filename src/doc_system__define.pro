@@ -857,6 +857,73 @@ end
 
 
 ;+
+; Fixes up a Uses field tree by replacing plain words with links to routines of
+; that name, if they exist.
+; 
+; :Params:
+;    tree : in, required, type=object
+;       parse tree object
+;  
+; :Keywords:
+;    root : in, required, type=string
+;       relative location of root from the calling routine or file
+;-
+pro doc_system::_processUsesText, tree, root=root
+  compile_opt strictarr, hidden
+  
+  tree->getProperty, type=type, n_children=n_children
+     
+  ; if a parent is a link, none of the children need to be filled in
+  if (type eq 'link') then return
+        
+  c = 0L
+  while (c lt n_children) do begin
+    child = tree->getChild(c)
+    if (obj_class(child) eq 'MGTMTEXT') then begin
+      child->getProperty, text=text
+      resources = strsplit(text, '[[:space:],]', /regex, /extract, $
+                           count=nresources)
+      if (nresources eq 0L) then begin
+        c++
+        continue
+      endif
+ 
+      tree->removeChild, c
+
+      for r = nresources - 1L, 0L, - 1L do begin
+        resourceName = obj_new('MGtmText', text=resources[r])
+        href = self->_findResourceLink(resources[r])
+
+        if (href eq '') then begin
+          tree->addChild, resourceName, position=c
+        endif else begin
+          link = obj_new('MGtmTag', type='link')
+          link->addAttribute, 'reference', root + '/' + href
+          tree->addChild, link, position=c
+          link->addChild, resourceName
+        endelse
+        
+        if (r ne 0) then begin
+          tree->addChild, obj_new('MGtmText', text=', '), position=c
+        endif
+      endfor
+      
+      n_children += 2L * nresources - 1L - 1L
+      c += 2L * nresources - 1L
+    endif else begin
+      self->_processUsesText, child, root=root
+      c++
+    endelse
+    
+    ; add comma's between routines
+    if (c lt (n_children - 1L)) then begin
+      tree->addChild, obj_new('MGtmText', text=', '), position=c
+    endif
+  endwhile
+end
+
+  
+;+
 ; Convert the uses clause into a string array using the current comment style.
 ; 
 ; :Returns:
@@ -875,41 +942,11 @@ function doc_system::processUses, tree, root=root
   
   if (~obj_valid(tree)) then return, ''
   
-  ; get plain text
-  crlf = string(!version.os_family eq 'unix' ? [10B] : [13B, 10B])
-  plainParser = self->getParser('plainoutput')
-  s = plainParser->process(tree)
-  s = strjoin(s, crlf)
-  resources = strsplit(s, '[[:space:],]', /regex, /extract, count=nresources)
-  
-  ; get new tree based with links to resources used
-  _tree = obj_new('MGtmTag', type='paragraph')
-  for r = 0L, nresources - 1L do begin
-    href = self->_findResourceLink(resources[r])
-    if (href eq '') then begin
-      parent = _tree
-    endif else begin
-      link = obj_new('MGtmTag', type='link')
-      link->addAttribute, 'reference', root + '/' + href
-      _tree->addchild, link
-      parent = link
-    endelse
-    
-    resourceName = obj_new('MGtmText', text=resources[r])
-    parent->addChild, resourceName
-    
-    if (r ne nresources - 1L) then begin
-      comma = obj_new('MGtmText', text=', ')
-      _tree->addChild, comma
-    endif
-  endfor
-
+  self->_processUsesText, tree, root=root
+ 
   ; create output using current comment style
   commentParser = self->getParser(self.commentStyle + 'output')
-  comments = commentParser->process(_tree)
-    
-  ; destroy new tree
-  obj_destroy, _tree
+  comments = commentParser->process(tree)
   
   return, comments
 end
