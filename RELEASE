@@ -13,6 +13,10 @@ IDLdoc 3.4.4
 * Added hide/show prompts in code snippets in HTML output from rst markup
   comments.
 
+* Allow markup in Uses tag when using the rst markup parser. Note: the Uses 
+  tag is for a list of files or routines optionally separated by commas, plain 
+  text will have commas inserted between words.
+
 
 IDLdoc 3.4.3
 ------------
