@@ -27,7 +27,7 @@
 \part{API}
                    
 [% FOREACH d IN visible_dirs %][% SCOPE d %]
-\chapter{Directory: [% mg_escape_latex(fullname) %]}
+\chapter{Directory: [% mg_escape_latex(location) %]}
 
 \section{Overview}
 
