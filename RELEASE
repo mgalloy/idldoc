@@ -17,6 +17,8 @@ IDLdoc 3.4.4
   tag is for a list of files or routines optionally separated by commas, plain 
   text will have commas inserted between words.
 
+* Fixed errors in LaTeX output.
+
 
 IDLdoc 3.4.3
 ------------

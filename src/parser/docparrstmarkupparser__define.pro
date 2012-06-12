@@ -150,7 +150,7 @@ pro docparrstmarkupparser::_processInlines, para, line
     
     tag = obj_new('MGtmTag', type='link')    
     tag->addAttribute, 'reference', reference    
-    tag->addChild, obj_new('MGtmText', text=link_text)
+    tag->addChild, obj_new('MGtmText', text=self->_processText(link_text))
     para->addChild, tag
     
     if (2 * i + 2 lt ntokens) then begin
@@ -185,22 +185,7 @@ function docparrstmarkupparser::_processText, line, code=code
 
   switch commentstyle of
     'latex': begin
-        for pos = 0L, strlen(line) - 1L do begin
-          ch = strmid(line, pos, 1)
-          case ch of
-            '_': output += keyword_set(code) ? '_' : '\_'
-            '$': output += keyword_set(code) ? '$' : '\$'
-            '%': output += keyword_set(code) ? '%' : '\%'
-            '#': output += keyword_set(code) ? '#' : '\#'
-            '&': output += keyword_set(code) ? '&' : '\&'
-            '^': output += keyword_set(code) ? '^' : '\verb+^+'
-            '\': output += keyword_set(code) ? '\' : '\verb+\+'
-            '~': output += keyword_set(code) ? '~' : '\verb+~+'
-            '{': output += keyword_set(code) ? '{' : '\{'
-            '}': output += keyword_set(code) ? '}' : '\}'
-            else: output += ch
-           endcase
-        endfor
+        output = mg_escape_latex(line, code=code)
         break      
       end
     
