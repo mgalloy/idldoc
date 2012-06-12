@@ -44,7 +44,7 @@
   \item[Variables]\hspace*{1em} \newline    
     \begin{tabular}{lll}
       [% FOREACH v IN variables %][% SCOPE v %]
-      [% IF has_thumbnail %]\includegraphics[scale=0.6]{[% output_root %][% location %][% thumbnail_url %]}[% END %] & [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\             
+      [% IF has_thumbnail %]\includegraphics[scale=0.6]{.[% path_sep() %][% location %][% thumbnail_url %]}[% END %] & [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\             
       [% END %][% END %]
     \end{tabular}
   [% END %]
