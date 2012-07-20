@@ -10,6 +10,10 @@
 ; :Author:
 ;    Michael Galloy
 ;
+; :History:
+;    mgalloy, 20 July 2012: initial template
+;    mgalloy, 21 July 2012: added the examples section
+;
 ; :Copyright:
 ;    IDLdoc is released under a BSD-type license.
 ;
@@ -45,6 +49,22 @@
 ;    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;-
+
+
+
+;+
+; Helper routine for main `idldoc_rst_template` routine. This routine is not
+; intended to be called from anywhere except `idldoc_rst_template`, so it is
+; marked with the `:Private:` tag. Routines/files marked with `:Private:` will
+; show up in documentation created for developers (`IDLDOC, USER=0`), but not
+; for users (`IDLDOC, /USER`).
+;
+; :Private:
+;-
+pro idldoc_rst_template_helper
+  compile_opt strictarr, hidden
+  
+end
 
 
 ;+
@@ -91,10 +111,6 @@
 ;    output_keyword : out, optional, type=any
 ;       describe optional output keywords; usually should start with the
 ;       phrase "set to a named variable to return..."
-;
-; :History:
-;    mgalloy, 20 July 2012: initial template
-;    mgalloy, 21 July 2012: added the examples section
 ;-
 pro idldoc_rst_template
   compile_opt strictarr
