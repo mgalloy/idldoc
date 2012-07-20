@@ -1,11 +1,11 @@
 ; docformat = 'rst'
 
 ;+
-; Begin comments about the entire file here; this is particularly useful for
-; class definitions where the methods are commonly placed in a single
-; file.
-;
-; For classes, you probably want to use the `Properties` field.
+; Begin comments about the entire file here. This is particularly useful for
+; author/copyright information that describes every routine in a file as well
+; as class definitions where the methods are commonly placed in a single
+; file. See `idldoc_rst_class_template__define.pro` for an example of a class
+; template.
 ;
 ; :Author:
 ;    Michael Galloy
@@ -62,14 +62,14 @@
 ;    distribution. Your example should execute properly if typed in at the IDL
 ;    command line with no other preparation::
 ;
-;       IDL> idldoc_template
+;       IDL> idldoc_rst_template
 ;       This is an example header file for documenting IDL routines
 ;
 ;    In can also be helpful to include these examples in a main-level program
 ;    at the end of the file, so that running the file will execute the
 ;    example::
 ;
-;       IDL> .run idldoc_template
+;       IDL> .run idldoc_rst_template
 ;
 ; :Params:
 ;    param1 : in, required, type=fltarr
@@ -96,7 +96,7 @@
 ;    mgalloy, 20 July 2012: initial template
 ;    mgalloy, 21 July 2012: added the examples section
 ;-
-pro idldoc_template
+pro idldoc_rst_template
   compile_opt strictarr
   
   print, 'This is an example header file for documenting IDL routines'
