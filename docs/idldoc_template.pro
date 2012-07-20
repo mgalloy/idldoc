@@ -2,7 +2,48 @@
 
 ;+
 ; Begin comments about the entire file here; this is particularly useful for
-; class definitions where the methods are commonly placed in a single file.
+; class definitions where the methods are commonly placed in a single
+; file.
+;
+; For classes, you probably want to use the `Properties` field.
+;
+; :Author:
+;    Michael Galloy
+;
+; :Copyright:
+;    IDLdoc is released under a BSD-type license.
+;
+;    Copyright (c) 2007-2009, Michael Galloy <mgalloy@idldev.com>
+;
+;    All rights reserved.
+;
+;    Redistribution and use in source and binary forms, with or without
+;    modification, are permitted provided that the following conditions are
+;    met:
+;
+;        a. Redistributions of source code must retain the above copyright
+;        notice, this list of conditions and the following disclaimer.
+;        
+;        b. Redistributions in binary form must reproduce the above
+;        copyright notice, this list of conditions and the following
+;        disclaimer in the documentation and/or other materials provided with
+;        the distribution.
+;        
+;        c. Neither the name of Michael Galloy nor the names of its
+;        contributors may be used to endorse or promote products derived from
+;        this software without specific prior written permission.
+;
+;    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+;    IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+;    TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+;    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+;    OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+;    EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+;    PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+;    PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+;    LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+;    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+;    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;-
 
 
@@ -42,18 +83,14 @@
 ;    procedures; make sure to describe the type of the return value
 ;
 ; :Keywords:
-;    KEY1:
-;       Document keyword parameters like this. Note that the keyword
-;       is shown in ALL CAPS!
-;    KEY2:
-;       Yet another keyword. Try to use the active, present tense
-;       when describing your keywords.  For example, if this keyword
-;       is just a set or unset flag, say something like:
-;       "Set this keyword to use foobar subfloatation. The default
-;       is foobar superfloatation."
-;    OUTPUT_KEYWORD : out, optional, type=any
-;       Describe optional outputs here.  If the routine doesn't have any,
-;       just delete this section.
+;    keyword1 : in, optional, type=long
+;       describe a keyword parameter
+;    keyword2 : in, optional, type=boolean
+;       keywords with type "boolean" are recognized and marked specially by
+;       IDLdoc
+;    output_keyword : out, optional, type=any
+;       describe optional output keywords; usually should start with the
+;       phrase "set to a named variable to return..."
 ;
 ; :History:
 ;    mgalloy, 20 July 2012: initial template
