@@ -7,6 +7,12 @@
 ; file. See `idldoc_rst_class_template__define.pro` for an example of a class
 ; template.
 ;
+; Using the "rst" markup style, you can embed links like this one to the 
+; `IDLdoc project site <idldoc.idldev.com>`. By putting an item in backticks,
+; you indicate the word or phrase is either code or a reference to a directory,
+; file, routine, argument, or keyword. For example, `idldoc_rst_template` should
+; link to the main routine in this file.
+;
 ; :Author:
 ;    Michael Galloy
 ;
@@ -75,6 +81,14 @@ end
 ;
 ; :Categories:
 ;    a comma separated list of categories, like: object graphics, mathematics
+;
+; :Requires:
+;    the IDL version needed by the routine; IDLdoc finds the routines 
+;    requiring the highest IDL version and reports them on the Warnings page
+;  
+; :Uses:
+;    a comma-separated list of any other routines, classes, etc., needed 
+;    by this routine
 ;
 ; :Examples:
 ;    Provide a simple example or two that should run "as is" for users, i.e.,
