@@ -83,8 +83,9 @@ end
 ;    a comma separated list of categories, like: object graphics, mathematics
 ;
 ; :Requires:
-;    the IDL version needed by the routine; IDLdoc finds the routines 
-;    requiring the highest IDL version and reports them on the Warnings page
+;    the IDL version needed by the routine, i.e., "IDL 8.2"; IDLdoc finds the 
+;    routines requiring the highest IDL version and reports them on the Warnings 
+;    page
 ;  
 ; :Uses:
 ;    a comma-separated list of any other routines, classes, etc., needed 
