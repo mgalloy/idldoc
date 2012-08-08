@@ -80,7 +80,7 @@ end
 ; used in the routine.
 ;
 ; :Categories:
-;    a comma separated list of categories, like: object graphics, mathematics
+;    a comma-separated list of categories, like: object graphics, mathematics
 ;
 ; :Requires:
 ;    the IDL version needed by the routine, i.e., "IDL 8.2"; IDLdoc finds the 
@@ -136,7 +136,7 @@ end
 
 ; main-level example program
 
-idldoc_template
+idldoc_rst_template
 
 end
 
