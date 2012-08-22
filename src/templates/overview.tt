@@ -8,6 +8,9 @@
     <meta http-equiv="Content-Type" content="text/html;charset=[% charset %]"/>
     <title>[% title %]</title>
 
+    <script type="text/javascript" src="idldoc-resources/js/jquery.js"></script>
+    <script type="text/javascript" src="idldoc-resources/js/copybutton.js"></script>
+
     [% IF use_latex %]
       <script type="text/javascript"
   src="[% relative_root %]idldoc-resources/mathjax/MathJax.js?config=default">
