@@ -129,6 +129,15 @@
           	  [% END %][% END %]
           	</ul>
           	[% END %]
+          	[% IF n_visible_properties gt 0 %]
+          	<h4>Properties in [% IF has_url %]<a href="[% relative_root %][% url %]">[% END %][% classname %][% IF has_url %]</a>[% END %]</h4>
+
+            <ul class="fieldslist smaller">
+              [% FOREACH p IN visible_properties %][% SCOPE p %]
+	            <li><span class="fieldname">[% name %]</span> [% IF is_get %]get [% END %][% IF is_set %]set [% END %][% IF is_init %]init [% END %][% IF has_type %]type=[% type %][% END %]</li>
+              [% END %][% END %]
+            </ul>            
+          	[% END %]
           [% END %][% END %]
         [% END %]
       </div>      
