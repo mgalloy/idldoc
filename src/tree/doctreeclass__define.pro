@@ -58,6 +58,14 @@ function doctreeclass::getVariable, name, found=found
     
     'n_fields': return, self.fields->count()
     'fields': return, self.fields->values()
+    'n_parent_fields': begin
+        n_parent_fields = 0L
+        for a = 0L, self.ancestors->count() - 1L do begin
+          anc = self.ancestors->get(position=a)
+          n_parent_fields += anc->getVariable('n_fields')
+        endfor
+        return, n_parent_fields
+      end
     'field_names': return, self->getFieldNames()
     
     'n_properties': return, self.properties->count()
@@ -87,6 +95,14 @@ function doctreeclass::getVariable, name, found=found
         
         return, properties[ind]
       end         
+      'n_visible_parent_properties': begin
+          n_visible_parent_properties = 0L
+          for a = 0L, self.ancestors->count() - 1L do begin
+            anc = self.ancestors->get(position=a)
+            n_visible_parent_properties += anc->getVariable('n_visible_properties')
+          endfor
+          return, n_visible_parent_properties
+        end
              
     'index_name': return, self.classname
     'index_type': return, 'class'
