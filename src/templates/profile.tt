@@ -62,14 +62,14 @@
 
       [% IF has_examples %]
       <h2>Examples</h2>
-      
+
       <div class="small">[% examples %]</div>      
       [% END %]
-      
+
       [% IF has_class %][% FOREACH class IN classes %][% SCOPE class %]
       <div class="class-description">
         <h2>Class description for [% classname %]</h2>
-      
+
           [% IF n_ancestors gt 0 %]
           <h3>Inheritance</h3>
             <ul>
@@ -77,7 +77,7 @@
               <li>[% IF p->hasUrl() %]<a href="[% relative_root %][% p->getUrl() %]">[% END %][% p->getClassname() %][% IF p->hasUrl() %]</a>[% END %]</li>
               [% END %]
             </ul>
-        
+
             [% IF n_ancestors gt n_parents %]      
             <p class="small">All ancestor classes:
               [% FOREACH a IN ancestors %]
@@ -219,7 +219,7 @@
       [% IF n_visible_routines gt 1 %]
       <div>
         <h2>Routines</h2>
-      
+
         <dl class="routine-summary">
           [% FOREACH r IN visible_routines %][% SCOPE r %]
             <dt class="syntax"><a href="#[% name %]"><code>[% IF is_function %]<span class="var">result</span> = [% END %][% name %][% IF is_function %]([% END %][% IF n_visible_parameters gt 0 %][% FOREACH p IN visible_parameters %][% SCOPE p %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% name %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF n_visible_keywords gt 0 %][% FOREACH k IN visible_keywords %][% SCOPE k %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %][% name %][% IF ~is_boolean %]=<span class="var">[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</span>[% END %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></a></dt>
