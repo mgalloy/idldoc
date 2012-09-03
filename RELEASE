@@ -1,12 +1,12 @@
 Release notes
 =============
 
-IDLdoc 3.4.4
-------------
+IDLdoc 3.5
+----------
 
-* Added list of inherited properties.
+* Added list of inherited properties to class descriptions.
 
-* Provides workaround for possible bug in IDL where list object contain 
+* Provides workaround for possible bug in IDL where list object contains
   strange variables that report as the type code for object, but are not
   actually objects (they are pointers).
   
