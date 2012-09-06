@@ -1,9 +1,11 @@
-VERSION=3.5.0beta
+VERSION=3.5.0
 REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
 IDL=idl64
 DOC_IDL=idl82
+TAG=IDLDOC_`echo $(VERSION) | sed -e"s/\./_/g"`
 
-.PHONY: all clean doc book regression tests version srcdist dist updates
+
+.PHONY: all clean doc book regression tests version srcdist dist updates tag branch
 
 
 all:
@@ -74,6 +76,12 @@ dist:
 
 	zip -r idldoc-$(VERSION).zip idldoc-$(VERSION)/*
 	rm -rf idldoc-$(VERSION)
+
+tag:
+	@make_tag.sh $(TAG) tags
+
+branch:
+	@make_tag.sh $(TAG) branches
 
 updates:
 	rm -rf updates.idldev.com
