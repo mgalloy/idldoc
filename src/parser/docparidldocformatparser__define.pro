@@ -251,7 +251,7 @@ pro docparidldocformatparser::_handleRoutineTag, tag, lines, $
           field->setProperty, name=fieldName, $
                               comments=markupParser->parse(comments)
         endif else begin
-          self.system->warning, 'invalid field ' + fieldName
+          self.system->warning, 'invalid field "' + fieldName + '"'
         endelse
       end
     'file_comments': begin

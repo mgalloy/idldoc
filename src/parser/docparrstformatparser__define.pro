@@ -320,7 +320,7 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
              comments = fieldLines[fieldDefinitionLines[f] + 1L:fieldDefinitionEnd] 
              field->setProperty, name=fieldName, comments=markupParser->parse(comments, file=file)
            endif else begin
-             self.system->warning, 'invalid field ' + fieldName
+             self.system->warning, 'invalid field "' + fieldName + '"'
            endelse        
          endif  
         endfor             
