@@ -1,6 +1,13 @@
 Release notes
 =============
 
+IDLdoc 3.5.1
+------------
+*Released September 29, 2012*
+
+* Fixed bug causing Categories page to not show Categories.
+
+
 IDLdoc 3.5
 ----------
 *Released September 10, 2012*
