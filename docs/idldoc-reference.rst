@@ -237,7 +237,7 @@ The tags available in an overview file describe the entire library. There are a 
                                             library
   ================= ============ ========== =================================
 
-Directory overview files also have a few tags shared with file tags.
+A file named `.idldoc` placed in a directory is a "directory overview" file. It can contain properties of the entire directory, but does not affect subdirectories. Directory overview files also have a few tags shared with file tags.
 
 .. table:: rst format style tags for directory overview files
 
