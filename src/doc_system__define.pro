@@ -1203,6 +1203,31 @@ end
 
 
 ;+
+; Return the number of routines in a given category.
+;
+; :Returns: long
+; :Params:
+;    name : in, required, type=string
+;       category name
+;-
+function doc_system::getCategoryEntriesCount, name
+  compile_opt strictarr, hidden
+
+  lname = strlowcase(name)
+  categoryList = self.categories->get(lname, found=found)
+  if (~found) then return, ''
+  
+  entries = categoryList->get(/all, count=n_entries)
+  visible_entries = bytarr(n_entries)
+  
+  for e = 0L, n_entries - 1L do visible_entries[e] = entries[e]->isVisible()
+  ind = where(visible_entries, n_visible_entries)
+  
+  return, n_visible_entries
+end
+
+
+;+
 ; Return the routines in a given category.
 ;
 ; :Returns: strarr

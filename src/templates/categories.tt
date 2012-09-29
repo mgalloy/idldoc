@@ -44,7 +44,7 @@
     	
     	[% IF n_categories gt 0 %]
     	  [% FOREACH c IN categories %]
-    	    [% IF size(system->getCategoryEntriesCount(c), /type) eq 11L %]    	    
+    	    [% IF system->getCategoryEntriesCount(c) gt 0L %]    	    
       	    <h3>[% c %]</h3>   
       	    <dl>
       	    [% FOREACH r IN system->getCategoryEntries(c) %][% SCOPE r %]
