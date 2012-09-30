@@ -200,14 +200,15 @@ end
 pro doctreedlmfile::generateOutput, outputRoot, directory
   compile_opt strictarr, hidden
 
+  dlmFileTemplate = self.system->getTemplate('dlmfile', found=found)
+  if (~found) then return
+
   self.system->print, '  Generating output for ' + self.basename + '...'
-  
-  dlmFileTemplate = self.system->getTemplate('dlmfile')
-  
+
   outputDir = outputRoot + directory
   self.system->getProperty, extension=ext
   outputFilename = outputDir + file_basename(self.basename, '.dlm') + '-dlm.' + ext
-  
+
   dlmFileTemplate->reset
   dlmFileTemplate->process, self, outputFilename  
 end

@@ -162,13 +162,16 @@ end
 pro doctreeidldocfile::generateOutput, outputRoot, directory
   compile_opt strictarr, hidden
   
+  idldocFileTemplate = self.system->getTemplate('idldocfile', found=found)
+  if (~found) then return
+
   self.system->print, '  Generating output for ' + self.basename
   self.system->getProperty, extension=outputExtension
 
   ; copy images references in the documentation
   outputDir = outputRoot + directory
   outputFilename = outputDir + file_basename(self.basename, '.pro') + '.' + outputExtension
-  
+
   self.system->getProperty, root=root    
   self.directory->getProperty, location=dirLocation
   fullpath = filepath(self.basename, subdir=dirLocation, root=root)
@@ -184,12 +187,10 @@ pro doctreeidldocfile::generateOutput, outputRoot, directory
       self.system->warning, 'image at ' + path + filename + ' not found'
     endelse
   endfor
-    
-  idldocFileTemplate = self.system->getTemplate('idldocfile')
-    
+
   outputDir = outputRoot + directory
   outputFilename = outputDir + file_basename(self.basename, '.idldoc') + '.' + outputExtension
-  
+
   idldocFileTemplate->reset
   idldocFileTemplate->process, self, outputFilename   
 end

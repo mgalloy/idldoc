@@ -476,6 +476,28 @@ end
 
 
 ;+
+; Print status messages respecting /QUIET and /SILENT.
+;
+; :Params:
+;    msg : in, required, type=string
+;       status message to print 
+;-
+pro doc_system::status, msg
+  compile_opt strictarr, hidden
+  
+  if (self.logFile ne '') then printf, self.logLun, 'IDLDOC: ' + msg
+  
+  if (~self.silent) then begin
+    if (self.isTty) then begin
+      message, mg_ansicode('IDLDOC: '+ msg, /red), /informational, /noname
+    endif else begin
+      message, 'IDLDOC: '+ msg, /informational, /noname
+    endelse
+  endif
+end
+
+
+;+
 ; Print messages respecting /QUIET and /SILENT.
 ;
 ; :Params:
@@ -778,19 +800,36 @@ end
 pro doc_system::loadTemplates
   compile_opt strictarr, hidden
   
-  templates = ['file-listing', 'all-files', 'dir-listing',  $
-               'index', 'overview', 'help', 'warnings', 'index-entries', $
-               'categories', 'search', 'libdata', $
+  templates = ['file-listing', $
+               'all-files', $
+               'dir-listing',  $
+               'index', $
+               'overview', $
+               'help', $
+               'warnings', $
+               'index-entries', $
+               'categories', $
+               'search', $
+               'libdata', $
                'dir-overview', $
-               'dlmfile', 'savefile', 'profile', 'source', 'idldocfile']
+               'dlmfile', $
+               'savefile', $
+               'profile', $
+               'source', $
+               'idldocfile']
   for t = 0L, n_elements(templates) - 1L do begin
     dir = self.templateLocation eq '' $
       ? filepath('', subdir='templates', root=self.sourceLocation) $
       : self.templateLocation
     templateFilename = filepath(self.templatePrefix + templates[t] + '.tt', $
-                                root=dir) 
-    self.templates->put, templates[t], $
-                         obj_new('MGffTemplate', templateFilename)
+                                root=dir)
+    if (~file_test(templateFilename)) then begin
+      self->status, string(templates[t], templateFilename, $
+                            format='(%"not using %s template because %s not found")')
+    endif else begin
+      self.templates->put, templates[t], $
+                           obj_new('MGffTemplate', templateFilename)
+    endelse
   endfor
 end
 
@@ -1049,68 +1088,89 @@ pro doc_system::generateOutput
   endfor
       
   ; generate all-files
-  self->print, 'Generating file listing...'
-  allFilesTemplate = self->getTemplate('all-files')
-  allFilesTemplate->reset
-  allFilesTemplate->process, self, filepath('all-files.' + self.outputExtension, root=self.output)
+  allFilesTemplate = self->getTemplate('all-files', found=found)
+  if (found) then begin
+    self->print, 'Generating file listing...'
+    allFilesTemplate->reset
+    allFilesTemplate->process, self, filepath('all-files.' + self.outputExtension, root=self.output)
+  endif
     
   ; generate all-dirs
-  self->print, 'Generating directory listing...'
-  allDirsTemplate = self->getTemplate('dir-listing')
-  allDirsTemplate->reset
-  allDirsTemplate->process, self, filepath('all-dirs.' + self.outputExtension, root=self.output)
+  allDirsTemplate = self->getTemplate('dir-listing', found=found)
+  if (found) then begin
+    self->print, 'Generating directory listing...'
+    allDirsTemplate->reset
+    allDirsTemplate->process, self, filepath('all-dirs.' + self.outputExtension, root=self.output)
+  endif
   
   ; generate overview page
-  self->print, 'Generating overview page...'
-  overviewTemplate = self->getTemplate('overview')
-  overviewTemplate->reset
-  overviewTemplate->process, self, filepath('overview.' + self.outputExtension, root=self.output)
+  overviewTemplate = self->getTemplate('overview', found=found)
+  if (found) then begin
+    self->print, 'Generating overview page...'
+    overviewTemplate->reset
+    overviewTemplate->process, self, filepath('overview.' + self.outputExtension, root=self.output)
+  endif
     
   ; generate index entries page
   if (self.indexLevel gt 0L) then begin
-    self->print, 'Generating index entries page...'
-    indexEntriesTemplate = self->getTemplate('index-entries')
-    indexEntriesTemplate->reset
-    indexEntriesTemplate->process, self, filepath('idldoc-index.' + self.outputExtension, $
-                                                  root=self.output)
+    indexEntriesTemplate = self->getTemplate('index-entries', found=found)
+    if (found) then begin
+      self->print, 'Generating index entries page...'
+      indexEntriesTemplate->reset
+      indexEntriesTemplate->process, self, filepath('idldoc-index.' + self.outputExtension, $
+                                                    root=self.output)
+    endif
   endif
     
   ; generate warnings page
   if (~self.user) then begin
-    self->print, 'Generating warnings page...'
-    warningsTemplate = self->getTemplate('warnings')
-    warningsTemplate->reset
-    warningsTemplate->process, self, filepath('idldoc-warnings.' + self.outputExtension, $
-                                              root=self.output)
+    warningsTemplate = self->getTemplate('warnings', found=found)
+    if (found) then begin
+      self->print, 'Generating warnings page...'
+      warningsTemplate->reset
+      warningsTemplate->process, self, filepath('idldoc-warnings.' + self.outputExtension, $
+                                                root=self.output)
+    endif
   endif
 
   ; generate search page
-  self->print, 'Generating search page...'
-  searchTemplate = self->getTemplate('search')
-  searchTemplate->reset
-  searchTemplate->process, self, filepath('search.' + self.outputExtension, root=self.output)
+  searchTemplate = self->getTemplate('search', found=found)
+  if (found) then begin
+    self->print, 'Generating search page...'
+    searchTemplate->reset
+    searchTemplate->process, self, filepath('search.' + self.outputExtension, root=self.output)
+  endif
   
-  libdataTemplate = self->getTemplate('libdata')
-  libdataTemplate->reset
-  libdataTemplate->process, self, filepath('libdata.js', root=self.output)
+  libdataTemplate = self->getTemplate('libdata', found=found)
+  if (found) then begin
+    libdataTemplate->reset
+    libdataTemplate->process, self, filepath('libdata.js', root=self.output)
+  endif
                                           
   ; generate categories page
-  self->print, 'Generating categories page...'
-  categoriesTemplate = self->getTemplate('categories')
-  categoriesTemplate->reset
-  categoriesTemplate->process, self, filepath('categories.' + self.outputExtension, $
-                                              root=self.output)
+  categoriesTemplate = self->getTemplate('categories', found=found)
+  if (found) then begin
+    self->print, 'Generating categories page...'
+    categoriesTemplate->reset
+    categoriesTemplate->process, self, filepath('categories.' + self.outputExtension, $
+                                                root=self.output)
+  endif
+  
   ; generate help page
-  self->print, 'Generating help page...'
-  helpTemplate = self->getTemplate('help')
-  helpTemplate->reset
-  helpTemplate->process, self, filepath('idldoc-help.' + self.outputExtension, root=self.output)
+  helpTemplate = self->getTemplate('help', found=found)
+  if (found) then begin
+    self->print, 'Generating help page...'
+    helpTemplate->reset
+    helpTemplate->process, self, filepath('idldoc-help.' + self.outputExtension, root=self.output)
+  endif
     
   ; generate index.html
-  self->print, 'Generating index page...'
   indexTemplate = self->getTemplate('index')
-  indexTemplate->reset
-  indexTemplate->process, self, filepath('index.' + self.outputExtension, root=self.output)
+  if (found) then begin
+    self->print, 'Generating index page...'
+    indexTemplate->reset
+    indexTemplate->process, self, filepath('index.' + self.outputExtension, root=self.output)
+  endif
   
   self->print, strtrim(self.nWarnings, 2) + ' warnings generated'
 end
@@ -1501,7 +1561,7 @@ pro doc_system::cleanup
                 self.complexRoutines, self.bugs]
   obj_destroy, self.requiresItems
   
-  obj_destroy, self.templates->values()
+  if (obj_valid(self.templates->values())) then obj_destroy, self.templates->values()
   obj_destroy, self.templates
   
   obj_destroy, self.parsers->values()

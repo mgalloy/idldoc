@@ -434,16 +434,20 @@ pro doctreedirectory::generateOutput, outputRoot
   
   self.system->getProperty, extension=outputExtension
   ; generate directory overview
-  dirOverviewFilename = filepath('dir-overview.' + outputExtension, root=outputDir)
-  dirOverviewTemplate = self.system->getTemplate('dir-overview')
-  dirOverviewTemplate->reset
-  dirOverviewTemplate->process, self, dirOverviewFilename
+  dirOverviewTemplate = self.system->getTemplate('dir-overview', found=found)
+  if (found) then begin
+    dirOverviewFilename = filepath('dir-overview.' + outputExtension, root=outputDir)
+    dirOverviewTemplate->reset
+    dirOverviewTemplate->process, self, dirOverviewFilename
+  endif
     
   ; generate file listing
-  listingFilename = filepath('dir-files.' + outputExtension, root=outputDir)
-  listingTemplate = self.system->getTemplate('file-listing')
-  listingTemplate->reset
-  listingTemplate->process, self, listingFilename
+  listingTemplate = self.system->getTemplate('file-listing', found=found)
+  if (found) then begin
+    listingFilename = filepath('dir-files.' + outputExtension, root=outputDir)
+    listingTemplate->reset
+    listingTemplate->process, self, listingFilename
+  endif
 end
 
 

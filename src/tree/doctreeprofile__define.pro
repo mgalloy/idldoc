@@ -602,12 +602,15 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   
   ; don't produce output if not visible
   if (~self->isVisible()) then return
+
+  proFileTemplate = self.system->getTemplate('profile', found=found)
+  if (~found) then return
+
+  sourceTemplate = self.system->getTemplate('source', found=SourceTemplateFound)
   
   self.system->print, '  Generating output for ' + self.basename + '...'
   self.system->getProperty, extension=outputExtension
-  
-  proFileTemplate = self.system->getTemplate('profile')
-  
+    
   outputDir = outputRoot + directory
   outputFilename = outputDir + file_basename(self.basename, '.pro') + '.' + outputExtension
   
@@ -645,12 +648,12 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   if (nosource) then return
   
   ; chromocoded version of the source code
-  sourceTemplate = self.system->getTemplate('source')
+  if (sourceTemplateFound) then begin
+    outputFilename = outputDir + file_basename(self.basename, '.pro') + '-code.' + outputExtension
   
-  outputFilename = outputDir + file_basename(self.basename, '.pro') + '-code.' + outputExtension
-  
-  sourceTemplate->reset
-  sourceTemplate->process, self, outputFilename    
+    sourceTemplate->reset
+    sourceTemplate->process, self, outputFilename    
+  endif
   
   ; direct version of the source code
   self.system->getProperty, source_link=sourceLink

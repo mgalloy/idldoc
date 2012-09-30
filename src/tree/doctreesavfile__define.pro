@@ -317,16 +317,17 @@ pro doctreesavfile::generateOutput, outputRoot, directory
   compile_opt strictarr, hidden
   on_error, 2
   
+  savFileTemplate = self.system->getTemplate('savefile', found=found)
+  if (~found) then return
+
   self.system->print, '  Generating output for ' + self.basename + '...'
   self.system->getProperty, extension=outputExtension
-  
+
   self->loadSavContents
-  
-  savFileTemplate = self.system->getTemplate('savefile')
-  
+
   outputDir = outputRoot + directory
   outputFilename = outputDir + file_basename(self.basename, '.sav') + '-sav.' + outputExtension
-  
+
   savFileTemplate->reset
   savFileTemplate->process, self, outputFilename
 end
