@@ -1561,7 +1561,7 @@ pro doc_system::cleanup
                 self.complexRoutines, self.bugs]
   obj_destroy, self.requiresItems
   
-  if (obj_valid(self.templates->values())) then obj_destroy, self.templates->values()
+  if (size(self.templates->values(), /type) eq 11L) then obj_destroy, self.templates->values()
   obj_destroy, self.templates
   
   obj_destroy, self.parsers->values()

@@ -1,0 +1,8 @@
+[% IF ~index_empty %]
+  [% FOREACH letter IN index_first_letters %]
+    [% FOREACH item IN system->getIndexEntries(letter) %][% SCOPE item %]
+"";"[% index_name %]";"[% IF has_comments %][% comments_first_line %][% END %]";"ID";"[% index_url %]";"0"
+    [% END %][% END %]
+  [% END %]
+[% END %]
+
