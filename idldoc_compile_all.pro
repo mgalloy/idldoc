@@ -35,6 +35,7 @@
 .compile src/parser/docparverbatimformatparser__define
 
 .compile src/strings/mg_streplace
+.compile src/strings/mg_strunmerge
 
 .compile src/templating/mgfftemplate__define
 .compile src/templating/mgfftokenizer__define
