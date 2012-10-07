@@ -74,6 +74,9 @@
 ;       output format for comments ("html", "rst", "latex", "plain", or
 ;       "docbook")
 ;
+;    doc_center : in, optional, type=boolean
+;       set to produce Doc center formatted documentation
+;
 ;    assistant : in, optional, type=boolean, obsolete
 ;       no longer used
 ;    preformat : in, optional, type=boolean, obsolete
@@ -107,6 +110,7 @@ pro idldoc, root=root, $
             n_warnings=nWarnings, $
             log_file=logFile, $
             use_latex=useLatex, $
+            doc_center=doc_center, $
             assistant=assistant, $
             embed=embed, $
             overview=overview, $
@@ -164,6 +168,7 @@ pro idldoc, root=root, $
                    n_warnings=nWarnings, $
                    log_file=logFile, $
                    use_latex=useLatex, $
+                   doc_center=doc_center, $
                    assistant=assistant, $
                    embed=embed, $
                    overview=overview, $

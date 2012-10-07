@@ -824,8 +824,10 @@ pro doc_system::loadTemplates
     templateFilename = filepath(self.templatePrefix + templates[t] + '.tt', $
                                 root=dir)
     if (~file_test(templateFilename)) then begin
-      self->status, string(templates[t], templateFilename, $
-                            format='(%"not using %s template because %s not found")')
+      if (~self.doc_center || (self.doc_center && (t eq 7 || t eq 12 || t eq 14))) then begin
+        self->status, string(templates[t], templateFilename, $
+                             format='(%"not using %s template because %s not found")')
+      endif
     endif else begin
       self.templates->put, templates[t], $
                            obj_new('MGffTemplate', templateFilename)
@@ -1117,8 +1119,18 @@ pro doc_system::generateOutput
     if (found) then begin
       self->print, 'Generating index entries page...'
       indexEntriesTemplate->reset
+      if (self.doc_center) then begin
+        oldCommentStyle = self.commentStyle
+        oldOutputExtension = self.outputExtension
+        self.commentStyle = 'plain'
+        self.outputExtension = 'csv'
+      endif
       indexEntriesTemplate->process, self, filepath('idldoc-index.' + self.outputExtension, $
                                                     root=self.output)
+      if (self.doc_center) then begin
+        self.commentStyle = oldCommentStyle
+        self.outputExtension = oldOutputExtension
+      endif
     endif
   endif
     
@@ -1634,6 +1646,9 @@ end
 ;    comment_style : in, optional, type=string, default='html'
 ;       output format for comments ("html", "rst", "latex", or "docbook")
 ;
+;    doc_center : in, optional, type=boolean
+;       set to produce Doc center formatted documentation
+;
 ;    assistant : in, optional, type=boolean, obsolete
 ;       no longer used
 ;    preformat : in, optional, type=boolean, obsolete
@@ -1655,6 +1670,7 @@ function doc_system::init, root=root, output=output, $
                            quiet=quiet, silent=silent, n_warnings=nWarnings, $
                            log_file=logFile, $
                            use_latex=useLatex, $
+                           doc_center=doc_center, $
                            assistant=assistant, embed=embed, overview=overview, $
                            footer=footer, title=title, subtitle=subtitle, $
                            nonavbar=nonavbar, $
@@ -1804,6 +1820,14 @@ function doc_system::init, root=root, output=output, $
   
   ; initialize some data structures
   self.directories = obj_new('MGcoArrayList', type=11, block_size=8)
+
+  if (keyword_set(doc_center)) then begin
+    self.doc_center = 1B
+    self.commentStyle = 'html'
+    self.templatePrefix = 'dc-'
+    self.user = 1B
+    self.nosource = 1B
+  endif
   
   ; load templates
   self.templates = obj_new('MGcoHashTable', key_type=7, value_type=11)
@@ -1817,14 +1841,14 @@ function doc_system::init, root=root, output=output, $
   self.markup = n_elements(markupStyle) eq 0 $
                   ? (self.format eq 'rst' ? 'rst' : 'verbatim') $
                   : markupStyle
+
   self.commentStyle = n_elements(commentStyle) eq 0 ? 'html' : commentStyle  
   commentparser = self->getParser(self.commentStyle + 'output', found=found)
-
   if (~found) then begin
     self->warning, self.commentStyle + ' output style not found, using HTML output'
     self.commentStyle = 'html'
   end
-    
+
   case self.commentStyle of
     'html': self.outputExtension = 'html'
     'latex': self.outputExtension = 'tex'
@@ -1906,6 +1930,8 @@ end
 ;       style for parsing comments: 'idldoc', 'idl', 'rst', or 'verbatim'
 ;    markup
 ;       style for comments body markup: 'rst' or 'verbatim'
+;    doc_center
+;       set to produce Doc center output
 ;    preformat
 ;       set if comments should be formatted as given in the source
 ;    assistant
@@ -1966,7 +1992,8 @@ pro doc_system__define
              format: '', $
              markup: '', $
              commentStyle: '', $
-             preformat: 0B, $             
+             doc_center: 0B, $
+             preformat: 0B, $
              assistant: 0B, $
              embed: 0B, $
              nonavbar: 0B, $
