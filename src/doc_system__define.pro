@@ -1121,15 +1121,16 @@ pro doc_system::generateOutput
       indexEntriesTemplate->reset
       if (self.doc_center) then begin
         oldCommentStyle = self.commentStyle
-        oldOutputExtension = self.outputExtension
         self.commentStyle = 'plain'
-        self.outputExtension = 'csv'
       endif
-      indexEntriesTemplate->process, self, filepath('idldoc-index.' + self.outputExtension, $
-                                                    root=self.output)
+      indexEntriesTemplate->process, self, $
+                                    filepath('idldoc-index.' + $
+                                               (self.doc_center $
+                                                 ? 'csv' $
+                                                 : self.outputExtension), $
+                                             root=self.output)
       if (self.doc_center) then begin
         self.commentStyle = oldCommentStyle
-        self.outputExtension = oldOutputExtension
       endif
     endif
   endif
