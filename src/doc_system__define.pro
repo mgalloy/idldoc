@@ -183,8 +183,8 @@ function doc_system::getVariable, name, found=found
     'n_visible_dlm_files': begin
         nVisible = 0L
         for f = 0L, self.dlmFiles->count() - 1L do begin
-          file = self.dlmFiles->get(position=f)          
-          nVisible += file->isVisible()          
+          file = self.dlmFiles->get(position=f)
+          nVisible += file->isVisible()
         endfor
         return, nVisible
       end
@@ -208,8 +208,8 @@ function doc_system::getVariable, name, found=found
     'n_visible_sav_files': begin
         nVisible = 0L
         for f = 0L, self.savFiles->count() - 1L do begin
-          file = self.savFiles->get(position=f)          
-          nVisible += file->isVisible()          
+          file = self.savFiles->get(position=f)
+          nVisible += file->isVisible()
         endfor
         return, nVisible
       end
@@ -233,8 +233,8 @@ function doc_system::getVariable, name, found=found
     'n_visible_idldoc_files': begin
         nVisible = 0L
         for f = 0L, self.idldocFiles->count() - 1L do begin
-          file = self.idldocFiles->get(position=f)          
-          nVisible += file->isVisible()          
+          file = self.idldocFiles->get(position=f)
+          nVisible += file->isVisible()
         endfor
         return, nVisible
       end
@@ -291,7 +291,7 @@ function doc_system::getVariable, name, found=found
         sind = sort(firstLetters)
         uind = uniq(firstLetters, sind)
         
-        return, strupcase(firstLetters[uind]) 
+        return, strupcase(firstLetters[uind])
       end
     'index_type': return, 'unknown'
     'index_name': return, 'unknown'
@@ -435,7 +435,7 @@ end
 ;
 ; :Params:
 ;    msg : in, required, type=string
-;       error message to print 
+;       error message to print
 ;-
 pro doc_system::error, msg
   compile_opt strictarr, hidden
@@ -456,7 +456,7 @@ end
 ;
 ; :Params:
 ;    msg : in, required, type=string
-;       warning message to print 
+;       warning message to print
 ;-
 pro doc_system::warning, msg
   compile_opt strictarr, hidden
@@ -480,7 +480,7 @@ end
 ;
 ; :Params:
 ;    msg : in, required, type=string
-;       status message to print 
+;       status message to print
 ;-
 pro doc_system::status, msg
   compile_opt strictarr, hidden
@@ -502,7 +502,7 @@ end
 ;
 ; :Params:
 ;    msg : in, required, type=string
-;       message to print 
+;       message to print
 ;-
 pro doc_system::print, msg
   compile_opt strictarr, hidden
@@ -713,7 +713,7 @@ pro doc_system::parseTree
   
   ; search for special files
   proFiles = file_search(self.root, '*.pro', /test_regular, count=nProFiles)
-  dlmFiles = file_search(self.root, '*.dlm', /test_regular, count=nDLMFiles)    
+  dlmFiles = file_search(self.root, '*.dlm', /test_regular, count=nDLMFiles)
   savFiles = file_search(self.root, '*.sav', /test_regular, count=nSavFiles)
   idldocFiles = file_search(self.root, '*.idldoc', /test_regular, count=nIDLdocFiles)
   
@@ -733,7 +733,7 @@ pro doc_system::parseTree
   
   ; get the unique directories
   dirs = file_dirname(allFiles, /mark_directory)
-  uniqueDirIndices = uniq(dirs, sort(dirs))  
+  uniqueDirIndices = uniq(dirs, sort(dirs))
   
   ; create the directory objects
   for d = 0L, n_elements(uniqueDirIndices) - 1L do begin
@@ -774,7 +774,7 @@ end
 ;+
 ; Get a template by name (as used when loaded in loadTemplates).
 ; 
-; :Returns: 
+; :Returns:
 ;    template object or -1 if not found
 ;
 ; :Params:
@@ -794,7 +794,7 @@ end
 
 
 ;+
-; Create the templates to be used to generate all the output and store the 
+; Create the templates to be used to generate all the output and store the
 ; templates in a hash table.
 ;-
 pro doc_system::loadTemplates
@@ -839,7 +839,7 @@ end
 ;+
 ; Convert a parse tree into a string array using the current comment style.
 ;
-; :Returns: 
+; :Returns:
 ;    strarr
 ;
 ; :Params:
@@ -851,7 +851,7 @@ function doc_system::processComments, tree
   
   if (~obj_valid(tree)) then return, ''
   commentParser = self->getParser(self.commentStyle + 'output')
-  return, commentParser->process(tree)  
+  return, commentParser->process(tree)
 end
 
 
@@ -878,7 +878,7 @@ end
 ;    string, returns empty string if no resource found
 ;    
 ; :Params:
-;    resource : in, required, type=string   
+;    resource : in, required, type=string
 ;-
 function doc_system::_findResourceLink, resource
   compile_opt strictarr, hidden
@@ -996,7 +996,7 @@ end
 ;+
 ; Convert a parse tree into a string array using the plain output parser.
 ;
-; :Returns: 
+; :Returns:
 ;    strarr
 ;
 ; :Params:
@@ -1009,7 +1009,7 @@ function doc_system::processPlainComments, tree
   if (~obj_valid(tree)) then return, ''
   
   plainParser = self->getParser('plainoutput')
-  comments = strjoin(plainParser->process(tree), ' ')  
+  comments = strjoin(plainParser->process(tree), ' ')
 
   bcomments = byte(comments)
   quote = (byte('"'))[0]
@@ -1027,7 +1027,7 @@ end
 ;+
 ; Get a parser by name (as used when loaded in loadParsers).
 ; 
-; :Returns: 
+; :Returns:
 ;    parser object or -1 if not found
 ;
 ; :Params:
@@ -1212,7 +1212,7 @@ pro doc_system::processIndex
 
   entries = self.index->get(/all, count=nEntries)
 
-  ; filter index for visible entries    
+  ; filter index for visible entries
   isVisibleEntries = bytarr(nEntries)
   
   for i = 0L, nEntries - 1L do begin
@@ -1228,7 +1228,7 @@ end
 ;+
 ; Return the items which begin with the given letter.
 ;
-; :Returns: 
+; :Returns:
 ;    `objarr`
 ;
 ; :Params:
@@ -1399,7 +1399,7 @@ end
 
 
 ;+
-; Compare given version to the current highest version. Keeps track of the 
+; Compare given version to the current highest version. Keeps track of the
 ; routines that have the highest version.
 ;
 ; :Params:
@@ -1417,7 +1417,7 @@ pro doc_system::checkRequiredVersion, version, item
      1: begin
         self.requiresItems->remove, /all
         self.requiresItems->add, item
-        self.requiresVersion = version       
+        self.requiresVersion = version
       end
     else:   ; should not happen
   endcase
@@ -1448,7 +1448,7 @@ end
 pro doc_system::copyResources
   compile_opt strictarr, hidden
   
-  ; copy *.* to avoid .svn/ if running from a Subversion checkout 
+  ; copy *.* to avoid .svn/ if running from a Subversion checkout
   resourceLocation = filepath('*.*', subdir=['resources'], $
                               root=self.sourceLocation)
   resourceDestination = filepath('', subdir=['idldoc-resources'], $
@@ -1469,7 +1469,7 @@ pro doc_system::copyResources
   jsFiles = file_search(jsLocation, '*.js')
   jsDestination = filepath('', $
                            subdir='js', $
-                           root=resourceDestination)  
+                           root=resourceDestination)
   file_mkdir, jsDestination
   file_copy, jsFiles, jsDestination, /overwrite
   
@@ -1483,7 +1483,7 @@ pro doc_system::copyResources
                                   subdir='mathjax', $
                                   root=resourceDestination)
     
-    ; make subdirectories before copying                         
+    ; make subdirectories before copying
     dirs = file_dirname(mathjaxDestination)
     dirs = dirs[uniq(dirs, sort(dirs))]
     file_mkdir, dirs
@@ -1584,7 +1584,7 @@ end
 ;+
 ; Create system object.
 ; 
-; :Returns: 
+; :Returns:
 ;    1 for success, 0 for failure
 ;
 ; :Keywords:
@@ -1620,12 +1620,12 @@ end
 ;       set to not display the source code for .pro files
 ;    source_link : in, optional, type=long, default=0
 ;       by default, IDLdoc copies the source code into the output; if this
-;       keyword is set to 1 (relative link) or 2 (absolute link), then the 
-;       output documentation will point to the ROOT location of the original 
+;       keyword is set to 1 (relative link) or 2 (absolute link), then the
+;       output documentation will point to the ROOT location of the original
 ;       source code
 ;    user : in, optional, type=boolean
 ;       set to generate user-level docs (private parameters, files are not
-;       shown); the default is developer-level docs showing files and 
+;       shown); the default is developer-level docs showing files and
 ;       parameters
 ;    statistics : in, optional, type=boolean
 ;       generate complexity statistics for routines
@@ -1639,7 +1639,7 @@ end
 ;       McCabe complexity to exceed for a warning or flagged
 ;
 ;    format_style : in, optional, type=string, default='idldoc'
-;       style to use to parse file and routine comments ("idl", "idldoc", 
+;       style to use to parse file and routine comments ("idl", "idldoc",
 ;       "verbatim", or "rst")
 ;    markup_style : in, optional, type=string, default='verbatim'
 ;       markup used in comments ("rst" or "verbatim")
@@ -1710,7 +1710,7 @@ function doc_system::init, root=root, output=output, $
     ; temporarily add project to the path
     rootDirs = file_search(self.root, '*', /test_directory, count=nRootDirs)
     rootDirs = nRootDirs eq 0 ? self.root : [self.root, rootDirs]
-    rootDirs = file_expand_path(rootDirs) 
+    rootDirs = file_expand_path(rootDirs)
     
     !path += path_sep(/search_path) + strjoin(rootDirs, path_sep(/search_path))
     path_cache, /clear, /rebuild
@@ -1742,7 +1742,7 @@ function doc_system::init, root=root, output=output, $
   self.title = n_elements(title) gt 0 ? title : 'Documentation for ' + self.root
   self.subtitle = n_elements(subtitle) gt 0 ? subtitle : 'Generated by IDLdoc' 
   self.user = keyword_set(user)
-  self.statistics = keyword_set(statistics)  
+  self.statistics = keyword_set(statistics)
   self.indexLevel = n_elements(indexLevel) eq 0L ? 2L : indexLevel
   
   case n_elements(routineLineCutoffs) of
@@ -1772,11 +1772,11 @@ function doc_system::init, root=root, output=output, $
     self->warning, 'invalid SOURCE_LINK value, copying instead'
   endif
   
-  ; check if using relative link on Windows AND ROOT and OUTPUT are on different 
-  ; drives
+  ; check if using relative link on Windows AND ROOT and OUTPUT are on
+  ; different drives
   if (self.sourceLink eq 1 && strlowcase(!version.os_family) eq 'windows') then begin
     rootDrive = mg_getdrive(self.root)
-    outputDrive = mg_getdrive(self.output)  
+    outputDrive = mg_getdrive(self.output)
     if (strlowcase(rootDrive) ne strlowcase(outputDrive)) then begin
       self.sourceLink = 0L
       self->warning, 'cannot use relative link across Windows drives, copying instead'
@@ -1873,10 +1873,10 @@ function doc_system::init, root=root, output=output, $
     self.markup = 'verbatim'
   end
       
-  ; parse tree of directories, files, routines, parameters 
+  ; parse tree of directories, files, routines, parameters
   self->parseTree
   
-  ; do any processing that might be necessary on the tree (analysis, etc.)  
+  ; do any processing that might be necessary on the tree (analysis, etc.)
   self->process
   
   ; generate output for directories, files (of various kinds), index, etc.
@@ -1894,11 +1894,11 @@ end
 ; :Fields:
 ;    idldoc_version
 ;       IDLdoc version
-;    root 
+;    root
 ;       root directory of hierarchy to document; full path ending with slash
 ;    output
 ;       directory to place output
-;    nWarnings 
+;    nWarnings
 ;       number of warning messages printed
 ;    quiet
 ;       set to only print errors and warnings
@@ -1975,7 +1975,7 @@ pro doc_system__define
              history: obj_new(), $
              version: obj_new(), $
                           
-             directories: obj_new(), $ 
+             directories: obj_new(), $
               
              templates: obj_new(), $
              parsers: obj_new(), $
@@ -2017,7 +2017,7 @@ pro doc_system__define
              routineLineCutoffs: lonarr(3), $
              complexityCutoffs: lonarr(3), $
              
-             classes: obj_new(), $ 
+             classes: obj_new(), $
              categories: obj_new(), $
              todos: obj_new(), $
              obsolete: obj_new(), $
@@ -2033,6 +2033,6 @@ pro doc_system__define
              visibleRoutines: obj_new(), $
              
              requiresVersion: '', $
-             requiresItems: obj_new() $                              
+             requiresItems: obj_new() $
            }
 end
