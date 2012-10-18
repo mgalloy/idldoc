@@ -1,44 +1,41 @@
 <title>[% basename %] ([% title %])</title>
     
 <div class="content">
-  <h2 class="directory">[% location %]</h2>
-  <h1 class="basename">[% basename %]</h1>
-
   [% IF has_dlm_info %]
-  <h2>DLM information</h2>
+  <h2>DLM information</h2><hr class="style-one"/>
 
     <dl class="attribute small" summary="DLM file information">
       [% IF has_module_name %]
         <dt>Module name</dt>
-        <dd>[% module_name %]</dd>        
+        <dd>[% module_name %]</dd>
       [% END %]
 
       [% IF has_comments %]
         <dt>Description</dt>
-        <dd>[% comments %]</dd>        
+        <dd>[% comments %]</dd>
       [% END %]
           
       [% IF has_author %]
         <dt>Author</dt>
-        <dd>[% author %]</dd>        
+        <dd>[% author %]</dd>
       [% END %]
 
       [% IF has_version %]
         <dt>Version</dt>
-        <dd>[% version %]</dd>  
-      [% END %]          
+        <dd>[% version %]</dd>
+      [% END %]
 
       [% IF has_build_date %]
         <dt>Build date</dt>
-        <dd>[% build_date %]</dd>  
-      [% END %]          
-    </dl>          
+        <dd>[% build_date %]</dd>
+      [% END %]
+    </dl>
   [% END %]
 
   [% IF n_visible_routines gt 0 %]
   <div>
-    <h2>Routines</h2>
-      
+    <h2>Routines</h2><hr class="style-one"/>
+
     <dl class="routine-summary">
       [% FOREACH r IN visible_routines %][% SCOPE r %]
         <dt class="syntax" id="[% name %]">[% name %]<span class="routine-attributes">[% IF is_obsolete %]obsolete [% END %]</span></dt>
@@ -53,8 +50,8 @@
   [% END %]
 
   <div id="attributes">
-    <h2>File attributes</h2>
-        	
+    <h2>File attributes</h2><hr class="style-one"/>
+
     <table class="attribute small" summary="File attributes">
       <tr>
         <td class="name">Modification date:</td>
@@ -62,8 +59,4 @@
       </tr>
     </table>
   </div>
-      
-  [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
 </div>
-    
-[% INCLUDE_TEMPLATE idldoc_footer_location %]    

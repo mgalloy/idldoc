@@ -1676,9 +1676,9 @@ function doc_system::init, root=root, output=output, $
                            nonavbar=nonavbar, $
                            nosource=nosource, source_link=sourceLink, $
                            user=user, statistics=statistics, $
-                           index_level=indexLevel, $   
+                           index_level=indexLevel, $
                            routine_line_cutoffs=routineLineCutoffs, $
-                           complexity_cutoffs=complexityCutoffs, $                           
+                           complexity_cutoffs=complexityCutoffs, $
                            format_style=formatStyle, markup_style=markupStyle, $
                            comment_style=commentStyle, $
                            preformat=preformat, browse_routines=browseRoutines, $
@@ -1811,7 +1811,7 @@ function doc_system::init, root=root, output=output, $
   
   self.proFiles = obj_new('MGcoArrayList', type=11, block_size=20)
   self.dlmFiles = obj_new('MGcoArrayList', type=11, block_size=20)
-  self.savFiles = obj_new('MGcoArrayList', type=11, block_size=20)  
+  self.savFiles = obj_new('MGcoArrayList', type=11, block_size=20)
   self.idldocFiles = obj_new('MGcoArrayList', type=11, block_size=20)
   
   self.visibleRoutines = obj_new('MGcoHashTable', key_type=7, value_type=11)
