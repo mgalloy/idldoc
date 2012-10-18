@@ -16,9 +16,9 @@
       [% INCLUDE print_css_location %]
     </style>
     [% ELSE %]
-    <link rel="stylesheet" type="text/css" media="all" 
+    <link rel="stylesheet" type="text/css" media="all"
           href="[% relative_root %]idldoc-resources/main.css" />
-    <link rel="stylesheet" type="text/css" media="print" 
+    <link rel="stylesheet" type="text/css" media="print"
           href="[% relative_root %]idldoc-resources/main-print.css" />
     [% END %]
     
@@ -34,4 +34,4 @@
       <code class="source">[% code %]</code>
     </div>
   </body>
-</html>  
+</html>

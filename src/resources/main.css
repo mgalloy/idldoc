@@ -35,13 +35,13 @@ div.details dt { color: #871E31; margin-left: 2em; }
 div.details dt span { color: #384806; margin-left: 2em; }
 div.details dd { margin: 0.5em 2em 1em 4em; }
 a.top { 
-	font-family: Verdana, Helvetica, sans-serif; 
-	font-size: 8pt; 
-	font-weight: bold;
-	color: #5070ff; 
-	text-transform: uppercase; 
-	float: right; 
-	margin-left: 1em;
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: 8pt; 
+  font-weight: bold;
+  color: #5070ff; 
+  text-transform: uppercase; 
+  float: right; 
+  margin-left: 1em;
 }
 
 /* comments */
