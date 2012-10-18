@@ -1,7 +1,7 @@
 ; docformat = 'rst'
 
 ;+
-; This class represents the entire IDLdoc run. All information/settings for 
+; This class represents the entire IDLdoc run. All information/settings for
 ; the run are stored (or at least accessible from) here.
 ;
 ; :Author:
@@ -13,7 +13,7 @@
 ;    output
 ;       the directory to which to output the documentation
 ;    classes
-;       hash table (classname -> `DOCtreeClass`) containing all class 
+;       hash table (classname -> `DOCtreeClass`) containing all class
 ;       definitions
 ;    format
 ;       format style
@@ -78,7 +78,7 @@ function doc_system::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'system': return, self
-    
+
     'idldoc_version': return, self.idldoc_version
     'charset': return, self.charset
     'date': return, systime()
@@ -88,29 +88,29 @@ function doc_system::getVariable, name, found=found
     'statistics': return, self.statistics
     'index_level': return, self.indexLevel
     'use_latex': return, self.useLatex
-    
+
     'preformat': return, self.preformat
     'embed': return, self.embed
     'nonavbar': return, self.nonavbar
     'nosource': return, self.nosource
-    
+
     'has_overview_comments': return, obj_valid(self.overviewComments)
     'overview_comments': return, self->processComments(self.overviewComments)
 
     'footer': return, self.footer
-    
+
     'output_root': return, self.output
     'relative_root': return, ''
 
     'has_author_info': return, self.hasAuthorInfo
-    
+
     'has_author': return, obj_valid(self.author)
     'author': return, self->processComments(self.author)
     'plain_author': return, self->processPlainComments(self.author)
 
     'has_copyright': return, obj_valid(self.copyright)
     'copyright': return, self->processComments(self.copyright)
-    
+
     'has_history': return, obj_valid(self.history)
     'history': return, self->processComments(self.history)
 
@@ -118,29 +118,29 @@ function doc_system::getVariable, name, found=found
     'version': return, self->processComments(self.version)
         
     'n_dirs': return, self.directories->count()
-    'dirs': return, self.directories->get(/all)   
+    'dirs': return, self.directories->get(/all)
     'n_visible_dirs': begin
         nVisible = 0L
         for d = 0L, self.directories->count() - 1L do begin
-          dir = self.directories->get(position=d)                   
-          nVisible += dir->isVisible()          
+          dir = self.directories->get(position=d)
+          nVisible += dir->isVisible()
         endfor
-        return, nVisible    
+        return, nVisible
       end
     'visible_dirs': begin
         dirs = self.directories->get(/all, count=nDirs)
         if (nDirs eq 0L) then return, -1L
-        
+
         isVisibleDirs = bytarr(nDirs)
         for d = 0L, nDirs - 1L do begin
           isVisibleDirs[d] = dirs[d]->isVisible()
         endfor
-        
+
         ind = where(isVisibleDirs eq 1B, nVisibleDirs)
         if (nVisibleDirs eq 0L) then return, -1L
-              
-        return, dirs[ind]    
-      end 
+
+        return, dirs[ind]
+      end
     'n_pro_files': return, self.proFiles->count()
     'pro_files': return, self.proFiles->get(/all)
     'just_files': begin
@@ -152,14 +152,14 @@ function doc_system::getVariable, name, found=found
           isVisibleDirs[d] = dirs[d]->isVisible()
         endfor
         
-        ind = where(isVisibleDirs eq 1B, nVisibleDirs)      
+        ind = where(isVisibleDirs eq 1B, nVisibleDirs)
         return, nVisibleDirs le 1
       end
     'n_visible_pro_files': begin
         nVisible = 0L
         for f = 0L, self.proFiles->count() - 1L do begin
-          file = self.proFiles->get(position=f)          
-          nVisible += file->isVisible()          
+          file = self.proFiles->get(position=f)
+          nVisible += file->isVisible()
         endfor
         return, nVisible
       end
