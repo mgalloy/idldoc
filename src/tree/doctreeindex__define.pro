@@ -11,10 +11,10 @@
 ;+
 ; Returns an array of first letters of the names of the items in the index.
 ;
-; :Returns: 
+; :Returns:
 ;    strarr
 ;    
-; :Keywords: 
+; :Keywords:
 ;    count : out, optional, type=long
 ;       number of first letters for items in the index
 ;-
@@ -37,7 +37,7 @@ end
 ;    item : in, required, type=object
 ;       item to add to the index; any object with 'index_name', 'index_url',
 ;       and 'index_type' available from getVariable can be added
-;- 
+;-
 pro doctreeindex::add, item
   compile_opt strictarr, hidden
 

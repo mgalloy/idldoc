@@ -9,7 +9,7 @@
 ;    name
 ;       name of the routine
 ;    is_function
-;       1 if a function, 0 if not 
+;       1 if a function, 0 if not
 ;    is_method
 ;       1 if a method, 0 if not
 ;    parameters
@@ -285,9 +285,9 @@ function doctreeroutine::getVariable, name, found=found
 
     'is_function': return, self.isFunction
     'is_private': return, self.isPrivate
-    'is_abstract': return, self.isAbstract  
-    'is_private': return, self.isPrivate   
-    'is_visible': return, self->isVisible() 
+    'is_abstract': return, self.isAbstract
+    'is_private': return, self.isPrivate
+    'is_visible': return, self->isVisible()
     'is_obsolete': return, self.isObsolete
     'is_method': return, self.isMethod
     
@@ -311,7 +311,7 @@ function doctreeroutine::getVariable, name, found=found
           self.firstline = mg_tm_firstline(self.comments)
         endif
         
-        return, self.system->processComments(self.firstline)        
+        return, self.system->processComments(self.firstline)
       end
     'plain_comments': return, self.system->processPlainComments(self.comments)
 
@@ -382,8 +382,8 @@ function doctreeroutine::getVariable, name, found=found
     'n_visible_parameters': begin
         nVisible = 0L
         for p = 0L, self.parameters->count() - 1L do begin
-          parameter = self.parameters->get(position=p)          
-          nVisible += parameter->isVisible()          
+          parameter = self.parameters->get(position=p)
+          nVisible += parameter->isVisible()
         endfor
         return, nVisible
       end
@@ -406,8 +406,8 @@ function doctreeroutine::getVariable, name, found=found
     'n_visible_keywords': begin
         nVisible = 0L
         for k = 0L, self.keywords->count() - 1L do begin
-          keyword = self.keywords->get(position=k)          
-          nVisible += keyword->isVisible()          
+          keyword = self.keywords->get(position=k)
+          nVisible += keyword->isVisible()
         endfor
         return, nVisible
       end
@@ -436,7 +436,7 @@ function doctreeroutine::getVariable, name, found=found
           result += name
           result += strjoin(self.system->processPlainComments(comments), ' ')
           result += strjoin(self.system->processPlainComments(type), ' ')
-          result += strjoin(self.system->processPlainComments(defaultValue), ' ')                    
+          result += strjoin(self.system->processPlainComments(defaultValue), ' ')
         endfor
         
         ; for each param: grab each param name, comments, type, default
@@ -447,7 +447,7 @@ function doctreeroutine::getVariable, name, found=found
           result += name
           result += strjoin(self.system->processPlainComments(comments), ' ')
           result += strjoin(self.system->processPlainComments(type), ' ')
-          result += strjoin(self.system->processPlainComments(defaultValue), ' ')                    
+          result += strjoin(self.system->processPlainComments(defaultValue), ' ')
         endfor        
         return, result
       end

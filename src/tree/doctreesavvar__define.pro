@@ -13,7 +13,7 @@
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: 
+; :Returns:
 ;    variable
 ;    
 ; :Params:

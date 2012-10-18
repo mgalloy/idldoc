@@ -231,7 +231,7 @@ end
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: 
+; :Returns:
 ;    variable
 ;
 ; :Params:
@@ -260,7 +260,7 @@ function doctreeprofile::getVariable, name, found=found
         self.system->getProperty, source_link=sourceLink, output=output
         case sourceLink of
           0: return, file_basename(self.basename)   ; URL to copy
-          1: begin   ; relative URL               
+          1: begin   ; relative URL
                self.directory->getProperty, url=url
                return, mg_relative_path(output + url, self.fullpath, /web)
              end
@@ -297,13 +297,13 @@ function doctreeprofile::getVariable, name, found=found
     'categories': return, self.categories->get(/all)
     
     'has_examples': return, obj_valid(self.examples)
-    'examples': return, self.system->processComments(self.examples) 
+    'examples': return, self.system->processComments(self.examples)
         
     'has_comments': return, obj_valid(self.comments)
-    'comments': return, self.system->processComments(self.comments)       
+    'comments': return, self.system->processComments(self.comments)
     'comments_first_line': begin
         ; if no file comments, but there is only one routine then return the
-        ; first line of the routine's comments           
+        ; first line of the routine's comments
         if (~obj_valid(self.comments)) then begin
           filename = strlowcase(strmid(self.basename, 0, strpos(self.basename, '.')))
           for r = 0L, self.routines->count() - 1L do begin
@@ -321,7 +321,7 @@ function doctreeprofile::getVariable, name, found=found
           self.firstline = mg_tm_firstline(self.comments)
         endif
         
-        return, self.system->processComments(self.firstline)      
+        return, self.system->processComments(self.firstline)
       end
     'plain_comments': return, self.system->processPlainComments(self.comments)
                 
@@ -330,8 +330,8 @@ function doctreeprofile::getVariable, name, found=found
     'n_visible_routines': begin
         nVisible = 0L
         for r = 0L, self.routines->count() - 1L do begin
-          routine = self.routines->get(position=r)          
-          nVisible += routine->isVisible()          
+          routine = self.routines->get(position=r)
+          nVisible += routine->isVisible()
         endfor
         return, nVisible
       end
@@ -381,10 +381,10 @@ function doctreeprofile::getVariable, name, found=found
         return, comments
       end      
     'index_url': begin
-        self.directory->getProperty, url=dirUrl
+        dirUrl = self.directory->getVariable('url')
         return, dirUrl + file_basename(self.basename, '.pro') + '.html'
       end
-            
+
     'has_others': return, self.hasOthers
 
     'has_bugs': return, obj_valid(self.bugs)
@@ -599,7 +599,7 @@ end
 ;-
 pro doctreeprofile::generateOutput, outputRoot, directory
   compile_opt strictarr, hidden
-  
+
   ; don't produce output if not visible
   if (~self->isVisible()) then return
 
@@ -607,10 +607,10 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   if (~found) then return
 
   sourceTemplate = self.system->getTemplate('source', found=SourceTemplateFound)
-  
+
   self.system->print, '  Generating output for ' + self.basename + '...'
   self.system->getProperty, extension=outputExtension
-    
+
   outputDir = outputRoot + directory
   outputFilename = outputDir + file_basename(self.basename, '.pro') + '.' + outputExtension
   
@@ -624,7 +624,7 @@ pro doctreeprofile::generateOutput, outputRoot, directory
     path = file_dirname(self.fullpath, /mark_directory)
     filename = self.imagerefs->get(position=i)
 
-    ; if extension of imageref is svg, then look for a PDF file if 
+    ; if extension of imageref is svg, then look for a PDF file if
     ; commentstyle is LaTeX
     if (commentStyle eq 'latex') then begin
       dotpos = strpos(filename, '.', /reverse_search)
@@ -633,7 +633,7 @@ pro doctreeprofile::generateOutput, outputRoot, directory
         filename = strmid(filename, 0, dotpos) + '.pdf'
       endif
     endif
-    
+
     if (file_test(path + filename)) then begin
       _outputDir = file_dirname(outputDir + filename)
       if (~file_test(_outputDir, /directory)) then file_mkdir, _outputDir

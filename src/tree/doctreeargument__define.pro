@@ -1,12 +1,12 @@
 ; docformat = 'rst'
 
 ;+
-; Argument class representing a positional parameter or keyword for a routine. 
+; Argument class representing a positional parameter or keyword for a routine.
 ; 
 ; :Properties:
 ;    routine
 ;       DOCtreeRoutine object that contains this argument
-;    name 
+;    name
 ;       name of the routine
 ;    is_first
 ;       set to indicate that this argument is the first of its parent routine
@@ -37,14 +37,14 @@
 ; The getVariable method is required for objects passed as an input to a
 ; template.
 ;
-; :Returns: 
+; :Returns:
 ;    value or -1L if variable name not found
 ;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable (case insensitive)
 ; 
-; :Keywords: 
+; :Keywords:
 ;    found : out, optional, type=boolean
 ;       pass a named variable to get whether the variable was found
 ;-
@@ -127,7 +127,7 @@ function doctreeargument::getVariable, name, found=found
     end
     
     'has_comments': return, obj_valid(self.comments)
-    'comments': return, self.system->processComments(self.comments)       
+    'comments': return, self.system->processComments(self.comments)
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
         
@@ -135,7 +135,7 @@ function doctreeargument::getVariable, name, found=found
           self.firstline = mg_tm_firstline(self.comments)
         endif
         
-        return, self.system->processComments(self.firstline) 
+        return, self.system->processComments(self.firstline)
       end    
     
     else : begin
@@ -254,7 +254,7 @@ end
 
 
 ;+
-; Arguments are visible if their routine is visible and they don't have hidden 
+; Arguments are visible if their routine is visible and they don't have hidden
 ; or private (with system variable user) set.
 ;
 ; :Returns: 1 if visible, 0 if not
@@ -329,7 +329,7 @@ end
 ; 
 ; :Returns: 1 for success, 0 for failure
 ;
-; :Params: 
+; :Params:
 ;    routine : in, required, type=object
 ;       DOCtreeRoutine object
 ;-
@@ -355,9 +355,9 @@ end
 ; Define the instance variables.
 ;
 ; :Fields:
-;    routine 
-;       DOCtreeRoutine object that contains this argument
-;    name 
+;    routine
+;       `DOCtreeRoutine` object that contains this argument
+;    name
 ;       name of the argument
 ;    isFirst
 ;       indicates that this argument is the first of its parent routine

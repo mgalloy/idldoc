@@ -20,7 +20,7 @@
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: 
+; :Returns:
 ;    variable value
 ;    
 ; :Params:
@@ -37,10 +37,9 @@ function doctreeclass::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'classname': return, self.classname
-    'has_url': return, obj_valid(self.proFile)              
+    'has_url': return, obj_valid(self.proFile)
     'url': begin
         if (~obj_valid(self.proFile)) then return, ''
-        
         self.proFile->getProperty, directory=directory
         dirUrl = directory->getVariable('url')
         proUrl = self.proFile->getVariable('local_url')
@@ -109,7 +108,7 @@ function doctreeclass::getVariable, name, found=found
     'index_url': return, self->getVariable('url')
     
     'has_comments': return, 0B
-    'comments': return, self.system->processComments(obj_new())   
+    'comments': return, self.system->processComments(obj_new())
     'comments_first_line': return, ''
     
     else: begin
@@ -152,7 +151,7 @@ end
 ;+
 ; Easy to use accessor for URL to class file relative to doc root.
 ;
-; :Returns: 
+; :Returns:
 ;    string
 ;-
 function doctreeclass::getUrl
@@ -170,7 +169,7 @@ end
 ;+
 ; Easy to use accessor for number of fields.
 ;
-; :Returns: 
+; :Returns:
 ;    strarr or string
 ;-
 function doctreeclass::getFieldCount

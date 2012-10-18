@@ -48,7 +48,7 @@ end
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: 
+; :Returns:
 ;    variable
 ;
 ; :Params:
@@ -73,10 +73,10 @@ function doctreeidldocfile::getVariable, name, found=found
       end
     
     'has_comments': return, obj_valid(self.comments)
-    'comments': return, self.system->processComments(self.comments)    
+    'comments': return, self.system->processComments(self.comments)
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
-        comments = self.system->processComments(self.comments) 
+        comments = self.system->processComments(self.comments)
         
         nLines = n_elements(comments)
         line = 0
@@ -113,7 +113,7 @@ function doctreeidldocfile::getVariable, name, found=found
         return, comments
       end      
     'index_url': begin
-        self.directory->getProperty, url=dirUrl
+        dirUrl = self.directory->getVariable('url')
         return, dirUrl + file_basename(self.basename, '.idldoc') + '.html'
       end
                    

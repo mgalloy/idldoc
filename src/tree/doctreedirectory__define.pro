@@ -9,7 +9,7 @@
 ;    location
 ;       location of the directory relative to the ROOT (w/ trailing slash)
 ;    overview_comments
-;       markup comment tree representing the overview comments for the 
+;       markup comment tree representing the overview comments for the
 ;       directory
 ;    system
 ;       system object
@@ -88,7 +88,7 @@ end
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: 
+; :Returns:
 ;    variable
 ;
 ; :Params:
@@ -105,7 +105,10 @@ function doctreedirectory::getVariable, name, found=found
   found = 1B
   case strlowcase(name) of
     'location' : return, self.location
-    'url' : return, self.url
+    'url' : begin
+        self.system->getProperty, flat=flat
+        return, flat ? './' : self.url
+      end
     'relative_root' : begin
         if (self.location eq '.' + path_sep()) then return, ''
         dummy = strsplit(self.location, path_sep(), count=nUps)
@@ -158,7 +161,7 @@ function doctreedirectory::getVariable, name, found=found
                      ? self.comments $
                      : (obj_valid(self.overviewComments) $
                           ? self.overviewComments $
-                          : obj_new()) 
+                          : obj_new())
 
         if (~obj_valid(comments)) then return, ''
         
@@ -173,8 +176,8 @@ function doctreedirectory::getVariable, name, found=found
     'n_visible_pro_files': begin
         nVisible = 0L
         for f = 0L, self.proFiles->count() - 1L do begin
-          file = self.proFiles->get(position=f)          
-          nVisible += file->isVisible()          
+          file = self.proFiles->get(position=f)
+          nVisible += file->isVisible()
         endfor
         return, nVisible
       end
@@ -198,8 +201,8 @@ function doctreedirectory::getVariable, name, found=found
     'n_visible_dlm_files': begin
         nVisible = 0L
         for f = 0L, self.dlmFiles->count() - 1L do begin
-          file = self.dlmFiles->get(position=f)          
-          nVisible += file->isVisible()          
+          file = self.dlmFiles->get(position=f)
+          nVisible += file->isVisible()
         endfor
         return, nVisible
       end
@@ -223,8 +226,8 @@ function doctreedirectory::getVariable, name, found=found
     'n_visible_sav_files': begin
         nVisible = 0L
         for f = 0L, self.savFiles->count() - 1L do begin
-          file = self.savFiles->get(position=f)          
-          nVisible += file->isVisible()          
+          file = self.savFiles->get(position=f)
+          nVisible += file->isVisible()
         endfor
         return, nVisible
       end
@@ -248,8 +251,8 @@ function doctreedirectory::getVariable, name, found=found
     'n_visible_idldoc_files': begin
         nVisible = 0L
         for f = 0L, self.idldocFiles->count() - 1L do begin
-          file = self.idldocFiles->get(position=f)          
-          nVisible += file->isVisible()          
+          file = self.idldocFiles->get(position=f)
+          nVisible += file->isVisible()
         endfor
         return, nVisible
       end
@@ -271,7 +274,7 @@ function doctreedirectory::getVariable, name, found=found
     'fullname' : return, strjoin(strsplit(self.location, path_sep(), /extract), '.')
 
     'has_author_info': return, self.hasAuthorInfo
-    
+
     'has_author': return, obj_valid(self.author)
     'author': return, self.system->processComments(self.author)
     'plain_author': return, self.system->processPlainComments(self.author)
@@ -284,13 +287,13 @@ function doctreedirectory::getVariable, name, found=found
         
     'index_name': return, self.location
     'index_type': return, 'directory'
-    'index_url': return, self.url + 'dir-overview.html'
-    
+    'index_url': return, self->getVariable('url') + 'dir-overview.html'
+
     else: begin
         ; search in the system object if the variable is not found here
         var = self.system->getVariable(name, found=found)
         if (found) then return, var
-        
+
         found = 0B
         return, -1L
       end
@@ -302,7 +305,7 @@ end
 ; Uses file hidden/private attributes and system wide user/developer level to
 ; determine if this file should be visible.
 ;
-; :Returns: 
+; :Returns:
 ;    boolean
 ;    
 ; :Keywords:
@@ -390,21 +393,22 @@ end
 ;+
 ; Generate all the output for the directory.
 ;
-; :Params: 
+; :Params:
 ;    outputRoot : in, required, type=string
 ;       output root directory (w/ trailing slash)
 ;-
 pro doctreedirectory::generateOutput, outputRoot
   compile_opt strictarr, hidden
   on_error, 2
-  
+
   if (~self->isVisible()) then return
+  self.system->getProperty, flat=flat
   
   self.system->print, 'Generating output for ' + self.location + '...'
 
   ; create directory in the output if necessary
   outputDir = outputRoot + self.location
-  if (~file_test(outputDir)) then begin
+  if (~file_test(outputDir) && (flat eq 0B)) then begin
     self.system->makeDirectory, outputDir, error=error
     if (error ne 0L) then begin
       self.system->error, 'unable to make directory ' + outputDir
@@ -414,22 +418,22 @@ pro doctreedirectory::generateOutput, outputRoot
   ; generate docs for each .pro/.dlm/.sav/.idldoc file in directory
   for f = 0L, self.proFiles->count() - 1L do begin
     file = self.proFiles->get(position=f)
-    file->generateOutput, outputRoot, self.location
+    file->generateOutput, outputRoot, flat ? '' : self.location
   endfor
 
   for f = 0L, self.dlmFiles->count() - 1L do begin
     file = self.dlmFiles->get(position=f)
-    file->generateOutput, outputRoot, self.location
+    file->generateOutput, outputRoot, flat ? '' : self.location
   endfor
   
   for f = 0L, self.savFiles->count() - 1L do begin
     file = self.savFiles->get(position=f)
-    file->generateOutput, outputRoot, self.location
+    file->generateOutput, outputRoot, flat ? '' : self.location
   endfor
   
   for f = 0L, self.idldocFiles->count() - 1L do begin
     file = self.idldocFiles->get(position=f)
-    file->generateOutput, outputRoot, self.location
+    file->generateOutput, outputRoot, flat ? '' : self.location
   endfor
   
   self.system->getProperty, extension=outputExtension

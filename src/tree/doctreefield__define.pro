@@ -17,14 +17,14 @@
 ; The getVariable method is required for objects passed as an input to a
 ; template.
 ;
-; :Returns: 
+; :Returns:
 ;    value or -1L if variable name not found
 ;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable (case insensitive)
 ; 
-; :Keywords: 
+; :Keywords:
 ;    found : out, optional, type=boolean
 ;       pass a named variable to get whether the variable was found
 ;-
@@ -44,7 +44,7 @@ function doctreefield::getVariable, name, found=found
     'type': return, self.type      
     
     'has_comments': return, obj_valid(self.comments)
-    'comments': return, self.system->processComments(self.comments)  
+    'comments': return, self.system->processComments(self.comments)
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
         
@@ -58,7 +58,7 @@ function doctreefield::getVariable, name, found=found
     'index_name': return, self.name
     'index_type': begin
         self.class->getProperty, classname=classname
-        
+
         type_tree = obj_new('MGtmTag')
         type_tree->addChild, obj_new('MGtmText', text='field in class ')
         link_node = obj_new('MGtmTag', type='link')
@@ -69,7 +69,7 @@ function doctreefield::getVariable, name, found=found
         obj_destroy, type_tree
 
         return, comments
-      end     
+      end
     'index_url': return, self.class->getVariable('url')
                 
     else: begin
