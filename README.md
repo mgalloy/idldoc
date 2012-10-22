@@ -1,0 +1,4 @@
+idldoc
+======
+
+Documenting IDL code
