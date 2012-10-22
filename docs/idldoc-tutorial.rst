@@ -9,7 +9,11 @@ IDLdoc 3.3 Tutorial
 Introduction
 ------------
 
-IDLdoc generates nicely formatted API documentation directly from IDL source code. If the documentation is kept close to the code itself is much more likely to be kept up-to-date. As much as possible is generated directly from the source code, making IDLdoc useful even if there are no specially formatted comments at all in the source code.
+IDLdoc generates nicely formatted API documentation directly from IDL source
+code. If the documentation is kept close to the code itself is much more likely
+to be kept up-to-date. As much as possible the documentation produced by IDLdoc
+is generated directly from the source code, making IDLdoc useful even if there
+are no specially formatted comments at all in the source code.
 
 IDLdoc's goals are to:
 
