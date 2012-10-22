@@ -29,8 +29,8 @@ IDLdoc 3.5
 * Added hide/show prompts in code snippets in HTML output from rst markup
   comments.
 
-* Allow markup in Uses tag when using the rst markup parser. Note: the Uses 
-  tag is for a list of files or routines optionally separated by commas, plain 
+* Allow markup in Uses tag when using the rst markup parser. Note: the Uses
+  tag is for a list of files or routines optionally separated by commas, plain
   text will have commas inserted between words.
 
 * Fixed errors in LaTeX output.
@@ -54,7 +54,7 @@ IDLdoc 3.4.1
 ------------
 *Released November 28, 2011*
 
-* Fixed another bug where parsing rst Requires tag would cause IDLdoc to 
+* Fixed another bug where parsing rst Requires tag would cause IDLdoc to
   crash.
 
 
@@ -64,7 +64,7 @@ IDLdoc 3.4
 
 * Allow LaTeX equation formatting.
 
-* Fix for bug where links to routines, files, etc. in directory overview 
+* Fix for bug where links to routines, files, etc. in directory overview
   comments on the overview page were not correct.
 
 * Adding links to parent items in index entries.
@@ -112,7 +112,7 @@ IDLdoc 3.3
   ROUTINE_LINE_CUTOFFS to a two-element array indicating the number of lines
   that needs to be exceeded before the routine has a warning or is flagged.
 
-* McCabe complexity computed for each routine when STATISTICS set. Added 
+* McCabe complexity computed for each routine when STATISTICS set. Added
   COMPLEXITY_CUTOFFS keyword to control level of warning for complexity. Set
   COMPLEXITY_CUTOFFS to a two-element array indicating the complexity that
   needs to be exceeded before the routine has a warning or is flagged.
@@ -122,11 +122,11 @@ IDLdoc 3.3
 * Improved rst markup style. Headings can be created by underlining with "="
   (for level 1 headings), "-" (level 2), or "~" (level 3). Links can be done
   explicitly via `my website <michaelgalloy.com>` or looked up in the scope
-  of the comment's context, like `my_routine`. Added title directive so that 
+  of the comment's context, like `my_routine`. Added title directive so that
   .idldoc files can have a separate title to be display (instead of just their
   filename).
 
-* Added a preformatted markup style which is nearly equivalent to verbatim, 
+* Added a preformatted markup style which is nearly equivalent to verbatim,
   but also makes HTML output respect line-breaks.
   
 * Added author, copyright, history, and version tags to the overview file
@@ -159,12 +159,12 @@ IDLdoc 3.2
   2 for level 1 items plus parameters, keywords, fields, properties, and sav
   file variables
 
-* Adds links to names of routines and classes found in the Uses section for 
+* Adds links to names of routines and classes found in the Uses section for
   routines and files.
 
-* Added color output in the output log for errors and warnings if the 
+* Added color output in the output log for errors and warnings if the
   COLOR_OUTPUTLOG keyword is set or if the MG_TERMISTTY routine is present and
-  returns true. 
+  returns true.
 
 * Miscellaneous small bug fixes.
 
@@ -179,7 +179,7 @@ IDLdoc 3.1
 * In rst markup, illegal characters like < and > are automatically converted
   to character entities.
   
-* Added `:Description:` tag for compatibility with IDL Workbench update. 
+* Added `:Description:` tag for compatibility with IDL Workbench update.
 
 * Changed default markup parser to rst when format parser is rst.
 
@@ -190,14 +190,14 @@ IDLdoc 3.0
 ----------
 *Released January 21, 2008*
 
-* IDLdoc 3.0 is completely rewritten from scatch. It is released under a 
-  BSD-style open source license (see COPYING file for legal details). Feel 
-  free to make modifications to the source code. If you add something cool 
+* IDLdoc 3.0 is completely rewritten from scatch. It is released under a
+  BSD-style open source license (see COPYING file for legal details). Feel
+  free to make modifications to the source code. If you add something cool
   that you think others would be interested, please send me a patch!
   
 * Comments inside ;+/;- that are not immediately before or after a routine
   header are considered file level comments. (The file_comments tag is still
-  used, but is no longer needed.) There are also file-level tags now; any 
+  used, but is no longer needed.) There are also file-level tags now; any
   routine level tag that is reasonable on the file-level is allowed (i.e. most
   anything except params, keywords, and returns).
   
@@ -205,7 +205,7 @@ IDLdoc 3.0
 
 * Comments can now contain basic restructured text markup. Separating lines
   of text with a blank line will create separate paragraphs. Ending a line
-  with two colons (::) and then indenting will format the indented section 
+  with two colons (::) and then indenting will format the indented section
   like a block of code.
 
 * It is now feasible to create your own library of templates for output. The
@@ -213,7 +213,7 @@ IDLdoc 3.0
   TEMPLATE_LOCATION keyword specifies a directory for the templates to use.
   The easiest way to get started with this is to copy the provided templates
   to a new location, specify that location with the TEMPLATE_LOCATION keyword,
-  and start modifying those templates. 
+  and start modifying those templates.
   
   Also the COMMENT_STYLE keyword specifies a classname of the class to handle
   outputting other types of comments besides HTML (i.e. LaTeX, rst, etc.).
@@ -245,7 +245,7 @@ IDLdoc 3.0
   
 * Ability to generate output for the IDL Assistant has not been reimplemented
   since IDL has a new help system in IDL 7.0. For now, only HTML designed for
-  a normal browser is provided with IDLdoc (though with the TEMPLATE_* 
+  a normal browser is provided with IDLdoc (though with the TEMPLATE_*
   keywords, users could now do these customizations themselves).
 
 * IDLdoc 3.0 requires IDL 6.2. IDLdoc runs on all platforms supported by IDL.

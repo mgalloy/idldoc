@@ -7,15 +7,15 @@ Subversion repository, there are more requirements.
 
   1. Put the ``src`` directory and its subdirectories into the ``!path``.
 
-  2. Put the ``src\cmdline_tools`` and ``src\dist_tools`` directories into the 
+  2. Put the ``src\cmdline_tools`` and ``src\dist_tools`` directories into the
      ``!dlm_path``.
 
-  3. On UNIX systems, build the binaries in the ``src\cmdline_tools`` and 
+  3. On UNIX systems, build the binaries in the ``src\cmdline_tools`` and
      ``src\dist_tools`` from the top-level directory by just doing::
 
         $ make all
 
-     On Windows, the individual commands must be entered. From the 
+     On Windows, the individual commands must be entered. From the
      ``src\cmdline_tools``::
 
         IDL> mg_build_cmdline_tools

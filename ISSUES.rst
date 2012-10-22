@@ -2,24 +2,24 @@ Known bugs
 ----------
 
 Please add tickets for new bugs and add feature requests at the project
-website, idldoc.idldev.com.
+website, github.com/mgalloy/idldoc.
 
 
-Backward-compatibility issues
------------------------------
+Backward-compatibility issues between IDLdoc 2.0 and 3.0
+--------------------------------------------------------
 
 * A comment block separated from a routine header by a blank line would be
   associated with the routine in IDLdoc 2.0, but is considered a file level
   comment in IDL 3.0. In particularly, param, keyword, and returns tags in
-  that comment block would now generate warnings since they are routine level 
+  that comment block would now generate warnings since they are routine level
   comment tags in a file level comment.
 
 * The "inherits" tag was obsoleted. Inherited classes are automatically
   found by IDLdoc.
 
 * The ASSISTANT and PREFORMAT keywords to IDLDOC were obsoleted. The IDL
-  Assistant is not likely to be supported much longer by IDL, so the 
-  assistant format was not reimplemented for IDLdoc 3.0. With the 
+  Assistant is not likely to be supported much longer by IDL, so the
+  assistant format was not reimplemented for IDLdoc 3.0. With the
   introduction of the IDL format and the ability to add further formats, the
   PREFORMAT was deemed unnecessary to reimplement.
 

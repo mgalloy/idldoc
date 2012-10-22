@@ -2,12 +2,12 @@ Source code, HTML templates, and CSS style sheets for IDLdoc 3.0 were written
 by Michael Galloy. Much fixing of typos, bug reporting, and good suggestions
 from Françoise Pinsard, Joe Hood, Jim Pendleton, and Mark Piper.
 
-See the LICENSE file in the resources/mathjax directory for the MathJax 
+See the LICENSE file in the resources/mathjax directory for the MathJax
 license.
 
 See the LICENSE file in the resources/js directory for the Sphinx license.
 
-The attach.png icon is part of Mark James' Silk icon set available at  
+The attach.png icon is part of Mark James' Silk icon set available at
 
   http://www.famfamfam.com/lab/icons/silk/
 
