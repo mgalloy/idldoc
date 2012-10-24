@@ -53,7 +53,7 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
                                  is_abstract=isAbstract, $
                                  is_obsolete=isObsolete, $
                                  comments=comments, $
-                                 modification_time=mTime, n_lines=nLines, $ 
+                                 modification_time=mTime, n_lines=nLines, $
                                  format=format, markup=markup, $
                                  examples=examples, $
                                  author=author, copyright=copyright, $
@@ -89,7 +89,7 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
       regularLines = proFileParser->_stripComments(line, comments=commentsLines)
             
       if (stregex(line, nameRe, /boolean)) then begin        
-        tokens = stregex(line, nameRe, /subexpr, /extract) 
+        tokens = stregex(line, nameRe, /subexpr, /extract)
         
         anchor = obj_new('MGtmTag', type='anchor')
         anchor->addAttribute, 'identifier', tokens[2] + ':source'
@@ -185,10 +185,10 @@ end
 
 
 ;+
-; Get a class of the given name if defined in the file or system already, create 
-; it if not.
+; Get a class of the given name if defined in the file or system already,
+; create it if not.
 ;
-; :Returns: 
+; :Returns:
 ;    class tree object
 ;
 ; :Params:
@@ -205,7 +205,7 @@ function doctreeprofile::getClass, classname
     if (strlowcase(classname) eq strlowcase(checkClassname)) then return, class
   endfor
 
-  ; next, check the system for the class, it may have been referenced by 
+  ; next, check the system for the class, it may have been referenced by
   ; another class in another file
   self.system->getProperty, classes=classes
   class = classes->get(strlowcase(classname), found=found)
@@ -443,7 +443,7 @@ end
 ; Uses file hidden/private attributes and system wide user/developer level to
 ; determine if this file should be visible.
 ;
-; :Returns: 
+; :Returns:
 ;    boolean
 ;-
 function doctreeprofile::isVisible
@@ -476,7 +476,7 @@ end
 
 
 ;+
-; Add property comments to the appropriate keyword if there are no keyword 
+; Add property comments to the appropriate keyword if there are no keyword
 ; comments.
 ;
 ; :Params:
@@ -495,7 +495,7 @@ pro doctreeprofile::_propertyCheck, methodname, propertyname, comments, class
   class->getProperty, classname=classname
   
   for r = 0L, self.routines->count() - 1L do begin
-    routine = self.routines->get(position=r)    
+    routine = self.routines->get(position=r)
     routine->getProperty, name=name
     
     if (strlowcase(name) eq strlowcase(classname + '::' + methodname)) then begin
@@ -542,37 +542,37 @@ pro doctreeprofile::process
     ; if has properties, then place properties' comment into keyword comments
     ; for getProperty, setProperty, and init if there are no comments there
     ; already
-    
-    for c = 0L, self.classes->count() - 1L do begin      
+
+    for c = 0L, self.classes->count() - 1L do begin
       class = self.classes->get(position=c)
       class->getProperty, properties=properties
       propertyNames = properties->keys(count=nProperties)
-      
+
       for p = 0L, nProperties - 1L do begin
         property = properties->get(propertyNames[p])
         property->getProperty, is_get=isGet, is_set=isSet, is_init=isInit, $
                                comments=comments
-        
+
         if (isGet) then begin
           self->_propertyCheck, 'getProperty', propertyNames[p], comments, class
         endif
-        
+
         if (isSet) then begin
           self->_propertyCheck, 'setProperty', propertyNames[p], comments, class
         endif
-        
+
         if (isInit) then begin
           self->_propertyCheck, 'init', propertyNames[p], comments, class
         endif
       endfor
     endfor
   endif
-  
+
   for r = 0L, self.routines->count() - 1L do begin
     routine = self.routines->get(position=r)
     routine->markArguments
     routine->checkDocumentation
-        
+
     routine->getProperty, name=routineName
     if (routine->isVisible()) then begin
       self.system->addVisibleRoutine, routineName, routine
@@ -583,7 +583,7 @@ end
 
 pro doctreeprofile::addImageRef, filename
   compile_opt strictarr, hidden
-  
+
   self.imagerefs->add, filename
 end
 
