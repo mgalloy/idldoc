@@ -621,6 +621,14 @@ pro doctreeprofile::generateOutput, outputRoot, directory
 
   ; copy images references in the documentation
   for i = 0L, self.imagerefs->count() - 1L do begin
+    ; if creating a flat hierarchy, images go in images/libraries/
+    self.system->getProperty, flat=flat
+    _outputDir = flat $
+                   ? filepath(path_sep(), $
+                              subdir=['images', 'libraries'], $
+                              root=outputRoot) $
+                   : outputDir
+    
     path = file_dirname(self.fullpath, /mark_directory)
     filename = self.imagerefs->get(position=i)
 
@@ -635,10 +643,10 @@ pro doctreeprofile::generateOutput, outputRoot, directory
     endif
 
     if (file_test(path + filename)) then begin
-      _outputDir = file_dirname(outputDir + filename)
+      _outputDir = file_dirname(_outputDir + filename, /mark_directory)
       if (~file_test(_outputDir, /directory)) then file_mkdir, _outputDir
 
-      file_copy, path + filename, outputDir + filename, /allow_same, /overwrite
+      file_copy, path + filename, _outputDir + filename, /allow_same, /overwrite
     endif else begin
       self.system->warning, 'image at ' + path + filename + ' not found'
     endelse
