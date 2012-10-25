@@ -613,9 +613,9 @@ pro doctreeprofile::generateOutput, outputRoot, directory
 
   outputDir = outputRoot + directory
   outputFilename = outputDir + file_basename(self.basename, '.pro') + '.' + outputExtension
-  
+
   proFileTemplate->reset
-  proFileTemplate->process, self, outputFilename  
+  proFileTemplate->process, self, outputFilename
 
   self.system->getProperty, comment_style=commentStyle
 
@@ -628,7 +628,7 @@ pro doctreeprofile::generateOutput, outputRoot, directory
                               subdir=['images', 'libraries'], $
                               root=outputRoot) $
                    : outputDir
-    
+
     path = file_dirname(self.fullpath, /mark_directory)
     filename = self.imagerefs->get(position=i)
 
@@ -651,18 +651,18 @@ pro doctreeprofile::generateOutput, outputRoot, directory
       self.system->warning, 'image at ' + path + filename + ' not found'
     endelse
   endfor
-    
+
   self.system->getProperty, nosource=nosource
   if (nosource) then return
-  
+
   ; chromocoded version of the source code
   if (sourceTemplateFound) then begin
     outputFilename = outputDir + file_basename(self.basename, '.pro') + '-code.' + outputExtension
-  
+
     sourceTemplate->reset
-    sourceTemplate->process, self, outputFilename    
+    sourceTemplate->process, self, outputFilename
   endif
-  
+
   ; direct version of the source code
   self.system->getProperty, source_link=sourceLink
   if (sourceLink eq 0) then begin
@@ -677,7 +677,7 @@ end
 ;-
 pro doctreeprofile::fillLinks
   compile_opt strictarr
-  
+
   doctree_fill_links, self.comments, self
   doctree_fill_links, self.firstline, self
   doctree_fill_links, self.examples, self
