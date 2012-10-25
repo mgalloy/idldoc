@@ -58,43 +58,43 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
   catch, error
   if (error ne 0L) then begin
     catch, /cancel
-    self.system->warning, 'unable to handle rst directive ' + directive
+    self.system->warning, 'unable to process rst directive ' + directive
     return
   endif
-  
+
   fullDirective = strmid(line, pos + 3L, len)
   tokens = strsplit(fullDirective, '::[[:space:]]+', /regex, /extract)
   directive = tokens[0]
   filename = tokens[1]
-  
+
   case strlowcase(directive) of
     'image': begin
         tag = obj_new('MGtmTag', type='image')
-        
+
         tag->addAttribute, 'source', filename
 
         if (obj_valid(file)) then begin
           file->getProperty, directory=directory
           directory->getProperty, location=location
         endif else location = '.'
-        
+
         tag->addAttribute, 'location', location
-        
-        if (obj_valid(file)) then file->addImageRef, filename
+
+        if (obj_valid(file)) then file->addImageRef, filename, tag
       end
     'embed': begin
         tag = obj_new('MGtmTag', type='embed')
-        
+
         tag->addAttribute, 'source', filename
-        
+
         if (obj_valid(file)) then begin
           file->getProperty, directory=directory
           directory->getProperty, location=location
         endif else location = '.'
-        
+
         tag->addAttribute, 'location', location
-        
-        if (obj_valid(file)) then file->addImageRef, filename
+
+        if (obj_valid(file)) then file->addImageRef, filename, tag
       end
     'title': begin
         if (obj_valid(file)) then file->setProperty, title=filename
@@ -148,7 +148,7 @@ pro docparrstmarkupparser::_processInlines, para, line
   for i = 0L, ntokens / 2L - 1L do begin
     link_text = self->_processLink(tokens[2 * i + 1], reference=reference)
     
-    tag = obj_new('MGtmTag', type='link')    
+    tag = obj_new('MGtmTag', type='link')
     tag->addAttribute, 'reference', reference    
     tag->addChild, obj_new('MGtmText', text=self->_processText(link_text))
     para->addChild, tag

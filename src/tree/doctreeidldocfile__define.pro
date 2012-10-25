@@ -132,7 +132,7 @@ end
 ;+
 ; .idldoc files are always visible.
 ;
-; :Returns: 
+; :Returns:
 ;    1 if visible, 0 if not visible.
 ;-
 function doctreeidldocfile::isVisible
@@ -142,9 +142,21 @@ function doctreeidldocfile::isVisible
 end
 
 
-pro doctreeidldocfile::addImageRef, filename
+pro doctreeidldocfile::addImageRef, filename, tag
   compile_opt strictarr, hidden
-  
+
+  ; set location of image ref to images/libraries if producing Doc Center output
+  self.system->getProperty, doc_center=doc_center
+  if (doc_center) then begin
+    location = tag->getAttribute('location', found=found)
+    if (found) then begin
+      tag->addAttribute, 'location', filepath(path_sep(), $
+                                              subdir=['images', 'libraries'], $
+                                              root='.')
+    endif
+  endif
+
+  ; add filename to list of filenames to copy when generating output
   self.imagerefs->add, filename
 end
 
@@ -156,7 +168,7 @@ end
 ;    outputRoot : in, required, type=string
 ;       location of the root of the run
 ;    directory : in, required, type=string
-;       specification of the directory the .idldoc file is in (relative to the 
+;       specification of the directory the .idldoc file is in (relative to the
 ;       root)
 ;-
 pro doctreeidldocfile::generateOutput, outputRoot, directory
@@ -172,17 +184,23 @@ pro doctreeidldocfile::generateOutput, outputRoot, directory
   outputDir = outputRoot + directory
   outputFilename = outputDir + file_basename(self.basename, '.pro') + '.' + outputExtension
 
-  self.system->getProperty, root=root    
+  self.system->getProperty, root=root
   self.directory->getProperty, location=dirLocation
   fullpath = filepath(self.basename, subdir=dirLocation, root=root)
   for i = 0L, self.imagerefs->count() - 1L do begin
     path = file_dirname(fullpath, /mark_directory)
     filename = self.imagerefs->get(position=i)
     if (file_test(path + filename)) then begin
-      _outputDir = file_dirname(outputDir + filename)
-      if (~file_test(_outputDir, /directory)) then file_mkdir, _outputDir
+      ; if creating a Doc Center output, images go in images/libraries/
+      self.system->getProperty, doc_center=doc_center
+      _outputDir = doc_center $
+                     ? filepath(path_sep(), $
+                                subdir=['images', 'libraries'], $
+                                root=outputRoot) $
+                     : file_dirname(outputDir + filename, /mark_directory)
 
-      file_copy, path + filename, outputDir + filename, /allow_same, /overwrite
+      if (~file_test(_outputDir, /directory)) then file_mkdir, _outputDir
+      file_copy, path + filename, _outputDir + file_basename(filename), /allow_same, /overwrite
     endif else begin
       self.system->warning, 'image at ' + path + filename + ' not found'
     endelse

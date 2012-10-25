@@ -581,9 +581,21 @@ pro doctreeprofile::process
 end
 
 
-pro doctreeprofile::addImageRef, filename
+pro doctreeprofile::addImageRef, filename, tag
   compile_opt strictarr, hidden
 
+  ; set location of image ref to images/libraries if producing Doc Center output
+  self.system->getProperty, doc_center=doc_center
+  if (doc_center) then begin
+    location = tag->getAttribute('location', found=found)
+    if (found) then begin
+      tag->addAttribute, 'location', filepath(path_sep(), $
+                                              subdir=['images', 'libraries'], $
+                                              root='.')
+    endif
+  endif
+
+  ; add filename to list of filenames to copy when generating output
   self.imagerefs->add, filename
 end
 
@@ -772,7 +784,7 @@ end
 ;+
 ; Create file tree object.
 ;
-; :Returns: 
+; :Returns:
 ;    1 for success, 0 for failure
 ;
 ; :Keywords:
