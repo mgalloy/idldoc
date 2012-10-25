@@ -364,7 +364,8 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              user=user, index_level=indexLevel, $
                              routine_line_cutoffs=routineLineCutoffs, $
                              complexity_cutoffs=complexityCutoffs, $
-                             statistics=statistics, flat=flat
+                             statistics=statistics, $
+                            flat=flat, doc_center=doc_center
   compile_opt strictarr, hidden
 
   if (arg_present(root)) then root = self.root
@@ -384,6 +385,7 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(complexityCutoffs)) then complexityCutoffs = self.complexityCutoffs
   if (arg_present(statistics)) then statistics = self.statistics
   if (arg_present(flat)) then flat = self.flat
+  if (arg_present(doc_center)) then doc_center = self.doc_center
 end
 
 

@@ -621,9 +621,9 @@ pro doctreeprofile::generateOutput, outputRoot, directory
 
   ; copy images references in the documentation
   for i = 0L, self.imagerefs->count() - 1L do begin
-    ; if creating a flat hierarchy, images go in images/libraries/
-    self.system->getProperty, flat=flat
-    _outputDir = flat $
+    ; if creating a Doc Center output, images go in images/libraries/
+    self.system->getProperty, doc_center=doc_center
+    _outputDir = doc_center $
                    ? filepath(path_sep(), $
                               subdir=['images', 'libraries'], $
                               root=outputRoot) $
