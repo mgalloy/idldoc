@@ -9,8 +9,8 @@
 ;    classname
 ;       name of the class
 ;    pro_file
-;       name of the pro_file where the class is defined (where the __define 
-;       routine is) 
+;       name of the pro_file where the class is defined (where the `__define`
+;       routine is)
 ;    properties
 ;       hash table of properties (name -> property tree object)
 ;    system
