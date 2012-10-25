@@ -171,7 +171,7 @@ end
 ;-
 pro doctreeidldocfile::generateOutput, outputRoot, directory
   compile_opt strictarr, hidden
-  
+
   idldocFileTemplate = self.system->getTemplate('idldocfile', found=found)
   if (~found) then return
 
