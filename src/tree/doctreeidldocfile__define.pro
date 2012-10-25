@@ -150,11 +150,9 @@ pro doctreeidldocfile::addImageRef, filename, tag
   if (doc_center) then begin
     location = tag->getAttribute('location', found=found)
     if (found) then begin
-      tag->addAttribute, 'location', filepath(path_sep(), $
-                                              subdir=['images', 'libraries'], $
-                                              root='.')
+      tag->addAttribute, 'location', strjoin(['images', 'libraries'], '/') + '/'
     endif
-  endif
+  endif else tag->addAttribute, 'location', ''
 
   ; add filename to list of filenames to copy when generating output
   self.imagerefs->add, filename
