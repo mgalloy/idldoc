@@ -1,3 +1,3 @@
-[% IF ~index_empty %][% FOREACH letter IN index_first_letters %][% FOREACH item IN system->getIndexEntries(letter) %][% SCOPE item %][% IF obj_isa(item, 'DOCtreeRoutine') %]"";"[% index_name %]";"[% IF has_comments %][% mg_streplace(strtrim((mg_strunmerge(comments_first_line))[0], 2), '"', '\"', /global) %][% END %]";"ID";"[% index_url %]";"0"
+[% IF ~index_empty %][% FOREACH letter IN index_first_letters %][% FOREACH item IN system->getIndexEntries(letter) %][% SCOPE item %][% IF obj_isa(item, 'DOCtreeRoutine') %]"";"[% index_name %]";"[% IF has_comments %][% mg_streplace(strtrim((mg_strunmerge(comments_first_line))[0], 2), '"', '\"', /global) %][% END %]";"ID";"[% strmid(index_url, 2) %]";"0"
 [% END %][% END %][% END %][% END %][% END %]
 
