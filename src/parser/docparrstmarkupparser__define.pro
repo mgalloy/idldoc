@@ -10,9 +10,9 @@
 ;   
 ;   3. (not implemented) *emphasis* and **bold**
 ;   
-;   4. (not implemented) code can be marked as `a = findgen(10)`, this can also
-;      give a link to an item like a paramater, routine, file, or directory, 
-;      i.e., `my_routine`, `my_routine.pro`.
+;   4. code can be marked as `a = findgen(10)`, this can also give a link to an
+;      item like a paramater, routine, file, or directory, i.e., `my_routine`,
+;      `my_routine.pro`.
 ;   
 ;   5. links like: `my site <michaelgalloy.com>`_
 ;   
@@ -27,7 +27,7 @@
 ;         
 ;        end
 ; 
-; :Todo: 
+; :Todo:
 ;    finish implementation specified above
 ;-
 
