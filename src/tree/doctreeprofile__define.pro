@@ -584,14 +584,11 @@ end
 pro doctreeprofile::addImageRef, filename, tag
   compile_opt strictarr, hidden
 
-  ; set location of image ref to images/libraries if producing Doc Center output
+  ; set image href to images/libraries/ if producing Doc Center output
   self.system->getProperty, doc_center=doc_center
   if (doc_center) then begin
-    location = tag->getAttribute('location', found=found)
-    if (found) then begin
-      tag->addAttribute, 'location', strjoin(['images', 'libraries'], '/') + '/'
-    endif
-  endif else tag->addAttribute, 'location', ''
+    tag->addAttribute, 'html_location', strjoin(['images', 'libraries'], '/') + '/'
+  endif else tag->addAttribute, 'html_location', ''
 
   ; add filename to list of filenames to copy when generating output
   self.imagerefs->add, filename
