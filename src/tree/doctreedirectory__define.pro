@@ -111,6 +111,8 @@ function doctreedirectory::getVariable, name, found=found
       end
     'relative_root' : begin
         if (self.location eq '.' + path_sep()) then return, ''
+        self.system->getProperty, flat=flat
+        if (keyword_set(flat)) then return, ''
         dummy = strsplit(self.location, path_sep(), count=nUps)
         return, strjoin(replicate('../', nUps))
       end
