@@ -365,7 +365,7 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
                              routine_line_cutoffs=routineLineCutoffs, $
                              complexity_cutoffs=complexityCutoffs, $
                              statistics=statistics, $
-                            flat=flat, doc_center=doc_center
+                             flat=flat, doc_center=doc_center
   compile_opt strictarr, hidden
 
   if (arg_present(root)) then root = self.root
