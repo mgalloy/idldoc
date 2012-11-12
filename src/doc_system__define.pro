@@ -914,12 +914,12 @@ end
 ;-
 pro doc_system::_processUsesText, tree, root=root
   compile_opt strictarr, hidden
-  
+
   tree->getProperty, type=type, n_children=n_children
-     
+
   ; if a parent is a link, none of the children need to be filled in
   if (type eq 'link') then return
-        
+
   c = 0L
   while (c lt n_children) do begin
     child = tree->getChild(c)
@@ -931,7 +931,7 @@ pro doc_system::_processUsesText, tree, root=root
         c++
         continue
       endif
- 
+
       tree->removeChild, c
 
       for r = nresources - 1L, 0L, - 1L do begin
@@ -946,23 +946,18 @@ pro doc_system::_processUsesText, tree, root=root
           tree->addChild, link, position=c
           link->addChild, resourceName
         endelse
-        
+
         if (r ne 0) then begin
           tree->addChild, obj_new('MGtmText', text=', '), position=c
         endif
       endfor
-      
+
       n_children += 2L * nresources - 1L - 1L
       c += 2L * nresources - 1L
     endif else begin
       self->_processUsesText, child, root=root
       c++
     endelse
-    
-    ; add comma's between routines
-    if (c lt (n_children - 1L)) then begin
-      tree->addChild, obj_new('MGtmText', text=', '), position=c
-    endif
   endwhile
 end
 
@@ -983,15 +978,15 @@ end
 ;-
 function doc_system::processUses, tree, root=root
   compile_opt strictarr, hidden
-  
+
   if (~obj_valid(tree)) then return, ''
-  
+
   self->_processUsesText, tree, root=root
- 
+
   ; create output using current comment style
   commentParser = self->getParser(self.commentStyle + 'output')
   comments = commentParser->process(tree)
-  
+
   return, comments
 end
 
