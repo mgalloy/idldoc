@@ -13,31 +13,31 @@
     <td [% IF current_template eq 'dir-overview' %]class="selected"[% END %]>
       Directory
     </td>
-    
+
     <td [% IF current_template eq 'profile' || current_template eq 'dlmfile' || current_template eq 'savefile' %]class="selected"[% END %]>File</td>
-    
+
     [% IF ~nosource %]
     <td [% IF current_template eq 'source' %]class="selected"[% END %]>
       [% IF current_template eq 'profile' %]<a href="[% source_url %]" title="Chromocoded source">Source</a> <a href="[% direct_source_url %]" title=".pro file"><img src="[% relative_root %]idldoc-resources/attach.png" alt="[attach.png]" align="top"/></a>[% ELSE %]Source <img src="[% relative_root %]idldoc-resources/attach.png" alt="[attach.png]" align="top"/>[% END %]        
     </td>
     [% END %]
-    
+
     <td [% IF current_template eq 'idldocfile' %]class="selected"[% END %]>Etc</td>
-    
+
     <td [% IF current_template eq 'categories' %]class="selected"[% END %]>
-    	<a href="[% relative_root %]categories.html">Categories</a>
-    </td>  
-         
-    <td [% IF current_template eq 'search' %]class="selected"[% END %]>
-    	<a href="[% relative_root %]search.html">Search</a>
+      <a href="[% relative_root %]categories.html">Categories</a>
     </td>
-    
+
+    <td [% IF current_template eq 'search' %]class="selected"[% END %]>
+      <a href="[% relative_root %]search.html">Search</a>
+    </td>
+
     [% IF index_level gt 0L %]
     <td [% IF current_template eq 'index-entries' %]class="selected"[% END %]>
       <a href="[% relative_root %]idldoc-index.html">Index</a>
     </td>
     [% END %]
-    
+
     [% IF ~user %]
     <td [% IF current_template eq 'warnings' %]class="selected"[% END %]>
       <a href="[% relative_root %]idldoc-warnings.html">Warnings</a>
