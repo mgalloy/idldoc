@@ -613,8 +613,6 @@ pro doctreeprofile::generateOutput, outputRoot, directory
   proFileTemplate = self.system->getTemplate('profile', found=found)
   if (~found) then return
 
-  sourceTemplate = self.system->getTemplate('source', found=SourceTemplateFound)
-
   self.system->print, '  Generating output for ' + self.basename + '...'
   self.system->getProperty, extension=outputExtension
 
@@ -623,6 +621,8 @@ pro doctreeprofile::generateOutput, outputRoot, directory
 
   proFileTemplate->reset
   proFileTemplate->process, self, outputFilename
+
+  sourceTemplate = self.system->getTemplate('source', found=SourceTemplateFound)
 
   self.system->getProperty, comment_style=commentStyle
 
