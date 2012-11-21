@@ -56,7 +56,21 @@ function doctreeclass::getVariable, name, found=found
     'children': return, self.children->get(/all)
     
     'n_fields': return, self.fields->count()
-    'fields': return, self.fields->values()
+    'fields': begin
+        n_fields = self->getFieldCount()
+        if (n_fields eq 0L) then return, -1L
+        
+        fields = self.fields->values()
+        
+        field_names = strarr(n_fields)
+        for f = 0L, n_fields - 1L do begin
+          fields[f]->getProperty, name=pname
+          field_names[f] = pname
+        endfor
+        sind = sort(field_names)
+        
+        return, fields[sind]
+      end
     'n_parent_fields': begin
         n_parent_fields = 0L
         for a = 0L, self.ancestors->count() - 1L do begin
@@ -65,7 +79,14 @@ function doctreeclass::getVariable, name, found=found
         endfor
         return, n_parent_fields
       end
-    'field_names': return, self->getFieldNames()
+    'field_names': begin
+        n_fields = self->getFieldCount()
+        if (n_fields eq 0L) then return, -1L
+        
+        field_names = self->getFieldNames()
+        sind = sort(field_names)
+        return, field_names[sind]
+      end
     
     'n_properties': return, self.properties->count()
     'properties': return, self.properties->values()
@@ -92,7 +113,14 @@ function doctreeclass::getVariable, name, found=found
         ind = where(isVisibleProperties eq 1B, nVisibleProperties)
         if (nVisibleProperties eq 0L) then return, -1L
         
-        return, properties[ind]
+        prop_names = strarr(nVisibleProperties)
+        for p = 0L, nVisibleProperties - 1L do begin
+          (properties[ind])[p]->getProperty, name=pname
+          prop_names[p] = pname
+        endfor
+        sind = sort(prop_names)
+        
+        return, (properties[ind])[sind]
       end         
       'n_visible_parent_properties': begin
           n_visible_parent_properties = 0L
@@ -182,16 +210,16 @@ end
 ;+
 ; Easy to use accessor for field names.
 ;
-; :Returns: 
+; :Returns:
 ;    strarr or string
 ;-
 function doctreeclass::getFieldNames
   compile_opt strictarr, hidden
   
-  nFields = self.fields->count()
-  if (nFields eq 0) then return, ''
+  n_fields = self.fields->count()
+  if (n_fields eq 0) then return, ''
   
-  fieldNames = strarr(nFields)
+  fieldNames = strarr(n_fields)
   fields = self.fields->values()
   for f = 0L, nFields - 1L do begin
     fields[f]->getProperty, name=name
