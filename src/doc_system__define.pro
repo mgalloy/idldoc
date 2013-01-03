@@ -1859,7 +1859,8 @@ function doc_system::init, root=root, output=output, $
 
   ; copy resources
   if (~self.doc_center) then begin
-    self->print, 'Copying resources...'
+    self->print, string(self.useLatex ? ' (using LaTeX requires more files)' : '', $
+                        format='(%"Copying resources%s...")')
     self->copyResources
   endif
 
