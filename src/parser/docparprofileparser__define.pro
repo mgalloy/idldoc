@@ -96,8 +96,11 @@ function docparprofileparser::_stripComments, line, comments=comments
           inside = 1B
         end
       bSemi: begin
-          comments = strmid(line, i)
-          return, strmid(line, 0, i)
+          ; it's not a comment if it's an HTML entity
+          if (i lt 3 || strmid(line, i - 3L, 4) ne '&lt;') then begin
+            comments = strmid(line, i)
+            return, strmid(line, 0, i)
+          endif
         end
       else:  ; ignore
     endcase
