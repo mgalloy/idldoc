@@ -1,17 +1,17 @@
 ; docformat = 'rst'
 
 ;+
-; Generate documentation for IDL code. This is a wrapper routine for the 
-; doc_system class; this routine only handles errors, saving/restoring !path, 
+; Generate documentation for IDL code. This is a wrapper routine for the
+; doc_system class; this routine only handles errors, saving/restoring !path,
 ; and creating the doc_system object.
 ;
 ; :Author:
 ;    Michael Galloy
-; 
+;
 ; :Copyright:
 ;    IDLdoc is released under a BSD-type license
-; 
-; :Requires: 
+;
+; :Requires:
 ;    IDL 6.2
 ;
 ; :Keywords:
@@ -47,12 +47,12 @@
 ;       set to not display the source code for .pro files
 ;    source_link : in, optional, type=long, default=0L
 ;       by default, IDLdoc copies the source code into the output; if this
-;       keyword is set to 1 (relative link) or 2 (absolute link), then the 
-;       output documentation will point to the ROOT location of the original 
+;       keyword is set to 1 (relative link) or 2 (absolute link), then the
+;       output documentation will point to the ROOT location of the original
 ;       source code
 ;    user : in, optional, type=boolean
 ;       set to generate user-level docs (private parameters, files are not
-;       shown); the default is developer-level docs showing files and 
+;       shown); the default is developer-level docs showing files and
 ;       parameters
 ;    statistics : in, optional, type=boolean
 ;       generate complexity statistics for routines
@@ -66,7 +66,7 @@
 ;       McCabe complexity to exceed for a warning or flagged
 ;
 ;    format_style : in, optional, type=string, default='idldoc'
-;       style to use to parse file and routine comments ("idl", "idldoc", 
+;       style to use to parse file and routine comments ("idl", "idldoc",
 ;       "verbatim", or "rst")
 ;    markup_style : in, optional, type=string, default='verbatim'
 ;       markup used in comments ("rst" or "verbatim")
@@ -136,30 +136,30 @@ pro idldoc, root=root, $
             error=error, debug=debug, $
             help=help, $
             version=version, $
-            color_outputlog=colorOutputlog 
+            color_outputlog=colorOutputlog
   compile_opt strictarr
 
   origPath = !path
-  
+
   if (~keyword_set(debug) || arg_present(error)) then begin
     error = 0L
     catch, error
     if (error ne 0L) then begin
       catch, /cancel
-      
+
       case 1 of
         keyword_set(unix): crlf = string([10B])
         keyword_set(windows): crlf = string([13B, 10B])
         else: crlf = string(!version.os_family eq 'unix' ? [10B] : [13B, 10B])
-      endcase        
+      endcase
       errormsg = strcompress(strjoin(strsplit(!error_state.msg, crlf, /extract), ' '))
-      
+
       message, errormsg, /informational
       !path = origPath
       return
     endif
   endif
-  
+
   system = obj_new('DOC_System', $
                    root=root, $
                    output=output, $
@@ -182,7 +182,7 @@ pro idldoc, root=root, $
                    statistics=statistics, $
                    index_level=indexLevel, $
                    routine_line_cutoffs=routineLineCutoffs, $
-                   complexity_cutoffs=complexityCutoffs, $                   
+                   complexity_cutoffs=complexityCutoffs, $
                    format_style=formatStyle, $
                    markup_style=markupStyle, $
                    comment_style=commentStyle, $
@@ -194,7 +194,7 @@ pro idldoc, root=root, $
                    help=help, $
                    version=version, $
                    color_outputlog=colorOutputlog)
-  
+
   !path = origPath
   path_cache, /clear, /rebuild
   obj_destroy, system

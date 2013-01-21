@@ -34,13 +34,13 @@ span.routine-attributes { font-size: 70%; margin-left: 3em; color: #384806; }
 div.details dt { color: #871E31; margin-left: 2em; }
 div.details dt span { color: #384806; margin-left: 2em; }
 div.details dd { margin: 0.5em 2em 1em 4em; }
-a.top { 
+a.top {
   font-family: Verdana, Helvetica, sans-serif;
-  font-size: 8pt; 
+  font-size: 8pt;
   font-weight: bold;
-  color: #5070ff; 
-  text-transform: uppercase; 
-  float: right; 
+  color: #5070ff;
+  text-transform: uppercase;
+  float: right;
   margin-left: 1em;
 }
 
@@ -53,7 +53,7 @@ code.listing { white-space: pre; display: block; margin: 0.75em 0 0.75em 0; padd
 code.source { white-space: pre; display: block; }
 code.source span.comments { color: #408080; }
 .syntax { margin-top: 1em; margin-left: 1.5em; text-indent: -1.5em; }
-.var { font-style: italic; } 
+.var { font-style: italic; }
 .argument { } /* white-space: nowrap; does not work in Safari (and sometimes not even in Firefox) */
 
 dl.routine-summary dt { margin-bottom: 0.25em; }
@@ -71,11 +71,11 @@ div.note { margin: 1em 2em 1em 2em; background: #EFEFEF; border: 1px #A0A0A0 dot
 p.indent { margin-left: 2em; }
 
 /* An attribute table is a vertical list of name-value pairs. */
-table.box { 
-  background: #EFEFEF; 
-  border: 1px #A0A0A0 dotted; 
+table.box {
+  background: #EFEFEF;
+  border: 1px #A0A0A0 dotted;
   padding-top: 0.75em;
-  padding-bottom: 0.75em; 
+  padding-bottom: 0.75em;
 }
 table.attribute { padding-left: 0.75em; padding-right: 0.75em; }
 table td { vertical-align: top; }
@@ -100,11 +100,11 @@ table.navbar a:hover, table.navbar a:focus { background: inherit; border-bottom:
 p.localnavbar { text-align: right; margin: 0.2em 1em 0.2em 0.2em; padding: 0; }
 
 /* CSS graphics styles */
-div.box { 
-  margin-left: 0.25em; 
-  display: inline-block; 
-  width: 0.9em; 
-  height: 0.9em; 
+div.box {
+  margin-left: 0.25em;
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
   vertical-align: -1px;
 }
 .red { background-color: #A00; }
@@ -122,7 +122,7 @@ legend { color: #871E31; font-size: 120%; }
 label { white-space: nowrap; }
 p.description { margin: 2em 2em 1em 2em; }
 form table td.name { vertical-align: middle; }
-      
+
 /* footer styles */
 div.footer { padding: 0.5em 1em 0.5em 1em; background: #EFEFEF; border-top: 1px #A0A0A0 dotted; }
 div.footer table { width: 100%; }

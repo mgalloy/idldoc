@@ -2,7 +2,7 @@
 
 ;+
 ; Format parsers parse a comment block using a particular format for comments:
-; the standard IDL template, IDLdoc style @-tags, or rst style syntax. The 
+; the standard IDL template, IDLdoc style @-tags, or rst style syntax. The
 ; format parser will call the markup parser to parse free text comments in the
 ; comment block.
 ;
@@ -13,7 +13,7 @@
 
 
 ;+
-; Handles parsing of a code block. 
+; Handles parsing of a code block.
 ;
 ; :Abstract:
 ;
@@ -23,19 +23,19 @@
 ;
 ; :Keywords:
 ;    routine : in, required, type=object
-;       routine tree object 
+;       routine tree object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparformatparser::parseRoutineComments, lines, routine=routine, $
                                                markup_parser=markupParser
   compile_opt strictarr, hidden
-  
+
 end
 
 
 ;+
-; Handles parsing of a comment block associated with a file. 
+; Handles parsing of a comment block associated with a file.
 ;
 ; :Abstract:
 ;
@@ -45,14 +45,14 @@ end
 ;
 ; :Keywords:
 ;    file : in, required, type=object
-;       file tree object 
+;       file tree object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparformatparser::parseFileComments, lines, file=file, $
                                            markup_parser=markupParser
   compile_opt strictarr, hidden
-  
+
 end
 
 
@@ -65,7 +65,7 @@ end
 ;
 ; :Keywords:
 ;    file : in, required, type=object
-;       file tree object 
+;       file tree object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
@@ -74,13 +74,13 @@ pro docparformatparser::parseIDLdocComments, lines, file=file, $
   compile_opt strictarr, hidden
 
   comments = markupParser->parse(lines, file=file)
-  file->setProperty, comments=comments  
+  file->setProperty, comments=comments
 end
 
 
 ;+
-; Handles parsing of a comment block in the directory overview file using 
-; IDLdoc syntax. 
+; Handles parsing of a comment block in the directory overview file using
+; IDLdoc syntax.
 ;
 ; :Params:
 ;    lines : in, required, type=strarr
@@ -88,19 +88,19 @@ end
 ;
 ; :Keywords:
 ;    directory : in, required, type=object
-;       system object 
+;       system object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparformatparser::parseDirOverviewComments, lines, directory=directory, $
                                                   markup_parser=markupParser
   compile_opt strictarr, hidden
-  
+
 end
 
 
 ;+
-; Handles parsing of a comment block in the overview file using IDLdoc syntax. 
+; Handles parsing of a comment block in the overview file using IDLdoc syntax.
 ;
 ; :Params:
 ;    lines : in, required, type=strarr
@@ -108,14 +108,14 @@ end
 ;
 ; :Keywords:
 ;    system : in, required, type=object
-;       system object 
+;       system object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
 pro docparformatparser::parseOverviewComments, lines, system=system, $
                                                markup_parser=markupParser
   compile_opt strictarr, hidden
-  
+
 end
 
 
@@ -129,7 +129,7 @@ end
 ;-
 pro docparformatparser::checkForClass, routine
   compile_opt strictarr, hidden
-  
+
   ; before starting on any of the comments associated with the routine, see if
   ; there are any "heldProperties" from a previous file comment that should be
   ; associated with the class represented by this routine
@@ -138,12 +138,12 @@ pro docparformatparser::checkForClass, routine
     class = file->getClass(classname)
     for p = 0L, self.heldProperties->count() - 1L do begin
       class->addProperty, self.heldProperties->get(position=p)
-    endfor 
-    self.heldProperties->remove, /all       
+    endfor
+    self.heldProperties->remove, /all
   endif
 end
-  
-  
+
+
 ;+
 ; Add a property to the help properties if it's not there. Return either the
 ; new property or the existing one.
@@ -156,20 +156,20 @@ end
 ;-
 function docparformatparser::_addToHeldProperties, propertyName
   compile_opt strictarr, hidden
-  
+
   ; check for property already existing before creating a new one
   for p = 0L, self.heldProperties->count() - 1L do begin
     prop = self.heldProperties->get(position=p)
-    prop->getProperty, name=propName  
+    prop->getProperty, name=propName
     if (strlowcase(propName) eq strlowcase(propertyName)) then begin
-      return, prop      
+      return, prop
     endif
-  endfor 
-  
-  property = obj_new('DOCtreeProperty', propertyName, system=self.system)    
+  endfor
+
+  property = obj_new('DOCtreeProperty', propertyName, system=self.system)
   self.heldProperties->add, property
-           
-  return, property  
+
+  return, property
 end
 
 
@@ -200,10 +200,10 @@ end
 ;-
 function docparformatparser::init, system=system
   compile_opt strictarr, hidden
-  
+
   self.system = system
   self.heldProperties = obj_new('MGcoArrayList', type=11, block_size=5)
-  
+
   return, 1
 end
 
@@ -217,9 +217,9 @@ end
 ;    heldProperties
 ;       properties waiting to be claimed by a class
 ;-
-pro docparformatparser__define 
+pro docparformatparser__define
   compile_opt strictarr, hidden
-  
+
   define = { DOCparFormatParser, $
              system: obj_new(), $
              heldProperties: obj_new() $

@@ -74,7 +74,7 @@
 ;-
 function doc_system::getVariable, name, found=found
   compile_opt strictarr, hidden
-  
+
   found = 1B
   case strlowcase(name) of
     'system': return, self
@@ -116,7 +116,7 @@ function doc_system::getVariable, name, found=found
 
     'has_version': return, obj_valid(self.version)
     'version': return, self->processComments(self.version)
-        
+
     'n_dirs': return, self.directories->count()
     'dirs': return, self.directories->get(/all)
     'n_visible_dirs': begin
@@ -146,12 +146,12 @@ function doc_system::getVariable, name, found=found
     'just_files': begin
         dirs = self.directories->get(/all, count=nDirs)
         if (nDirs eq 0L) then return, -1L
-        
+
         isVisibleDirs = bytarr(nDirs)
         for d = 0L, nDirs - 1L do begin
           isVisibleDirs[d] = dirs[d]->isVisible()
         endfor
-        
+
         ind = where(isVisibleDirs eq 1B, nVisibleDirs)
         return, nVisibleDirs le 1
       end
@@ -163,21 +163,21 @@ function doc_system::getVariable, name, found=found
         endfor
         return, nVisible
       end
-    'visible_pro_files': begin        
+    'visible_pro_files': begin
         files = self.proFiles->get(/all, count=nFiles)
         if (nFiles eq 0L) then return, -1L
-        
+
         isVisibleFiles = bytarr(nFiles)
         for f = 0L, nFiles - 1L do begin
           isVisibleFiles[f] = files[f]->isVisible()
         endfor
-        
+
         ind = where(isVisibleFiles eq 1B, nVisibleFiles)
         if (nVisibleFiles eq 0L) then return, -1L
-        
+
         return, files[ind]
       end
-      
+
     'n_dlm_files': return, self.dlmFiles->count()
     'dlm_files': return, self.dlmFiles->get(/all)
     'n_visible_dlm_files': begin
@@ -188,21 +188,21 @@ function doc_system::getVariable, name, found=found
         endfor
         return, nVisible
       end
-    'visible_dlm_files': begin        
+    'visible_dlm_files': begin
         files = self.dlmFiles->get(/all, count=nFiles)
         if (nFiles eq 0L) then return, -1L
-        
+
         isVisibleFiles = bytarr(nFiles)
         for f = 0L, nFiles - 1L do begin
           isVisibleFiles[f] = files[f]->isVisible()
         endfor
-        
+
         ind = where(isVisibleFiles eq 1B, nVisibleFiles)
         if (nVisibleFiles eq 0L) then return, -1L
-        
+
         return, files[ind]
       end
-      
+
     'n_sav_files': return, self.savFiles->count()
     'sav_files': return, self.savFiles->get(/all)
     'n_visible_sav_files': begin
@@ -213,21 +213,21 @@ function doc_system::getVariable, name, found=found
         endfor
         return, nVisible
       end
-    'visible_sav_files': begin        
+    'visible_sav_files': begin
         files = self.savFiles->get(/all, count=nFiles)
         if (nFiles eq 0L) then return, -1L
-        
+
         isVisibleFiles = bytarr(nFiles)
         for f = 0L, nFiles - 1L do begin
           isVisibleFiles[f] = files[f]->isVisible()
         endfor
-        
+
         ind = where(isVisibleFiles eq 1B, nVisibleFiles)
         if (nVisibleFiles eq 0L) then return, -1L
-        
+
         return, files[ind]
       end
-          
+
     'n_idldoc_files': return, self.idldocFiles->count()
     'idldoc_files': return, self.idldocFiles->get(/all)
     'n_visible_idldoc_files': begin
@@ -238,21 +238,21 @@ function doc_system::getVariable, name, found=found
         endfor
         return, nVisible
       end
-    'visible_idldoc_files': begin        
+    'visible_idldoc_files': begin
         files = self.idldocFiles->get(/all, count=nFiles)
         if (nFiles eq 0L) then return, -1L
-        
+
         isVisibleFiles = bytarr(nFiles)
         for f = 0L, nFiles - 1L do begin
           isVisibleFiles[f] = files[f]->isVisible()
         endfor
-        
+
         ind = where(isVisibleFiles eq 1B, nVisibleFiles)
         if (nVisibleFiles eq 0L) then return, -1L
-        
+
         return, files[ind]
       end
-      
+
     'css_location': return, filepath('main.css', $
                                      subdir='resources', $
                                      root=self.sourceLocation)
@@ -281,68 +281,68 @@ function doc_system::getVariable, name, found=found
     'complex_routines': return, self.complexRoutines->get(/all)
     'n_bugs': return, self.bugs->count()
     'bugs': return, self.bugs->get(/all)
-    
+
     'index_empty': return, self.index->count() eq 0
     'index_first_letters': begin
         if (self.index->count() eq 0) then return, -1L
-        
+
         index = self.index->get(/all)
         firstLetters = strmid(index.name, 0, 1)
         sind = sort(firstLetters)
         uind = uniq(firstLetters, sind)
-        
+
         return, strupcase(firstLetters[uind])
       end
     'index_type': return, 'unknown'
     'index_name': return, 'unknown'
     'index_url': return, ''
-    
+
     'n_routines': begin
         if (self.proFiles->count() eq 0) then return, '0'
-        
+
         nRoutines = 0L
         proFiles = self.proFiles->get(/all)
         for f = 0L, n_elements(proFiles) - 1L do begin
           proFiles[f]->getProperty, n_routines=fileRoutines
           nRoutines += fileRoutines
-        endfor  
-        
+        endfor
+
         return, mg_int_format(nRoutines)
       end
     'n_lines': begin
         if (self.proFiles->count() eq 0) then return, '0'
-        
+
         nLines = 0L
-        
+
         proFiles = self.proFiles->get(/all)
         for f = 0L, n_elements(proFiles) - 1L do begin
           if (proFiles[f]->isVisible()) then begin
-            proFiles[f]->getProperty, n_lines=fileLines          
+            proFiles[f]->getProperty, n_lines=fileLines
             nLines += fileLines
           endif
         endfor
-        
+
         return, mg_int_format(nLines)
       end
     'requires_version': return, self.requiresVersion
     'requires_items': return, self.requiresItems->get(/all)
-    
+
     'current_template': return, self.currentTemplate
-                                    
+
     'idldoc_header_location' : begin
         dir = self.templateLocation eq '' $
           ? filepath('', subdir='templates', root=self.sourceLocation) $
-          : self.templateLocation      
+          : self.templateLocation
         return, filepath(self.templatePrefix + 'header.tt', $
                          root=dir)
-      end   
+      end
     'idldoc_footer_location' : begin
         dir = self.templateLocation eq '' $
           ? filepath('', subdir='templates', root=self.sourceLocation) $
-          : self.templateLocation      
+          : self.templateLocation
         return, filepath(self.templatePrefix + 'footer.tt', $
                          root=dir)
-      end   
+      end
     else: begin
         found = 0B
         return, -1L
@@ -374,10 +374,10 @@ pro doc_system::getProperty, root=root, output=output, classes=classes, $
   if (arg_present(format)) then format = self.format
   if (arg_present(markup)) then markup = self.markup
   if (arg_present(commentStyle)) then commentStyle = self.commentStyle
-  if (arg_present(outputExtension)) then outputExtension = self.outputExtension  
+  if (arg_present(outputExtension)) then outputExtension = self.outputExtension
   if (arg_present(overview)) then overview = self.overview
   if (arg_present(directories)) then directories = self.directories
-  if (arg_present(nosource)) then nosource = self.nosource  
+  if (arg_present(nosource)) then nosource = self.nosource
   if (arg_present(sourceLink)) then sourceLink = self.sourceLink
   if (arg_present(user)) then user = self.user
   if (arg_present(indexLevel)) then indexLevel = self.indexLevel
@@ -400,7 +400,7 @@ pro doc_system::setProperty, overview_comments=overviewComments, $
   if (n_elements(overviewComments) gt 0) then begin
     self.overviewComments = overviewComments
   endif
-  
+
   ; "author info" attributes
   if (n_elements(author) gt 0) then begin
     self.hasAuthorInfo = 1B
@@ -411,7 +411,7 @@ pro doc_system::setProperty, overview_comments=overviewComments, $
     self.hasAuthorInfo = 1B
     self.copyright = copyright
   endif
-  
+
   if (n_elements(history) gt 0) then begin
     self.hasAuthorInfo = 1B
     self.history = history
@@ -420,7 +420,7 @@ pro doc_system::setProperty, overview_comments=overviewComments, $
   if (n_elements(version) gt 0) then begin
     self.hasAuthorInfo = 1B
     self.version = version
-  endif  
+  endif
 end
 
 
@@ -429,7 +429,7 @@ end
 ;-
 pro doc_system::debug
   compile_opt strictarr, hidden
-  
+
 end
 
 
@@ -463,9 +463,9 @@ end
 ;-
 pro doc_system::warning, msg
   compile_opt strictarr, hidden
-  
+
   if (self.logFile ne '') then printf, self.logLun, 'IDLDOC: ' + msg
-  
+
   if (~self.silent) then begin
     if (self.isTty) then begin
       message, mg_ansicode('IDLDOC: '+ msg, /red), /informational, /noname
@@ -473,7 +473,7 @@ pro doc_system::warning, msg
       message, 'IDLDOC: '+ msg, /informational, /noname
     endelse
   endif
-  
+
   ++self.nWarnings
 end
 
@@ -487,9 +487,9 @@ end
 ;-
 pro doc_system::status, msg
   compile_opt strictarr, hidden
-  
+
   if (self.logFile ne '') then printf, self.logLun, 'IDLDOC: ' + msg
-  
+
   if (~self.silent) then begin
     if (self.isTty) then begin
       message, mg_ansicode('IDLDOC: '+ msg, /red), /informational, /noname
@@ -509,9 +509,9 @@ end
 ;-
 pro doc_system::print, msg
   compile_opt strictarr, hidden
-  
+
   if (self.logFile ne '') then printf, self.logLun, msg
-  
+
   if (~self.quiet && ~self.silent) then print, msg
 end
 
@@ -521,7 +521,7 @@ end
 ;-
 pro doc_system::printHelp
   compile_opt strictarr, hidden
-  
+
   msg = ['IDLdoc ' + self.idldoc_version, $
          '', $
          'Usage:', $
@@ -543,7 +543,7 @@ pro doc_system::printHelp
          '               [, /HELP] [, /VERSION] $', $
          '', $
          'See the help for more detailed information about the keywords.']
-  
+
   self->print, transpose(msg)
 end
 
@@ -554,22 +554,22 @@ end
 ;-
 pro doc_system::process
   compile_opt strictarr, hidden
-  
+
   self->print, 'Processing library structure...'
-  
+
   ; first, organize the pro/sav/idldoc files
   index = self.index->get(/all, count=nEntries)
 
   if (nEntries gt 0) then begin
     entries = index.item
     names = index.name
-      
+
     ind = where(obj_isa(entries, 'DOCtreeProFile'), nProFiles)
     if (nProFiles gt 0) then begin
       proFiles = entries[ind]
       proFileNames = names[ind]
       sind = sort(proFileNames)
-      self.proFiles->add, proFiles[sind]      
+      self.proFiles->add, proFiles[sind]
     endif
 
     ind = where(obj_isa(entries, 'DOCtreeDLMFile'), nDLMFiles)
@@ -579,7 +579,7 @@ pro doc_system::process
       sind = sort(dlmFileNames)
       self.dlmFiles->add, dlmFiles[sind]
     endif
-          
+
     ind = where(obj_isa(entries, 'DOCtreeSavFile'), nSavFiles)
     if (nSavFiles gt 0) then begin
       savFiles = entries[ind]
@@ -587,31 +587,31 @@ pro doc_system::process
       sind = sort(savFileNames)
       self.savFiles->add, savFiles[sind]
     endif
-    
+
     ind = where(obj_isa(entries, 'DOCtreeIDLdocFile'), nIDLdocFiles)
     if (nIDLdocFiles gt 0) then begin
       idldocFiles = entries[ind]
       idldocFileNames = names[ind]
       sind = sort(idldocFileNames)
       self.idldocFiles->add, idldocFiles[sind]
-    endif    
-  endif    
-  
+    endif
+  endif
+
   ; generate files per directory
   for d = 0L, self.directories->count() - 1L do begin
     directory = self.directories->get(position=d)
     directory->process
-  endfor 
-  
-  if (nEntries gt 0) then self->processIndex 
-  
+  endfor
+
+  if (nEntries gt 0) then self->processIndex
+
   doctree_fill_links, self.overviewComments, self
-  
+
   directories = self.directories->get(/all, count=ndirectories)
   for i = 0L, ndirectories - 1L do (directories[i])->fillLinks
-  
+
   ; filter warnings to only show visible items
-  
+
   ntodos = self.todos->count()
   if (ntodos gt 0L) then begin
     todo_filter = bytarr(ntodos)
@@ -651,7 +651,7 @@ pro doc_system::process
     endif
   endif
 
-  
+
   nobsolete = self.obsolete->count()
   if (nobsolete gt 0L) then begin
     obsolete_filter = bytarr(nobsolete)
@@ -676,20 +676,20 @@ pro doc_system::process
     if (n_delete gt 0L) then begin
       self.complexRoutines->remove, position=delete_indices
     endif
-  endif  
+  endif
 end
 
 
 ;+
 ; Return an URL from the root for the given item name.
-; 
+;
 ; :Returns:
 ;    string
-;    
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
-;      
+;
 ; :Keywords:
 ;    exclude : in, optional, type=object
 ;       object to exclude looking at
@@ -697,47 +697,47 @@ end
 function doc_system::lookupName, name, exclude=exclude
   compile_opt strictarr
 
-  dirs = self.directories->get(/all, count=ndirs) 
+  dirs = self.directories->get(/all, count=ndirs)
   for i = 0L, ndirs - 1L do begin
     if (obj_valid(exclude) && exclude eq dirs[i]) then continue
     url = (dirs[i])->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
-  
-  return, ''  
+
+  return, ''
 end
 
-  
+
 ;+
 ; Build the tree of directories, files, routines, and parameters.
 ;-
 pro doc_system::parseTree
   compile_opt strictarr, hidden
-  
+
   ; search for special files
   proFiles = file_search(self.root, '*.pro', /test_regular, count=nProFiles)
   dlmFiles = file_search(self.root, '*.dlm', /test_regular, count=nDLMFiles)
   savFiles = file_search(self.root, '*.sav', /test_regular, count=nSavFiles)
   idldocFiles = file_search(self.root, '*.idldoc', /test_regular, count=nIDLdocFiles)
-  
+
   ; quit if no files found
   if (nProFiles + nSavFiles + nIDLdocFiles + nDLMFiles eq 0) then return
-  
+
   ; add all the files together
   allFiles = ['']
   if (nProFiles gt 0) then allFiles = [allFiles, proFiles]
-  if (nDLMFiles gt 0) then allFiles = [allFiles, dlmFiles]  
+  if (nDLMFiles gt 0) then allFiles = [allFiles, dlmFiles]
   if (nSavFiles gt 0) then allFiles = [allFiles, savFiles]
   if (nIDLdocFiles gt 0) then allFiles = [allFiles, idldocFiles]
   allFiles = allFiles[1:*]
-  
+
   ; remove the common root location
   allFiles = strmid(allFiles, strlen(self.root))
-  
+
   ; get the unique directories
   dirs = file_dirname(allFiles, /mark_directory)
   uniqueDirIndices = uniq(dirs, sort(dirs))
-  
+
   ; create the directory objects
   for d = 0L, n_elements(uniqueDirIndices) - 1L do begin
     location = dirs[uniqueDirIndices[d]]
@@ -748,25 +748,25 @@ pro doc_system::parseTree
                         system=self)
     self.directories->add, directory
   endfor
-  
+
   ; parse overview file if present
   if (self.overview ne '') then begin
     if (~file_test(self.overview)) then begin
       self->warning, 'overview file ' + self.overview + ' does not exist'
       return
     endif
-    
+
     nLines = file_lines(self.overview)
     if (nLines le 0) then return
-    
+
     lines = strarr(nLines)
     openr, lun, self.overview, /get_lun
     readf, lun, lines
     free_lun, lun
-    
+
     formatParser = self->getParser(self.format + 'format')
     markupParser = self->getParser(self.markup + 'markup')
-    
+
     formatParser->parseOverviewComments, lines, $
                                          system=self, $
                                          markup_parser=markupParser
@@ -776,7 +776,7 @@ end
 
 ;+
 ; Get a template by name (as used when loaded in loadTemplates).
-; 
+;
 ; :Returns:
 ;    template object or -1 if not found
 ;
@@ -790,7 +790,7 @@ end
 ;-
 function doc_system::getTemplate, name, found=found
   compile_opt strictarr, hidden
-  
+
   self.currentTemplate = name
   return, self.templates->get(name, found=found)
 end
@@ -802,7 +802,7 @@ end
 ;-
 pro doc_system::loadTemplates
   compile_opt strictarr, hidden
-  
+
   templates = ['file-listing', $
                'all-files', $
                'dir-listing',  $
@@ -851,7 +851,7 @@ end
 ;-
 function doc_system::processComments, tree
   compile_opt strictarr, hidden
-  
+
   if (~obj_valid(tree)) then return, ''
   commentParser = self->getParser(self.commentStyle + 'output')
   return, commentParser->process(tree)
@@ -860,7 +860,7 @@ end
 
 ;+
 ; Add a routine to the visible routines list.
-; 
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of routine
@@ -876,26 +876,26 @@ end
 
 ;+
 ; Find link to given resource.
-; 
+;
 ; :Returns:
 ;    string, returns empty string if no resource found
-;    
+;
 ; :Params:
 ;    resource : in, required, type=string
 ;-
 function doc_system::_findResourceLink, resource
   compile_opt strictarr, hidden
-  
+
   class = self.classes->get(strlowcase(resource), found=found)
   if (found) then begin
     if (class->hasUrl()) then return, class->getUrl()
   endif
-  
+
   routine = self.visibleRoutines->get(strlowcase(resource), found=found)
   if (found) then begin
     return, routine->getVariable('index_url')
   endif
-  
+
   return, ''
 end
 
@@ -903,11 +903,11 @@ end
 ;+
 ; Fixes up a Uses field tree by replacing plain words with links to routines of
 ; that name, if they exist.
-; 
+;
 ; :Params:
 ;    tree : in, required, type=object
 ;       parse tree object
-;  
+;
 ; :Keywords:
 ;    root : in, required, type=string
 ;       relative location of root from the calling routine or file
@@ -961,17 +961,17 @@ pro doc_system::_processUsesText, tree, root=root
   endwhile
 end
 
-  
+
 ;+
 ; Convert the uses clause into a string array using the current comment style.
-; 
+;
 ; :Returns:
 ;    strarr
 ;
 ; :Params:
 ;    tree : in, required, type=object
 ;       parse tree object
-;  
+;
 ; :Keywords:
 ;    root : in, required, type=string
 ;       relative location of root from the calling routine or file
@@ -1003,9 +1003,9 @@ end
 ;-
 function doc_system::processPlainComments, tree
   compile_opt strictarr, hidden
-  
+
   if (~obj_valid(tree)) then return, ''
-  
+
   plainParser = self->getParser('plainoutput')
   comments = strjoin(plainParser->process(tree), ' ')
 
@@ -1017,14 +1017,14 @@ function doc_system::processPlainComments, tree
     bcomments[quoteIndices] = space
   endif
   comments = string(bcomments)
-          
+
   return, comments
 end
 
 
 ;+
 ; Get a parser by name (as used when loaded in loadParsers).
-; 
+;
 ; :Returns:
 ;    parser object or -1 if not found
 ;
@@ -1038,7 +1038,7 @@ end
 ;-
 function doc_system::getParser, name, found=found
   compile_opt strictarr, hidden
-  
+
   return, self.parsers->get(strlowcase(name), found=found)
 end
 
@@ -1049,23 +1049,23 @@ end
 ;-
 pro doc_system::loadParsers
   compile_opt strictarr, hidden
-  
+
   ; file parsers
   self.parsers->put, 'profile', obj_new('DOCparProFileParser', system=self)
   self.parsers->put, 'idldocfile', obj_new('DOCparIDLdocFileParser', system=self)
-  
+
   ; header comment parsers
   self.parsers->put, 'verbatimformat', obj_new('DOCparVerbatimFormatParser', system=self)
   self.parsers->put, 'rstformat', obj_new('DOCparRSTFormatParser', system=self)
   self.parsers->put, 'idldocformat', obj_new('DOCparIDLdocFormatParser', system=self)
   self.parsers->put, 'idlformat', $
                      obj_new('DOCparIDLFormatParser', system=self)
-  
+
   ; markup parsers
   self.parsers->put, 'verbatimmarkup', obj_new('DOCparVerbatimMarkupParser', system=self)
   self.parsers->put, 'preformattedmarkup', obj_new('DOCparPreformattedMarkupParser', system=self)
   self.parsers->put, 'rstmarkup', obj_new('DOCparRSTMarkupParser', system=self)
-  
+
   ; tree node parsers
   self.parsers->put, 'htmloutput', obj_new('MGtmHTML')
   self.parsers->put, 'rstoutput', obj_new('MGtmRST')
@@ -1080,13 +1080,13 @@ end
 ;-
 pro doc_system::generateOutput
   compile_opt strictarr, hidden
-  
+
   ; generate files per directory
   for d = 0L, self.directories->count() - 1L do begin
     directory = self.directories->get(position=d)
     directory->generateOutput, self.output
   endfor
-      
+
   ; generate all-files
   allFilesTemplate = self->getTemplate('all-files', found=found)
   if (found) then begin
@@ -1094,7 +1094,7 @@ pro doc_system::generateOutput
     allFilesTemplate->reset
     allFilesTemplate->process, self, filepath('all-files.' + self.outputExtension, root=self.output)
   endif
-    
+
   ; generate all-dirs
   allDirsTemplate = self->getTemplate('dir-listing', found=found)
   if (found) then begin
@@ -1102,7 +1102,7 @@ pro doc_system::generateOutput
     allDirsTemplate->reset
     allDirsTemplate->process, self, filepath('all-dirs.' + self.outputExtension, root=self.output)
   endif
-  
+
   ; generate overview page
   overviewTemplate = self->getTemplate('overview', found=found)
   if (found) then begin
@@ -1110,7 +1110,7 @@ pro doc_system::generateOutput
     overviewTemplate->reset
     overviewTemplate->process, self, filepath('overview.' + self.outputExtension, root=self.output)
   endif
-    
+
   ; generate index entries page
   if (self.indexLevel gt 0L) then begin
     indexEntriesTemplate = self->getTemplate('index-entries', found=found)
@@ -1132,7 +1132,7 @@ pro doc_system::generateOutput
       endif
     endif
   endif
-    
+
   ; generate warnings page
   if (~self.user) then begin
     warningsTemplate = self->getTemplate('warnings', found=found)
@@ -1151,13 +1151,13 @@ pro doc_system::generateOutput
     searchTemplate->reset
     searchTemplate->process, self, filepath('search.' + self.outputExtension, root=self.output)
   endif
-  
+
   libdataTemplate = self->getTemplate('libdata', found=found)
   if (found) then begin
     libdataTemplate->reset
     libdataTemplate->process, self, filepath('libdata.js', root=self.output)
   endif
-                                          
+
   ; generate categories page
   categoriesTemplate = self->getTemplate('categories', found=found)
   if (found) then begin
@@ -1166,7 +1166,7 @@ pro doc_system::generateOutput
     categoriesTemplate->process, self, filepath('categories.' + self.outputExtension, $
                                                 root=self.output)
   endif
-  
+
   ; generate help page
   helpTemplate = self->getTemplate('help', found=found)
   if (found) then begin
@@ -1174,7 +1174,7 @@ pro doc_system::generateOutput
     helpTemplate->reset
     helpTemplate->process, self, filepath('idldoc-help.' + self.outputExtension, root=self.output)
   endif
-    
+
   ; generate index.html
   indexTemplate = self->getTemplate('index')
   if (found) then begin
@@ -1182,14 +1182,14 @@ pro doc_system::generateOutput
     indexTemplate->reset
     indexTemplate->process, self, filepath('index.' + self.outputExtension, root=self.output)
   endif
-  
+
   self->print, strtrim(self.nWarnings, 2) + ' warnings generated'
 end
 
 
 ;+
 ; Enter the item in the index.
-; 
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name to register the entry under
@@ -1198,7 +1198,7 @@ end
 ;-
 pro doc_system::createIndexEntry, name, value
   compile_opt strictarr, hidden
-  
+
   self.index->add, { name: strlowcase(name), item: value }
 end
 
@@ -1213,7 +1213,7 @@ pro doc_system::processIndex
 
   ; filter index for visible entries
   isVisibleEntries = bytarr(nEntries)
-  
+
   for i = 0L, nEntries - 1L do begin
     isVisibleEntries[i] = obj_valid(entries[i].item) ? entries[i].item->isVisible() : 0B
   endfor
@@ -1236,12 +1236,12 @@ end
 ;-
 function doc_system::getIndexEntries, letter
   compile_opt strictarr, hidden
-    
+
   entries = self.index->get(/all)
   ind = where(strmid(entries.name, 0, 1) eq strlowcase(letter), count)
-  
+
   entries = entries[ind]
-    
+
   ind = sort(strlowcase(entries.name))
   return, (entries.item)[ind]
 end
@@ -1258,17 +1258,17 @@ end
 ;-
 pro doc_system::createCategoryEntry, name, item
   compile_opt strictarr, hidden
-  
+
   if (~item->isVisible()) then return
-  
+
   lname = strlowcase(name)
   categoryList = self.categories->get(lname, found=found)
-  
+
   if (~found) then begin
     categoryList = obj_new('MGcoArrayList', type=11, block_size=20)
     self.categories->put, lname, categoryList
   endif
-  
+
   categoryList->add, item
 end
 
@@ -1287,13 +1287,13 @@ function doc_system::getCategoryEntriesCount, name
   lname = strlowcase(name)
   categoryList = self.categories->get(lname, found=found)
   if (~found) then return, ''
-  
+
   entries = categoryList->get(/all, count=n_entries)
   visible_entries = bytarr(n_entries)
-  
+
   for e = 0L, n_entries - 1L do visible_entries[e] = entries[e]->isVisible()
   ind = where(visible_entries, n_visible_entries)
-  
+
   return, n_visible_entries
 end
 
@@ -1312,13 +1312,13 @@ function doc_system::getCategoryEntries, name
   lname = strlowcase(name)
   categoryList = self.categories->get(lname, found=found)
   if (~found) then return, ''
-  
+
   entries = categoryList->get(/all, count=n_entries)
   visible_entries = bytarr(n_entries)
-  
+
   for e = 0L, n_entries - 1L do visible_entries[e] = entries[e]->isVisible()
   ind = where(visible_entries, n_visible_entries)
-  
+
   if (n_visible_entries eq 0L) then begin
     return, ''
   endif else begin
@@ -1336,7 +1336,7 @@ end
 ;-
 pro doc_system::createTodoEntry, routine
   compile_opt strictarr, hidden
-  
+
   self.todos->add, routine
 end
 
@@ -1350,7 +1350,7 @@ end
 ;-
 pro doc_system::createObsoleteEntry, item
   compile_opt strictarr, hidden
-  
+
   self.obsolete->add, item
 end
 
@@ -1364,7 +1364,7 @@ end
 ;-
 pro doc_system::createBugEntry, item
   compile_opt strictarr, hidden
-  
+
   self.bugs->add, item
 end
 
@@ -1378,7 +1378,7 @@ end
 ;-
 pro doc_system::createDocumentationEntry, routine
   compile_opt strictarr, hidden
-  
+
   self.undocumented->add, routine
 end
 
@@ -1392,7 +1392,7 @@ end
 ;-
 pro doc_system::createComplexityEntry, routine
   compile_opt strictarr, hidden
-  
+
   self.complexRoutines->add, routine
 end
 
@@ -1409,7 +1409,7 @@ end
 ;-
 pro doc_system::checkRequiredVersion, version, item
   compile_opt strictarr, hidden
-  
+
   case mg_cmp_version(version, self.requiresVersion) of
     -1: ; don't do anything if version is not at least equal to requires version
      0: self.requiresItems->add, item
@@ -1430,12 +1430,12 @@ end
 ;-
 function doc_system::testOutput
   compile_opt strictarr, hidden
-    
+
   testfile = self.output + 'idldoc.test'
   openw, lun, testfile, error=error, /get_lun
   if (error eq 0L) then free_lun, lun
   file_delete, testfile, /allow_nonexistent
-  
+
   return, error
 end
 
@@ -1446,7 +1446,7 @@ end
 ;-
 pro doc_system::copyResources
   compile_opt strictarr, hidden
-  
+
   ; copy *.* to avoid .svn/ if running from a Subversion checkout
   resourceLocation = filepath('*.*', subdir=['resources'], $
                               root=self.sourceLocation)
@@ -1456,9 +1456,9 @@ pro doc_system::copyResources
   ; allow idldoc-resources directory to stay if it is a directory
   if (~file_test(resourceDestination, /directory)) then begin
     file_delete, resourceDestination, /recursive, /allow_nonexistent
-    file_mkdir, resourceDestination    
+    file_mkdir, resourceDestination
   endif
-  
+
   ; copy the resource files
   file_copy, resourceLocation, resourceDestination, /recursive, /overwrite
 
@@ -1471,7 +1471,7 @@ pro doc_system::copyResources
                            root=resourceDestination)
   file_mkdir, jsDestination
   file_copy, jsFiles, jsDestination, /overwrite
-  
+
   ; copy MathJax files
   if (self.useLatex) then begin
     mathjaxLocation = expand_path(filepath('mathjax', subdir=['resources'], $
@@ -1481,15 +1481,15 @@ pro doc_system::copyResources
     mathjaxDestination = filepath(mathjaxRelFiles, $
                                   subdir='mathjax', $
                                   root=resourceDestination)
-    
+
     ; make subdirectories before copying
     dirs = file_dirname(mathjaxDestination)
     dirs = dirs[uniq(dirs, sort(dirs))]
     file_mkdir, dirs
-    
+
     file_copy, mathjaxFiles, mathjaxDestination, /overwrite
   endif
-  
+
   ; move the LaTeX files up a directory if needed
   if (self.commentstyle eq 'latex') then begin
     file_move, resourceDestination + 'idldoc' + ['.cls', '.sty'], $
@@ -1511,14 +1511,14 @@ end
 ;-
 pro doc_system::makeDirectory, dir, error=error
   compile_opt strictarr, hidden
-  
+
   error = 0L
   catch, error
   if (error ne 0L) then begin
     catch, /cancel
     return
   endif
-  
+
   file_mkdir, dir
 end
 
@@ -1532,7 +1532,7 @@ end
 ;-
 function doc_system::_findIfTty
   compile_opt strictarr, hidden
-  
+
   catch, error
   if (error ne 0L) then begin
     catch, /cancel
@@ -1548,41 +1548,41 @@ end
 ;-
 pro doc_system::cleanup
   compile_opt strictarr, hidden
-  
+
   if (self.logLun ne '') then free_lun, self.logLun
-  
+
   obj_destroy, [self.index, self.proFiles, self.dlmFiles, self.savFiles, self.idldocFiles]
   obj_destroy, self.visibleRoutines
-  
+
   classes = self.classes->values(count=nClasses)
   if (nClasses gt 0) then obj_destroy, classes
   obj_destroy, self.classes
-  
+
   obj_destroy, self.directories
-  
+
   categoryLists = self.categories->values(count=nCategories)
   if (nCategories gt 0) then obj_destroy, categoryLists
   obj_destroy, self.categories
 
   obj_destroy, [self.author, self.copyright, self.history, self.version]
-    
+
   obj_destroy, self.overviewComments
-  
+
   obj_destroy, [self.todos, self.obsolete, self.undocumented, $
                 self.complexRoutines, self.bugs]
   obj_destroy, self.requiresItems
-  
+
   if (size(self.templates->values(), /type) eq 11L) then obj_destroy, self.templates->values()
   obj_destroy, self.templates
-  
+
   obj_destroy, self.parsers->values()
-  obj_destroy, self.parsers  
+  obj_destroy, self.parsers
 end
 
 
 ;+
 ; Create system object.
-; 
+;
 ; :Returns:
 ;    1 for success, 0 for failure
 ;
@@ -1661,7 +1661,7 @@ end
 ;       directory to find templates in
 ;    charset : in, optional, type=string, default=utf-8
 ;       character set to use
-;       
+;
 ;    color_outputlog : in, optional, type=boolean
 ;       set to color output log messages
 ;-
@@ -1739,7 +1739,7 @@ function doc_system::init, root=root, output=output, $
   self.footer = n_elements(footer) gt 0 ? footer : ''
 
   self.title = n_elements(title) gt 0 ? title : 'Documentation for ' + self.root
-  self.subtitle = n_elements(subtitle) gt 0 ? subtitle : 'Generated by IDLdoc' 
+  self.subtitle = n_elements(subtitle) gt 0 ? subtitle : 'Generated by IDLdoc'
   self.user = keyword_set(user)
   self.statistics = keyword_set(statistics)
   self.indexLevel = n_elements(indexLevel) eq 0L ? 2L : indexLevel
@@ -1779,7 +1779,7 @@ function doc_system::init, root=root, output=output, $
     if (strlowcase(rootDrive) ne strlowcase(outputDrive)) then begin
       self.sourceLink = 0L
       self->warning, 'cannot use relative link across Windows drives, copying instead'
-    endif 
+    endif
   endif
 
   self.logFile = n_elements(logFile) gt 0 ? logFile : ''
@@ -1828,21 +1828,21 @@ function doc_system::init, root=root, output=output, $
     self.nosource = 1B
     self.flat = 1B
   endif
-  
+
   ; load templates
   self.templates = obj_new('MGcoHashTable', key_type=7, value_type=11)
   self->loadTemplates
-  
+
   ; load parsers
   self.parsers = obj_new('MGcoHashTable', key_type=7, value_type=11)
   self->loadParsers
-  
+
   self.format = n_elements(formatStyle) eq 0 ? 'idldoc' : formatStyle
   self.markup = n_elements(markupStyle) eq 0 $
                   ? (self.format eq 'rst' ? 'rst' : 'verbatim') $
                   : markupStyle
 
-  self.commentStyle = n_elements(commentStyle) eq 0 ? 'html' : commentStyle  
+  self.commentStyle = n_elements(commentStyle) eq 0 ? 'html' : commentStyle
   commentparser = self->getParser(self.commentStyle + 'output', found=found)
   if (~found) then begin
     self->warning, self.commentStyle + ' output style not found, using HTML output'
@@ -1875,18 +1875,18 @@ function doc_system::init, root=root, output=output, $
     self->warning, self.format + ' markup parser not found, using verbatim parser'
     self.markup = 'verbatim'
   end
-      
+
   ; parse tree of directories, files, routines, parameters
   self->parseTree
-  
+
   ; do any processing that might be necessary on the tree (analysis, etc.)
   self->process
-  
+
   ; generate output for directories, files (of various kinds), index, etc.
   self->generateOutput
-  
+
   nWarnings = self.nWarnings
-  
+
   return, 1
 end
 

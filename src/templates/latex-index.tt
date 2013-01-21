@@ -25,7 +25,7 @@
 
 
 \part{API}
-                   
+
 [% FOREACH d IN visible_dirs %][% SCOPE d %]
 \chapter{Directory: [% mg_escape_latex(location) %]}
 
@@ -38,15 +38,15 @@
 [% IF has_author_info %]
 \begin{description}
 [% IF has_author %]
-  \item[Author]\hspace*{1em} \newline [% author %]      
+  \item[Author]\hspace*{1em} \newline [% author %]
 [% END %]
 
 [% IF has_copyright %]
-  \item[Copyright]\hspace*{1em} \newline [% copyright %]      
+  \item[Copyright]\hspace*{1em} \newline [% copyright %]
 [% END %]
-    
+
 [% IF has_history %]
-  \item[History]\hspace*{1em} \newline [% history %]       
+  \item[History]\hspace*{1em} \newline [% history %]
 [% END %]
 \end{description}
 [% END %]

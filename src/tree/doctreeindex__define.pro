@@ -13,14 +13,14 @@
 ;
 ; :Returns:
 ;    strarr
-;    
+;
 ; :Keywords:
 ;    count : out, optional, type=long
 ;       number of first letters for items in the index
 ;-
 function doctreeindex::getFirstLetters, count=count
   compile_opt strictarr, hidden
-  
+
   ind = where(self.letters, count)
   if (count gt 0) then begin
     return, string(reform(byte(ind), 1, count))
@@ -52,14 +52,14 @@ end
 ;-
 pro doctreeindex::cleanup
   compile_opt strictarr, hidden
-  
+
   obj_destroy, self.items
 end
 
 
 ;+
 ; Create the index.
-; 
+;
 ; :Returns: 1 for success, 0 for failure
 ;-
 function doctreeindex::init
@@ -68,7 +68,7 @@ function doctreeindex::init
   ; strings -> objects
   self.items = obj_new('MGcoArraylist', example={ name:'', item: obj_new() }, $
                        block_size=100)
-  
+
   return, 1
 end
 
@@ -77,10 +77,10 @@ end
 ; Define instance variables.
 ;
 ; :Fields:
-;    items 
-;       hash table of strings -> objects (index names to DOCtree* 
+;    items
+;       hash table of strings -> objects (index names to DOCtree*
 ;       objects)
-;    letters 
+;    letters
 ;       histogram of letter usage
 ;-
 pro doctreeindex__define

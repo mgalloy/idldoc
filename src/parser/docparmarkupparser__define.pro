@@ -2,8 +2,8 @@
 
 ;+
 ; Markup parsers are responsible for parsing a free text comment. A free text
-; comment is not an entire comment block, but a part of the comment block that 
-; the format parser has already decided is associated with a specific item like 
+; comment is not an entire comment block, but a part of the comment block that
+; the format parser has already decided is associated with a specific item like
 ; a routine or argument.
 ;
 ; :Properties:
@@ -23,7 +23,7 @@
 ;-
 function docparmarkupparser::parse, lines, file=file
   compile_opt strictarr, hidden
-  
+
   return, obj_new()
 end
 
@@ -35,9 +35,9 @@ end
 ;-
 function docparmarkupparser::init, system=system
   compile_opt strictarr, hidden
-  
+
   self.system = system
-  
+
   return, 1
 end
 
@@ -45,8 +45,8 @@ end
 ;+
 ; Define instance variables.
 ;-
-pro docparmarkupparser__define 
+pro docparmarkupparser__define
   compile_opt strictarr, hidden
-  
+
   define = { DOCparMarkupParser, system: obj_new() }
 end

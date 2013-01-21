@@ -3,7 +3,7 @@
 ;+
 ; Traverses the markup tree for some comments on a particular doctree* class
 ; object.
-; 
+;
 ; :Params:
 ;    comments : in, required, type=markup tree
 ;       comments to check for links in

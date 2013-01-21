@@ -1,8 +1,8 @@
 /* Index used for searching */
-/* 
+/*
    Fields used:
      url, name, type, filename, authors, routine name, comments, parameters,
-     categories, and attributes 
+     categories, and attributes
 */
 title = "[% title %]";
 subtitle = "[% subtitle %]";

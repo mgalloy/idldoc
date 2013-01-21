@@ -1,7 +1,7 @@
 ; docformat = 'rst'
 
 ;+
-; Verbatim parsing just makes everything text and inserts the end-of-line 
+; Verbatim parsing just makes everything text and inserts the end-of-line
 ; nodes.
 ;-
 
@@ -10,8 +10,8 @@
 ; Takes a string array of free text comments and return a parse tree.
 ;
 ; :Abstract:
-; 
-; :Returns: 
+;
+; :Returns:
 ;    object
 ;
 ; :Params:
@@ -24,14 +24,14 @@
 ;-
 function docparverbatimmarkupparser::parse, lines, top=top, file=file
   compile_opt strictarr, hidden
-  
+
   tree = obj_new('MGtmTag', type=n_elements(top) gt 0 ? top : 'paragraph')
-  
+
   for l = 0L, n_elements(lines) - 1L do begin
     tree->addChild, obj_new('MGtmText', text=lines[l])
     tree->addChild, obj_new('MGtmTag', type='newline')
   endfor
-  
+
   return, tree
 end
 
@@ -41,6 +41,6 @@ end
 ;-
 pro docparverbatimmarkupparser__define
   compile_opt strictarr, hidden
-  
+
   define = { DOCparVerbatimMarkupParser, inherits DOCparMarkupParser }
 end

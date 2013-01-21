@@ -13,7 +13,7 @@
   src="[% relative_root %]idldoc-resources/mathjax/MathJax.js?config=default">
       </script>
     [% END %]
-    
+
     [% IF embed %]
     <style type="text/css" media="all">
       [% INCLUDE css_location %]
@@ -22,19 +22,19 @@
       [% INCLUDE print_css_location %]
     </style>
     [% ELSE %]
-    <link rel="stylesheet" type="text/css" media="all" 
+    <link rel="stylesheet" type="text/css" media="all"
           href="[% relative_root %]idldoc-resources/main.css" />
-    <link rel="stylesheet" type="text/css" media="print" 
+    <link rel="stylesheet" type="text/css" media="print"
           href="[% relative_root %]idldoc-resources/main-print.css" />
     [% END %]
-    
+
     <script type="text/javascript">
       function setTitle() {
         parent.document.title="[% file_title %] ([% title %])";
       }
     </script>
   </head>
-    
+
   <body onload="setTitle();" id="root">
 
     [% INCLUDE_TEMPLATE idldoc_header_location %]
@@ -42,7 +42,7 @@
     <div class="content">
       <h2 class="directory">[% location %]</h2>
       <h1 class="basename">[% file_title %]</h1>
-      
+
       [% IF has_comments %]
       <div id="file_comments">
         <div class="[% IF preformat %]pre[% END %]">
@@ -50,9 +50,9 @@
         </div>
       </div>
       [% END %]
-          
+
       [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
     </div>
-    [% INCLUDE_TEMPLATE idldoc_footer_location %]    
+    [% INCLUDE_TEMPLATE idldoc_footer_location %]
   </body>
-</html>    
+</html>

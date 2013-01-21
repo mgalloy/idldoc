@@ -5,7 +5,7 @@
 [% overview_comments %]
 [% END %]
 
-[% IF ~just_files %]      
+[% IF ~just_files %]
 \section*{Directories}
 
 \begin{tabular}[t]{lp{4in}}
@@ -13,9 +13,9 @@
 \tt [% mg_escape_latex(location) %] & [% overview_comments %] \\
 [% END %][% END %]
 \end{tabular}
-             
+
 [% END %]
-      
+
 \section*{Project statistics}
 
 \begin{tabular}[t]{ll}

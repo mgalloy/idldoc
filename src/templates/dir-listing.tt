@@ -16,20 +16,20 @@
       [% INCLUDE print_listing_css_location %]
     </style>
     [% ELSE %]
-    <link rel="stylesheet" type="text/css" media="all" 
+    <link rel="stylesheet" type="text/css" media="all"
           href="idldoc-resources/listing.css" />
-    <link rel="stylesheet" type="text/css" media="print" 
+    <link rel="stylesheet" type="text/css" media="print"
           href="idldoc-resources/listing-print.css" />
     [% END %]
   </head>
-  
+
   <body>
     <h1>Directories</h1>
-    
+
       <ul>
         <li><a href="all-files.html" target="files_frame">All files</a></li>
       </ul>
-      
+
       <ul>
         [% IF n_visible_dirs gt 0 %]
         [% FOREACH d IN visible_dirs %][% SCOPE d %]

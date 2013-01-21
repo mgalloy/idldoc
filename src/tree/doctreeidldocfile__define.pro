@@ -2,7 +2,7 @@
 
 ;+
 ; This class represents a information about .idldoc file.
-; 
+;
 ; :Properties:
 ;    basename : get, type=string
 ;       basename of filename
@@ -20,7 +20,7 @@
 ;-
 pro doctreeidldocfile::getProperty, basename=basename, directory=directory
   compile_opt strictarr, hidden
-  
+
   if (arg_present(basename)) then basename = self.basename
   if (arg_present(directory)) then directory = self.directory
 end
@@ -40,7 +40,7 @@ pro doctreeidldocfile::setProperty, comments=comments, title=title
       self.comments = parent
     endif else self.comments = comments
   endif
-  
+
   if (n_elements(title) gt 0L) then self.title = title
 end
 
@@ -61,46 +61,46 @@ end
 ;-
 function doctreeidldocfile::getVariable, name, found=found
   compile_opt strictarr, hidden
-  
+
   found = 1B
   case strlowcase(name) of
     'basename': return, self.basename
     'file_title': return, self.title
-    
+
     'local_url': begin
         self.system->getProperty, extension=outputExtension
         return, file_basename(self.basename, '.idldoc') + '.' + outputExtension
       end
-    
+
     'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
         comments = self.system->processComments(self.comments)
-        
+
         nLines = n_elements(comments)
         line = 0
         while (line lt nLines) do begin
           pos = stregex(comments[line], '\.( |$)')
           if (pos ne -1) then break
           line++
-        endwhile  
-        
+        endwhile
+
         if (pos eq -1) then return, comments[0:line-1]
         if (line eq 0) then return, strmid(comments[line], 0, pos + 1)
-        
+
         return, [comments[0:line-1], strmid(comments[line], 0, pos + 1)]
-      end  
-    'output_path': begin      
-         self.directory->getProperty, url=url     
+      end
+    'output_path': begin
+         self.directory->getProperty, url=url
          self.system->getProperty, extension=ext
          return, url + file_basename(self.basename, '.idldoc') + '.' + ext
-       end      
+       end
 
     'index_name': return, self.basename
     'index_type': begin
         location = self.directory->getVariable('location')
-        
+
         type_tree = obj_new('MGtmTag')
         type_tree->addChild, obj_new('MGtmText', text='.idldoc file in ')
         link_node = obj_new('MGtmTag', type='link')
@@ -111,17 +111,17 @@ function doctreeidldocfile::getVariable, name, found=found
         obj_destroy, type_tree
 
         return, comments
-      end      
+      end
     'index_url': begin
         dirUrl = self.directory->getVariable('url')
         return, dirUrl + file_basename(self.basename, '.idldoc') + '.html'
       end
-                   
+
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
         if (found) then return, var
-        
+
         found = 0B
         return, -1L
       end
@@ -137,7 +137,7 @@ end
 ;-
 function doctreeidldocfile::isVisible
   compile_opt strictarr, hidden
-  
+
   return, self.directory->isVisible(/no_check_children)
 end
 
@@ -158,7 +158,7 @@ end
 
 ;+
 ; Generate the output for the .idldoc file.
-; 
+;
 ; :Params:
 ;    outputRoot : in, required, type=string
 ;       location of the root of the run
@@ -205,7 +205,7 @@ pro doctreeidldocfile::generateOutput, outputRoot, directory
   outputFilename = outputDir + file_basename(self.basename, '.idldoc') + '.' + outputExtension
 
   idldocFileTemplate->reset
-  idldocFileTemplate->process, self, outputFilename   
+  idldocFileTemplate->process, self, outputFilename
 end
 
 
@@ -214,21 +214,21 @@ end
 ;-
 pro doctreeidldocfile::fillLinks
   compile_opt strictarr
-  
+
   doctree_fill_links, self.comments, self
 end
 
 
 ;+
 ; Return an URL from the root for the given item name.
-; 
+;
 ; :Returns:
 ;    string
-;    
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
-;       
+;
 ; :Keywords:
 ;    exclude : in, optional, type=object
 ;       object to exclude looking at
@@ -237,7 +237,7 @@ function doctreeidldocfile::lookupName, name, exclude=exclude
   compile_opt strictarr
 
   if (name eq self.basename) then return, self->getVariable('index_url')
-  
+
   return, obj_valid(exclude) && exclude eq self.directory $
             ? '' $
             : self.directory->lookupName(name, exclude=self)
@@ -249,7 +249,7 @@ end
 ;-
 pro doctreeidldocfile::cleanup
   compile_opt strictarr, hidden
-  
+
   obj_destroy, [self.comments, self.imagerefs]
 end
 
@@ -257,35 +257,35 @@ end
 ;+
 ; Create file tree object.
 ;
-; :Returns: 
+; :Returns:
 ;    1 for success, 0 for failure
 ;-
 function doctreeidldocfile::init, basename=basename, directory=directory, $
                                   system=system
   compile_opt strictarr, hidden
-  
+
   self.basename = basename
   self.directory = directory
   self.system = system
   self.title = basename
-  
+
   self.imagerefs = obj_new('MGcoArrayList', type=7, block_size=3)
-  
+
   self.system->getProperty, index_level=indexLevel
   if (indexLevel ge 1L) then self.system->createIndexEntry, self.basename, self
-  
+
   self.system->print, '  Parsing ' + self.basename + '...'
-  
+
   self.system->getProperty, root=root
   self.directory->getProperty, location=location
-  
+
   return, 1
 end
 
 
 ;+
 ; Define instance variables.
-; 
+;
 ; :Fields:
 ;    directory
 ;       directory tree object
@@ -298,15 +298,15 @@ end
 ;-
 pro doctreeidldocfile__define
   compile_opt strictarr, hidden
-  
+
   define = { DOCtreeIDLdocFile, $
              system: obj_new(), $
              directory: obj_new(), $
-             
+
              basename: '', $
              comments: obj_new(), $
              title: '', $
-             
+
              imagerefs: obj_new() $
            }
 end

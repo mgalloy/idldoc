@@ -2,10 +2,10 @@
 
 	<sect1><title>Overview</title>
 
-	  [% IF n_visible_pro_files gt 0 %]	
-	  
+	  [% IF n_visible_pro_files gt 0 %]
+
 	  <para>The <filename>.pro</filename> files in this directory are listed below.</para>
-	  
+
 	  <variablelist>
     [% FOREACH f IN visible_pro_files %][% SCOPE f %]
       <varlistentry>
@@ -14,9 +14,9 @@
       </varlistentry>
     [% END %][% END %]
     </variablelist>
-  
+
 	  [% END %]
-	  
+
     [% IF n_sav_files gt 0 %]
 
 	  <para>The <filename>.sav</filename> files in this directory are listed below.</para>
@@ -29,7 +29,7 @@
       </varlistentry>
     [% END %][% END %]
     </variablelist>
-        
+
     [% END %]
 
     [% IF n_idldoc_files gt 0 %]
@@ -44,13 +44,13 @@
       </varlistentry>
     [% END %][% END %]
     </variablelist>
-    
-    [% END %]  	  
-	    
+
+    [% END %]
+
   </sect1>
 
   [% FOREACH f in visible_pro_files %][% SCOPE f %]
     &[% fullname %].[% basename %];
   [% END %][% END %]
-  
+
 </chapter>

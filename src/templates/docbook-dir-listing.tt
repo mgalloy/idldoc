@@ -10,7 +10,7 @@
 ]>
 
 <part><title>API</title>
-                   
+
 [% FOREACH d IN visible_dirs %][% SCOPE d %]
 &[% fullname %];
 [% END %][% END %]

@@ -10,7 +10,7 @@
         <listitem>[% author %]</listitem>
       </varlistentry>
       [% END %]
-      
+
       [% IF has_copyright %]
       <varlistentry>
         <term>Copyright</term>
@@ -18,35 +18,35 @@
       </varlistentry>
       [% END %]
 
-      [% IF has_history %]      
+      [% IF has_history %]
       <varlistentry>
         <term>History</term>
         <listitem>[% history %]</listitem>
       </varlistentry>
       [% END %]
 
-      [% IF has_version %]      
+      [% IF has_version %]
       <varlistentry>
         <term>Version</term>
         <listitem>[% version %]</listitem>
-      </varlistentry>                  
-      [% END %]      
+      </varlistentry>
+      [% END %]
     </variablelist>
-    
+
   </sect2>
   [% END %]
 
   [% IF has_others %]
   <sect2><title>Other file information</title>
-  
-    <variablelist>    
+
+    <variablelist>
       [% IF has_bugs %]
       <varlistentry>
         <term>Bugs:</term>
         <listitem>[% bugs %]</listitem>
       </varlistentry>
       [% END %]
-            
+
       [% IF has_customer_id %]
       <varlistentry>
         <term>Customer ID:</term>
@@ -57,10 +57,10 @@
       [% IF has_requires %]
       <varlistentry>
         <term>Requires:</term>
-        <listitem>[% requires %]</listitem>     
+        <listitem>[% requires %]</listitem>
       </varlistentry>
       [% END %]
-            
+
       [% IF has_restrictions %]
       <varlistentry>
         <term>Restrictions:</term>
@@ -74,7 +74,7 @@
         <listitem>[% todo %]</listitem>
       </varlistentry>
       [% END %]
-            
+
       [% IF has_uses %]
       <varlistentry>
         <term>Uses:</term>
@@ -87,7 +87,7 @@
 
   [% IF n_visible_routines gt 1 %]
     <sect2><title>Routines</title>
-  
+
     <variablelist>
       [% FOREACH r IN visible_routines %][% SCOPE r %]
       <varlistentry>
@@ -96,18 +96,18 @@
       </varlistentry>
       [% END %][% END %]
     </variablelist>
-    
+
     </sect2>
   [% END %]
 
 	[% IF n_visible_routines gt 0 %]
-	[% IF n_visible_routines gt 1 %]	
+	[% IF n_visible_routines gt 1 %]
 	<sect2><title>Routine details</title>
 	[% END %]
-	
+
 	  [% FOREACH r IN visible_routines %][% SCOPE r %]
 	  <sect3><title><function>[% name %]</function></title>
-	  
+
 	    <variablelist>
 	      <varlistentry>
   	      <term>
@@ -118,7 +118,7 @@
           </listitem>
         </varlistentry>
       </variablelist>
-          
+
       [% IF is_function and has_returns %]
       <sect4><title>Return value</title>
         <variablelist>
@@ -126,10 +126,10 @@
             <term>[% returns %]</term>
         	  <listitem></listitem>
       	  </varlistentry>
-    	  </variablelist>    	  
+    	  </variablelist>
       </sect4>
       [% END %]
-      
+
       [% IF n_parameters gt 0 %]
       <sect4><title>Parameters</title>
         <variablelist>
@@ -142,7 +142,7 @@
         </variablelist>
       </sect4>
       [% END %]
-      
+
       [% IF n_keywords gt 0 %]
       <sect4><title>Keywords</title>
         <variablelist>
@@ -155,14 +155,14 @@
         </variablelist>
       </sect4>
       [% END %]
-          
+
       [% IF has_examples %]
-      <sect4><title>Examples</title>      
+      <sect4><title>Examples</title>
         <itemizedlist>
           <listitem>[% examples %]</listitem>
         </itemizedlist>
       </sect4>
-      [% END %]      
+      [% END %]
 
 
       [% IF has_author_info %]
@@ -172,41 +172,41 @@
           [% IF has_author %]
           <varlistentry>
             <term>Author:</term>
-            <listitem>[% author %]</listitem>       
-          </varlistentry>                
+            <listitem>[% author %]</listitem>
+          </varlistentry>
           [% END %]
-          
+
           [% IF has_copyright %]
-          <varlistentry>              
+          <varlistentry>
             <term>Copyright:</term>
-            <listitem>[% copyright %]</listitem>       
-          </varlistentry>                
+            <listitem>[% copyright %]</listitem>
+          </varlistentry>
           [% END %]
-          
+
           [% IF has_history %]
-          <varlistentry>              
+          <varlistentry>
             <term>History:</term>
-            <listitem>[% history %]</listitem>    
-          </varlistentry>                
+            <listitem>[% history %]</listitem>
+          </varlistentry>
           [% END %]
 
           [% IF has_version %]
-          <varlistentry>              
+          <varlistentry>
             <term>Version:</term>
-            <listitem>[% version %]</listitem>     
-          </varlistentry>                
-          [% END %]              
-        </variablelist> 
-           
-      </sect4>                
-      [% END %] 
-                 
-	  </sect3>        
+            <listitem>[% version %]</listitem>
+          </varlistentry>
+          [% END %]
+        </variablelist>
+
+      </sect4>
+      [% END %]
+
+	  </sect3>
   	[% END %][% END %]
 
-	[% IF n_visible_routines gt 1 %]	
+	[% IF n_visible_routines gt 1 %]
   </sect2>
   [% END %]
   [% END %]
-  
+
 </sect1>

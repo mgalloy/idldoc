@@ -13,7 +13,7 @@
   src="[% relative_root %]idldoc-resources/mathjax/MathJax.js?config=default">
       </script>
     [% END %]
-    
+
     [% IF embed %]
     <style type="text/css" media="all">
       [% INCLUDE css_location %]
@@ -22,23 +22,23 @@
       [% INCLUDE print_css_location %]
     </style>
     [% ELSE %]
-    <link rel="stylesheet" type="text/css" media="all" 
+    <link rel="stylesheet" type="text/css" media="all"
           href="[% relative_root %]idldoc-resources/main.css" />
-    <link rel="stylesheet" type="text/css" media="print" 
+    <link rel="stylesheet" type="text/css" media="print"
           href="[% relative_root %]idldoc-resources/main-print.css" />
     [% END %]
-    
+
     <script type="text/javascript">
       function setTitle() {
         parent.document.title="[% basename %] ([% title %])";
       }
     </script>
   </head>
-    
+
   <body onload="setTitle();" id="root">
 
     [% INCLUDE_TEMPLATE idldoc_header_location %]
-    
+
     <div class="content">
       <h2 class="directory">[% location %]</h2>
       <h1 class="basename">[% basename %]</h1>
@@ -49,35 +49,35 @@
         <dl class="attribute small" summary="DLM file information">
           [% IF has_module_name %]
             <dt>Module name</dt>
-            <dd>[% module_name %]</dd>        
+            <dd>[% module_name %]</dd>
           [% END %]
 
           [% IF has_comments %]
             <dt>Description</dt>
-            <dd>[% comments %]</dd>        
+            <dd>[% comments %]</dd>
           [% END %]
-          
+
           [% IF has_author %]
             <dt>Author</dt>
-            <dd>[% author %]</dd>        
+            <dd>[% author %]</dd>
           [% END %]
 
           [% IF has_version %]
             <dt>Version</dt>
-            <dd>[% version %]</dd>  
-          [% END %]          
+            <dd>[% version %]</dd>
+          [% END %]
 
           [% IF has_build_date %]
             <dt>Build date</dt>
-            <dd>[% build_date %]</dd>  
-          [% END %]          
-        </dl>          
+            <dd>[% build_date %]</dd>
+          [% END %]
+        </dl>
       [% END %]
 
       [% IF n_visible_routines gt 0 %]
       <div>
         <h2>Routines</h2>
-      
+
         <dl class="routine-summary">
           [% FOREACH r IN visible_routines %][% SCOPE r %]
             <dt class="syntax" id="[% name %]">[% name %]<span class="routine-attributes">[% IF is_obsolete %]obsolete [% END %]</span></dt>
@@ -93,7 +93,7 @@
 
       <div id="attributes">
         <h2>File attributes</h2>
-        	
+
         <table class="attribute small" summary="File attributes">
           <tr>
             <td class="name">Modification date:</td>
@@ -101,10 +101,10 @@
           </tr>
         </table>
       </div>
-      
+
       [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
     </div>
-    
-    [% INCLUDE_TEMPLATE idldoc_footer_location %]    
+
+    [% INCLUDE_TEMPLATE idldoc_footer_location %]
   </body>
-</html>          
+</html>

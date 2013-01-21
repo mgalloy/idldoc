@@ -13,7 +13,7 @@
 
 [% IF has_comments %]
 \item[Description]\hspace*{1em} \newline
-[% mg_escape_latex(comments) %]        
+[% mg_escape_latex(comments) %]
 [% END %]
 
 [% IF has_author %]
@@ -24,15 +24,15 @@
 [% IF has_version %]
 \item[Version]\hspace*{1em} \newline
 [% mg_escape_latex(version) %]
-[% END %]          
+[% END %]
 
 [% IF has_build_date %]
 \item[Build date]\hspace*{1em} \newline
 [% mg_escape_latex(build_date) %]
-[% END %]          
-\end{description}  
+[% END %]
+\end{description}
 
-\end{description}       
+\end{description}
 [% END %]
 
 

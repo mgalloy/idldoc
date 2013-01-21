@@ -28,19 +28,19 @@ pro doctreeprofile::getProperty, basename=basename, $
                                  has_class=hasClass, classes=classes, $
                                  comments=comments, $
                                  n_routines=nRoutines, routines=routines, $
-                                 n_lines=nLines, directory=directory                                 
+                                 n_lines=nLines, directory=directory
   compile_opt strictarr, hidden
-  
+
   if (arg_present(basename)) then basename = self.basename
   if (arg_present(directory)) then directory = self.directory
   if (arg_present(hasMainLevel)) then hasMainLevel = self.hasMainLevel
-  if (arg_present(isBatch)) then isBatch = self.isBatch 
-  if (arg_present(hasClass)) then hasClass = self.classes->count() gt 0   
-  if (arg_present(classes)) then classes = self.classes  
+  if (arg_present(isBatch)) then isBatch = self.isBatch
+  if (arg_present(hasClass)) then hasClass = self.classes->count() gt 0
+  if (arg_present(classes)) then classes = self.classes
   if (arg_present(comments)) then comments = self.comments
   if (arg_present(nRoutines)) then nRoutines = self.routines->count()
   if (arg_present(routines)) then routines = self.routines
-  if (arg_present(nLines)) then nLines = self.nLines  
+  if (arg_present(nLines)) then nLines = self.nLines
 end
 
 
@@ -63,17 +63,17 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
                                  requires=requires, $
                                  restrictions=restrictions, $
                                  todo=todo, $
-                                 uses=uses                                 
+                                 uses=uses
   compile_opt strictarr, hidden
-  
+
   if (n_elements(code) gt 0) then begin
     ; translate strarr to parse tree, also mark comments
-    
+
     proFileParser = self.system->getParser('profile')
     self.code = obj_new('MGtmTag')
-    
+
     nameRe = '^[[:space:]]*(pro|function)[[:space:]]([^ ,]*)'
-    
+
     for l = 0L, n_elements(code) - 1L do begin
       line = code[l]
       lessPos = strpos(line, '<')
@@ -85,33 +85,33 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
         endcase
         lessPos = strpos(line, '<')
       endwhile
-      
+
       regularLines = proFileParser->_stripComments(line, comments=commentsLines)
-            
-      if (stregex(line, nameRe, /boolean)) then begin        
+
+      if (stregex(line, nameRe, /boolean)) then begin
         tokens = stregex(line, nameRe, /subexpr, /extract)
-        
+
         anchor = obj_new('MGtmTag', type='anchor')
         anchor->addAttribute, 'identifier', tokens[2] + ':source'
-         
-        self.code->addChild, anchor        
+
+        self.code->addChild, anchor
       endif
-            
+
       self.code->addChild, obj_new('MGtmText', text=regularLines)
-      
+
       if (strlen(commentsLines) gt 0) then begin
         commentsNode = obj_new('MGtmTag', type='comments')
         self.code->addChild, commentsNode
         commentsNode->addChild, obj_new('MGtmText', text=commentsLines)
       endif
-      
+
       self.code->addChild, obj_new('MGtmTag', type='newline')
-    endfor  
+    endfor
   endif
-  
+
   if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
   if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
-  
+
   if (n_elements(hasMainLevel) gt 0) then self.hasMainLevel = hasMainLevel
   if (n_elements(isAbstract) gt 0) then self.isAbstract = isAbstract
   if (n_elements(isBatch) gt 0) then self.isBatch = isBatch
@@ -128,9 +128,9 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
   if (n_elements(markup) gt 0) then self.markup = markup
   if (n_elements(nLines) gt 0) then self.nLines = nLines
   if (n_elements(mTime) gt 0) then self.modificationTime = mTime
-  
+
   if (n_elements(examples) gt 0) then self.examples = examples
-  
+
   ; "author info" attributes
   if (n_elements(author) gt 0) then begin
     self.hasAuthorInfo = 1B
@@ -141,11 +141,11 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
     self.hasAuthorInfo = 1B
     self.copyright = copyright
   endif
-  
+
   if (n_elements(history) gt 0) then begin
     self.hasAuthorInfo = 1B
     self.history = history
-  endif  
+  endif
 
   if (n_elements(version) gt 0) then begin
     self.hasAuthorInfo = 1B
@@ -155,18 +155,18 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
   if (n_elements(bugs) gt 0) then begin
     self.hasOthers = 1B
     self.bugs = bugs
-  endif 
-    
+  endif
+
   if (n_elements(customerId) gt 0) then begin
-    self.hasOthers = 1B    
+    self.hasOthers = 1B
     self.customerId = customerId
-  endif  
+  endif
 
   if (n_elements(requires) gt 0) then begin
     self.hasOthers = 1B
     self.requires = requires
-  endif 
-    
+  endif
+
   if (n_elements(restrictions) gt 0) then begin
     self.hasOthers = 1B
     self.restrictions = restrictions
@@ -175,12 +175,12 @@ pro doctreeprofile::setProperty, code=code, has_main_level=hasMainLevel, $
   if (n_elements(todo) gt 0) then begin
     self.hasOthers = 1B
     self.todo = todo
-  endif 
-      
+  endif
+
   if (n_elements(uses) gt 0) then begin
     self.hasOthers = 1B
     self.uses = uses
-  endif  
+  endif
 end
 
 
@@ -197,7 +197,7 @@ end
 ;-
 function doctreeprofile::getClass, classname
   compile_opt strictarr, hidden
-  
+
   ; first, check the file: if it's there, everything is set up already
   for c = 0L, self.classes->count() - 1L do begin
     class = self.classes->get(position=c)
@@ -211,19 +211,19 @@ function doctreeprofile::getClass, classname
   class = classes->get(strlowcase(classname), found=found)
   if (found) then begin
     class->getProperty, pro_file=proFile
-    
+
     if (~obj_valid(proFile)) then begin
       class->setProperty, pro_file=self, classname=classname
       self.classes->add, class
     endif
-    
+
     return, class
   endif
-    
+
   ; create the class if there is no record of it
   class = obj_new('DOCtreeClass', classname, pro_file=self, system=self.system)
   self.classes->add, class
-  
+
   return, class
 end
 
@@ -244,7 +244,7 @@ end
 ;-
 function doctreeprofile::getVariable, name, found=found
   compile_opt strictarr, hidden
-  
+
   found = 1B
   case strlowcase(name) of
     'basename': return, self.basename
@@ -253,7 +253,7 @@ function doctreeprofile::getVariable, name, found=found
         return, file_basename(self.basename, '.pro') + '.' + ext
       end
     'source_url': begin
-        self.system->getProperty, extension=ext      
+        self.system->getProperty, extension=ext
         return, file_basename(self.basename, '.pro') + '-code.' + ext
       end
     'direct_source_url': begin
@@ -270,15 +270,15 @@ function doctreeprofile::getVariable, name, found=found
                return, 'file://' + strjoin(pathTokens, '/')
              end
           else:
-        endcase        
+        endcase
       end
-    'output_path': begin      
-         self.directory->getProperty, url=url     
+    'output_path': begin
+         self.directory->getProperty, url=url
          self.system->getProperty, extension=ext
          return, url + file_basename(self.basename, '.pro') + '.' + ext
        end
     'code': return, self.system->processComments(self.code)
-    
+
     'is_batch': return, self.isBatch
     'has_main_level': return, self.hasMainLevel
     'has_class': return, self.classes->count() gt 0
@@ -286,19 +286,19 @@ function doctreeprofile::getVariable, name, found=found
     'is_private': return, self.isPrivate
     'is_abstract': return, self.isAbstract
     'is_obsolete': return, self.isObsolete
-    
+
     'modification_time': return, self.modificationTime
     'n_lines': return, mg_int_format(self.nLines)
-    
+
     'format': return, self.format
     'markup': return, self.markup
 
     'has_categories': return, self.categories->count() gt 0
     'categories': return, self.categories->get(/all)
-    
+
     'has_examples': return, obj_valid(self.examples)
     'examples': return, self.system->processComments(self.examples)
-        
+
     'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)
     'comments_first_line': begin
@@ -313,18 +313,18 @@ function doctreeprofile::getVariable, name, found=found
               return, routine->getVariable('comments_first_line', found=found)
             endif
           endfor
-          
+
           return, ''
         endif
-        
+
         if (~obj_valid(self.firstline)) then begin
           self.firstline = mg_tm_firstline(self.comments)
         endif
-        
+
         return, self.system->processComments(self.firstline)
       end
     'plain_comments': return, self.system->processPlainComments(self.comments)
-                
+
     'n_routines' : return, self.routines->count()
     'routines' : return, self.routines->get(/all)
     'n_visible_routines': begin
@@ -335,30 +335,30 @@ function doctreeprofile::getVariable, name, found=found
         endfor
         return, nVisible
       end
-    'visible_routines': begin        
+    'visible_routines': begin
         routines = self.routines->get(/all, count=nRoutines)
         if (nRoutines eq 0L) then return, -1L
-        
+
         isVisibleRoutines = bytarr(nRoutines)
         for r = 0L, nRoutines - 1L do begin
           isVisibleRoutines[r] = routines[r]->isVisible()
         endfor
-        
+
         ind = where(isVisibleRoutines eq 1B, nVisibleRoutines)
         if (nVisibleRoutines eq 0L) then return, -1L
-        
+
         return, routines[ind]
       end
-    
+
     'has_author_info': return, self.hasAuthorInfo
-    
+
     'has_author': return, obj_valid(self.author)
     'author': return, self.system->processComments(self.author)
     'plain_author': return, self.system->processPlainComments(self.author)
 
     'has_copyright': return, obj_valid(self.copyright)
     'copyright': return, self.system->processComments(self.copyright)
-    
+
     'has_history': return, obj_valid(self.history)
     'history': return, self.system->processComments(self.history)
 
@@ -368,7 +368,7 @@ function doctreeprofile::getVariable, name, found=found
     'index_name': return, self.basename
     'index_type': begin
         location = self.directory->getVariable('location')
-        
+
         type_tree = obj_new('MGtmTag')
         type_tree->addChild, obj_new('MGtmText', text='.pro file in ')
         link_node = obj_new('MGtmTag', type='link')
@@ -379,7 +379,7 @@ function doctreeprofile::getVariable, name, found=found
         obj_destroy, type_tree
 
         return, comments
-      end      
+      end
     'index_url': begin
         dirUrl = self.directory->getVariable('url')
         return, dirUrl + file_basename(self.basename, '.pro') + '.html'
@@ -389,19 +389,19 @@ function doctreeprofile::getVariable, name, found=found
 
     'has_bugs': return, obj_valid(self.bugs)
     'bugs': return, self.system->processComments(self.bugs)
-        
+
     'has_customer_id': return, obj_valid(self.customerId)
     'customer_id': return, self.system->processComments(self.customerId)
-    
+
     'has_requires': return, obj_valid(self.requires)
     'requires': return, self.system->processComments(self.requires)
-        
+
     'has_restrictions': return, obj_valid(self.restrictions)
     'restrictions': return, self.system->processComments(self.restrictions)
 
     'has_todo': return, obj_valid(self.todo)
     'todo': return, self.system->processComments(self.todo)
-        
+
     'has_uses': return, obj_valid(self.uses)
     'uses': begin
         self.directory->getProperty, url=dirUrl
@@ -418,7 +418,7 @@ function doctreeprofile::getVariable, name, found=found
         attributes = [self.bugs, self.version, self.history, self.copyright, $
                       self.examples, self.customerId, self.requires, $
                       self.restrictions, self.todo, self.uses]
-        
+
         result = ''
         for a = 0L, n_elements(attributes) - 1L do begin
           result += strjoin(self.system->processPlainComments(attributes[a]), ' ')
@@ -426,12 +426,12 @@ function doctreeprofile::getVariable, name, found=found
 
         return, result
       end
-          
+
     else: begin
         ; search in the system object if the variable is not found here
         var = self.directory->getVariable(name, found=found)
         if (found) then return, var
-        
+
         found = 0B
         return, -1L
       end
@@ -448,29 +448,29 @@ end
 ;-
 function doctreeprofile::isVisible
   compile_opt strictarr, hidden
-  
+
   if (self.isHidden) then return, 0B
-  
+
   ; if creating user-level docs and private then not visible
   self.system->getProperty, user=user
   if (self.isPrivate && user) then return, 0B
-  
+
   if (~self.directory->isVisible(/no_check_children)) then return, 0B
-  
+
   return, 1B
 end
 
 
 ;+
 ; Add a routine to the list of routines in the file.
-; 
+;
 ; :Params:
 ;    routine : in, required, type=object
 ;       routine object
 ;-
 pro doctreeprofile::addRoutine, routine
   compile_opt strictarr, hidden
-  
+
   self.routines->add, routine
 end
 
@@ -491,19 +491,19 @@ end
 ;-
 pro doctreeprofile::_propertyCheck, methodname, propertyname, comments, class
   compile_opt strictarr, hidden
-  
+
   class->getProperty, classname=classname
-  
+
   for r = 0L, self.routines->count() - 1L do begin
     routine = self.routines->get(position=r)
     routine->getProperty, name=name
-    
+
     if (strlowcase(name) eq strlowcase(classname + '::' + methodname)) then begin
       routine->getProperty, keywords=keywords
       for k = 0L, keywords->count() - 1L do begin
         keyword = keywords->get(position=k)
         keyword->getProperty, name=keywordname, comments=keywordComments
-        
+
         if (strlowcase(propertyname) eq strlowcase(keywordname)) then begin
           if (~obj_valid(keywordComments)) then begin
             keyword->setProperty, comments=comments
@@ -537,7 +537,7 @@ end
 ;-
 pro doctreeprofile::process
   compile_opt strictarr, hidden
-  
+
   if (self.classes->count() gt 0) then begin
     ; if has properties, then place properties' comment into keyword comments
     ; for getProperty, setProperty, and init if there are no comments there
@@ -700,10 +700,10 @@ pro doctreeprofile::fillLinks
   doctree_fill_links, self.requires, self
   doctree_fill_links, self.todo, self
   doctree_fill_links, self.uses, self
-                            
+
   routines = self.routines->get(/all, count=nroutines)
   for i = 0L, nroutines - 1L do (routines[i])->fillLinks
-  
+
   classes = self.classes->get(/all, count=nclasses)
   for i = 0L, nclasses - 1L do (classes[i])->fillLinks
 end
@@ -711,39 +711,39 @@ end
 
 ;+
 ; Return an URL from the root for the given item name.
-; 
+;
 ; :Returns:
 ;    string
-;    
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
-;       
+;
 ; :Keywords:
 ;    exclude : in, optional, type=object
 ;       object to exclude looking at
 ;-
 function doctreeprofile::lookupName, name, exclude=exclude
   compile_opt strictarr
-  
+
   if (name eq self.basename) then return, self->getVariable('index_url')
 
   ; check classes
-  classes = self.classes->get(/all, count=nclasses) 
+  classes = self.classes->get(/all, count=nclasses)
   for i = 0L, nclasses - 1L do begin
     if (obj_valid(exclude) && exclude eq classes[i]) then continue
     url = (classes[i])->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
-   
+
   ; check routines
-  routines = self.routines->get(/all, count=nroutines) 
+  routines = self.routines->get(/all, count=nroutines)
   for i = 0L, nroutines - 1L do begin
     if (obj_valid(exclude) && exclude eq routines[i]) then continue
     url = (routines[i])->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
-   
+
   return, obj_valid(exclude) && exclude eq self.directory $
             ? '' $
             : self.directory->lookupName(name, exclude=self)
@@ -755,23 +755,23 @@ end
 ;-
 pro doctreeprofile::cleanup
   compile_opt strictarr, hidden
-  
+
   obj_destroy, self.firstline
   obj_destroy, self.comments
-  
+
   obj_destroy, self.routines
-  
+
   obj_destroy, self.classes
-  
+
   obj_destroy, [self.author, self.copyright, self.history, self.version]
   obj_destroy, self.code
-  
+
   obj_destroy, self.examples
-  
+
   obj_destroy, self.categories
   obj_destroy, [self.bugs, self.customerId]
   obj_destroy, [self.requires, self.restrictions, self.todo, self.uses]
-  
+
   obj_destroy, self.imagerefs
 end
 
@@ -795,12 +795,12 @@ end
 function doctreeprofile::init, basename=basename, directory=directory, $
                                system=system, fullpath=fullpath
   compile_opt strictarr, hidden
-  
+
   self.basename = basename
   self.directory = directory
   self.system = system
   self.fullpath = fullpath
-  
+
   self.classes = obj_new('MGcoArrayList', type=11, block_size=3)
   self.routines = obj_new('MGcoArrayList', type=11, block_size=10)
   self.categories = obj_new('MGcoArrayList', type=7, block_size=3)
@@ -808,9 +808,9 @@ function doctreeprofile::init, basename=basename, directory=directory, $
 
   self.system->getProperty, index_level=indexLevel
   if (indexLevel ge 1L) then self.system->createIndexEntry, self.basename, self
-  
+
   self.system->print, '  Parsing ' + self.basename + '...'
-  
+
   return, 1
 end
 
@@ -827,50 +827,50 @@ end
 ;       true if the file has a main level program at the end
 ;    isBatch
 ;       true if the file is a batch file
-;    routines 
+;    routines
 ;       list of routine objects
 ;-
 pro doctreeprofile__define
   compile_opt strictarr, hidden
-  
+
   define = { DOCtreeProFile, $
              system: obj_new(), $
              directory: obj_new(), $
-             
+
              fullpath: '', $
              basename: '', $
              code: obj_new(), $
-             
+
              hasMainLevel: 0B, $
              isBatch: 0B, $
-             
+
              classes: obj_new(), $
-             
+
              modificationTime: '', $
              nLines: 0L, $
              format: '', $
              markup: '', $
-             
+
              comments: obj_new(), $
              firstline: obj_new(), $
-             
+
              routines: obj_new(), $
-             
+
              isAbstract: 0B, $
              isHidden: 0B, $
              isObsolete: 0B, $
              isPrivate: 0B, $
-             
+
              examples: obj_new(), $
-             
+
              hasAuthorInfo: 0B, $
              author: obj_new(), $
              copyright: obj_new(), $
              history: obj_new(), $
              version: obj_new(), $
-             
+
              categories: obj_new(), $
-             
+
              hasOthers: 0B, $
              bugs: obj_new(), $
              customerId: obj_new(), $
@@ -878,7 +878,7 @@ pro doctreeprofile__define
              requires: obj_new(), $
              todo: obj_new(), $
              uses: obj_new(), $
-             
-             imagerefs: obj_new() $             
+
+             imagerefs: obj_new() $
            }
 end

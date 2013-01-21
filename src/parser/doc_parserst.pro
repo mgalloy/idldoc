@@ -18,14 +18,14 @@ pro doc_parserst, lines, style=comment_style, filename=filename
 
   ; default comment style is HTML
   _comment_style = n_elements(comment_style) gt 0L ? comment_style : 'html'
-  
+
   ; create simple system and rst parser
   system = obj_new('DOCparSystem', comment_style=_comment_style)
   parser = obj_new('DOCparRstMarkupParser', system=system)
-  
+
   ; get the parse tree
   tree = parser->parse(lines)
-  
+
   ; create correct output generator for the output style
   case _comment_style of
     'latex': output_language = obj_new('MGtmLatex')
@@ -34,10 +34,10 @@ pro doc_parserst, lines, style=comment_style, filename=filename
     'rst': output_language = obj_new('MGtmRst')
     'plain': output_language = obj_new('MGtmPlain')
   endcase
-  
+
   ; create the output strings
   output_text = output_language->process(tree)
-  
+
   ; send the output to a file or stdout
   if (n_elements(filename) gt 0L) then begin
     openw, lun, filename, /get_lun

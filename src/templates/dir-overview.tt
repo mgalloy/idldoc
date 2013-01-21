@@ -19,23 +19,23 @@
          [% INCLUDE print_css_location %]
     </style>
     [% ELSE %]
-    <link rel="stylesheet" type="text/css" media="all" 
+    <link rel="stylesheet" type="text/css" media="all"
           href="[% relative_root %]idldoc-resources/main.css" />
-    <link rel="stylesheet" type="text/css" media="print" 
+    <link rel="stylesheet" type="text/css" media="print"
           href="[% relative_root %]idldoc-resources/main-print.css" />
     [% END %]
-    
+
     <script type="text/javascript">
       function setTitle() {
         parent.document.title="Directory: [% location %] ([% title %])";
       }
     </script>
   </head>
-    
+
   <body onload="setTitle();">
-  
+
     [% INCLUDE_TEMPLATE idldoc_header_location %]
-  
+
   	<div class="content">
   		<h1>Directory: [% location %]</h1>
 
@@ -51,72 +51,72 @@
         <dl class="attribute small" summary="File author information">
           [% IF has_author %]
             <dt>Author</dt>
-            <dd>[% author %]</dd>        
+            <dd>[% author %]</dd>
           [% END %]
-          
+
           [% IF has_copyright %]
             <dt>Copyright</dt>
-            <dd>[% copyright %]</dd>       
+            <dd>[% copyright %]</dd>
           [% END %]
-          
+
           [% IF has_history %]
             <dt>History</dt>
-            <dd>[% history %]</dd>       
+            <dd>[% history %]</dd>
           [% END %]
-        </dl>          
+        </dl>
       [% END %]
 
   		[% IF (n_visible_pro_files gt 0) || (n_visible_dlm_files gt 0)  || (n_visible_sav_files gt 0) || (n_visible_idldoc_files gt 0) %]
       <h2>Contents</h2>
       [% END %]
-              		
+
   		[% IF n_visible_pro_files gt 0 %]
   		<h3>.pro files</h3>
-  		
+
   		  <dl class="file_listing">
   			 [% FOREACH f IN visible_pro_files %][% SCOPE f %]
   			 <dt class="filename"><a href="[% local_url %]">[% basename %]</a></dt>
-  			 <dd class="smaller">[% comments_first_line %]</dd>	
+  			 <dd class="smaller">[% comments_first_line %]</dd>
   			 [% END %][% END %]
   		  </dl>
   		[% END %]
-      
+
       [% IF n_visible_dlm_files gt 0 %]
         <h3>.dlm files</h3>
-        
+
         <dl class="file_listing">
           [% FOREACH f IN visible_dlm_files %][% SCOPE f %]
           <dt class="filename"><a href="[% local_url %]">[% basename %]</a></dt>
-          <dd class="smaller">[% description %]</dd>  
+          <dd class="smaller">[% description %]</dd>
           [% END %][% END %]
         </dl>
       [% END %]
-      
+
       [% IF n_visible_sav_files gt 0 %]
         <h3>.sav files</h3>
-        
+
         <dl class="file_listing">
           [% FOREACH f IN visible_sav_files %][% SCOPE f %]
           <dt class="filename"><a href="[% local_url %]">[% basename %]</a></dt>
-          <dd class="smaller">[% description %]</dd>  
+          <dd class="smaller">[% description %]</dd>
           [% END %][% END %]
         </dl>
       [% END %]
 
       [% IF n_visible_idldoc_files gt 0 %]
       <h3>.idldoc files</h3>
-      
+
         <dl class="file_listing">
           [% FOREACH f IN visible_idldoc_files %][% SCOPE f %]
           <dt class="filename">[% file_title %]</dt>
-          <dd class="smaller"></dd>  
+          <dd class="smaller"></dd>
           [% END %][% END %]
         </dl>
-      [% END %]     
-      
-      [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]   		
+      [% END %]
+
+      [% IF footer ne '' %][% INCLUDE_TEMPLATE footer %][% END %]
   	</div>
-  	
-    [% INCLUDE_TEMPLATE idldoc_footer_location %]      	
+
+    [% INCLUDE_TEMPLATE idldoc_footer_location %]
   </body>
 </html>

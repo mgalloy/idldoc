@@ -1,7 +1,7 @@
 ; docformat = 'rst'
 
 ;+
-; Run a test and compare its output to the given output. 
+; Run a test and compare its output to the given output.
 ;
 ; If there are no tests in the input, the test is considered to pass.
 ;
@@ -18,27 +18,27 @@ function mg_doctest::runTest, input
   prompt = 'IDL> '
   cmds = strpos(input, prompt) eq 0L
   cmdInds = where(cmds, nCmds)
-  
+
   if (nCmds eq 0L) then return, 1B
-  
+
   cmdInds = [cmdInds, n_elements(input)]   ; makes testing easier
   currentLine = 0L
   for c = 0L, nCmds - 1L do begin
     mg_log, 'Executing: "' + input[cmdInds[c]] + '"', $
             name='mg_doctest/runTest', /informational
     self.bridge->execute, strmid(input[cmdInds[c]], strlen(prompt))
-    
+
     nlines = file_lines(self.filename)
     output = strarr(nlines)
     openr, lun, self.filename, /get_lun
     readf, lun, output
     free_lun, lun
-    
+
     if (~array_equal(output[currentLine:*], $
                      input[cmdInds[c] + 1L:cmdInds[c + 1L] - 1L])) then return, 0
     currentLine = nlines
   endfor
-  
+
   return, 1
 end
 
@@ -59,16 +59,16 @@ function mg_doctest::init
   while (file_test(self.filename)) do begin
     self.filename = filepath('bridge-' + strtrim(count++) + '.log', /tmp)
   endwhile
-  
+
   self.bridge = obj_new('IDL_IDLBridge', output=self.filename)
-  
+
   return, 1
 end
 
 
 pro mg_doctest__define
   compile_opt strictarr
-  
+
   define = { MG_DocTest, $
              bridge: obj_new(), $
              filename: '' $

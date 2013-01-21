@@ -2,7 +2,7 @@
 
 ;+
 ; Argument class representing a positional parameter or keyword for a routine.
-; 
+;
 ; :Properties:
 ;    routine
 ;       DOCtreeRoutine object that contains this argument
@@ -43,7 +43,7 @@
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable (case insensitive)
-; 
+;
 ; :Keywords:
 ;    found : out, optional, type=boolean
 ;       pass a named variable to get whether the variable was found
@@ -51,12 +51,12 @@
 function doctreeargument::getVariable, name, found=found
   compile_opt strictarr, hidden
   on_error, 2
-  
+
   ; make sure name is present, a string, and only 1 element
   if (n_elements(name) ne 1 || size(name, /type) ne 7) then begin
     message, 'name parameter invalid'
   endif
-  
+
   ; return value if name is ok
   found = 1B
   case name of
@@ -65,7 +65,7 @@ function doctreeargument::getVariable, name, found=found
         self.routine->getProperty, name=name
         return, name + ':' + (self.isKeyword ? 'k' : 'p') + ':' + self.name
       end
-      
+
     'index_name': return, self.name
     'index_type': begin
         type = self.isKeyword ? 'keyword' : 'parameter'
@@ -74,7 +74,7 @@ function doctreeargument::getVariable, name, found=found
 
         type_tree = obj_new('MGtmTag')
         type_tree->addChild, obj_new('MGtmText', text=type + ' in routine ')
-        
+
         routine_node = obj_new('MGtmTag', type='link')
         routine_node->addAttribute, 'reference', self.routine->getVariable('index_url')
         routine_node->addChild, obj_new('MGtmText', text=routineName)
@@ -86,12 +86,12 @@ function doctreeargument::getVariable, name, found=found
         file_node->addAttribute, 'reference', file->getVariable('index_url')
         file_node->addChild, obj_new('MGtmText', text=basename)
         type_tree->addChild, file_node
-        
+
         comments = self.system->processComments(type_tree)
         obj_destroy, type_tree
 
         return, comments
-      end      
+      end
     'index_url': begin
         self.routine->getProperty, file=file, name=routineName
         file->getProperty, directory=directory, basename=basename
@@ -104,7 +104,7 @@ function doctreeargument::getVariable, name, found=found
                        (self.isKeyword ? 'k' : 'p'), $
                        self.name)
       end
-            
+
     'is_keyword' : return, self.isKeyword
     'is_optional': return, self.isOptional
     'is_required': return, self.isRequired
@@ -116,7 +116,7 @@ function doctreeargument::getVariable, name, found=found
     'is_hidden': return, self.isHidden
     'is_private': return, self.isPrivate
     'is_obsolete': return, self.isObsolete
-    
+
     'prefix': begin
       self.routine->getProperty, is_function=isFunction
       return, (isFunction && self.isFirst) ? '' : ', '
@@ -125,24 +125,24 @@ function doctreeargument::getVariable, name, found=found
       self.routine->getProperty, is_function=isFunction
       return, (isFunction && self.isLast) ? '' : ''
     end
-    
+
     'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
-        
+
         if (~obj_valid(self.firstline)) then begin
           self.firstline = mg_tm_firstline(self.comments)
         endif
-        
+
         return, self.system->processComments(self.firstline)
-      end    
-    
+      end
+
     else : begin
         ; search in the routine object if the variable is not found here
         var = self.routine->getVariable(name, found=found)
         if (found) then return, var
-            
+
         found = 0B
         return, -1L
       end
@@ -158,23 +158,23 @@ pro doctreeargument::getProperty, routine=routine, name=name, $
     is_required=isRequired, is_input=isInput, is_output=isOutput, $
     type=type, default_value=defaultValue, is_hidden=isHidden, $
     is_private=isPrivate, is_obsolete=isObsolete, $
-    comments=comments, documented=documented  
+    comments=comments, documented=documented
   compile_opt strictarr, hidden
-  
+
   if (arg_present(routine)) then routine = self.routine
   if (arg_present(name)) then name = self.name
-  if (arg_present(isFirst)) then isFirst = self.isFirst  
-  if (arg_present(isLast)) then isLast = self.isLast  
-  if (arg_present(isKeyword)) then isKeyword = self.isKeyword  
-  if (arg_present(isOptional)) then isOptional = self.isOptional    
-  if (arg_present(isRequired)) then isRequired = self.isRequired      
-  if (arg_present(isInput)) then isInput = self.isInput    
-  if (arg_present(isOutput)) then isOutput = self.isOutput      
-  if (arg_present(type)) then type = self.type      
-  if (arg_present(defaultValue)) then defaultValue = self.defaultValue      
-  if (arg_present(isHidden)) then isHidden = self.isHidden      
-  if (arg_present(isPrivate)) then isPrivate = self.isPrivate      
-  if (arg_present(isObsolete)) then isObsolete = self.isObsolete      
+  if (arg_present(isFirst)) then isFirst = self.isFirst
+  if (arg_present(isLast)) then isLast = self.isLast
+  if (arg_present(isKeyword)) then isKeyword = self.isKeyword
+  if (arg_present(isOptional)) then isOptional = self.isOptional
+  if (arg_present(isRequired)) then isRequired = self.isRequired
+  if (arg_present(isInput)) then isInput = self.isInput
+  if (arg_present(isOutput)) then isOutput = self.isOutput
+  if (arg_present(type)) then type = self.type
+  if (arg_present(defaultValue)) then defaultValue = self.defaultValue
+  if (arg_present(isHidden)) then isHidden = self.isHidden
+  if (arg_present(isPrivate)) then isPrivate = self.isPrivate
+  if (arg_present(isObsolete)) then isObsolete = self.isObsolete
   if (arg_present(comments)) then comments = self.comments
   if (arg_present(documented)) then documented = self.documented
 end
@@ -196,46 +196,46 @@ pro doctreeargument::setProperty, is_keyword=isKeyword, $
                                   is_obsolete=isObsolete, $
                                   comments=comments
   compile_opt strictarr, hidden
-  
+
   if (n_elements(isFirst) gt 0) then self.isFirst = isFirst
-  if (n_elements(isLast) gt 0) then self.isLast = isLast  
+  if (n_elements(isLast) gt 0) then self.isLast = isLast
   if (n_elements(isKeyword) gt 0) then self.isKeyword = isKeyword
-  
+
   if (n_elements(isOptional) gt 0) then begin
     self.isOptional = isOptional
     self.documented = 1B
   endif
-  
+
   if (n_elements(isRequired) gt 0) then begin
     self.isRequired = isRequired
     self.documented = 1B
   endif
-  
+
   if (n_elements(isInput) gt 0) then begin
     self.isInput = isInput
     self.documented = 1B
   endif
-  
+
   if (n_elements(isOutput) gt 0) then begin
     self.isOutput = isOutput
     self.documented = 1B
   endif
-  
+
   if (n_elements(type) gt 0) then begin
     self.type = type
     self.documented = 1B
   endif
-  
+
   if (n_elements(defaultValue) gt 0) then begin
     self.defaultValue = defaultValue
     self.documented = 1B
   endif
-  
+
   if (n_elements(isHidden) gt 0) then begin
     self.isHidden = isHidden
     self.documented = 1B
   endif
-  
+
   if (n_elements(isPrivate) gt 0) then begin
     self.isPrivate = isPrivate
     self.documented = 1B
@@ -245,7 +245,7 @@ pro doctreeargument::setProperty, is_keyword=isKeyword, $
     self.isObsolete = isObsolete
     self.documented = 1B
   endif
-    
+
   if (n_elements(comments) gt 0) then begin
     self.comments = comments
     self.documented = 1B
@@ -264,14 +264,14 @@ function doctreeargument::isVisible
 
   ; each argument in a not-visible routine is not visible
   if (~self.routine->isVisible()) then return, 0B
-    
+
   if (self.isHidden) then return, 0B
-  
+
   ; if creating user-level docs and private then not visible
   self.system->getProperty, user=user
-  if (self.isPrivate && user) then return, 0B  
-  
-  return, 1B  
+  if (self.isPrivate && user) then return, 0B
+
+  return, 1B
 end
 
 
@@ -280,7 +280,7 @@ end
 ;-
 pro doctreeargument::fillLinks
   compile_opt strictarr
-  
+
   doctree_fill_links, self.comments, self
   doctree_fill_links, self.firstline, self
 end
@@ -288,25 +288,25 @@ end
 
 ;+
 ; Return an URL from the root for the given item name.
-; 
+;
 ; :Returns:
 ;    string
-;    
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
-;      
+;
 ; :Keywords:
 ;    exclude : in, optional, type=object
 ;       object to exclude looking at
 ;-
 function doctreeargument::lookupName, name, exclude=exclude
   compile_opt strictarr
-  
+
   if (strlowcase(name) eq strlowcase(self.name)) then begin
     return, self->getVariable('index_url')
   endif
-  
+
   return, obj_valid(exclude) && exclude eq self.routine $
             ? '' $
             : self.routine->lookupName(name, exclude=self)
@@ -318,7 +318,7 @@ end
 ;-
 pro doctreeargument::cleanup
   compile_opt strictarr, hidden
-  
+
   obj_destroy, self.firstline
   obj_destroy, self.comments
 end
@@ -326,7 +326,7 @@ end
 
 ;+
 ; Create an argument: positional parameter or keyword.
-; 
+;
 ; :Returns: 1 for success, 0 for failure
 ;
 ; :Params:
@@ -336,17 +336,17 @@ end
 function doctreeargument::init, routine, name=name, is_keyword=isKeyword, $
                                 system=system
   compile_opt strictarr, hidden
-  
+
   self.system = system
   self.routine = routine
-  
+
   if (n_elements(name) gt 0) then self.name = name
-  
+
   self.isKeyword = keyword_set(isKeyword)
-  
+
   self.system->getProperty, index_level=indexLevel
   if (indexLevel ge 2L) then self.system->createIndexEntry, self.name, self
-  
+
   return, 1
 end
 
@@ -387,7 +387,7 @@ end
 ;-
 pro doctreeargument__define
   compile_opt strictarr, hidden
-  
+
   define = { DOCtreeArgument, $
              system: obj_new(), $
              routine: obj_new(), $

@@ -27,12 +27,12 @@
 ;-
 function doc_complexity, lines
   compile_opt strictarr
-  
+
   pattern = '[[:>:]]'
   ;pattern = '[[:space:](),-\+]'
   tokenizer = obj_new('MGffTokenizer', lines, /string_array, pattern=pattern)
   complexity = 1L
-  
+
   while (~tokenizer->done()) do begin
     tok = tokenizer->next(pre_delim=pre, post_delim=post, newline=newline)
     case strlowcase(strtrim(tok, 2)) of
@@ -46,7 +46,7 @@ function doc_complexity, lines
       else:
     endcase
   endwhile
-  
+
   obj_destroy, tokenizer
   return, complexity > 1
 end

@@ -1,21 +1,21 @@
 ; docformat = 'rst'
 
 ;+
-; Returns IDLdoc version. This file is automatically edited by the build 
+; Returns IDLdoc version. This file is automatically edited by the build
 ; process to edit the contents of the version and revision variables below.
 ;
-; :Returns: 
+; :Returns:
 ;    string
 ;
-; :Keywords: 
+; :Keywords:
 ;    full : in, optional, type=boolean
 ;       set to return Subversion revision as well
 ;-
 function idldoc_version, full=full
   compile_opt strictarr, hidden
-  
+
   version = '3.6.0alpha'
   revision = '-r838'
-  
+
   return, version + (keyword_set(full) ? (' ' + revision) : '')
 end

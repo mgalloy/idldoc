@@ -45,7 +45,7 @@
 \renewcommand\mainmatter{%
   \cleardoublepage
   \@mainmattertrue
-  
+
   % TODO The book should have the book title on the left and the chapter
   %      title on the right.
   \fancyhf{}

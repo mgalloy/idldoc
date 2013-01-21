@@ -8,10 +8,10 @@ body { font-family: Helvetica, sans-serif; font-size: 12pt; margin: 0; }
 
 /* headings */
 h1 { font-size: 100%; margin-bottom: 0.5em; padding-left: 0.5em; }
-h1 span { 
-  font-size: 80%; 
-  font-family: Verdana, Helvetica, sans-serif; 
-  font-weight: normal; 
+h1 span {
+  font-size: 80%;
+  font-family: Verdana, Helvetica, sans-serif;
+  font-weight: normal;
   color: #606060;
 }
 

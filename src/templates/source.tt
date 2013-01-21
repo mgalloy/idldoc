@@ -21,14 +21,14 @@
     <link rel="stylesheet" type="text/css" media="print"
           href="[% relative_root %]idldoc-resources/main-print.css" />
     [% END %]
-    
+
     <script type="text/javascript">
       function setTitle() {
         parent.document.title="[% basename %] ([% title %])";
       }
     </script>
   </head>
-    
+
   <body onload="setTitle();" id="root">
     <div class="content">
       <code class="source">[% code %]</code>

@@ -7,7 +7,7 @@
 
 pro xidldoc_event, event
   compile_opt strictarr
-  
+
   widget_control, event.top, get_uvalue=object
   method = widget_info(event.id, /uname)
   if (method eq 'createNewFile') then call_method, method, object, event
@@ -17,16 +17,16 @@ end
 
 function xidldoc::parseToFirstBlankLine, i, numLines
   compile_opt strictarr
-  
+
   value = ''
   for j = i + 1L, 100L do begin   ; limit of 100 description lines
     if strlen(strcompress((*self.pHeader)[j],/remove)) eq 0 then break ; first blank line
     if (j eq (i + 1L)) then begin
-      value = (*self.pHeader)[j] 
+      value = (*self.pHeader)[j]
     endif else begin
       value = [value, (*self.pHeader)[j]]
       numLines++
-    endelse  
+    endelse
   endfor
 
   return, value
@@ -35,14 +35,14 @@ end
 
 function xidldoc::parseToFirstColonOrBlankLine, i, numLines
   compile_opt strictarr
-  
+
   for j=i+1,100 do begin ;limit of 100 description lines
     if strpos((*self.pHeader)[j],' : ') ge 0 then break ;first colon
     if strlen(strcompress((*self.pHeader)[j],/remove)) eq 0 then break ;first blank line
     if j eq (i+1) then value = (*self.pHeader)[j] else begin
       value = [value, (*self.pHeader)[j]]
       numLines++
-    endelse  
+    endelse
   endfor
 
   return, value
@@ -52,7 +52,7 @@ end
 function xidldoc::parseHeader, match, numLines, xsize, $
                                inout=inout, required=required, type=type
   compile_opt strictarr
-  
+
   inout='in'
   required='required'
   type=' '
@@ -69,7 +69,7 @@ function xidldoc::parseHeader, match, numLines, xsize, $
     ':DATE:' : begin
       value = self->parseToFirstBlankLine(i, numLines)
       found = 1
-    end  
+    end
     ':DESCRIPTION:' : begin
       value = self->parseToFirstBlankLine(i, numLines)
       found = 1
@@ -81,7 +81,7 @@ function xidldoc::parseHeader, match, numLines, xsize, $
     ':AUTHOR:': begin
       value = self->parseToFirstBlankLine(i, numLines)
       found = 1
-    end  
+    end
     else: begin
       ;parse on the :
       tempStr = strsplit(line,':', /extract)
@@ -105,7 +105,7 @@ end
 
 pro xidldoc::findHeader, routine, isfunction=isfunction
   compile_opt strictarr
-  
+
   if keyword_set(isfunction) then prefix = 'function ' else prefix = 'pro '
 
   openr,lun,/get,self.file
@@ -120,7 +120,7 @@ pro xidldoc::findHeader, routine, isfunction=isfunction
     if strpos(line,';-') eq 0 then begin
       record = 0
       readf, lun, line
-      if strpos(line,prefix + routine) eq 0 then begin  
+      if strpos(line,prefix + routine) eq 0 then begin
         *self.pHeader = headerArray[0:count-1]
         break
       endif else begin
@@ -136,7 +136,7 @@ end
 
 pro xidldoc::buildItems, wTab1, list, isfunction=isfunction, Author=Author, Date=Date
   compile_opt strictarr
-  
+
   device, get_screen_size=scrsz
 
   for i=0,n_elements(list)-1 do begin
@@ -181,10 +181,10 @@ pro xidldoc::buildItems, wTab1, list, isfunction=isfunction, Author=Author, Date
     for j=0,params.num_kw_args -1 do begin
       wRow = widget_base(wCommon,/row,uname='row')
       void = cw_field(wRow, title=params.kw_args[j], $
-      value=self->parseHeader(params.kw_args[j] +' :', inout=inout, required=required, Type=Type), $ 
+      value=self->parseHeader(params.kw_args[j] +' :', inout=inout, required=required, Type=Type), $
       /string ,uname=params.kw_args[j])
       void = widget_droplist(wRow,value=['in','out'],uname='inout')
-      if inout eq 'in' then widget_control, void, set_droplist_select=0 else widget_control, void, set_droplist_select=1    
+      if inout eq 'in' then widget_control, void, set_droplist_select=0 else widget_control, void, set_droplist_select=1
       void = widget_droplist(wRow,value=['required','optional'],uname='required')
       if required eq 'required' then widget_control, void, set_droplist_select=0 else widget_control, void, set_droplist_select=1
       void = cw_field(wRow, title='Type',value=type, /string ,uname='type')
@@ -196,12 +196,12 @@ end
 
 pro xidldoc::extractItems, lunOut,  tabName, isfunction=isfunction
   compile_opt strictarr
-  
+
   printf, lunOut, ';+'
   printf, lunOut, ';'
   wRoot = widget_info(self.wBase, find_by_uname=tabName)
   wAllChildren = widget_info(wRoot, /all_children)
-  for i=0,n_elements(wAllChildren)-1 do begin 
+  for i=0,n_elements(wAllChildren)-1 do begin
     case widget_info( wAllChildren[i],/uname) of
     'Description' : begin
       widget_control,wAllChildren[i],get_value=value
@@ -232,7 +232,7 @@ pro xidldoc::extractItems, lunOut,  tabName, isfunction=isfunction
       widget_control, wRowChildren[0], get_value=value
       printf, lunOut, ';    ' + varName + ' : ' + strjoin([inout[inoutIndex],required[ireqIndex],type],',')
      for j=0,n_elements(value)-1 do  printf, lunOut, ';     ' + value[j]
-    
+
     end
     'blank' :
     'Keywords' : begin
@@ -256,7 +256,7 @@ pro xidldoc::extractItems, lunOut,  tabName, isfunction=isfunction
   ;common ones last
   ;wRoot = widget_info(self.wBase, find_by_uname='Common Entries')
   ;wAllChildren = widget_info(wRoot, /all_children)
-  ;for i=0,n_elements(wAllChildren)-1 do begin 
+  ;for i=0,n_elements(wAllChildren)-1 do begin
   ;  printf, lunOut,  ';  :' + strcompress(widget_info( wAllChildren[i],/uname) + ':',/remove)
   ;  widget_control,wAllChildren[i],get_value=value
   ;  printf, lunOut, ';  ' + value
@@ -270,7 +270,7 @@ end
 
 pro xidldoc::createNewFile, event
   compile_opt strictarr
-  
+
   ;make sure we aren't alread in the doc directory
   cd, current=pwd
   tempStr = strsplit(pwd,path_sep(),/extract, count=count)
@@ -314,13 +314,13 @@ pro xidldoc::createNewFile, event
 
   free_lun, lun
   free_lun, lunOut
-  
+
 end
 
 
 pro xidldoc::exit, event
   compile_opt strictarr
-  
+
   widget_control, event.top, get_uvalue=object
   obj_destroy, object
   widget_control, event.top, /destroy
@@ -364,14 +364,14 @@ end
 
 pro xidldoc::cleanup
   compile_opt strictarr
-  
+
   ptr_free, self.pHeader
 end
 
 
 function xidldoc::init, file, wBase, Author=Author, Date=Date
   compile_opt strictarr
-  
+
   if not keyword_set(Author) then Author=''
 
   file = file_basename(file,'.pro')
@@ -414,11 +414,11 @@ end
 
 pro xidldoc__define
   compile_opt strictarr
-  
-  void = { xidldoc, $        
+
+  void = { xidldoc, $
            file : '', $
-           docIsPresent : 0, $        
-           pHeader : ptr_new(), $        
+           docIsPresent : 0, $
+           pHeader : ptr_new(), $
            wBase : 0L $
          }
 end
@@ -426,7 +426,7 @@ end
 
 pro xidldoc, author=author, date=date
   compile_opt strictarr
-  
+
   file = dialog_pickfile(title='Choose File to Document', filter='*.pro', $
                          /must_exist, get_path=path)
   if (file eq '') then return

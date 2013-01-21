@@ -25,7 +25,7 @@
           [% END %]
         </ul>
 
-        [% IF n_ancestors gt n_parents %]      
+        [% IF n_ancestors gt n_parents %]
         <p class="small">All ancestor classes:
           [% FOREACH a IN ancestors %]
           [% IF a->hasUrl() %]<a href="[% relative_root %][% a->getUrl() %]">[% END %][% a->getClassname() %][% IF a->hasUrl() %]</a>[% END %]

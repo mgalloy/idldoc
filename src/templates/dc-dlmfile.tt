@@ -1,5 +1,5 @@
 <title>[% basename %] ([% title %])</title>
-    
+
 <div class="content">
   [% IF has_dlm_info %]
   <h2>DLM information</h2><hr class="style-one"/>
@@ -14,7 +14,7 @@
         <dt>Description</dt>
         <dd>[% comments %]</dd>
       [% END %]
-          
+
       [% IF has_author %]
         <dt>Author</dt>
         <dd>[% author %]</dd>

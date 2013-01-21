@@ -312,7 +312,7 @@
 %%
 % Improved letterspacing of small caps and all-caps text.
 %
-% First, try to use the `microtype' package, if it's available. 
+% First, try to use the `microtype' package, if it's available.
 % Failing that, try to use the `soul' package, if it's available.
 % Failing that, well, I give up.
 
@@ -332,7 +332,7 @@
   }% soul not installed... giving up.
 }
 
-% If we're using pdfLaTeX v1.40+, use the letterspace package. 
+% If we're using pdfLaTeX v1.40+, use the letterspace package.
 % If we're using pdfLaTex < v1.40, use the soul package.
 % If we're using XeLaTeX, use XeLaTeX letterspacing options.
 % Otherwise fall back on the soul package.
@@ -373,7 +373,7 @@
       \PackageInfo{\idldoc@pkgname}{Old version of pdfTeX detected.  Reverting to `soul' package for letterspacing.}
       \@idldoc@loadsoul}
   \else
-    \IfFileExists{letterspace.sty}{% 
+    \IfFileExists{letterspace.sty}{%
       \PackageInfo{\@idldoc@pkgname}{Modern version of pdfTeX detected.  Using `letterspace' package.}
       \RequirePackage{letterspace}
       % Set up letterspacing (using microtype package) -- requires pdfTeX v1.40+
@@ -518,7 +518,7 @@
         \def\@captype{figure}
         \vspace*{#1}
         \@idldoc@justification
-    }    
+    }
     {\end{minipage}%
      \end{lrbox}%
      \marginpar{\usebox{\@idldoc@marginfigbox}}}
@@ -588,7 +588,7 @@
       \hspace{-0.3in}}
   }
   {\end{adjustwidth}}
-  
+
 %%
 % Format the captions in a style similar to the sidenotes
 
@@ -839,31 +839,31 @@
 % See Bringhurst's _The Elements of Typography_, section 4.2.2.
 \renewcommand\subsubsection{%
   \PackageError{\@idldoc@pkgname}{\noexpand\subsubsection is undefined by this class.%
-    \MessageBreak See Robert Bringhurst's _The Elements of 
+    \MessageBreak See Robert Bringhurst's _The Elements of
     \MessageBreak Typographic Style_, section 4.2.2.
     \MessageBreak \noexpand\subsubsection was used}
-    {From Bringhurst's _The Elements of Typographic Style_, section 4.2.2: Use as 
-    \MessageBreak many levels of headings as you need, no more and no fewer.  Also see the many 
+    {From Bringhurst's _The Elements of Typographic Style_, section 4.2.2: Use as
+    \MessageBreak many levels of headings as you need, no more and no fewer.  Also see the many
     \MessageBreak related threads on Ask E.T. at http://www.edwardtufte.com/.}
 }
 
 \renewcommand\paragraph{%
   \PackageError{\@idldoc@pkgname}{\noexpand\paragraph is undefined by this class.%
-    \MessageBreak See Robert Bringhurst's _The Elements of 
+    \MessageBreak See Robert Bringhurst's _The Elements of
     \MessageBreak Typographic Style_, section 4.2.2.
     \MessageBreak \noexpand\paragraph was used}
-    {From Bringhurst's _The Elements of Typographic Style_, section 4.2.2: Use as 
-    \MessageBreak many levels of headings as you need, no more and no fewer.  Also see the many 
+    {From Bringhurst's _The Elements of Typographic Style_, section 4.2.2: Use as
+    \MessageBreak many levels of headings as you need, no more and no fewer.  Also see the many
     \MessageBreak related threads on Ask E.T. at http://www.edwardtufte.com/.}
 }
 
 \renewcommand\subparagraph{%
   \PackageError{\@idldoc@pkgname}{\noexpand\subparagraph is undefined by this class.%
-    \MessageBreak See Robert Bringhurst's _The Elements of 
+    \MessageBreak See Robert Bringhurst's _The Elements of
     \MessageBreak Typographic Style_, section 4.2.2.
     \MessageBreak \noexpand\subparagraph was used}
-    {From Bringhurst's _The Elements of Typographic Style_, section 4.2.2: Use as 
-    \MessageBreak many levels of headings as you need, no more and no fewer.  Also see the many 
+    {From Bringhurst's _The Elements of Typographic Style_, section 4.2.2: Use as
+    \MessageBreak many levels of headings as you need, no more and no fewer.  Also see the many
     \MessageBreak related threads on Ask E.T. at http://www.edwardtufte.com/.}
 }
 

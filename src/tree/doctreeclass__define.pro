@@ -22,7 +22,7 @@
 ;
 ; :Returns:
 ;    variable value
-;    
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of variable
@@ -33,7 +33,7 @@
 ;-
 function doctreeclass::getVariable, name, found=found
   compile_opt strictarr, hidden
-  
+
   found = 1B
   case strlowcase(name) of
     'classname': return, self.classname
@@ -45,30 +45,30 @@ function doctreeclass::getVariable, name, found=found
         proUrl = self.proFile->getVariable('local_url')
         return, dirUrl + proUrl
       end
-      
+
     'n_parents': return, self.parents->count()
     'parents': return, self.parents->get(/all)
-          
+
     'n_ancestors': return, self.ancestors->count()
     'ancestors': return, self.ancestors->get(/all)
 
     'n_children': return, self.children->count()
     'children': return, self.children->get(/all)
-    
+
     'n_fields': return, self.fields->count()
     'fields': begin
         n_fields = self->getFieldCount()
         if (n_fields eq 0L) then return, -1L
-        
+
         fields = self.fields->values()
-        
+
         field_names = strarr(n_fields)
         for f = 0L, n_fields - 1L do begin
           fields[f]->getProperty, name=pname
           field_names[f] = pname
         endfor
         sind = sort(field_names)
-        
+
         return, fields[sind]
       end
     'n_parent_fields': begin
@@ -82,12 +82,12 @@ function doctreeclass::getVariable, name, found=found
     'field_names': begin
         n_fields = self->getFieldCount()
         if (n_fields eq 0L) then return, -1L
-        
+
         field_names = self->getFieldNames()
         sind = sort(field_names)
         return, field_names[sind]
       end
-    
+
     'n_properties': return, self.properties->count()
     'properties': return, self.properties->values()
 
@@ -98,30 +98,30 @@ function doctreeclass::getVariable, name, found=found
           prop = values[p]
           nVisible += prop->isVisible()
         endfor
-        
+
         return, nVisible
       end
     'visible_properties': begin
         properties = self.properties->values(count=nProperties)
         if (nProperties eq 0L) then return, -1L
-        
+
         isVisibleProperties = bytarr(nProperties)
         for p = 0L, nProperties - 1L do begin
           isVisibleProperties[p] = properties[p]->isVisible()
         endfor
-        
+
         ind = where(isVisibleProperties eq 1B, nVisibleProperties)
         if (nVisibleProperties eq 0L) then return, -1L
-        
+
         prop_names = strarr(nVisibleProperties)
         for p = 0L, nVisibleProperties - 1L do begin
           (properties[ind])[p]->getProperty, name=pname
           prop_names[p] = pname
         endfor
         sind = sort(prop_names)
-        
+
         return, (properties[ind])[sind]
-      end         
+      end
       'n_visible_parent_properties': begin
           n_visible_parent_properties = 0L
           for a = 0L, self.ancestors->count() - 1L do begin
@@ -130,23 +130,23 @@ function doctreeclass::getVariable, name, found=found
           endfor
           return, n_visible_parent_properties
         end
-             
+
     'index_name': return, self.classname
     'index_type': return, 'class'
     'index_url': return, self->getVariable('url')
-    
+
     'has_comments': return, 0B
     'comments': return, self.system->processComments(obj_new())
     'comments_first_line': return, ''
-    
+
     else: begin
         ; search in the system object if the variable is not found here
         var = self.proFile->getVariable(name, found=found)
         if (found) then return, var
-        
+
         found = 0B
         return, -1L
-      end    
+      end
   endcase
 end
 
@@ -154,24 +154,24 @@ end
 ;+
 ; Easy to use accessor for classname.
 ;
-; :Returns: 
+; :Returns:
 ;    string
 ;-
 function doctreeclass::getClassname
   compile_opt strictarr, hidden
-  
+
   return, self.classname
 end
 
 
 ;+
 ; Easy to use accessor for whether the class has an URL.
-; 
+;
 ; :Returns: boolean
 ;-
 function doctreeclass::hasUrl
   compile_opt strictarr, hidden
-  
+
   return, obj_valid(self.proFile)
 end
 
@@ -184,13 +184,13 @@ end
 ;-
 function doctreeclass::getUrl
   compile_opt strictarr, hidden
-  
+
   if (~obj_valid(self.proFile)) then return, ''
-  
+
   self.proFile->getProperty, directory=directory
   dirUrl = directory->getVariable('url')
   proUrl = self.proFile->getVariable('local_url')
-  return, dirUrl + proUrl  
+  return, dirUrl + proUrl
 end
 
 
@@ -202,7 +202,7 @@ end
 ;-
 function doctreeclass::getFieldCount
   compile_opt strictarr, hidden
-  
+
   return, self.fields->count()
 end
 
@@ -215,17 +215,17 @@ end
 ;-
 function doctreeclass::getFieldNames
   compile_opt strictarr, hidden
-  
+
   n_fields = self.fields->count()
   if (n_fields eq 0) then return, ''
-  
+
   fieldNames = strarr(n_fields)
   fields = self.fields->values()
   for f = 0L, nFields - 1L do begin
     fields[f]->getProperty, name=name
     fieldNames[f] = name
   endfor
-  
+
   return, fieldNames
 end
 
@@ -233,22 +233,22 @@ end
 ;+
 ; Easy to use accessor for field types.
 ;
-; :Returns: 
+; :Returns:
 ;    strarr or string
 ;-
 function doctreeclass::getFieldTypes
   compile_opt strictarr, hidden
-  
+
   nFields = self.fields->count()
   if (nFields eq 0) then return, ''
-  
+
   fieldTypes = strarr(nFields)
   fields = self.fields->values()
   for f = 0L, nFields - 1L do begin
     fields[f]->getProperty, type=type
     fieldTypes[f] = type
   endfor
-  
+
   return, fieldTypes
 end
 
@@ -258,7 +258,7 @@ end
 ;-
 pro doctreeclass::setProperty, pro_file=proFile, classname=classname
   compile_opt strictarr, hidden
-  
+
   if (n_elements(proFile) gt 0) then self.proFile = proFile
   if (n_elements(classname) gt 0) then self.classname = classname
 end
@@ -287,7 +287,7 @@ end
 ;-
 pro doctreeclass::addChild, child
   compile_opt strictarr, hidden
-  
+
   self.children->add, child
 end
 
@@ -295,12 +295,12 @@ end
 ;+
 ; Classes are visible if their files are visible.
 ;
-; :Returns: 
+; :Returns:
 ;    1 if visible, 0 if not visible
 ;-
 function doctreeclass::isVisible
   compile_opt strictarr, hidden
-  
+
   return, obj_valid(self.proFile) ? self.proFile->isVisible() : 1B
 end
 
@@ -321,7 +321,7 @@ end
 ;+
 ; Compile a given procedure. This is in a separate routine because if it's done
 ; directly in _createClassStructure, then errors like::
-; 
+;
 ;    % CATCH: Unexpected keyword cleanup stack found on return.
 ;
 ; are generated on each call to _createClassStructure.
@@ -332,19 +332,19 @@ end
 ;-
 pro doctreeclass::_compileRoutine, routineName
   compile_opt strictarr, hidden
-  
+
   error = 0L
   catch, error
   if (error ne 0L) then return
-  
+
   resolve_routine, routineName
 end
 
 
 ;+
-; Pulled RESOLVE_ROUTINE out of _createClassStructure routine so that if 
+; Pulled RESOLVE_ROUTINE out of _createClassStructure routine so that if
 ; routineName is not found, it doesn't generate an error that is caught by
-; the CATCH statement in _createClassStructure (which is reserved for the 
+; the CATCH statement in _createClassStructure (which is reserved for the
 ; error of an invalid structure definition attempt).
 ;
 ; :Params:
@@ -353,7 +353,7 @@ end
 ;-
 pro doctreeclass::_compileFile, routineName
   compile_opt strictarr, hidden
-  
+
   error = 0L
   catch, error
   if (error ne 0L) then return
@@ -364,7 +364,7 @@ end
 ;+
 ; Create a structure containing the fields of the class.
 ;
-; :Returns: 
+; :Returns:
 ;    structure
 ;
 ; :Params:
@@ -380,19 +380,19 @@ end
 function doctreeclass::_createClassStructure, classname, error=error, $
                                               compile_file=compileFile
   compile_opt strictarr, hidden
-  
+
   error = 0L
   catch, error
   if (error ne 0L) then begin
     error = 1L
     return, -1L
   endif
-    
+
   if (keyword_set(compileFile)) then begin
     self.proFile->getProperty, basename=basename
     self->_compileFile, file_basename(basename, '.pro')
   endif
-    
+
   s = create_struct(name=classname)
   return, s
 end
@@ -403,7 +403,7 @@ end
 ;-
 pro doctreeclass::findParents
   compile_opt strictarr, hidden
-  
+
   ; get all fields defined in class
   s = self->_createClassStructure(self.classname, error=error)
   if (error ne 0L) then begin
@@ -414,15 +414,15 @@ pro doctreeclass::findParents
       return
     endif
   endif
-    
+
   ; get direct parent classes
   parents = obj_class(self.classname, /superclass)
-  nParents = parents[0] eq '' ? 0 : n_elements(parents)  
-  
+  nParents = parents[0] eq '' ? 0 : n_elements(parents)
+
   ; this list will contain the names of fields of ancestor classes, any fields
   ; in s that are not in ancestorFieldNameList then are defined in this class
   ancestorFieldNameList = obj_new('MGcoArrayList', type=7, block_size=10)
-  
+
   for i = 0L, nParents - 1L do begin
     ; lookup parent class in system class hash table
     p = self.classes->get(strlowcase(parents[i]), found=found)
@@ -435,8 +435,8 @@ pro doctreeclass::findParents
     p->addChild, self
     self.parents->add, p
     self.ancestors->add, p
-    
-    ; ancestors of parents of this class are ancestors of this class 
+
+    ; ancestors of parents of this class are ancestors of this class
     p->getProperty, ancestors=ancestors
     if (ancestors->count() gt 0) then begin
       self.ancestors->add, ancestors->get(/all)
@@ -445,15 +445,15 @@ pro doctreeclass::findParents
 
   for a = 0L, self.ancestors->count() - 1L do begin
     anc = self.ancestors->get(position=a)
-    
+
     ; add all the fields of the ancestor class to the ancestorFieldNameList
     ancestorFieldNameList->add, anc.fields->keys()
   endfor
-  
+
   ancestorFieldNames = ancestorFieldNameList->get(/all, count=nAncestorFieldNames)
   fieldNames = tag_names(s)
 
-  for f = 0L, n_tags(s) - 1L do begin  
+  for f = 0L, n_tags(s) - 1L do begin
     if (nAncestorFieldNames ne 0) then begin
       ind = where(strlowcase(fieldNames[f]) eq ancestorFieldNames, nMatches)
     endif
@@ -461,8 +461,8 @@ pro doctreeclass::findParents
       field = self->addField(fieldNames[f])
       field->setProperty, type=mg_variable_declaration(s.(f))
     endif
-  endfor  
-  
+  endfor
+
   ; don't need the array list object any more
   obj_destroy, ancestorFieldNameList
 end
@@ -470,21 +470,21 @@ end
 
 ;+
 ; Add a field to the class.
-; 
-; :Returns: 
+;
+; :Returns:
 ;    field tree object
 ;
 ; :Params:
 ;    fieldname : in, required, type=string
 ;       name of the field to create and add to the class
-; 
+;
 ; :Keywords:
 ;    get_only : in, optional, type=boolean
 ;       if set, do not create a field tree object; just return an exising field
 ;-
 function doctreeclass::addField, fieldName, get_only=getOnly
   compile_opt strictarr, hidden
-  
+
   field = self.fields->get(strlowcase(fieldName), found=found)
   if (~found && ~keyword_set(getOnly)) then begin
     field = obj_new('DOCtreeField', fieldName, $
@@ -508,7 +508,7 @@ end
 ;-
 pro doctreeclass::addProperty, property, property_name=propertyName
   compile_opt strictarr, hidden
-  
+
   if (n_elements(propertyName) ne 0) then begin
     property = self.properties->get(strlowcase(propertyName), found=found)
     if (~found) then begin
@@ -519,7 +519,7 @@ pro doctreeclass::addProperty, property, property_name=propertyName
   endif
 
   property->getProperty, name=propertyName
-      
+
   ; check before adding property, this works around an IDL bug
   prop = self.properties->get(strlowcase(propertyName), found=found)
   if (~found) then begin
@@ -536,10 +536,10 @@ end
 ;-
 pro doctreeclass::fillLinks
   compile_opt strictarr
-  
+
   fields = self.fields->values(count=nfields)
   for f = 0L, nfields - 1L do (fields[f])->fillLinks
-  
+
   properties = self.properties->values(count=nproperties)
   for p = 0L, nproperties - 1L do (properties[p])->fillLinks
 end
@@ -547,21 +547,21 @@ end
 
 ;+
 ; Return an URL from the root for the given item name.
-; 
+;
 ; :Returns:
 ;    string
-;    
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
-;       
+;
 ; :Keywords:
 ;    exclude : in, optional, type=object
 ;       object to exclude looking at
 ;-
 function doctreeclass::lookupName, name, exclude=exclude
   compile_opt strictarr
-  
+
   if (strlowcase(name) eq strlowcase(self.classname)) then begin
     return, self->getVariable('index_url')
   endif
@@ -574,7 +574,7 @@ function doctreeclass::lookupName, name, exclude=exclude
     url = property->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
-    
+
   ; check fields
   fieldNames = self.fields->keys(count=nfields)
   for f = 0L, nfields - 1L do begin
@@ -583,7 +583,7 @@ function doctreeclass::lookupName, name, exclude=exclude
     url = field->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
-  
+
   ; check ancestors
   nancestors = self.ancestors->count()
   for a = 0L, nancestors - 1L do begin
@@ -592,7 +592,7 @@ function doctreeclass::lookupName, name, exclude=exclude
       return, ancestor->getVariable('index_url')
     endif
   endfor
-  
+
   ; check children
   nchildren = self.children->count()
   for c = 0L, nchildren - 1L do begin
@@ -601,7 +601,7 @@ function doctreeclass::lookupName, name, exclude=exclude
       return, child->getVariable('index_url')
     endif
   endfor
-  
+
   ; if nothing found yet, pass along to file
   return, obj_valid(exclude) && exclude eq self.profile $
             ? '' $
@@ -614,12 +614,12 @@ end
 ;-
 pro doctreeclass::cleanup
   compile_opt strictarr, hidden
-  
+
   obj_destroy, [self.parents, self.ancestors, self.children]
-  
+
   if (self.fields->count() gt 0) then obj_destroy, self.fields->values()
   obj_destroy, self.fields
-  
+
   if (self.properties->count() gt 0) then obj_destroy, self.properties->values()
   obj_destroy, self.properties
 end
@@ -628,7 +628,7 @@ end
 ;+
 ; Create a class tree object.
 ;
-; :Returns: 
+; :Returns:
 ;    1 for success, 0 otherwise
 ;
 ; :Params:
@@ -637,16 +637,16 @@ end
 ;-
 function doctreeclass::init, classname, pro_file=proFile, system=system
   compile_opt strictarr, hidden
-  
+
   self.classname = classname
   if (n_elements(proFile) gt 0) then self.proFile = proFile
   self.system = system
-   
+
   self.system->getProperty, index_level=indexLevel
   if (indexLevel ge 1L && self->isInLibrary()) then begin
     self.system->createIndexEntry, self.classname, self
   endif
-  
+
   self.system->getProperty, classes=classes
   self.classes = classes
   self.classes->put, strlowcase(self.classname), self
@@ -654,12 +654,12 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
   self.parents = obj_new('MGcoArrayList', type=11, block_size=4)
   self.ancestors = obj_new('MGcoArrayList', type=11, block_size=10)
   self.children = obj_new('MGcoArrayList', type=11, block_size=10)
-  
+
   self.fields = obj_new('MGcoHashtable', key_type=7, value_type=11)
   self.properties = obj_new('MGcoHashtable', key_type=7, value_type=11)
-  
+
   self->findParents
-  
+
   return, 1
 end
 
@@ -689,18 +689,18 @@ end
 ;-
 pro doctreeclass__define
   compile_opt strictarr, hidden
-  
+
   define = { DOCtreeClass, $
              system: obj_new(), $
              classes: obj_new(), $
              proFile: obj_new(), $
-             
+
              classname: '', $
-             
-             parents: obj_new(), $             
+
+             parents: obj_new(), $
              ancestors: obj_new(), $
              children: obj_new(), $
-             
+
              fields: obj_new(), $
              properties: obj_new() $
            }

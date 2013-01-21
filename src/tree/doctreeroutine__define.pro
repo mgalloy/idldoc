@@ -2,7 +2,7 @@
 
 ;+
 ; Represents a routine (procedure or function, method or regular).
-; 
+;
 ; :Properties:
 ;    file
 ;       file tree object
@@ -73,9 +73,9 @@ pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
                                  keywords=keywords, classname=classname, $
                                  undocumented=undocumented, $
                                  partially_documented=partiallyDocumented
-                                 
+
   compile_opt strictarr, hidden
-  
+
   if (arg_present(file)) then file = self.file
   if (arg_present(name)) then name = self.name
   if (arg_present(isFunction)) then isFunction = self.isFunction
@@ -92,7 +92,7 @@ pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
       else: classname = ''
     endcase
   endif
-  
+
   if (arg_present(undocumented)) then undocumented = self.undocumented
   if (arg_present(partiallyDocumented)) then begin
     partiallyDocumented = self.partiallyDocumented
@@ -106,36 +106,36 @@ end
 ;-
 pro doctreeroutine::checkDocumentation
   compile_opt strictarr, hidden
- 
+
   fullyDocumented = 1B
   partiallyDocumented = 0B
-  
+
   fullyDocumented and= obj_valid(self.comments)
-  partiallyDocumented or= obj_valid(self.comments)  
-  
+  partiallyDocumented or= obj_valid(self.comments)
+
   ; check return value
   if (self.isFunction) then begin
     fullyDocumented and= obj_valid(self.returns)
     partiallyDocumented or= obj_valid(self.returns)
   endif
-  
+
   ; check each param
   for p = 0L, self.parameters->count() - 1L do begin
     param = self.parameters->get(position=p)
     param->getProperty, documented=paramDocumented
-    
+
     fullyDocumented and= paramDocumented
     partiallyDocumented or= paramDocumented
   endfor
-  
+
   ; check each keyword
   for k = 0L, self.keywords->count() - 1L do begin
     keyword = self.keywords->get(position=k)
     keyword->getProperty, documented=keywordDocumented
-    
+
     fullyDocumented and= keywordDocumented
     partiallyDocumented or=keywordDocumented
-  endfor    
+  endfor
 
   self.documentationLevel = partiallyDocumented + fullyDocumented
   if (~fullyDocumented) then self.system->createDocumentationEntry, self
@@ -168,16 +168,16 @@ pro doctreeroutine::setProperty, name=name, $
                                  n_lines=nLines, $
                                  lines=lines
   compile_opt strictarr, hidden
-  
+
   if (n_elements(name) gt 0) then begin
     self.name = name
     self.isMethod = strpos(self.name, '::') eq -1L ? 0B : 1B
     self.system->getProperty, index_level=indexLevel
     if (indexLevel ge 1L) then self.system->createIndexEntry, self.name, self
   endif
-  
+
   if (n_elements(isFunction) gt 0) then self.isFunction = isFunction
-  if (n_elements(isMethod) gt 0) then self.isMethod = isMethod  
+  if (n_elements(isMethod) gt 0) then self.isMethod = isMethod
   if (n_elements(isHidden) gt 0) then self.isHidden = isHidden
   if (n_elements(isPrivate) gt 0) then self.isPrivate = isPrivate
   if (n_elements(isObsolete) gt 0) then self.isObsolete = isObsolete
@@ -192,12 +192,12 @@ pro doctreeroutine::setProperty, name=name, $
     endif else self.comments = comments
   endif
 
-  if (n_elements(returns) gt 0L) then self.returns = returns  
+  if (n_elements(returns) gt 0L) then self.returns = returns
   if (n_elements(acceptsMaxParams) gt 0L) then self.acceptsMaxParams = acceptsMaxParams
   if (n_elements(examples) gt 0L) then self.examples = examples
   if (n_elements(nLines) gt 0L) then self.nLines = nLines
   if (n_elements(lines) gt 0L) then self->_computeComplexity, lines
-  
+
   ; "author info" attributes
   if (n_elements(author) gt 0) then begin
     self.hasAuthorInfo = 1B
@@ -208,7 +208,7 @@ pro doctreeroutine::setProperty, name=name, $
     self.hasAuthorInfo = 1B
     self.copyright = copyright
   endif
-  
+
   if (n_elements(history) gt 0) then begin
     self.hasAuthorInfo = 1B
     self.history = history
@@ -218,54 +218,54 @@ pro doctreeroutine::setProperty, name=name, $
     self.hasAuthorInfo = 1B
     self.version = version
   endif
-    
-  ; "other" attributes  
+
+  ; "other" attributes
   if (n_elements(bugs) gt 0) then begin
     self.hasOthers = 1B
     self.bugs = bugs
-  endif  
-  
+  endif
+
   if (n_elements(pre) gt 0) then begin
     self.hasOthers = 1B
     self.pre = pre
-  endif 
-  
+  endif
+
   if (n_elements(post) gt 0) then begin
     self.hasOthers = 1B
     self.post = post
-  endif     
-  
+  endif
+
   if (n_elements(customerId) gt 0) then begin
     self.hasOthers = 1B
     self.customerId = customerId
-  endif 
-  
+  endif
+
   if (n_elements(todo) gt 0) then begin
     self.hasOthers = 1B
     self.todo = todo
   endif
-  
+
   if (n_elements(restrictions) gt 0) then begin
     self.hasOthers = 1B
     self.restrictions = restrictions
-  endif  
-       
+  endif
+
   if (n_elements(uses) gt 0) then begin
     self.hasOthers = 1B
     self.uses = uses
-  endif  
-  
+  endif
+
   if (n_elements(requires) gt 0) then begin
     self.hasOthers = 1B
     self.requires = requires
-  endif    
+  endif
 end
 
 
 ;+
 ; Get variables for use with templates.
 ;
-; :Returns: 
+; :Returns:
 ;    variable
 ;
 ; :Params:
@@ -278,7 +278,7 @@ end
 ;-
 function doctreeroutine::getVariable, name, found=found
   compile_opt strictarr, hidden
-  
+
   found = 1B
   case strlowcase(name) of
     'name': return, self.name
@@ -290,7 +290,7 @@ function doctreeroutine::getVariable, name, found=found
     'is_visible': return, self->isVisible()
     'is_obsolete': return, self.isObsolete
     'is_method': return, self.isMethod
-    
+
     'complexity': return, self.complexity
     'complexity_color': begin
         self.system->getProperty, complexity_cutoffs=cutoffs
@@ -301,57 +301,57 @@ function doctreeroutine::getVariable, name, found=found
         self.system->getProperty, routine_line_cutoffs=cutoffs
         return, (['green', 'orange', 'red'])[value_locate(cutoffs, self.nlines)]
       end
-    
+
     'has_comments': return, obj_valid(self.comments)
     'comments': return, self.system->processComments(self.comments)
     'comments_first_line': begin
         if (~obj_valid(self.comments)) then return, ''
-        
+
         if (~obj_valid(self.firstline)) then begin
           self.firstline = mg_tm_firstline(self.comments)
         endif
-        
+
         return, self.system->processComments(self.firstline)
       end
     'plain_comments': return, self.system->processPlainComments(self.comments)
 
     'has_returns': return, obj_valid(self.returns)
     'returns': return, self.system->processComments(self.returns)
-    
+
     'accepts_max_params': return, self.acceptsMaxParams
-    
+
     'has_categories': return, self.categories->count() gt 0
     'categories': return, self.categories->get(/all)
-    
+
     'has_examples': return, obj_valid(self.examples)
     'examples': return, self.system->processComments(self.examples)
-    
+
     'has_author_info': return, self.hasAuthorInfo
-    
+
     'has_author': return, obj_valid(self.author)
     'author': return, self.system->processComments(self.author)
     'plain_author': return, self.system->processPlainComments(self.author)
 
     'has_copyright': return, obj_valid(self.copyright)
     'copyright': return, self.system->processComments(self.copyright)
-    
+
     'has_history': return, obj_valid(self.history)
     'history': return, self.system->processComments(self.history)
 
     'has_version': return, obj_valid(self.version)
     'version': return, self.system->processComments(self.version)
-        
+
     'has_others': return, self.hasOthers
-    
+
     'has_bugs': return, obj_valid(self.bugs)
     'bugs': return, self.system->processComments(self.bugs)
 
     'has_pre': return, obj_valid(self.pre)
     'pre': return, self.system->processComments(self.pre)
-    
+
     'has_post': return, obj_valid(self.post)
     'post': return, self.system->processComments(self.post)
-      
+
     'has_customer_id': return, obj_valid(self.customerId)
     'customer_id': return, self.system->processComments(self.customerId)
 
@@ -373,10 +373,10 @@ function doctreeroutine::getVariable, name, found=found
         endelse
         return, self.system->processUses(self.uses, root=root)
       end
-                           
+
     'has_requires': return, obj_valid(self.requires)
     'requires': return, self.system->processComments(self.requires)
-    
+
     'n_parameters': return, self.parameters->count()
     'parameters': return, self.parameters->get(/all)
     'n_visible_parameters': begin
@@ -387,20 +387,20 @@ function doctreeroutine::getVariable, name, found=found
         endfor
         return, nVisible
       end
-    'visible_parameters': begin        
+    'visible_parameters': begin
         parameters = self.parameters->get(/all, count=nParameters)
         if (nParameters eq 0L) then return, -1L
-        
+
         isVisibleParameters = bytarr(nParameters)
         for p = 0L, nParameters - 1L do begin
           isVisibleParameters[p] = parameters[p]->isVisible()
         endfor
-        
+
         ind = where(isVisibleParameters eq 1B, nVisibleParameters)
         if (nVisibleParameters eq 0L) then return, -1L
-        
+
         return, parameters[ind]
-      end 
+      end
     'n_keywords': return, self.keywords->count()
     'keywords': return, self.keywords->get(/all)
     'n_visible_keywords': begin
@@ -411,23 +411,23 @@ function doctreeroutine::getVariable, name, found=found
         endfor
         return, nVisible
       end
-    'visible_keywords': begin        
+    'visible_keywords': begin
         keywords = self.keywords->get(/all, count=nKeywords)
         if (nKeywords eq 0L) then return, -1L
-        
+
         isVisibleKeywords = bytarr(nKeywords)
         for k = 0L, nKeywords - 1L do begin
           isVisibleKeywords[k] = keywords[k]->isVisible()
         endfor
-        
+
         ind = where(isVisibleKeywords eq 1B, nVisibleKeywords)
         if (nVisibleKeywords eq 0L) then return, -1L
-        
+
         return, keywords[ind]
       end
     'plain_parameters': begin
         result = ''
-        
+
         ; for each keyword: grab each keyword name, comments, type, default
         for k = 0L, self.keywords->count() - 1L do begin
           keyword = self.keywords->get(position=k)
@@ -438,7 +438,7 @@ function doctreeroutine::getVariable, name, found=found
           result += strjoin(self.system->processPlainComments(type), ' ')
           result += strjoin(self.system->processPlainComments(defaultValue), ' ')
         endfor
-        
+
         ; for each param: grab each param name, comments, type, default
         for p = 0L, self.parameters->count() - 1L do begin
           param = self.parameters->get(position=p)
@@ -448,14 +448,14 @@ function doctreeroutine::getVariable, name, found=found
           result += strjoin(self.system->processPlainComments(comments), ' ')
           result += strjoin(self.system->processPlainComments(type), ' ')
           result += strjoin(self.system->processPlainComments(defaultValue), ' ')
-        endfor        
+        endfor
         return, result
       end
-      
+
     'index_name': return, self.name
     'index_type': begin
         self.file->getProperty, basename=basename
-        
+
         type_tree = obj_new('MGtmTag')
         type_tree->addChild, obj_new('MGtmText', text='routine in ')
         link_node = obj_new('MGtmTag', type='link')
@@ -471,28 +471,28 @@ function doctreeroutine::getVariable, name, found=found
         self.file->getProperty, directory=directory
         return, directory->getVariable('url') + self.file->getVariable('local_url') + '#' + self.name
       end
-        
+
     'documentation_level': return, self.documentationLevel
-    
+
     'plain_attributes': begin
         attributes = [self.bugs, self.version, self.history, self.copyright, $
                       self.examples, self.customerId, self.requires, $
                       self.restrictions, self.todo, self.uses, self.returns, $
                       self.pre, self.post]
-        
+
         result = ''
         for a = 0L, n_elements(attributes) - 1L do begin
           result += strjoin(self.system->processPlainComments(attributes[a]), ' ')
         endfor
-        
+
         return, result
       end
-    
+
     else: begin
         ; search in the file object if the variable is not found here
         var = self.file->getVariable(name, found=found)
         if (found) then return, var
-        
+
         found = 0B
         return, -1L
       end
@@ -502,10 +502,10 @@ end
 
 ;+
 ; Uses file hidden/private attributes, system wide user/developer level, and
-; the status of the containing file to determine if this routine should be 
+; the status of the containing file to determine if this routine should be
 ; visible.
 ;
-; :Returns: 
+; :Returns:
 ;    1 if visible, 0 if not visible
 ;-
 function doctreeroutine::isVisible
@@ -513,27 +513,27 @@ function doctreeroutine::isVisible
 
   ; each routine in a not-visible file is not visible
   if (~self.file->isVisible()) then return, 0B
-    
+
   if (self.isHidden) then return, 0B
-  
+
   ; if creating user-level docs and private then not visible
   self.system->getProperty, user=user
-  if (self.isPrivate && user) then return, 0B  
-  
+  if (self.isPrivate && user) then return, 0B
+
   return, 1B
 end
 
 
 ;+
 ; Add a parameter to the list of parameters for this routine.
-; 
+;
 ; :Params:
 ;    param : in, required, type=object
 ;       argument tree object
 ;-
 pro doctreeroutine::addParameter, param
   compile_opt strictarr, hidden
-  
+
   self.parameters->add, param
 end
 
@@ -541,7 +541,7 @@ end
 ;+
 ; Get a positional parameter by name.
 ;
-; :Returns: 
+; :Returns:
 ;    argument tree object
 ;
 ; :Params:
@@ -554,7 +554,7 @@ end
 ;-
 function doctreeroutine::getParameter, name, found=found
   compile_opt strictarr, hidden
-  
+
   found = 1B
   for i = 0L, self.parameters->count() - 1L do begin
     p = self.parameters->get(position=i)
@@ -568,27 +568,27 @@ end
 
 ;+
 ; Add a keyword to the list of keywords for this routine.
-; 
+;
 ; :Params:
 ;    keyword : in, required, type=object
 ;       argument tree object
 ;-
 pro doctreeroutine::addKeyword, keyword
   compile_opt strictarr, hidden
-  
+
   self.keywords->add, keyword
 
   ; create a property for a keyword of getProperty, setProperty, or init
   self.file->getProperty, has_class=hasClass
   if (self.isMethod && hasClass) then begin
-  
+
     keyword->getProperty, name=propertyName, type=keywordType
     self->getProperty, classname=classname
-    
+
     ; lookup class
     self.system->getProperty, classes=classes
     class = classes->get(strlowcase(classname), found=found)
-    
+
     propertyType = ''
     case 1 of
       strlowcase(strmid(self.name, 10, /reverse_offset)) eq 'getproperty': begin
@@ -608,18 +608,18 @@ pro doctreeroutine::addKeyword, keyword
         end
       else:   ; just a normal keyword
     endcase
-    
+
     if (propertyType ne '' && keywordType eq '') then begin
       keyword->setProperty, type=propertyType
     endif
-  endif  
+  endif
 end
 
 
 ;+
 ; Get a keyword by name.
 ;
-; :Returns: 
+; :Returns:
 ;    argument tree object
 ;
 ; :Params:
@@ -637,7 +637,7 @@ function doctreeroutine::getKeyword, name, found=found
   for i = 0L, self.keywords->count() - 1L do begin
     k = self.keywords->get(position=i)
     k->getProperty, name=n
-    if (strlowcase(name) eq strlowcase(n)) then return, k 
+    if (strlowcase(name) eq strlowcase(n)) then return, k
   endfor
   found = 0B
   return, -1L
@@ -667,14 +667,14 @@ end
 ;-
 pro doctreeroutine::_computeComplexity, lines
   compile_opt strictarr
-  
+
   self.system->getProperty, statistics=statistics, $
                             routine_line_cutoffs=routineLineCutoffs, $
                             complexity_cutoffs=complexityCutoffs
   if (~statistics) then return
 
   self.complexity = doc_complexity(lines)
-  
+
   if (value_locate(routineLineCutoffs, self.nlines) gt 0L $
         || value_locate(complexityCutoffs, self.complexity) gt 0L) then begin
     self.system->createComplexityEntry, self
@@ -688,16 +688,16 @@ end
 ;-
 pro doctreeroutine::markArguments
   compile_opt strictarr, hidden
-  
+
   nArgs = self.parameters->count() + self.keywords->count()
   if (nArgs le 0) then return
-  
+
   arguments = objarr(nArgs)
-  
+
   if (self.parameters->count() gt 0) then begin
     arguments[0] = self.parameters->get(/all)
   endif
-  
+
   if (self.keywords->count() gt 0) then begin
     arguments[self.parameters->count()] = self.keywords->get(/all)
   endif
@@ -712,18 +712,18 @@ end
 ;-
 pro doctreeroutine::cleanup
   compile_opt strictarr, hidden
-  
+
   obj_destroy, self.firstline
   obj_destroy, self.comments
-  
+
   obj_destroy, [self.author, self.copyright, self.history, self.version]
-  
+
   obj_destroy, [self.bugs, self.todo, self.restrictions, self.uses, $
                 self.requires, self.customerId, self.pre, self.post]
-  
+
   obj_destroy, self.examples
   obj_destroy, self.returns
-  obj_destroy, self.parameters 
+  obj_destroy, self.parameters
   obj_destroy, self.keywords
 
   obj_destroy, self.categories
@@ -735,10 +735,10 @@ end
 ;-
 pro doctreeroutine::fillLinks
   compile_opt strictarr
-  
+
   doctree_fill_links, self.comments, self
   doctree_fill_links, self.firstline, self
-  
+
   doctree_fill_links, self.returns, self
   doctree_fill_links, self.examples, self
 
@@ -754,11 +754,11 @@ pro doctreeroutine::fillLinks
   doctree_fill_links, self.requires, self
   doctree_fill_links, self.customerId, self
   doctree_fill_links, self.todo, self
-  doctree_fill_links, self.restrictions, self                         
-               
+  doctree_fill_links, self.restrictions, self
+
   parameters = self.parameters->get(/all, count=nparameters)
   for i = 0L, nparameters - 1L do (parameters[i])->fillLinks
-  
+
   keywords = self.keywords->get(/all, count=nkeywords)
   for i = 0L, nkeywords - 1L do (keywords[i])->fillLinks
 end
@@ -766,23 +766,23 @@ end
 
 ;+
 ; Return an URL from the root for the given item name.
-; 
+;
 ; :Returns:
 ;    string
-;    
+;
 ; :Params:
 ;    name : in, required, type=string
 ;       name of item
-;  
+;
 ; :Keywords:
 ;    exclude : in, optional, type=object
 ;       object to exclude looking at
 ;-
 function doctreeroutine::lookupName, name, exclude=exclude
   compile_opt strictarr
-    
+
   if (strlowcase(name) eq strlowcase(self.name)) then return, self->getVariable('index_url')
-  
+
   ; search parameters
   parameters = self.parameters->get(/all, count=nparameters)
   for i = 0L, nparameters - 1L do begin
@@ -790,7 +790,7 @@ function doctreeroutine::lookupName, name, exclude=exclude
     url = (parameters[i])->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
-  
+
   ; search keywords
   keywords = self.keywords->get(/all, count=nkeywords)
   for i = 0L, nkeywords - 1L do begin
@@ -798,10 +798,10 @@ function doctreeroutine::lookupName, name, exclude=exclude
     url = (keywords[i])->lookupName(name, exclude=self)
     if (url ne '') then return, url
   endfor
-  
+
   return, obj_valid(exclude) && exclude eq self.file $
             ? '' $
-            : self.file->lookupName(name, exclude=self) 
+            : self.file->lookupName(name, exclude=self)
 end
 
 
@@ -817,26 +817,26 @@ end
 ;-
 function doctreeroutine::init, file, system=system
   compile_opt strictarr, hidden
-  
+
   self.file = file
   self.system = system
-  
+
   self.categories = obj_new('MGcoArrayList', type=7, block_size=5)
-  
+
   self.parameters = obj_new('MGcoArrayList', type=11, block_size=5)
   self.keywords = obj_new('MGcoArrayList', type=11, block_size=5)
-  
+
   return, 1B
 end
 
 
 ;+
-; Define instance variables for routine class. 
+; Define instance variables for routine class.
 ;
 ; :Fields:
 ;    system
 ;       system object
-;    file 
+;    file
 ;       file object containing this routine
 ;    name
 ;       string name of this routine
@@ -851,10 +851,10 @@ end
 ;    isHidden
 ;       true if this routine hidden (i.e. not visible)
 ;    isPrivate
-;       true if this routine is not visible to users (but visible to 
+;       true if this routine is not visible to users (but visible to
 ;       developers)
 ;    nLines
-;       number of lines in the routine 
+;       number of lines in the routine
 ;    parameters
 ;       list of parameter objects
 ;    keywords
@@ -870,7 +870,7 @@ end
 ;    examples
 ;       markup tree representing example usage of the routine
 ;    hasOthers
-;       true if it has one of the "other" attributes: bugs, pre, post, uses, 
+;       true if it has one of the "other" attributes: bugs, pre, post, uses,
 ;       requires, customerId, todo, or restrictions
 ;    bugs
 ;       markup tree representing known bugs for the routine
@@ -894,11 +894,11 @@ end
 ;-
 pro doctreeroutine__define
   compile_opt strictarr, hidden
-  
+
   define = { DOCtreeRoutine, $
              system: obj_new(), $
              file: obj_new(), $
-             
+
              name: '', $
              isFunction: 0B, $
              isMethod: 0B, $
@@ -908,34 +908,34 @@ pro doctreeroutine__define
              isPrivate: 0B, $
              nLines: 0L, $
              complexity: 0L, $
-             
+
              parameters: obj_new(), $
              keywords: obj_new(), $
              acceptsMaxParams: 0B, $
-             
+
              comments: obj_new(), $
              firstline: obj_new(), $
              returns: obj_new(), $
 
              categories: obj_new(), $
              examples: obj_new(), $
-             
+
              hasAuthorInfo: 0B, $
              author: obj_new(), $
              copyright: obj_new(), $
              history: obj_new(), $
              version: obj_new(), $
-                          
+
              hasOthers: 0B, $
              bugs: obj_new(), $
              pre: obj_new(), $
-             post: obj_new(), $     
-             uses: obj_new(), $       
-             requires: obj_new(), $ 
+             post: obj_new(), $
+             uses: obj_new(), $
+             requires: obj_new(), $
              customerId: obj_new(), $
              todo: obj_new(), $
-             restrictions: obj_new(), $        
-             
-             documentationLevel: 0L $ 
+             restrictions: obj_new(), $
+
+             documentationLevel: 0L $
            }
 end

@@ -7,7 +7,7 @@
 
 ;+
 ; Parse the given .idldoc file.
-; 
+;
 ; :Returns: file tree object
 ; :Params:
 ;    filename : in, required, type=string
@@ -31,19 +31,19 @@ function docparidldocfileparser::parse, filename, found=found, $
   self.system->getProperty, format=format, markup=markup
   formatParser = self.system->getParser(format + 'format')
   markupParser = self.system->getParser(markup + 'markup')
-    
+
   nLines = file_lines(filename)
   if (nLines gt 0) then begin
     comments = strarr(nLines)
     openr, lun, filename, /get_lun
     readf, lun, comments
     free_lun, lun
-    
+
     ; call format parser's "parse" method
     formatParser->parseIDLdocComments, comments, file=file, $
                                        markup_parser=markupParser
   endif
-                   
+
   return, file
 end
 
@@ -59,9 +59,9 @@ end
 ;-
 function docparidldocfileparser::init, system=system
   compile_opt strictarr, hidden
-  
+
   self.system = system
-  
+
   return, 1
 end
 
@@ -75,7 +75,7 @@ end
 ;-
 pro docparidldocfileparser__define
   compile_opt strictarr, hidden
-  
+
 	define = { DOCparIDLdocFileParser, $
 	           system: obj_new() $
            }

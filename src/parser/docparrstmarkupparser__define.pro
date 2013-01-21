@@ -2,7 +2,7 @@
 
 ;+
 ; Parse rst style comments into a parse tree.
-; 
+;
 ; The markup parser recognizes:
 ;   1. paragraphs separated by a blank line
 ;
@@ -44,7 +44,7 @@
 ;     position of the start of the directive
 ;   len : in, required, type=long
 ;     length of the directive
-; 
+;
 ; :Keywords:
 ;   tree : in, required, type=object
 ;     parse tree to add markup for directive
@@ -98,7 +98,7 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
       end
     'title': begin
         if (obj_valid(file)) then file->setProperty, title=filename
-      end      
+      end
     else: self.system->warning, 'unknown rst directive ' + directive
   endcase
 
@@ -149,7 +149,7 @@ pro docparrstmarkupparser::_processInlines, para, line
     link_text = self->_processLink(tokens[2 * i + 1], reference=reference)
 
     tag = obj_new('MGtmTag', type='link')
-    tag->addAttribute, 'reference', reference    
+    tag->addAttribute, 'reference', reference
     tag->addChild, obj_new('MGtmText', text=self->_processText(link_text))
     para->addChild, tag
 
@@ -291,7 +291,7 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
 
     if (cleanLine eq '' && ~code && ~para->isEmpty()) then begin
       para = obj_new('MGtmTag', type='paragraph')
-      tree->addChild, para      
+      tree->addChild, para
     endif
 
     lastWasCodeStart = nextIsCode
@@ -374,7 +374,7 @@ function docparrstmarkupparser::parse, lines, file=file
 
   self->_handleLevel, lines, start, indent, tree=tree, file=file
 
-  return, tree  
+  return, tree
 end
 
 

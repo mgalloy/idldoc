@@ -28,7 +28,7 @@
 			[% FOREACH p IN procedures %]
       \item [% mg_escape_latex(p) %]
 			[% END %]
-    \end{itemize} 
+    \end{itemize}
   [% END %]
 
   [% IF n_function gt 0 %]
@@ -37,38 +37,38 @@
 			[% FOREACH f IN functions %]
       \item [% mg_escape_latex(f) %]
 			[% END %]
-    \end{itemize} 
+    \end{itemize}
   [% END %]
 
   [% IF n_var gt 0 %]
-  \item[Variables]\hspace*{1em} \newline    
+  \item[Variables]\hspace*{1em} \newline
     \begin{tabular}{lll}
       [% FOREACH v IN variables %][% SCOPE v %]
-      [% IF has_thumbnail %]\includegraphics[scale=0.6]{.[% path_sep() %][% location %][% thumbnail_url %]}[% END %] & [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\             
+      [% IF has_thumbnail %]\includegraphics[scale=0.6]{.[% path_sep() %][% location %][% thumbnail_url %]}[% END %] & [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\
       [% END %][% END %]
     \end{tabular}
   [% END %]
 
   [% IF n_sysvar gt 0 %]
-  \item[System variables]\hspace*{1em} \newline     
+  \item[System variables]\hspace*{1em} \newline
     \begin{tabular}{lll}
     	[% FOREACH sv IN system_variables %][% SCOPE sv %]
-      [% IF has_thumbnail %]\includegraphics[scale=0.6]{[% output_root %][% location %][% thumbnail_url %]}[% END %] & [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\             
+      [% IF has_thumbnail %]\includegraphics[scale=0.6]{[% output_root %][% location %][% thumbnail_url %]}[% END %] & [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\
     	[% END %][% END %]
     \end{tabular}
   [% END %]
 
   [% IF n_common gt 0 %]
-  \item[Common blocks]\hspace*{1em} \newline     
+  \item[Common blocks]\hspace*{1em} \newline
     \begin{tabular}{lr}
     	[% FOREACH cb IN common_blocks %][% SCOPE cb %]
       [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\
     	[% END %][% END %]
     \end{tabular}
   [% END %]
-  
+
   [% IF n_structdef gt 0 %]
-  \item[Structure definitions]\hspace*{1em} \newline     
+  \item[Structure definitions]\hspace*{1em} \newline
     \begin{tabular}{lr}
     	[% FOREACH s IN structure_definitions %][% SCOPE s %]
       [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\
@@ -80,16 +80,16 @@
   \item[Pointers]\hspace*{1em} \newline
     \begin{tabular}{lll}
     	[% FOREACH p IN pointers %][% SCOPE p %]
-      [% IF has_thumbnail %]\includegraphics[scale=0.6]{[% output_root %][% location %][% thumbnail_url %]}[% END %] & [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\ 
+      [% IF has_thumbnail %]\includegraphics[scale=0.6]{[% output_root %][% location %][% thumbnail_url %]}[% END %] & [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\
     	[% END %][% END %]
     \end{tabular}
   [% END %]
 
   [% IF n_object_heapvar gt 0 %]
-  \item[Objects]\hspace*{1em} \newline   
-    \begin{tabular}{lr}     
+  \item[Objects]\hspace*{1em} \newline
+    \begin{tabular}{lr}
 		  [% FOREACH o IN objects %][% SCOPE o %]
-		  [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\       
+		  [% mg_escape_latex(name) %] & \lstinline+[% mg_escape_latex(declaration) %]+ \\
 		  [% END %][% END %]
 	  \end{tabular}
   [% END %]
