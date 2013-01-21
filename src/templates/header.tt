@@ -55,7 +55,7 @@
 </table>
 [% END %]
 
-[% IF current_template eq 'profile' %]
+[% IF current_template eq 'profile' || current_template eq 'dlmfile' %]
 <p class="localnavbar smallest">[% IF ~nonavbar %]<a href="" target="_top">single page</a> | <a href="[% relative_root %]index.html" target="_top">use frames</a> &nbsp;&nbsp;&nbsp;[% END %] summary &nbsp;&nbsp;&nbsp; class &nbsp;&nbsp;&nbsp; fields &nbsp;&nbsp;&nbsp; <a href="#routine-details">routine details</a> &nbsp;&nbsp;&nbsp; <a href="#attributes">file attributes</a></p>
 [% END %]
 
