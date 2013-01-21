@@ -721,7 +721,7 @@ pro doc_system::parseTree
   idldocFiles = file_search(self.root, '*.idldoc', /test_regular, count=nIDLdocFiles)
   
   ; quit if no files found
-  if (nProFiles + nSavFiles + nIDLdocFiles eq 0) then return
+  if (nProFiles + nSavFiles + nIDLdocFiles + nDLMFiles eq 0) then return
   
   ; add all the files together
   allFiles = ['']
