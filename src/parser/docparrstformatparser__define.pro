@@ -8,7 +8,7 @@
 ;+
 ; Parse the lines from a tag; simply removes the tag and passes along the rest.
 ; 
-; :Returns: 
+; :Returns:
 ;    strarr
 ;
 ; :Params:
@@ -565,7 +565,7 @@ pro docparrstformatparser::_handleAttribute, param, attribute, routine=routine
 end
                                                   
 ;+
-; Handles parsing of a routine level comment block using rst syntax. 
+; Handles parsing of a routine level comment block using rst syntax.
 ;
 ; :Params:
 ;    lines : in, required, type=strarr
@@ -573,7 +573,7 @@ end
 ;
 ; :Keywords:
 ;    routine : in, required, type=object
-;       routine tree object 
+;       routine tree object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
@@ -581,7 +581,7 @@ pro docparrstformatparser::parseRoutineComments, lines, routine=routine,  $
                                                  markup_parser=markupParser
   compile_opt strictarr, hidden
   
-  ; find tags enclosed by ":"s that are the first non-whitespace character on 
+  ; find tags enclosed by ":"s that are the first non-whitespace character on
   ; the line
   tagLocations = where(stregex(lines, '^[[:space:]]*:[[:alpha:]_]+:') ne -1L, nTags)
   
@@ -608,7 +608,7 @@ end
 
 
 ;+
-; Handles parsing of a file level comment block using rst syntax. 
+; Handles parsing of a file level comment block using rst syntax.
 ;
 ; :Params:
 ;    lines : in, required, type=strarr
@@ -616,7 +616,7 @@ end
 ;
 ; :Keywords:
 ;    file : in, required, type=object
-;       file tree object 
+;       file tree object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
@@ -651,8 +651,8 @@ end
 
 
 ;+
-; Handles parsing of a comment block in the directory overview file using rst 
-; syntax. 
+; Handles parsing of a comment block in the directory overview file using rst
+; syntax.
 ;
 ; :Params:
 ;    lines : in, required, type=strarr
@@ -660,7 +660,7 @@ end
 ;
 ; :Keywords:
 ;    directory : in, required, type=object
-;       directory object 
+;       directory object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
@@ -668,7 +668,7 @@ pro docparrstformatparser::parseDirOverviewComments, lines, directory=directory,
                                                      markup_parser=markupParser
   compile_opt strictarr, hidden
 
-  ; find tags enclosed by ":"s that are the first non-whitespace character on 
+  ; find tags enclosed by ":"s that are the first non-whitespace character on
   ; the line
   re = '^[[:space:]]*:[[:alpha:]_]+:'
   tagLocations = where(stregex(lines, re) ne -1L, nTags)
@@ -707,7 +707,7 @@ end
 
 
 ;+
-; Handles parsing of a comment block in the overview file using rst syntax. 
+; Handles parsing of a comment block in the overview file using rst syntax.
 ;
 ; :Params:
 ;    lines : in, required, type=strarr
@@ -715,7 +715,7 @@ end
 ;
 ; :Keywords:
 ;    system : in, required, type=object
-;       system object 
+;       system object
 ;    markup_parser : in, required, type=object
 ;       markup parser object
 ;-
@@ -723,7 +723,7 @@ pro docparrstformatparser::parseOverviewComments, lines, system=system, $
                                                   markup_parser=markupParser
   compile_opt strictarr, hidden
 
-  ; find tags enclosed by ":"s that are the first non-whitespace character on 
+  ; find tags enclosed by ":"s that are the first non-whitespace character on
   ; the line
   re = '^[[:space:]]*:[[:alpha:]_]+:'
   tagLocations = where(stregex(lines, re) ne -1L, nTags)
@@ -759,7 +759,7 @@ pro docparrstformatparser::parseOverviewComments, lines, system=system, $
           l = 0L
           nameIndent = -1L
           while (l lt n_elements(tagLines) && nameIndent eq -1L) do begin 
-            nameIndent = stregex(tagLines[l++], '[[:alnum:]_$./]')          
+            nameIndent = stregex(tagLines[l++], '[[:alnum:]_$./]')
           endwhile
   
           ; must indent directories' names
@@ -768,19 +768,19 @@ pro docparrstformatparser::parseOverviewComments, lines, system=system, $
             return
           endif
           
-          ; find directories' names lines (ignore first line, first directory 
-          ; starts on the line after :Dirs:)        
+          ; find directories' names lines (ignore first line, first directory
+          ; starts on the line after :Dirs:)
           dirLines = tagLines[0L:*]
-          re = string(format='(%"^[ ]{%d}([[:alnum:]._$\-\/]+)")', nameIndent)        
+          re = string(format='(%"^[ ]{%d}([[:alnum:]._$\-\/]+)")', nameIndent)
           dirNamesStart = stregex(dirLines, re, $
                                   /subexpr, length=dirNamesLength)
-          dirDefinitionLines = where(dirNamesStart[1, *] ne -1L, nDirs)                  
+          dirDefinitionLines = where(dirNamesStart[1, *] ne -1L, nDirs)
         
           ; add each property
           for d = 0L, nDirs - 1L do begin
             dirName = strmid(dirLines[dirDefinitionLines[d]], $
                              dirNamesStart[1, dirDefinitionLines[d]], $
-                             dirNamesLength[1, dirDefinitionLines[d]])    
+                             dirNamesLength[1, dirDefinitionLines[d]])
 
             if (strmid(dirName, 0, /reverse_offset) ne path_sep()) then begin
               dirName += path_sep()
@@ -815,7 +815,7 @@ pro docparrstformatparser::parseOverviewComments, lines, system=system, $
                                      : dirDefinitionLines[d + 1L] - 1L
                 if (dirDefinitionLines[d] + 1L le dirDefinitionEnd) then begin
                   comments = dirLines[dirDefinitionLines[d] + 1L:dirDefinitionEnd] 
-                  dir->setProperty, overview_comments=markupParser->parse(comments)        
+                  dir->setProperty, overview_comments=markupParser->parse(comments)
                 endif                            
                 done = 1B
               endif
