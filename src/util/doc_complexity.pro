@@ -45,11 +45,27 @@ function doc_codeparser::next
         comment = ';' + rest_of_line
         if (strlen(rest_of_line) gt 0L) then self->advance_pos, strlen(rest_of_line)
       end
-    char eq '''':
-    char eq '"':
-    else: begin
-        return, char
+    char eq '''': begin
+        rest_of_string = stregex(rest_of_line, '^([^'']|(''''))*''', /extract)
+        if (rest_of_string eq '') then begin
+          self->advance_pos, strlen(rest_of_line)
+          return, char + rest_of_line
+        endif else begin
+          self->advance_pos, strlen(rest_of_string)
+          return, char + rest_of_string
+        endelse
       end
+    char eq '"': begin
+        rest_of_string = stregex(rest_of_line, '^([^"]|(""))*"', /extract)
+        if (rest_of_string eq '') then begin
+          self->advance_pos, strlen(rest_of_line)
+          return, char + rest_of_line
+        endif else begin
+          self->advance_pos, strlen(rest_of_string)
+          return, char + rest_of_string
+        endelse
+      end
+    else: return, char
   endcase
 end
 
@@ -131,7 +147,7 @@ function doc_complexity, lines
   ;pattern = '[[:space:](),-\+]'
   tokenizer = obj_new('MGffTokenizer', lines, /string_array, pattern=pattern)
   complexity = 1L
-
+  
   while (~tokenizer->done()) do begin
     tok = tokenizer->next(pre_delim=pre, post_delim=post, newline=newline)
     case strlowcase(strtrim(tok, 2)) of
@@ -145,25 +161,25 @@ function doc_complexity, lines
       else:
     endcase
   endwhile
-
+  
   obj_destroy, tokenizer
   return, complexity > 1
 
-;  complexity = 1L
-;
-;  parser = obj_new('doc_codeparser', lines)
-;  repeat begin
-;    token = strlowcase(parser->next())
-;    case 1B of
-;      token eq 'function': doc_complexity_routine, parser, complexity
-;      token eq 'pro': doc_complexity_routine, parser, complexity
-;      strmid(token, 0, 1) eq ';'
-;      else:
-;    endcase
-;  endrep until (n_elements(token) eq 0L)
-;
-;  obj_destroy, parser
-;  return, complexity > 1
+  ; complexity = 1L
+  ; 
+  ; parser = obj_new('doc_codeparser', lines)
+  ; repeat begin
+  ;  token = strlowcase(parser->next())
+  ;  case 1B of
+  ;    token eq 'function': doc_complexity_routine, parser, complexity
+  ;    token eq 'pro': doc_complexity_routine, parser, complexity
+  ;    strmid(token, 0, 1) eq ';'
+  ;    else:
+  ;  endcase
+  ; endrep until (n_elements(token) eq 0L)
+  ; 
+  ; obj_destroy, parser
+  ; return, complexity > 1
 end
 
 
