@@ -14,6 +14,29 @@
 
 
 ;+
+; Count the number of non-empty, non-comment lines
+;
+; :Private:
+;
+; :Returns:
+;   integer
+;
+; :Params:
+;   lines : in, required, type=strarr
+;     lines to count
+;-
+function docparprofileparser::_num_lines, lines
+  compile_opt strictarr
+
+  ; only count non-empty, non-comment lines
+  is_blank = stregex(lines, '^[[:space:]]*(;.*)?$', /boolean)
+  ind = where(is_blank eq 0B, nlines)
+
+  return, nlines
+end
+
+
+;+
 ; Return the contents of a .pro file.
 ;
 ; :Returns:
@@ -48,6 +71,8 @@ function docparprofileparser::_readFile, filename, empty=empty, $
   openr, lun, filename, /get_lun
   readf, lun, code
   free_lun, lun
+
+  nlines = self->_num_lines(code)
 
   return, code
 end
@@ -376,8 +401,8 @@ pro docparprofileparser::_parseLines, lines, file, format=format, markup=markup
       ; ending a routine, setting number of lines of the routine
       if (codeLevel eq 0L) then begin
         if (obj_valid(routine)) then begin
-          nLines = currentLineNumber - routineLineStart + 1L
-          routine->setProperty, n_lines=nLines, lines=lines[routineLineStart:currentLineNumber]
+          nlines = self->_num_lines(lines[routineLineStart:currentLineNumber])
+          routine->setProperty, n_lines=nlines, lines=lines[routineLineStart:currentLineNumber]
         endif
       endif
     endif
