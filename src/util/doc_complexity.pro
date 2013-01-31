@@ -146,6 +146,7 @@ function doc_complexity_statement, parser, end_form=end_form, indent=indent
           complexities += doc_complexity_statement(parser, end_form='endforeach', indent=indent + '  ')
         end
 
+      ; TODO: this counts a ":" in array indexing as well
       token eq ':': complexities++  ; ternary operator
 
       token eq 'begin': complexities += doc_complexity_block(parser, end_form=end_form, indent=indent + '  ')
@@ -210,6 +211,7 @@ function doc_complexity_block, parser, end_form=end_form, indent=indent
           complexities += doc_complexity_statement(parser, end_form='endforeach', indent=indent + '  ')
         end
 
+      ; TODO: this counts a ":" in array indexing as well
       token eq ':': begin
           ; case/switch case and ternary operator
           if (end_form eq 'end_case' || end_form eq 'end_switch') then begin
