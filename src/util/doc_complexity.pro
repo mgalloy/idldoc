@@ -212,7 +212,7 @@ function doc_complexity_block, parser, end_form=end_form, indent=indent
 
       token eq ':': begin
           ; case/switch case and ternary operator
-          if (end_form='end_case' || end_form='end_switch') then begin
+          if (end_form eq 'end_case' || end_form eq 'end_switch') then begin
             ; this is not always correct, a ternary operator might be in a
             ; case/switch block
             complexities[0]++
