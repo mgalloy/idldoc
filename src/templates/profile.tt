@@ -360,8 +360,11 @@
               </tr>
 
               <tr>
-                <td class="name">McCabe complexity:</td>
+                <td class="name">Cyclomatic complexity:</td>
                 <td><div class="box [% complexity_color %]"></div> [% complexity %]</td>
+                <tr>
+                  <td class="name">Modified cyclomatic complexity:</td>
+                  <td><div class="box [% modified_complexity_color %]"></div> [% modified_complexity %]</td>
               </tr>
             </table>
           [% END %]

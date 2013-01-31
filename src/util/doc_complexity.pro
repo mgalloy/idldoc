@@ -37,13 +37,14 @@ function doc_codeparser::next
         return, char + id
       end
     stregex(char, '[[:digit:].]', /boolean): begin
-        num = stregex(rest_of_line, '^[[:digit:].]*', /extract)
+        num = stregex(rest_of_line, '^[[:digit:].]*([ed][-\+])?[[:digit:]]*', /extract)
         if (strlen(num) gt 0L) then self->advance_pos, strlen(num)
         return, char + num
       end
     char eq ';': begin
         comment = ';' + rest_of_line
         if (strlen(rest_of_line) gt 0L) then self->advance_pos, strlen(rest_of_line)
+        return, comment
       end
     char eq '''': begin
         rest_of_string = stregex(rest_of_line, '^([^'']|(''''))*''', /extract)
@@ -100,41 +101,141 @@ pro doc_codeparser__define
 end
 
 
-pro doc_complexity_routine, parser, complexity
+function doc_complexity_statement, parser, end_form=end_form, indent=indent
   compile_opt strictarr
 
+  complexities = lonarr(2)
+  last_token = ''
+
   repeat begin
-    token = strlowcase(parser->next())
+    update_last_token = 1B
+    token = parser->next()
+    if (n_elements(token) gt 0L) then token = strlowcase(token)
+    ;_token = n_elements(token) gt 0L ? token : '!null'
+    ;print, indent, end_form, _token, format='(%"%sin statement with end_form = %s, token = %s")'
     case 1B of
-      token eq 'function': doc_complexity_routine, parser, complexity
-      token eq 'pro': doc_complexity_routine, parser, complexity
-      strmid(token, 0, 1) eq ';'
+      token eq 'if': begin
+          complexities++
+          complexities += doc_complexity_statement(parser, end_form='endif', indent=indent + '  ')
+        end
+      token eq 'else': complexities += doc_complexity_statement(parser, end_form='endelse', indent=indent + '  ')
+
+      token eq 'case': begin
+          complexities++
+          complexities += doc_complexity_block(parser, end_form='endcase', indent=indent + '  ')
+        end
+      token eq 'switch': begin
+          complexities++
+          complexities += doc_complexity_block(parser, end_form='endswitch', indent=indent + '  ')
+        end
+
+      token eq 'while': begin
+          complexities++
+          complexities += doc_complexity_statement(parser, end_form='endwhile', indent=indent + '  ')
+        end
+      token eq 'repeat': begin
+          complexities++
+          complexities += doc_complexity_statement(parser, end_form='endrep', indent=indent + '  ')
+        end
+      token eq 'for': begin
+          complexities++
+          complexities += doc_complexity_statement(parser, end_form='endfor', indent=indent + '  ')
+        end
+      token eq 'foreach': begin
+          complexities++
+          complexities += doc_complexity_statement(parser, end_form='endforeach', indent=indent + '  ')
+        end
+
+      token eq 'begin': complexities += doc_complexity_block(parser, end_form=end_form, indent=indent + '  ')
+
+      (token eq '<newline>') && (last_token ne '$'): return, complexities
+
+      else: begin
+          if ((n_elements(token) gt 0L) && (strmid(token, 0, 1) eq ';')) then begin
+            update_last_token = 0B
+          endif
+        end
+    endcase
+
+    if (update_last_token) then begin
+      last_token = token
+    endif
+  endrep until (n_elements(token) eq 0L)
+
+  return, complexities
+end
+
+
+function doc_complexity_block, parser, end_form=end_form, indent=indent
+  compile_opt strictarr
+
+  complexities = lonarr(2)
+
+  repeat begin
+    token = parser->next()
+    if (n_elements(token) gt 0L) then token = strlowcase(token)
+    ;_token = n_elements(token) gt 0L ? token : '!null'
+    ;print, indent, end_form, _token, format='(%"%sin block with end_form = %s, token = %s")'
+    case 1B of
+      token eq 'if': begin
+          complexities++
+          complexities += doc_complexity_statement(parser, end_form='endif', indent=indent + '  ')
+        end
+
+      token eq 'case': begin
+          complexities++
+          complexities += doc_complexity_block(parser, end_form='endcase', indent=indent + '  ')
+        end
+      token eq 'switch': begin
+          complexities++
+          complexities += doc_complexity_block(parser, end_form='endswitch', indent=indent + '  ')
+        end
+
+      token eq 'while': begin
+          complexities++
+          complexities += doc_complexity_statement(parser, end_form='endwhile', indent=indent + '  ')
+        end
+      token eq 'repeat': begin
+          complexities++
+          complexities += doc_complexity_statement(parser, end_form='endrep', indent=indent + '  ')
+        end
+      token eq 'for': begin
+          complexities++
+          complexities += doc_complexity_statement(parser, end_form='endfor', indent=indent + '  ')
+        end
+      token eq 'foreach': begin
+          complexities++
+          complexities += doc_complexity_statement(parser, end_form='endforeach', indent=indent + '  ')
+        end
+
+      token eq ':': begin
+          complexities[0]++
+        end
+
+      token eq 'begin': complexities += doc_complexity_block(parser, end_form='end', indent=indent + '  ')
+          
+      token eq 'end': return, complexities
+      token eq end_form: return, complexities
+
       else:
     endcase
   endrep until (n_elements(token) eq 0L)
+
+  return, complexities
 end
 
 
 ;+
-; Computes the cyclomatic complexity (or conditional complexity) of a section
-; of code.
-;
-; The complexity is::
-;
-;    p - s + 2
-;
-; where p is the number of decision points and s is the number of exit points.
+; Computes the cyclomatic complexity (or modified complexity) of a section of
+; code.
 ;
 ; For more information, see::
 ;
 ;    http://en.wikipedia.org/wiki/Cyclomatic_complexity
 ;
-; :Todo:
-;    * should ignore comments and string literals
-;    * should add the number of non-else clauses in CASE and SWITCH statements
-;
 ; :Returns:
-;    long
+;    `lonarr(2)`, where the first element is the complexity and the second
+;    element is the modified complexity
 ;
 ; :Params:
 ;    lines : in, optional, type=strarr
@@ -143,43 +244,14 @@ end
 function doc_complexity, lines
   compile_opt strictarr
 
-  pattern = '[[:>:]]'
-  ;pattern = '[[:space:](),-\+]'
-  tokenizer = obj_new('MGffTokenizer', lines, /string_array, pattern=pattern)
-  complexity = 1L
-  
-  while (~tokenizer->done()) do begin
-    tok = tokenizer->next(pre_delim=pre, post_delim=post, newline=newline)
-    case strlowcase(strtrim(tok, 2)) of
-      'if': complexity++
-      'case': complexity++   ; really should add the number of non-else cases
-      'switch': complexity++ ; really should add the number of non-else cases
-      'while': complexity++
-      'repeat': complexity++
-      'for': complexity++
-      'return': complexity--
-      else:
-    endcase
-  endwhile
-  
-  obj_destroy, tokenizer
-  return, complexity > 1
+  complexities = lonarr(2)  ; [complexity, modified_complexity]
 
-  ; complexity = 1L
-  ; 
-  ; parser = obj_new('doc_codeparser', lines)
-  ; repeat begin
-  ;  token = strlowcase(parser->next())
-  ;  case 1B of
-  ;    token eq 'function': doc_complexity_routine, parser, complexity
-  ;    token eq 'pro': doc_complexity_routine, parser, complexity
-  ;    strmid(token, 0, 1) eq ';'
-  ;    else:
-  ;  endcase
-  ; endrep until (n_elements(token) eq 0L)
-  ; 
-  ; obj_destroy, parser
-  ; return, complexity > 1
+  parser = obj_new('doc_codeparser', lines)
+
+  complexities += doc_complexity_block(parser, end_form='end', indent='')
+
+  obj_destroy, parser
+  return, complexities > 1
 end
 
 
@@ -187,7 +259,7 @@ end
 
 lines = ['if(1)then print, 1 else if-1 gt 2 then print, 2 else if+2 gt 3 then print, 3']
 print, transpose(lines)
-print, '------------------------'
+print, '------------------------ (complexity = 3)'
 print, doc_complexity(lines)
 
 print
@@ -195,7 +267,7 @@ print
 
 lines = ['case 1 of', 'a:print, a', 'b: print, b', 'c:', 'else:', 'endcase']
 print, transpose(lines)
-print, '------------------------'
+print, '------------------------ (complexity = 5)'
 print, doc_complexity(lines)
 
 end

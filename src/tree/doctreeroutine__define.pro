@@ -296,6 +296,11 @@ function doctreeroutine::getVariable, name, found=found
         self.system->getProperty, complexity_cutoffs=cutoffs
         return, (['green', 'orange', 'red'])[value_locate(cutoffs, self.complexity)]
       end
+    'modified_complexity': return, self.modified_complexity
+    'modified_complexity_color': begin
+        self.system->getProperty, complexity_cutoffs=cutoffs
+        return, (['green', 'orange', 'red'])[value_locate(cutoffs, self.modified_complexity)]
+      end
     'n_lines': return, self.nLines
     'n_lines_color': begin
         self.system->getProperty, routine_line_cutoffs=cutoffs
@@ -673,7 +678,9 @@ pro doctreeroutine::_computeComplexity, lines
                             complexity_cutoffs=complexityCutoffs
   if (~statistics) then return
 
-  self.complexity = doc_complexity(lines)
+  complexities = doc_complexity(lines)
+  self.complexity = complexities[0]
+  self.modified_complexity = complexities[1]
 
   if (value_locate(routineLineCutoffs, self.nlines) gt 0L $
         || value_locate(complexityCutoffs, self.complexity) gt 0L) then begin
@@ -908,6 +915,7 @@ pro doctreeroutine__define
              isPrivate: 0B, $
              nLines: 0L, $
              complexity: 0L, $
+             modified_complexity: 0L, $
 
              parameters: obj_new(), $
              keywords: obj_new(), $
