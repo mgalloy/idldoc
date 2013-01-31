@@ -146,6 +146,8 @@ function doc_complexity_statement, parser, end_form=end_form, indent=indent
           complexities += doc_complexity_statement(parser, end_form='endforeach', indent=indent + '  ')
         end
 
+      token eq ':': complexities++  ; ternary operator
+
       token eq 'begin': complexities += doc_complexity_block(parser, end_form=end_form, indent=indent + '  ')
 
       (token eq '<newline>') && (last_token ne '$'): return, complexities
@@ -209,7 +211,12 @@ function doc_complexity_block, parser, end_form=end_form, indent=indent
         end
 
       token eq ':': begin
-          complexities[0]++
+          ; case/switch case and ternary operator
+          if (end_form='end_case' || end_form='end_switch') then begin
+            ; this is not always correct, a ternary operator might be in a
+            ; case/switch block
+            complexities[0]++
+          endif else complexities++
         end
 
       token eq 'begin': complexities += doc_complexity_block(parser, end_form='end', indent=indent + '  ')
