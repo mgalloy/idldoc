@@ -6,6 +6,16 @@ IDLdoc 3.6.0
 
 * Added Exelis VIS Doc Center output.
 
+* Reporting only non-empty, non-comment lines in routines/files now.
+
+* Improved algorithm for computing cyclomatic complexity and also reporting
+  modified cyclomatic complexity.
+
+* Updated to MathJax 2.0 and using the complete MathJax distribution for better
+  LaTeX rendering.
+
+* Miscellaneous bug fixes.
+
 
 IDLdoc 3.5.1
 ------------
