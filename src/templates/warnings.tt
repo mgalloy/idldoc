@@ -104,7 +104,7 @@
         [% IF n_complex_routines gt 0 %]
           [% FOREACH r IN complex_routines %][% SCOPE r %]
             <dt><a href="[% url %][% local_url %]">[% location %][% basename %]</a>: <a href="[% url %][% local_url %]#[% name %]">[% name %]</a></dt>
-            <dd><div class="box [% n_lines_color %]"></div> [% n_lines %] lines, <div class="box [% complexity_color %]"></div> [% complexity %] complexity</dd>
+            <dd><div class="box [% n_lines_color %]"></div> [% n_lines %] lines, <div class="box [% complexity_color %]"></div> [% complexity %] complexity, <div class="box [% modified_complexity_color %]"></div> [% modified_complexity %] modified_complexity</dd>
           [% END %][% END %]
         [% ELSE %]No routines with warnings[% END %]
         </dl>
