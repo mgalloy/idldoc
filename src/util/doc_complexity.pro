@@ -14,6 +14,13 @@ pro doc_codeparser::advance_pos, length, done=done
 end
 
 
+function doc_codeparser::bracket_level
+  compile_opt strictarr
+
+  return, self.bracket_level
+end
+
+
 function doc_codeparser::next
   compile_opt strictarr
 
@@ -66,7 +73,11 @@ function doc_codeparser::next
           return, char + rest_of_string
         endelse
       end
-    else: return, char
+    else: begin
+        if ((char eq '(') || (char eq '[')) then self.bracket_level++
+        if ((char eq ')') || (char eq ']')) then self.bracket_level--
+        return, char
+      end
   endcase
 end
 
@@ -85,6 +96,7 @@ function doc_codeparser::init, lines
 
   self.line_index = 0L
   self.pos_index = 0L
+  self.bracket_level = 0L
 
   return, 1
 end
@@ -96,12 +108,13 @@ pro doc_codeparser__define
   define = { doc_codeparser, $
              lines: ptr_new(), $
              line_index: 0L, $
-             pos_index: 0L $
+             pos_index: 0L, $
+             bracket_level: 0L $
            }
 end
 
 
-function doc_complexity_statement, parser, end_form=end_form, indent=indent
+function doc_complexity_statement, parser, end_form=end_form
   compile_opt strictarr
 
   complexities = lonarr(2)
@@ -111,45 +124,53 @@ function doc_complexity_statement, parser, end_form=end_form, indent=indent
     update_last_token = 1B
     token = parser->next()
     if (n_elements(token) gt 0L) then token = strlowcase(token)
-    ;_token = n_elements(token) gt 0L ? token : '!null'
-    ;print, indent, end_form, _token, format='(%"%sin statement with end_form = %s, token = %s")'
     case 1B of
       token eq 'if': begin
           complexities++
-          complexities += doc_complexity_statement(parser, end_form='endif', indent=indent + '  ')
+          complexities += doc_complexity_statement(parser, end_form='endif')
         end
-      token eq 'else': complexities += doc_complexity_statement(parser, end_form='endelse', indent=indent + '  ')
+      token eq 'else': begin
+          complexities += doc_complexity_statement(parser, end_form='endelse')
+        end
 
       token eq 'case': begin
           complexities++
-          complexities += doc_complexity_block(parser, end_form='endcase', indent=indent + '  ')
+          complexities += doc_complexity_block(parser, end_form='endcase')
         end
       token eq 'switch': begin
           complexities++
-          complexities += doc_complexity_block(parser, end_form='endswitch', indent=indent + '  ')
+          complexities += doc_complexity_block(parser, end_form='endswitch')
         end
 
       token eq 'while': begin
           complexities++
-          complexities += doc_complexity_statement(parser, end_form='endwhile', indent=indent + '  ')
+          complexities += doc_complexity_statement(parser, end_form='endwhile')
         end
       token eq 'repeat': begin
           complexities++
-          complexities += doc_complexity_statement(parser, end_form='endrep', indent=indent + '  ')
+          complexities += doc_complexity_statement(parser, end_form='endrep')
         end
       token eq 'for': begin
           complexities++
-          complexities += doc_complexity_statement(parser, end_form='endfor', indent=indent + '  ')
+          complexities += doc_complexity_statement(parser, end_form='endfor')
         end
       token eq 'foreach': begin
           complexities++
-          complexities += doc_complexity_statement(parser, end_form='endforeach', indent=indent + '  ')
+          complexities += doc_complexity_statement(parser, end_form='endforeach')
         end
 
-      ; TODO: this counts a ":" in array indexing as well
-      token eq ':': complexities++  ; ternary operator
+      token eq ':': begin
+          ; this only gets ternary operators that are not inside parentheses or
+          ; square brackets and also counts labels (maybe they should be
+          ; counted?)
+          if (parser->bracket_level() eq 0L) then begin
+            complexities++
+          endif
+        end
 
-      token eq 'begin': complexities += doc_complexity_block(parser, end_form=end_form, indent=indent + '  ')
+      token eq 'begin': begin
+          complexities += doc_complexity_block(parser, end_form=end_form)
+        end
 
       (token eq '<newline>') && (last_token ne '$'): return, complexities
 
@@ -169,7 +190,7 @@ function doc_complexity_statement, parser, end_form=end_form, indent=indent
 end
 
 
-function doc_complexity_block, parser, end_form=end_form, indent=indent
+function doc_complexity_block, parser, end_form=end_form
   compile_opt strictarr
 
   complexities = lonarr(2)
@@ -177,51 +198,54 @@ function doc_complexity_block, parser, end_form=end_form, indent=indent
   repeat begin
     token = parser->next()
     if (n_elements(token) gt 0L) then token = strlowcase(token)
-    ;_token = n_elements(token) gt 0L ? token : '!null'
-    ;print, indent, end_form, _token, format='(%"%sin block with end_form = %s, token = %s")'
     case 1B of
       token eq 'if': begin
           complexities++
-          complexities += doc_complexity_statement(parser, end_form='endif', indent=indent + '  ')
+          complexities += doc_complexity_statement(parser, end_form='endif')
         end
 
       token eq 'case': begin
           complexities++
-          complexities += doc_complexity_block(parser, end_form='endcase', indent=indent + '  ')
+          complexities += doc_complexity_block(parser, end_form='endcase')
         end
       token eq 'switch': begin
           complexities++
-          complexities += doc_complexity_block(parser, end_form='endswitch', indent=indent + '  ')
+          complexities += doc_complexity_block(parser, end_form='endswitch')
         end
 
       token eq 'while': begin
           complexities++
-          complexities += doc_complexity_statement(parser, end_form='endwhile', indent=indent + '  ')
+          complexities += doc_complexity_statement(parser, end_form='endwhile')
         end
       token eq 'repeat': begin
           complexities++
-          complexities += doc_complexity_statement(parser, end_form='endrep', indent=indent + '  ')
+          complexities += doc_complexity_statement(parser, end_form='endrep')
         end
       token eq 'for': begin
           complexities++
-          complexities += doc_complexity_statement(parser, end_form='endfor', indent=indent + '  ')
+          complexities += doc_complexity_statement(parser, end_form='endfor')
         end
       token eq 'foreach': begin
           complexities++
-          complexities += doc_complexity_statement(parser, end_form='endforeach', indent=indent + '  ')
+          complexities += doc_complexity_statement(parser, end_form='endforeach')
         end
 
-      ; TODO: this counts a ":" in array indexing as well
       token eq ':': begin
-          ; case/switch case and ternary operator
-          if (end_form eq 'end_case' || end_form eq 'end_switch') then begin
-            ; this is not always correct, a ternary operator might be in a
-            ; case/switch block
-            complexities[0]++
-          endif else complexities++
+          ; this should get case/switch statement cases correctly, but only gets
+          ; ternary operators that are not inside parentheses or square brackets
+          ; and also counts labels (maybe they should be counted?)
+          if (parser->bracket_level() eq 0L) then begin
+            if ((end_form eq 'endcase') || (end_form eq 'endswitch')) then begin
+              ; this is not always correct, a ternary operator might be in a
+              ; case/switch block
+              complexities[0]++
+            endif else begin
+              complexities++
+            endelse
+          endif
         end
 
-      token eq 'begin': complexities += doc_complexity_block(parser, end_form='end', indent=indent + '  ')
+      token eq 'begin': complexities += doc_complexity_block(parser, end_form='end')
           
       token eq 'end': return, complexities
       token eq end_form: return, complexities
@@ -257,7 +281,7 @@ function doc_complexity, lines
 
   parser = obj_new('doc_codeparser', lines)
 
-  complexities += doc_complexity_block(parser, end_form='end', indent='')
+  complexities += doc_complexity_block(parser, end_form='end')
 
   obj_destroy, parser
   return, complexities > 1
