@@ -88,6 +88,9 @@ function doctreeclass::getVariable, name, found=found
         return, field_names[sind]
       end
 
+    'n_methods': return, self.methods->count()
+    'methods': return, self.methods->values()
+
     'n_properties': return, self.properties->count()
     'properties': return, self.properties->values()
 
@@ -496,6 +499,41 @@ end
 
 
 ;+
+; Add a method to the class.
+;
+; :Params:
+;    method : in, required, type=routine object
+;       routine object to add to class
+;-
+pro doctreeclass::addMethod, method
+  compile_opt strictarr, hidden
+
+  method->getProperty, name=method_name, $
+                       is_method=is_method, $
+                       classname=classname
+
+  ; sanity check
+  if (~is_method) then return
+  if (strcmp(classname, self.classname, /fold_case) eq 0) then return
+
+  self.methods->put, method_name, method
+end
+
+
+;+
+; Get routines which are methods of this class.
+;
+; :Returns:
+;   array of routines
+;-
+function doctreeclass::getMethods
+  compile_opt strictarr
+
+  return, self.methods->values()
+end
+
+
+;+
 ; Adds the given property to this class.
 ;
 ; :Params:
@@ -615,7 +653,7 @@ end
 pro doctreeclass::cleanup
   compile_opt strictarr, hidden
 
-  obj_destroy, [self.parents, self.ancestors, self.children]
+  obj_destroy, [self.parents, self.ancestors, self.children, self.methods]
 
   if (self.fields->count() gt 0) then obj_destroy, self.fields->values()
   obj_destroy, self.fields
@@ -657,6 +695,7 @@ function doctreeclass::init, classname, pro_file=proFile, system=system
 
   self.fields = obj_new('MGcoHashtable', key_type=7, value_type=11)
   self.properties = obj_new('MGcoHashtable', key_type=7, value_type=11)
+  self.methods = obj_new('MGcoHashtable', key_type=7, value_type=11)
 
   self->findParents
 
@@ -686,6 +725,8 @@ end
 ;       hash table of field tree classes
 ;    properties
 ;       hash table of property tree classes
+;    methods
+;       hash table of methods of class
 ;-
 pro doctreeclass__define
   compile_opt strictarr, hidden
@@ -702,6 +743,7 @@ pro doctreeclass__define
              children: obj_new(), $
 
              fields: obj_new(), $
-             properties: obj_new() $
+             properties: obj_new(), $
+             methods: obj_new() $
            }
 end

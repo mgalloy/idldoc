@@ -140,6 +140,8 @@ pro docparformatparser::checkForClass, routine
       class->addProperty, self.heldProperties->get(position=p)
     endfor
     self.heldProperties->remove, /all
+
+    class->addMethod, routine
   endif
 end
 

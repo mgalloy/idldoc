@@ -95,6 +95,19 @@
             </p>
           [% END %]
 
+          [% IF n_ancestors gt 0L %]
+          <h3>Inherited methods</h3>
+          [% FOREACH a IN ancestors %][% SCOPE a %]
+            [% IF n_methods gt 0 %]
+            <p>From [% IF a->hasUrl() %]<a href="[% relative_root %][% a->getUrl() %]">[% END %][% a->getClassname() %][% IF a->hasUrl() %]</a>[% END %]:
+            [% FOREACH m IN methods %][% SCOPE m %]
+            [% name %]
+            [% END %][% END %]
+            [% END %]
+            </p>
+          [% END %][% END %]
+          [% END %]
+          
           [% IF n_visible_properties gt 0 || n_visible_parent_properties gt 0 %]
           <h3>Properties</h3>
             [% IF n_ancestors gt 0 && ~user %]
