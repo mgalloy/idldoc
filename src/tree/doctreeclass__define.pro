@@ -88,8 +88,29 @@ function doctreeclass::getVariable, name, found=found
         return, field_names[sind]
       end
 
-    'n_methods': return, self.methods->count()
-    'methods': return, self.methods->values()
+    'n_visible_methods': begin
+        nVisible = 0L
+        methods = self.methods->values()
+        for m = 0L, self.methods->count() - 1L do begin
+          method = methods[m]
+          nVisible += method->isVisible()
+        endfor
+        return, nVisible
+      end
+    'visible_methods': begin
+        methods = self.methods->values(count=nMethods)
+        if (nMethods eq 0L) then return, -1L
+
+        isVisibleMethods = bytarr(nMethods)
+        for m = 0L, nMethods - 1L do begin
+          isVisibleMethods[m] = methods[m]->isVisible()
+        endfor
+
+        ind = where(isVisibleMethods eq 1B, nVisibleMethods)
+        if (nVisibleMethods eq 0L) then return, -1L
+
+        return, methods[ind]
+      end
 
     'n_properties': return, self.properties->count()
     'properties': return, self.properties->values()
@@ -101,7 +122,6 @@ function doctreeclass::getVariable, name, found=found
           prop = values[p]
           nVisible += prop->isVisible()
         endfor
-
         return, nVisible
       end
     'visible_properties': begin
