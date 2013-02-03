@@ -59,6 +59,8 @@ code.source span.comments { color: #408080; }
 dl.routine-summary dt { margin-bottom: 0.25em; }
 dl.routine-summary dd { margin-bottom: 0.5em; margin-left: 2em; }
 
+ul.inherited-method-summary { padding-left: 0em; margin-left: 0em; }
+
 /* general styles */
 ul li { list-style-type: none; }
 table { empty-cells: show; }

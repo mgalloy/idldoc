@@ -51,6 +51,7 @@ function doctreeclass::getVariable, name, found=found
 
     'n_ancestors': return, self.ancestors->count()
     'ancestors': return, self.ancestors->get(/all)
+    'reverse_ancestors': return, reverse(self.ancestors->get(/all))
 
     'n_children': return, self.children->count()
     'children': return, self.children->get(/all)
