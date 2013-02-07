@@ -14,6 +14,8 @@ IDLdoc 3.6.0
 * Updated to MathJax 2.0 and using the complete MathJax distribution for better
   LaTeX rendering.
 
+* Listing methods inherited from parent classes.
+
 * Miscellaneous bug fixes.
 
 
