@@ -169,7 +169,7 @@ function docparprofileparser::_checkDocformatLine, line, $
   if (strlowcase(strmid(trimLine, 0, 9)) ne 'docformat') then return, 0B
 
   ; remove "docformat" and any whitespace
-  trimLine = strtrim(strmid(trimLine, 10), 2)
+  trimLine = strtrim(strmid(trimLine, 9), 2)
 
   ; return negative if no =
   if (strmid(trimLine, 0, 1) ne '=') then return, 0B
