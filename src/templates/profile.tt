@@ -267,7 +267,7 @@
           <p class="syntax"><code>[% IF is_function %]<span class="var">result</span> = [% END %][% name %][% IF is_function %]([% END %][% IF n_visible_parameters gt 0 %][% FOREACH p IN visible_parameters %][% SCOPE p %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %]<a href="#[% id %]">[% name %]</a>[% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF n_visible_keywords gt 0 %][% FOREACH k IN visible_keywords %][% SCOPE k %]<span class="argument">[% IF is_optional %] [[% END %][% prefix %][% IF is_boolean %]/[% END %]<a href="#[% id %]">[% name %]</a>[% IF ~is_boolean %]=<span class="var">[% IF type ne '' %][% type %][% ELSE %][% name %][% END %]</span>[% END %][% suffix %][% IF is_optional %]][% END %]</span>[% END %][% END %][% END %][% IF is_function %])[% END %]</code></p>
 
           [% IF has_comments %]
-          <div class="small [% IF preformat %]pre[% END %]">[% comments %]</div>
+          <div [% IF preformat %]class="pre"[% END %]>[% comments %]</div>
           [% END %]
 
           [% IF is_function and has_returns %]
