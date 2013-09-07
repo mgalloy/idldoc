@@ -360,7 +360,7 @@ end</code></p>
 ;    y : in, required, type=fltarr
 ;       dependent variable</code></p>
 
-        <p>For attributes with values that contain comments, either escape the comma with a "\" or enclose the value with double quotes. For example, <code class="listing">; :Params:
+        <p>For attributes with values that contain commas, either escape the comma with a "\" or enclose the value with double quotes. For example, <code class="listing">; :Params:
 ;    fwd : out, optional, type=fltarr(2\, nSegments)
 ;       streamline in the forward direction
 ;    bwd : out, optional, type="fltarr(2, nSegments)"
