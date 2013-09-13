@@ -7,7 +7,7 @@
 <table class="navbar smaller" summary="Navigation header" cellspacing="0">
   <tr>
     <td [% IF current_template eq 'overview' %]class="selected"[% END %]>
-      <a href="[% relative_root %]overview.html">Overview</a>
+      [% IF current_template ne 'overview' %]<a href="[% relative_root %]overview.html">[% END %]Overview[% IF current_template ne 'overview' %]</a>[% END %]
     </td>
 
     <td [% IF current_template eq 'dir-overview' %]class="selected"[% END %]>
@@ -25,27 +25,27 @@
     <td [% IF current_template eq 'idldocfile' %]class="selected"[% END %]>Etc</td>
 
     <td [% IF current_template eq 'categories' %]class="selected"[% END %]>
-      <a href="[% relative_root %]categories.html">Categories</a>
+      [% IF current_template ne 'categories' %]<a href="[% relative_root %]categories.html">[% END %]Categories[% IF current_template ne 'categories' %]</a>[% END %]
     </td>
 
     <td [% IF current_template eq 'search' %]class="selected"[% END %]>
-      <a href="[% relative_root %]search.html">Search</a>
+      [% IF current_template ne 'search' %]<a href="[% relative_root %]search.html">[% END %]Search[% IF current_template ne 'search' %]</a>[% END %]
     </td>
 
     [% IF index_level gt 0L %]
     <td [% IF current_template eq 'index-entries' %]class="selected"[% END %]>
-      <a href="[% relative_root %]idldoc-index.html">Index</a>
+      [% IF current_template ne 'index-entries' %]<a href="[% relative_root %]idldoc-index.html">[% END %]Index[% IF current_template ne 'index-entries' %]</a>[% END %]
     </td>
     [% END %]
 
     [% IF ~user %]
     <td [% IF current_template eq 'warnings' %]class="selected"[% END %]>
-      <a href="[% relative_root %]idldoc-warnings.html">Warnings</a>
+      [% IF current_template ne 'warnings' %]<a href="[% relative_root %]idldoc-warnings.html">[% END %]Warnings[% IF current_template ne 'warnings' %]</a>[% END %]
     </td>
     [% END %]
 
     <td [% IF current_template eq 'help' %]class="selected"[% END %]>
-      <a href="[% relative_root %]idldoc-help.html">Help</a>
+      [% IF current_template ne 'help' %]<a href="[% relative_root %]idldoc-help.html">[% END %]Help[% IF current_template ne 'help' %]</a>[% END %]
     </td>
 
     <td class="flexible">
