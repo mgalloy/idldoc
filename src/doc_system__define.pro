@@ -1693,6 +1693,22 @@ function doc_system::init, root=root, output=output, $
 
   if (keyword_set(version)) then begin
     self->print, 'IDLdoc ' + self.idldoc_version
+    url = 'https://raw.github.com/mgalloy/idldoc/master/RELEASE.rst'
+    needs_updating = mg_updater(url, $
+                                current_version=self.idldoc_version, $
+                                name='IDLdoc', $
+                                releases=releases, $
+                                error=error, response_code=response_code)
+    if (error ne 0L) then begin
+      self->print, 'Error checking for updates: ' + mg_responsecode_message(response_code)
+    endif else begin
+      if (needs_updating) then begin
+        self->print, 'Updates available: ' + strjoin(releases[*].version, ', ')
+      endif else begin
+        self->print, 'No updates available'
+      endelse
+    endelse
+
     return, 0
   endif
 
