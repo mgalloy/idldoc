@@ -1,25 +1,47 @@
+.compile lib/analysis/mg_linear_function
+
+.compile lib/cmdline_tools/mg_ansicode
+
+.compile lib/collection/mgcoabstractlist__define
+.compile lib/collection/mgcoarraylist__define
+.compile lib/collection/mgcoabstractiterator__define
+.compile lib/collection/mgcoarraylistiterator__define
+.compile lib/collection/mgcohashtable__define
+
+.compile lib/dist_tools/mg_cmp_version
+.compile lib/dist_tools/mg_src_root
+
+.compile lib/introspection/mg_thumbnail
+.compile lib/introspection/mg_variable_declaration
+
+.compile lib/net/mg_responsecode_message
+
+.compile lib/objects/idl_object__define
+.compile lib/objects/mg_n_elements
+
+.compile lib/strings/mg_streplace
+.compile lib/strings/mg_strunmerge
+
+.compile lib/templating/mgfftemplate__define
+.compile lib/templating/mgfftokenizer__define
+
+.compile lib/textmarkup/mg_escape_latex
+.compile lib/textmarkup/mg_tm_firstline
+.compile lib/textmarkup/mgtmhtml__define
+.compile lib/textmarkup/mgtmlanguage__define
+.compile lib/textmarkup/mgtmlatex__define
+.compile lib/textmarkup/mgtmdocbook__define
+.compile lib/textmarkup/mgtmnode__define
+.compile lib/textmarkup/mgtmplain__define
+.compile lib/textmarkup/mgtmrst__define
+.compile lib/textmarkup/mgtmtag__define
+.compile lib/textmarkup/mgtmtext__define
+
+.compile lib/updater/mg_updater
+
 .compile src/idldoc
 .compile src/doc_system__define
 .compile src/idldoc_version
-
-.compile src/cmdline_tools/mg_ansicode
-
-.compile src/collection/mgcoabstractlist__define
-.compile src/collection/mgcoarraylist__define
-.compile src/collection/mgcoabstractiterator__define
-.compile src/collection/mgcoarraylistiterator__define
-.compile src/collection/mgcohashtable__define
-
-.compile src/dist_tools/mg_cmp_version
-.compile src/dist_tools/mg_src_root
-
-.compile src/introspection/mg_thumbnail
-.compile src/introspection/mg_variable_declaration
-
-.compile src/analysis/mg_linear_function
-
-.compile src/objects/idl_object__define
-.compile src/objects/mg_n_elements
 
 .compile src/parser/docparformatparser__define
 .compile src/parser/docparidldocfileparser__define
@@ -33,24 +55,6 @@
 .compile src/parser/docparrstmarkupparser__define
 .compile src/parser/docparverbatimmarkupparser__define
 .compile src/parser/docparverbatimformatparser__define
-
-.compile src/strings/mg_streplace
-.compile src/strings/mg_strunmerge
-
-.compile src/templating/mgfftemplate__define
-.compile src/templating/mgfftokenizer__define
-
-.compile src/textmarkup/mg_escape_latex
-.compile src/textmarkup/mg_tm_firstline
-.compile src/textmarkup/mgtmhtml__define
-.compile src/textmarkup/mgtmlanguage__define
-.compile src/textmarkup/mgtmlatex__define
-.compile src/textmarkup/mgtmdocbook__define
-.compile src/textmarkup/mgtmnode__define
-.compile src/textmarkup/mgtmplain__define
-.compile src/textmarkup/mgtmrst__define
-.compile src/textmarkup/mgtmtag__define
-.compile src/textmarkup/mgtmtext__define
 
 .compile src/tree/doctree_fill_links
 .compile src/tree/doctreeargument__define
