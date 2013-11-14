@@ -4,6 +4,8 @@ Release notes
 IDLdoc 3.6.0
 ------------
 
+* Checks for updates when using the VERSION keyword.
+
 * Added Exelis VIS Doc Center output.
 
 * Reporting only non-empty, non-comment lines in routines/files now.
