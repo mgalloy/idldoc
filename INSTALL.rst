@@ -2,24 +2,11 @@ For ``.sav`` file installation, simply place the ``idldoc.sav`` file in the
 ``!path`` in one of the various manners (see IDL's online help for details on
 how to do this).
 
-For building your own IDLdoc from the ``src`` distribution or from the
-Subversion repository, there are more requirements.
+Getting IDLdoc from the the GitHub repository is only slightly harder:
 
-  1. Put the ``src`` directory and its subdirectories into the ``!path``.
+  1. Get the git repo and its submodules with::
 
-  2. Put the ``src\cmdline_tools`` and ``src\dist_tools`` directories into the
-     ``!dlm_path``.
+       $ git clone --recursive git@github.com:mgalloy/idldoc.git
 
-  3. On UNIX systems, build the binaries in the ``src\cmdline_tools`` and
-     ``src\dist_tools`` from the top-level directory by just doing::
-
-        $ make all
-
-     On Windows, the individual commands must be entered. From the
-     ``src\cmdline_tools``::
-
-        IDL> mg_build_cmdline_tools
-
-     From the ``src\dist_tools`` directory::
-
-        IDL> mg_build_dist_tools
+  1. Put the ``src`` and ``lib`` directories and their subdirectories into your
+     IDL ``!path`` in your favorite manner.
