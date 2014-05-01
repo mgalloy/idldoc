@@ -99,6 +99,10 @@ pro docparrstmarkupparser::_processDirective, line, pos, len, $
     'title': begin
         if (obj_valid(file)) then file->setProperty, title=filename
       end
+     'html' : begin
+        tag = obj_new('MGtmTag', type='html')
+        tag->AddAttribute, 'html', filename
+      end
     else: self.system->warning, 'unknown rst directive ' + directive
   endcase
 
@@ -298,9 +302,15 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
     nextIsCode = strmid(cleanline, 1, /reverse_offset) eq '::'
 
     if (nextIsCode) then cleanline = strmid(cleanline, 0, strlen(cleanline) - 1)
-
+    
+    ;Look for either alphanumeric or punctiation characters after the double colon
     directivePos = stregex(cleanline, '\.\. [[:alpha:]]+:: [[:alnum:] _/.\-]+', $
                            length=directiveLen)
+    
+    ;check to see we have the beginning of a HTML tag if there isn't another directive
+    IF directivePos EQ -1 THEN $ 
+      directivePos = stregex(cleanline, '\.\. [[:alpha:]]+:: <.+', $
+        length=directiveLen)    
 
     if ((~code || (currentIndent gt -1 && currentIndent le indent)) $
           && directivePos ne -1L) then begin
