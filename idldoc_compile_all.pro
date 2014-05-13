@@ -13,6 +13,7 @@
 
 .compile lib/introspection/mg_thumbnail
 .compile lib/introspection/mg_variable_declaration
+.compile lib/introspection/mg_onlinehelp_lookup
 
 .compile lib/net/mg_responsecode_message
 

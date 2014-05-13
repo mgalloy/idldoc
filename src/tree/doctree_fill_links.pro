@@ -29,8 +29,16 @@ pro doctree_fill_links, comments, tree
       reference = tree->lookupName(name)
 
       relative_root = tree->getVariable('relative_root')
-      comments->addAttribute, 'reference', $
-                              reference eq '' ? '' : (relative_root + reference)
+
+      ; if not found in tree, check for IDL library routines
+      if (reference eq '') then begin
+        reference_url = mg_onlinehelp_lookup(name)
+      endif else begin
+        reference_url = relative_root + reference
+      endelse
+
+      ; fix up reference
+      comments->addAttribute, 'reference', reference_url
 
       comments->removeChild, 0L
 

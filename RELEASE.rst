@@ -20,6 +20,8 @@ IDLdoc 3.6.0
 
 * Miscellaneous bug fixes.
 
+* Provides links to IDL library routines referenced in rst markup code syntax.
+
 
 IDLdoc 3.5.1
 ------------
