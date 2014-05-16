@@ -308,9 +308,10 @@ pro docparrstmarkupparser::_handleLevel, lines, start, indent, tree=tree, file=f
                            length=directiveLen)
     
     ;check to see we have the beginning of a HTML tag if there isn't another directive
-    IF directivePos EQ -1 THEN $ 
+    if (directivePos eq -1L) then begin
       directivePos = stregex(cleanline, '\.\. [[:alpha:]]+:: <.+', $
-        length=directiveLen)    
+                             length=directiveLen)
+    endif
 
     if ((~code || (currentIndent gt -1 && currentIndent le indent)) $
           && directivePos ne -1L) then begin
