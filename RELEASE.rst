@@ -22,6 +22,8 @@ IDLdoc 3.6.0
 
 * Provides links to IDL library routines referenced in rst markup code syntax.
 
+* HTML rst markup directive to include HTML directly into output (contributed by Phillip Bitzer).
+
 
 IDLdoc 3.5.1
 ------------

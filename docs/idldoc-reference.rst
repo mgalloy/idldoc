@@ -678,11 +678,16 @@ The *rst* markup style is the default markup style for the *rst* format style.
 
                    .. embed:: filename
 
+  HTML include   HTML can be included directly in the output via the HTML
+                 directive::
+
+                   .. html:: <a ref="http://example.com">example</a>
+
   page title     The "title" directive is available to provide a title for 
                  `.idldoc` files::
 
                    .. title:: cpt-city color tables
-    
+
                  This title is used for the `.idldoc` file in the table of 
                  contents of available documentation.
   ============== ===========================================================
