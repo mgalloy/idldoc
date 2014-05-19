@@ -1,6 +1,7 @@
 Source code, HTML templates, and CSS style sheets for IDLdoc 3.0 were written
 by Michael Galloy. Much fixing of typos, bug reporting, and good suggestions
-from Françoise Pinsard, Joe Hood, Jim Pendleton, and Mark Piper.
+from Françoise Pinsard, Joe Hood, Jim Pendleton, and Mark Piper. Phillip Bitzer
+contributed the HTML directive.
 
 See the LICENSE file in the resources/mathjax directory for the MathJax
 license.
