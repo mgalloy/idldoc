@@ -1,7 +1,7 @@
-VERSION=3.6.0alpha
-REVISION=-r`svn info | sed -n 's/Revision: \(.*\)/\1/p'`
+VERSION=3.6.0-beta
+REVISION=-`git log -1 --pretty=format:%h`
 IDL=idl64
-DOC_IDL=idl82
+DOC_IDL=idl83
 TAG=IDLDOC_`echo $(VERSION) | sed -e"s/\./_/g"`
 
 
@@ -38,19 +38,6 @@ version:
 	sed "s/version = '.*'/version = '$(VERSION)'/" < src/idldoc_version.pro | sed "s/revision = '.*'/revision = '$(REVISION)'/" > idldoc_version.pro
 	mv idldoc_version.pro src/
 
-srcdist:
-	make version
-
-	rm -rf idldoc-$(VERSION)-src/
-	svn export . idldoc-$(VERSION)-src/
-
-	cd docs; make
-	cp docs/idldoc-reference.pdf idldoc-$(VERSION)-src/docs/
-	cp docs/idldoc-tutorial.pdf idldoc-$(VERSION)-src/docs/
-
-	zip -r idldoc-$(VERSION)-src.zip idldoc-$(VERSION)-src/*
-	rm -rf idldoc-$(VERSION)-src
-
 dist:
 	make version
 
@@ -60,19 +47,20 @@ dist:
 	$(IDL) -IDL_STARTUP "" < idldoc_build.pro
 	mv idldoc.sav idldoc-$(VERSION)/
 
-	cp COPYING idldoc-$(VERSION)/
-	cp CREDITS idldoc-$(VERSION)/
-	cp ISSUES idldoc-$(VERSION)/
-	cp RELEASE idldoc-$(VERSION)/
-	cp INSTALL idldoc-$(VERSION)/
+	cp COPYING.rst idldoc-$(VERSION)/
+	cp CREDITS.rst idldoc-$(VERSION)/
+	cp ISSUES.rst idldoc-$(VERSION)/
+	cp RELEASE.rst idldoc-$(VERSION)/
+	cp INSTALL.rst idldoc-$(VERSION)/
+	cp README.rst idldoc-$(VERSION)/
 
 	cd docs; make
 	mkdir idldoc-$(VERSION)/docs
 	cp docs/idldoc-reference.pdf idldoc-$(VERSION)/docs/
 	cp docs/idldoc-tutorial.pdf idldoc-$(VERSION)/docs/
 
-	svn export src/templates idldoc-$(VERSION)/templates/
-	svn export src/resources idldoc-$(VERSION)/resources/
+	cp -r src/templates idldoc-$(VERSION)/templates/
+	cp -r src/resources idldoc-$(VERSION)/resources/
 
 	zip -r idldoc-$(VERSION).zip idldoc-$(VERSION)/*
 	rm -rf idldoc-$(VERSION)
@@ -105,10 +93,10 @@ updates:
 	cp idldoc.sav updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
 	rm idldoc.sav
 
-	svn export docs updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/docs/
+	cp -r docs updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/docs/
 
-	svn export src/templates updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/templates/
-	svn export src/resources updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/resources/
+	cp -r src/templates updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/templates/
+	cp -r src/resources updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/resources/
 
 	jar cvfm updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION).jar updates.idldev.com/plugins/manifest -C updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION) .
 	rm -rf updates.idldev.com/plugins/com.idldev.idl.idldoc_$(VERSION)/
