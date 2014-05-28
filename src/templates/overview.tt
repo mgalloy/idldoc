@@ -43,14 +43,13 @@
 
     <div class="content">
 
-
       [% IF has_overview_comments %]
       <h2>Overview</h2>
-      [% overview_comments %]
+[% overview_comments %]
       [% END %]
 
-    	[% IF ~just_files %]
-    	<h2 id="directories">Directories</h2>
+      [% IF ~just_files %]
+      <h2 id="directories">Directories</h2>
 
       <table class="attribute box small" summary="Directories">
         [% IF n_visible_dirs gt 0 %]
