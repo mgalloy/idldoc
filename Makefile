@@ -1,4 +1,4 @@
-VERSION=3.6.0-beta
+VERSION=3.6.0
 REVISION=-`git log -1 --pretty=format:%h`
 IDL=idl64
 DOC_IDL=idl83
@@ -41,7 +41,7 @@ version:
 dist:
 	make version
 
-	rm -rf idldoc-$(VERSION)	
+	rm -rf idldoc-$(VERSION)
 	mkdir idldoc-$(VERSION)
 
 	$(IDL) -IDL_STARTUP "" < idldoc_build.pro
