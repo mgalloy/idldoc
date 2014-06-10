@@ -3,6 +3,7 @@ REVISION=-`git log -1 --pretty=format:%h`
 IDL=idl64
 DOC_IDL=idl83
 TAG=IDLDOC_`echo $(VERSION) | sed -e"s/\./_/g"`
+BRANCH=v$(VERSION)
 
 
 .PHONY: all clean doc book regression tests version srcdist dist updates tag branch
@@ -66,10 +67,10 @@ dist:
 	rm -rf idldoc-$(VERSION)
 
 tag:
-	@make_tag.sh $(TAG) tags
+	@make_tag.sh $(TAG)
 
 branch:
-	@make_tag.sh $(TAG) branches
+	@make_branch.sh $(BRANCH)
 
 updates:
 	rm -rf updates.idldev.com
