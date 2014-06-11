@@ -1,4 +1,4 @@
-VERSION=3.6.0
+VERSION=3.6.1
 REVISION=-`git log -1 --pretty=format:%h`
 IDL=idl64
 DOC_IDL=idl83

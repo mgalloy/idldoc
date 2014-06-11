@@ -1,44 +1,44 @@
-.compile lib/analysis/mg_linear_function
+.compile lib/src/analysis/mg_linear_function
 
-.compile lib/cmdline_tools/mg_ansicode
+.compile lib/src/cmdline_tools/mg_ansicode
 
-.compile lib/collection/mgcoabstractlist__define
-.compile lib/collection/mgcoarraylist__define
-.compile lib/collection/mgcoabstractiterator__define
-.compile lib/collection/mgcoarraylistiterator__define
-.compile lib/collection/mgcohashtable__define
+.compile lib/src/collection/mgcoabstractlist__define
+.compile lib/src/collection/mgcoarraylist__define
+.compile lib/src/collection/mgcoabstractiterator__define
+.compile lib/src/collection/mgcoarraylistiterator__define
+.compile lib/src/collection/mgcohashtable__define
 
-.compile lib/dist_tools/mg_cmp_version
-.compile lib/dist_tools/mg_src_root
+.compile lib/src/dist_tools/mg_cmp_version
+.compile lib/src/dist_tools/mg_src_root
 
-.compile lib/introspection/mg_thumbnail
-.compile lib/introspection/mg_variable_declaration
-.compile lib/introspection/mg_onlinehelp_lookup
+.compile lib/src/introspection/mg_thumbnail
+.compile lib/src/introspection/mg_variable_declaration
+.compile lib/src/introspection/mg_onlinehelp_lookup
 
-.compile lib/net/mg_responsecode_message
+.compile lib/src/net/mg_responsecode_message
 
-.compile lib/objects/idl_object__define
-.compile lib/objects/mg_n_elements
+.compile lib/src/objects/idl_object__define
+.compile lib/src/objects/mg_n_elements
 
-.compile lib/strings/mg_streplace
-.compile lib/strings/mg_strunmerge
+.compile lib/src/strings/mg_streplace
+.compile lib/src/strings/mg_strunmerge
 
-.compile lib/templating/mgfftemplate__define
-.compile lib/templating/mgfftokenizer__define
+.compile lib/src/templating/mgfftemplate__define
+.compile lib/src/templating/mgfftokenizer__define
 
-.compile lib/textmarkup/mg_escape_latex
-.compile lib/textmarkup/mg_tm_firstline
-.compile lib/textmarkup/mgtmhtml__define
-.compile lib/textmarkup/mgtmlanguage__define
-.compile lib/textmarkup/mgtmlatex__define
-.compile lib/textmarkup/mgtmdocbook__define
-.compile lib/textmarkup/mgtmnode__define
-.compile lib/textmarkup/mgtmplain__define
-.compile lib/textmarkup/mgtmrst__define
-.compile lib/textmarkup/mgtmtag__define
-.compile lib/textmarkup/mgtmtext__define
+.compile lib/src/textmarkup/mg_escape_latex
+.compile lib/src/textmarkup/mg_tm_firstline
+.compile lib/src/textmarkup/mgtmhtml__define
+.compile lib/src/textmarkup/mgtmlanguage__define
+.compile lib/src/textmarkup/mgtmlatex__define
+.compile lib/src/textmarkup/mgtmdocbook__define
+.compile lib/src/textmarkup/mgtmnode__define
+.compile lib/src/textmarkup/mgtmplain__define
+.compile lib/src/textmarkup/mgtmrst__define
+.compile lib/src/textmarkup/mgtmtag__define
+.compile lib/src/textmarkup/mgtmtext__define
 
-.compile lib/updater/mg_updater
+.compile lib/src/updater/mg_updater
 
 .compile src/idldoc
 .compile src/doc_system__define
