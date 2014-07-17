@@ -1,6 +1,11 @@
-For ``.sav`` file installation, simply place the ``idldoc.sav`` file in the
-``!path`` in one of the various manners (see IDL's online help for details on
-how to do this).
+From an official release
+------------------------
+
+Modify your ``!path`` to make sure the ``idldoc.sav`` file is found. There are various manners to make this change, i.e., changing the `IDL_PATH` environment variable, changing the `IDL_PATH` preference, through the preferences in the IDL Workbench, etc.
+
+
+From the GitHub repo
+--------------------
 
 Getting IDLdoc from the the GitHub repository is only slightly harder:
 
@@ -8,5 +13,6 @@ Getting IDLdoc from the the GitHub repository is only slightly harder:
 
        $ git clone --recursive git@github.com:mgalloy/idldoc.git
 
-  1. Put the ``src`` and ``lib`` directories and their subdirectories into your
+  2. Put the ``src`` and ``lib`` directories and their subdirectories into your
      IDL ``!path`` in your favorite manner.
+
