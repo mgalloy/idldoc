@@ -13,12 +13,12 @@ Installing from GitHub
 
 It is easy to install IDLdoc directly from the GitHub repo:
 
-  1. Get the git repo and its submodules with::
+1. Get the git repo and its submodules with::
 
-       $ git clone --recursive git@github.com:mgalloy/idldoc.git
+     $ git clone --recursive git@github.com:mgalloy/idldoc.git
 
-  2. Put the ``src`` and ``lib`` directories and their subdirectories into your
-     IDL ``!path`` in your favorite manner.
+2. Put the ``src`` and ``lib`` directories and their subdirectories into your
+   IDL ``!path`` in your favorite manner.
 
 
 References

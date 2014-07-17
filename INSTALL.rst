@@ -9,10 +9,10 @@ From the GitHub repo
 
 Getting IDLdoc from the the GitHub repository is only slightly harder:
 
-  1. Get the git repo and its submodules with::
+1. Get the git repo and its submodules with::
 
-       $ git clone --recursive git@github.com:mgalloy/idldoc.git
+     $ git clone --recursive git@github.com:mgalloy/idldoc.git
 
-  2. Put the ``src`` and ``lib`` directories and their subdirectories into your
-     IDL ``!path`` in your favorite manner.
+2. Put the ``src`` and ``lib`` directories and their subdirectories into your
+   IDL ``!path`` in your favorite manner.
 
