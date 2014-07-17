@@ -1,7 +1,13 @@
 From an official release
 ------------------------
 
-Modify your ``!path`` to make sure the ``idldoc.sav`` file is found. There are various manners to make this change, i.e., changing the `IDL_PATH` environment variable, changing the `IDL_PATH` preference, through the preferences in the IDL Workbench, etc.
+The easiest way to get IDLdoc is to use an official release:
+
+1. Download the release from the Releases_ page of the wiki.
+
+.. _Releases:https://github.com/mgalloy/idldoc/wiki/Releases
+
+2. Modify your ``!path`` to make sure the ``idldoc.sav`` file is found. There are various techniques to make this change, i.e., changing the `IDL_PATH` environment variable, changing the `IDL_PATH` preference, through the preferences in the IDL Workbench, etc.
 
 
 From the GitHub repo
