@@ -2,13 +2,13 @@
 
 \begin{description}
   \item[SAV file attributes]\hspace*{1em} \newline
-	  \begin{tabular}{lr}
-	    Description & [% mg_escape_latex(description) %] \\
-	    SAV file type & [% filetype %] \\
-	    Creator & [% mg_escape_latex(user) %]@[% mg_escape_latex(host) %] on [% os %]/[% mg_escape_latex(arch) %] \\
-	    Creation date & [% creation_date %] \\
-	    IDL version & [% release %]	\\
-	  \end{tabular}
+    \begin{tabular}{lr}
+      Description & [% mg_escape_latex(description) %] \\
+      SAV file type & [% filetype %] \\
+      Creator & [% mg_escape_latex(user) %]@[% mg_escape_latex(host) %] on [% os %]/[% mg_escape_latex(arch) %] \\
+      Creation date & [% creation_date %] \\
+      IDL version & [% release %]	\\
+    \end{tabular}
 
   \item[Contents]\hspace*{1em} \newline
     \begin{tabular}{lr}

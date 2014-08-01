@@ -4,13 +4,6 @@
 \author{[% subtitle %]}
 \date{[% date %]}
 
-\usepackage{helvet}
-\usepackage{listings}
-\lstset{breaklines=true,basicstyle=\ttfamily}
-
-\usepackage[pdftex]{graphicx}
-\setkeys{Gin}{keepaspectratio}
-
 \raggedbottom
 
 
