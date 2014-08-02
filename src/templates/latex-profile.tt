@@ -130,7 +130,7 @@
 [% END %]
 
 [% IF has_requires %]
-item[Requires]\hspace*{0em} \newline [% requires %]
+\item[Requires]\hspace*{0em} \newline [% requires %]
 [% END %]
 
 [% IF has_restrictions %]
