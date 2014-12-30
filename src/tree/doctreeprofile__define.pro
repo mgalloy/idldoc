@@ -653,7 +653,7 @@ pro doctreeprofile::generateOutput, outputRoot, directory
       _outputDir = file_dirname(_outputDir + filename, /mark_directory)
       if (~file_test(_outputDir, /directory)) then file_mkdir, _outputDir
 
-      file_copy, path + filename, _outputDir + filename, /allow_same, /overwrite
+      file_copy, path + filename, _outputDir + file_basename(filename), /allow_same, /overwrite
     endif else begin
       self.system->warning, 'image at ' + path + filename + ' not found'
     endelse

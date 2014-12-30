@@ -1,8 +1,23 @@
 Release notes
 =============
 
+IDLdoc 3.6.2
+------------
+
+* Bug fix for image directive for image files in other directories specified
+  with a relative path (fix by Dave Gellman).
+
+
+IDLdoc 3.6.1
+------------
+*Released June 11, 2014*
+
+* Fix for some missing routines in the .sav file distribution.
+
+
 IDLdoc 3.6.0
 ------------
+*Released June 10, 2014*
 
 * Checks for updates when using the VERSION keyword.
 
