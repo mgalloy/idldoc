@@ -54,6 +54,15 @@ function doctreesavfile::getVariable, name, found=found
     'modification_time': return, self.modificationTime
 
     'size': return, self.size
+    'n_var': return, self.variables->count()
+    'n_sysvar': return, self.systemVariables->count()
+    'n_procedure': return, self.procedures->count()
+    'n_function': return, self.functions->count()
+    'n_object_heapvar': return, self.pointers->count()
+    'n_pointer_heapvar': return, self.objects->count()
+    'n_structdef': return, self.structureDefinitions->count()
+    'n_common': return, self.commonBlocks->count()
+
     'filename':
     'description':
     'filetype':
@@ -61,15 +70,7 @@ function doctreesavfile::getVariable, name, found=found
     'host':
     'arch':
     'os':
-    'release':
-    'n_common':
-    'n_var':
-    'n_sysvar':
-    'n_procedure':
-    'n_function':
-    'n_object_heapvar':
-    'n_pointer_heapvar':
-    'n_structdef': begin
+    'release': begin
         savFile = obj_new('IDL_Savefile', self.savFilename)
         contents = savFile->contents()
         obj_destroy, savFile
@@ -157,14 +158,27 @@ end
 ;       set to indicate itemname represents a pointer
 ;    object_heapvar : in, optional, type=boolean
 ;       set to indicate itemname represents an object
+;    found : out, optional, type=boolean
+;      set to a named variable to return whether the item was successfully
+;      restored
 ;-
 function doctreesavfile::loadItem, itemName, $
                                    system_variable=systemVariable, $
                                    structure_definition=structureDefinition, $
                                    pointer_heapvar=pointerHeapvar, $
-                                   object_heapvar=objectHeapvar
+                                   object_heapvar=objectHeapvar, $
+                                   found=found
   compile_opt strictarr, hidden
 
+  catch, error
+  if (error ne 0L) then begin
+    catch, /cancel
+    self.system->warning, 'Problem restoring ' + strtrim(itemName, 2) + ' in ' + self.basename
+    found = 0B
+    return, !null
+  endif
+
+  found = 1B
   switch 1 of
     keyword_set(systemVariable): begin
         result = execute('temp = ' + itemName, 1, 1)
@@ -181,7 +195,7 @@ function doctreesavfile::loadItem, itemName, $
 
     keyword_set(structureDefinition): begin
         savFile = obj_new('IDL_Savefile', self.savFilename)
-        savFile->restore, itemName, /structure_definition
+        self->_restore_structure_definition, itemName
         obj_destroy, savFile
 
         return, create_struct(name=itemName)
@@ -191,8 +205,8 @@ function doctreesavfile::loadItem, itemName, $
     keyword_set(objectHeapvar): begin
         savFile = obj_new('IDL_Savefile', self.savFilename)
         savFile->restore, itemName, new_heapvar=var, $
-                               pointer_heapvar=pointerHeapvar, $
-                               object_heapvar=objectHeapvar
+                          pointer_heapvar=pointerHeapvar, $
+                          object_heapvar=objectHeapvar
         obj_destroy, savFile
 
         return, var
@@ -200,6 +214,7 @@ function doctreesavfile::loadItem, itemName, $
 
     else: begin
         savFile = obj_new('IDL_Savefile', self.savFilename)
+
         savFile->restore, itemName
         obj_destroy, savFile
 
@@ -213,7 +228,9 @@ end
 ; Read contents of the .sav file.
 ;-
 pro doctreesavfile::loadSavContents
-  compile_opt strictarr, hidden
+  compile_opt strictarr, hidden, logical_predicate
+
+  abandon = 0B
 
   savFile = obj_new('IDL_Savefile', self.savFilename)
 
@@ -225,18 +242,28 @@ pro doctreesavfile::loadSavContents
 
   varNames = savFile->names(count=nVars)
   for i = 0L, nVars - 1L do begin
-    data = self->loadItem(varNames[i])
+    data = self->loadItem(varNames[i], found=found)
 
-    var = obj_new('DOCtreeSavVar', varNames[i], data, self, system=self.system)
-    self.variables->add, var
+    if (found && ~abandon) then begin
+      var = obj_new('DOCtreeSavVar', varNames[i], data, self, $
+                    system=self.system)
+      self.variables->add, var
+    endif else abandon = 1B
   endfor
 
   systemVariableNames = savFile->names(count=nSystemVariables, /system_variable)
   for i = 0L, nSystemVariables - 1L do begin
-    data = self->loadItem(systemVariableNames[i], /system_variable)
+    data = self->loadItem(systemVariableNames[i], /system_variable, found=found)
 
-    var = obj_new('DOCtreeSavVar', systemVariableNames[i], data, self, system=self.system)
-    self.systemVariables->add, var
+    if (found && ~abandon) then begin
+      var = obj_new('DOCtreeSavVar', $
+                    systemVariableNames[i], data, self, $
+                    system=self.system)
+      self.systemVariables->add, var
+    endif else begin
+      abandon = 1B
+      break
+    endelse
   endfor
 
   commonBlockNames = savFile->names(count=nCommonBlocks, /common_block)
@@ -250,32 +277,47 @@ pro doctreesavfile::loadSavContents
 
   structureNames = savFile->names(count=nStructureDefinitions, /structure_definition)
   for i = 0L, nStructureDefinitions - 1L do begin
-    data = self->loadItem(structureNames[i], /structure_definition)
+    data = self->loadItem(structureNames[i], /structure_definition, found=found)
 
-    var = obj_new('DOCtreeSavVar', $
-                  structureNames[i], $
-                  data, self, system=self.system)
-    self.structureDefinitions->add, var
+    if (found && ~abandon) then begin
+      var = obj_new('DOCtreeSavVar', $
+                    structureNames[i], $
+                    data, self, system=self.system)
+      self.structureDefinitions->add, var
+    endif else begin
+      abandon = 1B
+      break
+    endelse
   endfor
 
   pointerNames = savFile->names(count=nPointers, /pointer_heapvar)
   for i = 0L, nPointers - 1L do begin
-    data = self->loadItem(pointerNames[i], /pointer_heapvar)
+    data = self->loadItem(pointerNames[i], /pointer_heapvar, found=found)
 
-    var = obj_new('DOCtreeSavVar', $
-                  'PtrHeapVar' + strtrim(pointerNames[i], 2), $
-                  data, self, system=self.system)
-    self.pointers->add, var
+    if (found && ~abandon) then begin
+      var = obj_new('DOCtreeSavVar', $
+                    'PtrHeapVar' + strtrim(pointerNames[i], 2), $
+                    data, self, system=self.system)
+      self.pointers->add, var
+    endif else begin
+      abandon = 1B
+      break
+    endelse
   endfor
 
   objectNames = savFile->names(count=nObjects, /object_heapvar)
   for i = 0L, nObjects - 1L do begin
-    data = self->loadItem(objectNames[i], /object_heapvar)
+    data = self->loadItem(objectNames[i], /object_heapvar, found=found)
 
-    var = obj_new('DOCtreeSavVar', $
-                  'ObjHeapVar' + strtrim(objectNames[i], 2), $
-                  data, self, system=self.system)
-    self.objects->add, var
+    if (found && ~abandon) then begin
+      var = obj_new('DOCtreeSavVar', $
+                    'ObjHeapVar' + strtrim(objectNames[i], 2), $
+                    data, self, system=self.system)
+      self.objects->add, var
+    endif else begin
+      abandon = 1B
+      break
+    endelse
   endfor
 
   obj_destroy, savFile
