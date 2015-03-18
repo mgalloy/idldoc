@@ -1485,9 +1485,11 @@ pro doc_system::copyResources
     ; make subdirectories before copying
     dirs = file_dirname(mathjaxDestination)
     dirs = dirs[uniq(dirs, sort(dirs))]
-    file_mkdir, dirs
 
-    file_copy, mathjaxFiles, mathjaxDestination, /overwrite
+    if (file_test(dirs[0], /directory)) then begin
+      file_mkdir, dirs
+      file_copy, mathjaxFiles, mathjaxDestination, /overwrite
+    endif
   endif
 
   ; move the LaTeX files up a directory if needed

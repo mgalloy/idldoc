@@ -7,6 +7,8 @@ IDLdoc 3.6.2
 * Bug fix for image directive for image files in other directories specified
   with a relative path (fix by Dave Gellman).
 
+* Only copying MathJax for LaTeX-style equations if not already present.
+
 
 IDLdoc 3.6.1
 ------------
