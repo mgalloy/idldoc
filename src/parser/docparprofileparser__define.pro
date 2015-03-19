@@ -190,12 +190,32 @@ function docparprofileparser::_checkDocformatLine, line, $
     0: return, 0B
     1: begin
         format = strlowcase(tokens[0])
+        formatparser = self.system->getParser(format + 'format', found=found)
+        if (~found) then begin
+          self.system->warning, 'invalid format parser ' + format
+          format = ''
+          return, 0B
+        endif
         markup = format eq 'rst' ? 'rst' : 'verbatim'
         return, 1B
       end
     else: begin
         format = strlowcase(tokens[0])
+        formatparser = self.system->getParser(format + 'format', found=found)
+        if (~found) then begin
+          self.system->warning, 'invalid format parser ' + format
+          format = ''
+          return, 0B
+        endif
+
         markup = strlowcase(tokens[1])
+        markupparser = self.system->getParser(format + 'markup', found=found)
+        if (~found) then begin
+          self.system->warning, 'invalid markup parser ' + markup
+          markup = ''
+          return, 0B
+        endif
+
         return, 1B
       end
   endcase
@@ -520,6 +540,7 @@ function docparprofileparser::parse, filename, found=found, directory=directory
   foundFormat = self->_checkDocformatLine(lines[0], $
                                           format=format, $
                                           markup=markup)
+
   if (~foundFormat) then begin
     self.system->getProperty, format=format
     self.system->getProperty, markup=markup

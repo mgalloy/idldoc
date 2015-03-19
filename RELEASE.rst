@@ -9,6 +9,9 @@ IDLdoc 3.6.2
 
 * Only copying MathJax for LaTeX-style equations if not already present.
 
+* Fixed crash when invalid format/markup was specified on the docformat line of
+  a .pro file.
+
 
 IDLdoc 3.6.1
 ------------
