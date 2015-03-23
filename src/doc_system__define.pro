@@ -1486,7 +1486,7 @@ pro doc_system::copyResources
     dirs = file_dirname(mathjaxDestination)
     dirs = dirs[uniq(dirs, sort(dirs))]
 
-    if (file_test(dirs[0], /directory)) then begin
+    if (~file_test(dirs[0], /directory)) then begin
       file_mkdir, dirs
       file_copy, mathjaxFiles, mathjaxDestination, /overwrite
     endif
