@@ -362,7 +362,7 @@ end
 ;    isFirst
 ;       indicates that this argument is the first of its parent routine
 ;    isLast
-;       indicates that this argument is the first of its parent routine
+;       indicates that this argument is the last of its parent routine
 ;    isKeyword
 ;       indicates that this argument is a keyword
 ;    isOptional
