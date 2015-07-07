@@ -182,7 +182,7 @@ pro docparrstformatparser::_handleFileTag, tag, lines, $
         file->setProperty, todo=markupParser->parse(self->_parseTag(lines), file=file)
         self.system->createTodoEntry, file
       end
-    'uses': file->setProperty, uses=markupParser->parse(self->_parseTag(lines), file=file)
+    'uses': file->setProperty, uses=markupParser->parse(strjoin(self->_parseTag(lines)), file=file)
 
     'fields': begin
         file->getProperty, basename=basename
@@ -383,7 +383,7 @@ pro docparrstformatparser::_handleRoutineTag, tag, lines, routine=routine, $
         routine->setProperty, todo=markupParser->parse(self->_parseTag(lines), file=file)
         self.system->createTodoEntry, routine
       end
-    'uses': routine->setProperty, uses=markupParser->parse(self->_parseTag(lines), file=file)
+    'uses': routine->setProperty, uses=markupParser->parse(strjoin(self->_parseTag(lines)), file=file)
     'version': routine->setProperty, version=markupParser->parse(self->_parseTag(lines), file=file)
     else: begin
         routine->getProperty, name=name
