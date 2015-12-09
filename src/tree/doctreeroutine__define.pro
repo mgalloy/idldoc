@@ -72,7 +72,7 @@ pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
                                  accepts_max_params=acceptsMaxParams, $
                                  keywords=keywords, classname=classname, $
                                  undocumented=undocumented, $
-                                 partially_documented=partiallyDocumented
+                                 partially_documented=partiallyDocumented, uses=uses
 
   compile_opt strictarr, hidden
 
@@ -97,6 +97,7 @@ pro doctreeroutine::getProperty, file=file, name=name, is_function=isFunction, $
   if (arg_present(partiallyDocumented)) then begin
     partiallyDocumented = self.partiallyDocumented
   endif
+  if (arg_present(uses)) then uses = self.uses
 end
 
 

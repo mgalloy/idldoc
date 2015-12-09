@@ -976,18 +976,49 @@ end
 ;    root : in, required, type=string
 ;       relative location of root from the calling routine or file
 ;-
-function doc_system::processUses, tree, root=root
+function doc_system::processUses, tree, root=root, comment_style=comment_style
   compile_opt strictarr, hidden
 
   if (~obj_valid(tree)) then return, ''
 
   self->_processUsesText, tree, root=root
 
+  _comment_style = n_elements(comment_style) gt 0L ? comment_style : self.commentStyle
+
   ; create output using current comment style
-  commentParser = self->getParser(self.commentStyle + 'output')
+  commentParser = self->getParser(_comment_style + 'output')
   comments = commentParser->process(tree)
 
   return, comments
+end
+
+
+;+
+; Write a `.dot` file representing the call graph of the documented code base.
+;-
+pro doc_system::create_callgraph
+  compile_opt strictarr
+
+  filename = filepath('callgraph.dot', root=self.output)
+  openw, lun, filename, /get_lun
+  printf, lun, 'digraph callgraph {'
+
+  routine_names = self.visibleRoutines->keys(count=n_routines)
+  for r = 0L, n_routines - 1L do begin
+    printf, lun, routine_names[r], format='(%"  %s[shape=plaintext]")'
+    routine = self.visibleRoutines->get(routine_names[r])
+    routine->getProperty, uses=uses
+    _uses = strjoin(self->processUses(uses, $
+                                      root='.', $
+                                      comment_style='plain'), $
+                    ' ')
+    _uses = strtrim(strsplit(_uses, ',', count=n_uses, /extract), 2)
+    for d = 0L, n_uses - 1L do begin
+      printf, lun, routine_names[r], _uses[d], format='(%"  %s -> %s")'
+    endfor
+  endfor
+  printf, lun, '}'
+  free_lun, lun
 end
 
 
@@ -1182,6 +1213,8 @@ pro doc_system::generateOutput
     indexTemplate->reset
     indexTemplate->process, self, filepath('index.' + self.outputExtension, root=self.output)
   endif
+
+  self->create_callgraph
 
   self->print, strtrim(self.nWarnings, 2) + ' warnings generated'
 end
