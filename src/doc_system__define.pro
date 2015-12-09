@@ -1002,10 +1002,13 @@ pro doc_system::create_callgraph
   filename = filepath('callgraph.dot', root=self.output)
   openw, lun, filename, /get_lun
   printf, lun, 'digraph callgraph {'
+  printf, lun, '  page="8.5,11"'
+  printf, lun, '  node[fontsize=8,color=gray,fontcolor=grey]'
+  printf, lun, '  edge[color=gray]'
 
   routine_names = self.visibleRoutines->keys(count=n_routines)
   for r = 0L, n_routines - 1L do begin
-    printf, lun, routine_names[r], format='(%"  %s[shape=plaintext]")'
+    printf, lun, routine_names[r], format='(%"  %s[fontcolor=black,shape=plaintext]")'
     routine = self.visibleRoutines->get(routine_names[r])
     routine->getProperty, uses=uses
     _uses = strjoin(self->processUses(uses, $
