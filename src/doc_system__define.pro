@@ -1883,10 +1883,6 @@ function doc_system::init, root=root, output=output, $
     self.flat = 1B
   endif
 
-  ; load templates
-  self.templates = obj_new('MGcoHashTable', key_type=7, value_type=11)
-  self->loadTemplates
-
   ; load parsers
   self.parsers = obj_new('MGcoHashTable', key_type=7, value_type=11)
   self->loadParsers
@@ -1904,12 +1900,31 @@ function doc_system::init, root=root, output=output, $
   end
 
   case self.commentStyle of
-    'html': self.outputExtension = 'html'
-    'latex': self.outputExtension = 'tex'
-    'rst': self.outputExtension = 'rst'
-    'plain': self.outputExtension = 'txt'
-    'docbook': self.outputExtension = 'xml'
+    'html': begin
+        self.outputExtension = 'html'
+        ; default template prefix is for HTML
+      end
+    'latex': begin
+        self.outputExtension = 'tex'
+        if (self.templatePrefix eq '') then self.templatePrefix = 'latex-'
+      end
+    'rst': begin
+        self.outputExtension = 'rst'
+        ; TODO: need rst templates
+      end
+    'plain': begin
+        self.outputExtension = 'txt'
+        ; TODO: need plain templates
+      end
+    'docbook': begin
+        self.outputExtension = 'xml'
+        if (self.templatePrefix eq '') then self.templatePrefix = 'docbook-'
+      end
   endcase
+
+  ; load templates
+  self.templates = obj_new('MGcoHashTable', key_type=7, value_type=11)
+  self->loadTemplates
 
   ; copy resources
   if (~self.doc_center) then begin
