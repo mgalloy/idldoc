@@ -25,8 +25,8 @@ There are quite a few keywords to IDLdoc to set various specifications for the o
                          detect whether it is running from a terminal capable
                          of displaying color text, but this keyword can force
                          IDLdoc to attempt color display
-  `COMMENT_STYLE`        output format for comments ("html", "rst", or
-                         "latex"); default is "html"
+  `COMMENT_STYLE`        output format for comments ("plain", "html", "rst",
+                         "latex", or "docbook"); default is "html"
   `COMPLEXITY_CUTOFFS`   McCabe complexity to exceed for a warning or flagged;
                          default is `[10, 20]`
   `DEBUG`                set to allow crashes with a stack trace instead of
