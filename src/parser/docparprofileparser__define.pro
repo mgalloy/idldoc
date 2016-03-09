@@ -280,14 +280,14 @@ end
 ; Parse arguments/keywords of the routine header.
 ;
 ; :Params:
-;    routine : in, required, type=object
-;       routine tree object
-;    cmd : in, required, type=string
-;       header line (comments stripped already)
+;   routine : in, required, type=object
+;     routine tree object
+;   cmd : in, required, type=string
+;     header line (comments stripped already)
 ;
 ; :Keywords:
-;    first_line : in, optional, type=boolean
-;       set if this is the first line of the routine header
+;   first_line : in, optional, type=boolean
+;     set if this is the first line of the routine header
 ;-
 pro docparprofileparser::_parseHeader, routine, cmd, first_line=firstLine
   compile_opt strictarr, hidden
