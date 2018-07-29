@@ -3,6 +3,7 @@ Release notes
 
 IDLdoc 3.6.2
 ------------
+*Released July 28, 2018*
 
 * Bug fix for image directive for image files in other directories specified
   with a relative path (fix by Dave Gellman).

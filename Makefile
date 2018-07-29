@@ -1,6 +1,7 @@
 VERSION=3.6.2
 REVISION=-`git log -1 --pretty=format:%h`
-IDL=idl64
+DATE=`date +"%a %b %d %H:%M:%S %Y"`
+IDL=idl
 DOC_IDL=idl83
 TAG=IDLDOC_`echo $(VERSION) | sed -e"s/\./_/g"`
 BRANCH=v$(VERSION)
@@ -39,14 +40,20 @@ version:
 	sed "s/version = '.*'/version = '$(VERSION)'/" < src/idldoc_version.pro | sed "s/revision = '.*'/revision = '$(REVISION)'/" > idldoc_version.pro
 	mv idldoc_version.pro src/
 
+ipm:
+	sed -e "s/VERSION/$(VERSION)/" -e "s/BUILD_DATE/$(DATE)/" < idlpackage.json.in > idlpackage.json
+
 dist:
 	make version
+	make ipm
 
 	rm -rf idldoc-$(VERSION)
 	mkdir idldoc-$(VERSION)
 
 	$(IDL) -IDL_STARTUP "" < idldoc_build.pro
 	mv idldoc.sav idldoc-$(VERSION)/
+
+	mv idlpackage.json idldoc-$(VERSION)/
 
 	cp COPYING.rst idldoc-$(VERSION)/
 	cp CREDITS.rst idldoc-$(VERSION)/
@@ -64,7 +71,12 @@ dist:
 	cp -r src/resources idldoc-$(VERSION)/resources/
 
 	zip -r idldoc-$(VERSION).zip idldoc-$(VERSION)/*
-	rm -rf idldoc-$(VERSION)
+
+	mv idldoc-$(VERSION) idldoc
+	$(IDL) -e "ipm, /create, 'idldoc'"
+	scp idldoc.zip idldev.com:~/packages.idldev.com/
+
+	rm -rf idldoc
 
 tag:
 	@make_tag.sh $(TAG)

@@ -1,0 +1,12 @@
+{
+  "Name": "idldoc",
+  "Version": "VERSION",
+  "Author": "Michael Galloy",
+  "Date": "BUILD_DATE",
+  "Dependencies": [
+    {
+      "Name": "IDL",
+      "Version": ">6.2"
+    }   
+  ]
+}
