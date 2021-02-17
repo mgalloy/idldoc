@@ -237,6 +237,14 @@ function writeResultsPage() {
 }
 
 
+function sanitizeSearchString() {
+  searchString = searchString.replace(/\W/g, ' ')
+  searchString = searchString.replace(/\s+/g, ' ')
+  searchString = searchString.replace(/^\s/g, '');
+  searchString = searchString.replace(/\s$/g, '');
+}
+
+
 /*
    Event handlers for forms on search page.
 */
@@ -244,6 +252,9 @@ function writeResultsPage() {
 
 function basicsearch() {
   searchString = document.basicForm.basicText.value;
+
+  sanitizeSearchString();
+
   searchTerms = searchString.split(/\s/);
 
   putHeader();
