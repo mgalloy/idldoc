@@ -1,4 +1,4 @@
-VERSION=3.6.2
+VERSION=3.6.3
 REVISION=-`git log -1 --pretty=format:%h`
 DATE=`date +"%a %b %d %H:%M:%S %Y"`
 IDL=idl

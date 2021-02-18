@@ -1,6 +1,13 @@
 Release notes
 =============
 
+IDLdoc 3.6.3
+------------
+*Released February 18, 2021*
+
+* Sanitize search input.
+
+
 IDLdoc 3.6.2
 ------------
 *Released July 28, 2018*
