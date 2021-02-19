@@ -238,10 +238,12 @@ function writeResultsPage() {
 
 
 function sanitizeSearchString() {
-  searchString = searchString.replace(/\W/g, ' ')
-  searchString = searchString.replace(/\s+/g, ' ')
-  searchString = searchString.replace(/^\s/g, '');
-  searchString = searchString.replace(/\s$/g, '');
+  tmpString = document.basicForm.basicText.value;
+  tmpString = tmpString.replace(/\W/g, ' ');
+  tmpString = tmpString.replace(/\s+/g, ' ');
+  tmpString = tmpString.replace(/^\s/g, '');
+  tmpString = tmpString.replace(/\s$/g, '');
+  document.basicForm.basicText.value = tmpString;
 }
 
 
@@ -251,10 +253,9 @@ function sanitizeSearchString() {
 
 
 function basicsearch() {
-  searchString = document.basicForm.basicText.value;
-
   sanitizeSearchString();
 
+  searchString = document.basicForm.basicText.value;
   searchTerms = searchString.split(/\s/);
 
   putHeader();
