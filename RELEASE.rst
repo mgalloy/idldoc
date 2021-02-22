@@ -1,6 +1,13 @@
 Release notes
 =============
 
+IDLdoc 3.6.4
+------------
+*Released February 22, 2021*
+
+* Security patch.
+
+
 IDLdoc 3.6.3
 ------------
 *Released February 18, 2021*
